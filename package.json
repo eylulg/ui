@@ -45,6 +45,14 @@
       "types": "./dist/components/Checkbox/index.d.ts",
       "import": "./dist/components/Checkbox/index.js"
     },
+    "./combobox": {
+      "types": "./dist/components/Combobox/index.d.ts",
+      "import": "./dist/components/Combobox/index.js"
+    },
+    "./command-palette": {
+      "types": "./dist/components/CommandPalette/index.d.ts",
+      "import": "./dist/components/CommandPalette/index.js"
+    },
     "./dialog": {
       "types": "./dist/components/Dialog/index.d.ts",
       "import": "./dist/components/Dialog/index.js"
@@ -65,9 +73,17 @@
       "types": "./dist/components/Input/index.d.ts",
       "import": "./dist/components/Input/index.js"
     },
+    "./kbd": {
+      "types": "./dist/components/Kbd/index.d.ts",
+      "import": "./dist/components/Kbd/index.js"
+    },
     "./popover": {
       "types": "./dist/components/Popover/index.d.ts",
       "import": "./dist/components/Popover/index.js"
+    },
+    "./progress-bar": {
+      "types": "./dist/components/ProgressBar/index.d.ts",
+      "import": "./dist/components/ProgressBar/index.js"
     },
     "./radio-group": {
       "types": "./dist/components/RadioGroup/index.d.ts",
@@ -80,6 +96,10 @@
     "./skeleton": {
       "types": "./dist/components/Skeleton/index.d.ts",
       "import": "./dist/components/Skeleton/index.js"
+    },
+    "./spinner": {
+      "types": "./dist/components/Spinner/index.d.ts",
+      "import": "./dist/components/Spinner/index.js"
     },
     "./switch": {
       "types": "./dist/components/Switch/index.d.ts",
