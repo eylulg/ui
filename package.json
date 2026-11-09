@@ -53,6 +53,10 @@
       "types": "./dist/components/CommandPalette/index.d.ts",
       "import": "./dist/components/CommandPalette/index.js"
     },
+    "./date-picker": {
+      "types": "./dist/components/DatePicker/index.d.ts",
+      "import": "./dist/components/DatePicker/index.js"
+    },
     "./dialog": {
       "types": "./dist/components/Dialog/index.d.ts",
       "import": "./dist/components/Dialog/index.js"
@@ -76,6 +80,10 @@
     "./kbd": {
       "types": "./dist/components/Kbd/index.d.ts",
       "import": "./dist/components/Kbd/index.js"
+    },
+    "./pagination": {
+      "types": "./dist/components/Pagination/index.d.ts",
+      "import": "./dist/components/Pagination/index.js"
     },
     "./popover": {
       "types": "./dist/components/Popover/index.d.ts",
@@ -101,9 +109,17 @@
       "types": "./dist/components/Spinner/index.d.ts",
       "import": "./dist/components/Spinner/index.js"
     },
+    "./stat": {
+      "types": "./dist/components/Stat/index.d.ts",
+      "import": "./dist/components/Stat/index.js"
+    },
     "./switch": {
       "types": "./dist/components/Switch/index.d.ts",
       "import": "./dist/components/Switch/index.js"
+    },
+    "./table": {
+      "types": "./dist/components/Table/index.d.ts",
+      "import": "./dist/components/Table/index.js"
     },
     "./tabs": {
       "types": "./dist/components/Tabs/index.d.ts",
