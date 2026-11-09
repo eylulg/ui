@@ -3,8 +3,11 @@
  * Used by the Vite library build and by the package exports check.
  */
 export const components = [
+  'Avatar',
   'Badge',
+  'Breadcrumbs',
   'Button',
+  'Card',
   'Checkbox',
   'Combobox',
   'CommandPalette',
@@ -12,9 +15,11 @@ export const components = [
   'Dialog',
   'Drawer',
   'DropdownMenu',
+  'EmptyState',
   'IconButton',
   'Input',
   'Kbd',
+  'PageHeader',
   'Pagination',
   'Popover',
   'ProgressBar',
