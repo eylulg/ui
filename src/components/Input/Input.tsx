@@ -28,8 +28,8 @@ export interface InputProps extends Omit<TextFieldProps, 'children'> {
 }
 
 const sizes: Record<InputSize, string> = {
-  sm: 'h-9 text-sm',
-  md: 'h-10 text-md',
+  sm: 'h-control-sm text-sm',
+  md: 'h-control-md text-md',
 };
 
 export function Input({

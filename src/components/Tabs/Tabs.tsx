@@ -53,7 +53,7 @@ export function Tab({ className, ...props }: TabProps) {
       {...props}
       className={composeRenderProps(className, (consumer) =>
         cx(
-          'relative -mb-px cursor-pointer rounded-t-sm border-b-2 border-transparent px-3 py-2 text-sm font-semibold text-tertiary transition-colors',
+          'relative -mb-px cursor-pointer rounded-t-sm border-b-2 border-transparent px-3 py-item-y text-sm font-semibold text-tertiary transition-colors',
           'data-hovered:text-secondary',
           'data-selected:border-brand data-selected:text-brand',
           'data-disabled:cursor-not-allowed data-disabled:text-disabled',

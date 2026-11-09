@@ -21,9 +21,9 @@ export interface IconButtonProps extends Omit<AriaButtonProps, 'children' | 'isP
 }
 
 const sizes: Record<IconButtonSize, { button: string; icon: string }> = {
-  sm: { button: 'size-8', icon: 'size-4' },
-  md: { button: 'size-10', icon: 'size-5' },
-  lg: { button: 'size-12', icon: 'size-5' },
+  sm: { button: 'size-control-sm', icon: 'size-4' },
+  md: { button: 'size-control-md', icon: 'size-5' },
+  lg: { button: 'size-control-lg', icon: 'size-5' },
 };
 
 export function IconButton({

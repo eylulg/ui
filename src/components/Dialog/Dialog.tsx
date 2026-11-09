@@ -69,14 +69,14 @@ export function Dialog({
           role={role}
           aria-describedby={description ? descriptionId : undefined}
           className={cx(
-            'relative flex max-h-[85vh] flex-col gap-4 overflow-auto rounded-xl bg-elevated p-6 text-primary shadow-xl outline-none',
+            'relative flex max-h-[85vh] flex-col gap-4 overflow-auto rounded-xl bg-elevated p-card text-primary shadow-xl outline-none',
             className,
           )}
         >
           {({ close }) => (
             <>
               <div className="flex flex-col gap-1 pr-8">
-                <Heading slot="title" className="text-lg font-semibold text-primary">
+                <Heading slot="title" className="font-display text-lg font-semibold text-primary">
                   {title}
                 </Heading>
                 {description && (

@@ -38,9 +38,9 @@ export const buttonVariants: Record<ButtonVariant, string> = {
 };
 
 export const buttonSizes: Record<ButtonSize, string> = {
-  sm: 'h-8 gap-1.5 px-3 text-sm',
-  md: 'h-10 gap-2 px-4 text-sm',
-  lg: 'h-12 gap-2.5 px-5 text-md',
+  sm: 'h-control-sm gap-1.5 px-3 text-sm',
+  md: 'h-control-md gap-2 px-control-x text-sm',
+  lg: 'h-control-lg gap-2.5 px-5 text-md',
 };
 
 export const buttonBase = cx(

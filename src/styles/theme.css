@@ -7,15 +7,27 @@
  *          on :root and redefined under .dark. Components only use this layer,
  *          so a theme switch or a brand override never touches component code.
  *
- * To rebrand, redefine the --color-brand-* variables after importing the
- * stylesheet. See the README section "Overriding the brand scale".
+ * Layer 3: shape and density tokens (--radius-*, --density-*). Components
+ *          size controls and paddings from these, so a variant can make the
+ *          whole library tighter or rounder without touching component code.
+ *
+ * To rebrand, import one of the variant files (@eylulg/ui/themes/<name>.css)
+ * after this file, or redefine the --color-brand-* variables yourself. See
+ * the README sections "Theme variants" and "Overriding the brand scale".
  */
 
-@custom-variant dark (&:where(.dark, .dark *));
+/*
+ * Dark mode is class based. Both `.dark` and `.dark-mode` are recognised, so
+ * apps that already use either convention work. ThemeToggle writes `dark-mode`.
+ */
+@custom-variant dark (&:where(.dark, .dark *, .dark-mode, .dark-mode *));
 
 @theme {
   /* Typography */
   --font-sans:
+    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-display:
     'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
     sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -195,11 +207,57 @@
   --color-fg-error: var(--ui-fg-error);
   --color-fg-success: var(--ui-fg-success);
   --color-fg-warning: var(--ui-fg-warning);
+
+  /* Font used for data: table cells, stats, code like values. */
+  --font-data: var(--ui-font-data);
+
+  /*
+   * Density. Each name maps to a --density-* variable, so h-control-md,
+   * px-control-x, py-item-y, p-card and gap-stack follow the active density.
+   */
+  --spacing-control-xs: var(--density-control-xs);
+  --spacing-control-sm: var(--density-control-sm);
+  --spacing-control-md: var(--density-control-md);
+  --spacing-control-lg: var(--density-control-lg);
+  --spacing-control-x: var(--density-control-x);
+  --spacing-item-x: var(--density-item-x);
+  --spacing-item-y: var(--density-item-y);
+  --spacing-cell-x: var(--density-cell-x);
+  --spacing-cell-y: var(--density-cell-y);
+  --spacing-card: var(--density-card);
+  --spacing-stack: var(--density-stack);
 }
 
 @layer base {
-  :root {
+  /*
+   * Density defaults (comfortable). Variants such as workspace override these
+   * with compact values. They are independent of light and dark.
+   */
+  :root,
+  [data-ui-variant] {
+    --density-control-xs: 1.5rem;
+    --density-control-sm: 2rem;
+    --density-control-md: 2.5rem;
+    --density-control-lg: 3rem;
+    --density-control-x: 1rem;
+    --density-item-x: 0.625rem;
+    --density-item-y: 0.5rem;
+    --density-cell-x: 1rem;
+    --density-cell-y: 0.75rem;
+    --density-card: 1.5rem;
+    --density-stack: 1rem;
+  }
+
+  /*
+   * Semantic tokens are declared on :root and again on any element with
+   * data-ui-variant, so a variant scoped to a container (as in Storybook)
+   * resolves them against its own primitive scales.
+   */
+  :root,
+  [data-ui-variant] {
     color-scheme: light;
+
+    --ui-font-data: var(--font-sans);
 
     --ui-text-primary: var(--color-gray-900);
     --ui-text-secondary: var(--color-gray-700);
@@ -251,7 +309,10 @@
     --ui-fg-warning: var(--color-warning-600);
   }
 
-  .dark {
+  .dark,
+  .dark-mode,
+  .dark [data-ui-variant],
+  .dark-mode [data-ui-variant] {
     color-scheme: dark;
 
     --ui-text-primary: var(--color-gray-50);
@@ -276,12 +337,12 @@
     --ui-bg-hover: var(--color-gray-800);
     --ui-bg-brand-solid: var(--color-brand-600);
     --ui-bg-brand-solid-hover: var(--color-brand-500);
-    --ui-bg-brand-subtle: rgb(42 79 214 / 0.18);
+    --ui-bg-brand-subtle: color-mix(in oklab, var(--color-brand-600) 18%, transparent);
     --ui-bg-error-solid: var(--color-error-600);
     --ui-bg-error-solid-hover: var(--color-error-700);
-    --ui-bg-error-subtle: rgb(217 45 32 / 0.18);
-    --ui-bg-success-subtle: rgb(3 152 85 / 0.18);
-    --ui-bg-warning-subtle: rgb(220 104 3 / 0.18);
+    --ui-bg-error-subtle: color-mix(in oklab, var(--color-error-600) 18%, transparent);
+    --ui-bg-success-subtle: color-mix(in oklab, var(--color-success-600) 18%, transparent);
+    --ui-bg-warning-subtle: color-mix(in oklab, var(--color-warning-600) 18%, transparent);
 
     --ui-border-default: var(--color-gray-700);
     --ui-border-strong: var(--color-gray-400);

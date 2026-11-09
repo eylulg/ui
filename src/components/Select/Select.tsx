@@ -51,7 +51,7 @@ export function Select<T extends object>({
       {label && <FieldLabel>{label}</FieldLabel>}
       <AriaButton
         className={cx(
-          'flex h-10 w-full cursor-pointer items-center gap-2 rounded-md border border-control bg-primary px-3 text-left text-md text-primary shadow-xs',
+          'flex h-control-md w-full cursor-pointer items-center gap-2 rounded-md border border-control bg-primary px-3 text-left text-md text-primary shadow-xs',
           'data-disabled:cursor-not-allowed data-disabled:border-disabled data-disabled:bg-disabled data-disabled:text-disabled',
           'group-data-invalid:border-error',
           focusRing,
@@ -84,7 +84,7 @@ export function SelectItem({ className, children, ...props }: SelectItemProps) {
       textValue={textValue}
       className={composeRenderProps(className, (consumer) =>
         cx(
-          'flex cursor-pointer items-center gap-2 rounded-sm px-2.5 py-2 text-md text-primary outline-none',
+          'flex cursor-pointer items-center gap-2 rounded-sm px-item-x py-item-y text-md text-primary outline-none',
           'data-disabled:cursor-not-allowed data-disabled:text-disabled data-focused:bg-hover',
           consumer,
         ),
