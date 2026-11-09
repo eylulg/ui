@@ -9,6 +9,8 @@ const entries = Object.fromEntries([
   ['index', resolve(root, 'src/index.ts')],
   ['utils/cx', resolve(root, 'src/utils/cx.ts')],
   ['styles/themes/variants', resolve(root, 'src/styles/themes/variants.ts')],
+  ['chrome/index', resolve(root, 'src/chrome/index.ts')],
+  ['chrome/projects', resolve(root, 'src/chrome/projects.ts')],
   ...components.map((name) => [
     `components/${name}/index`,
     resolve(root, `src/components/${name}/index.ts`),
