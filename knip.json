@@ -1,0 +1,7 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": ["scripts/*.ts", "src/docs/*.{ts,tsx}"],
+  "project": ["src/**/*.{ts,tsx}", "scripts/**/*.ts", ".storybook/**/*.{ts,tsx}"],
+  "ignoreExportsUsedInFile": true,
+  "ignoreDependencies": ["conventional-changelog-conventionalcommits"]
+}

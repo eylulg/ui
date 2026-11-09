@@ -2,9 +2,9 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { parse, type Oklch } from 'culori';
 import { describe, expect, it } from 'vitest';
-import { checkVariant } from '../../../scripts/contrast';
-import { brandLightness, grayLightness, scalesModule } from '../../../scripts/palette';
-import pkg from '../../../package.json';
+import pkg from '../../../../package.json';
+import { checkVariant } from '../../../../scripts/contrast';
+import { brandLightness, grayLightness, scalesModule } from '../../../../scripts/palette';
 import {
   scaleSteps,
   variantFileCss,
@@ -12,9 +12,9 @@ import {
   variantSpecs,
   variants,
   type VariantName,
-} from './variants';
+} from '../variants';
 
-const dir = import.meta.dirname;
+const dir = resolve(import.meta.dirname, '..');
 
 describe('theme variants', () => {
   it.each(['base', ...variantNames] as const)('%s meets WCAG AA in light and dark', (name) => {

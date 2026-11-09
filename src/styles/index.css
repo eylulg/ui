@@ -9,5 +9,6 @@
 
 @source '../components';
 @source '../internal';
-@source not '../components/**/*.stories.tsx';
-@source not '../components/**/*.test.tsx';
+@source '../chrome';
+@source not '../**/*.stories.tsx';
+@source not '../**/__tests__';

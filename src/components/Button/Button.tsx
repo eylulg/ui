@@ -4,8 +4,8 @@ import {
   composeRenderProps,
   type ButtonProps as AriaButtonProps,
 } from 'react-aria-components';
-import { Spinner } from '../../internal/Spinner';
 import { focusRing } from '../../internal/focusRing';
+import { Spinner } from '../../internal/Spinner';
 import type { IconComponent } from '../../internal/types';
 import { cx } from '../../utils/cx';
 

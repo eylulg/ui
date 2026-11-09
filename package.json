@@ -117,7 +117,7 @@
     "dev": "storybook dev -p 6006",
     "build": "vite build && tsc -p tsconfig.build.json && npm run build:css",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
@@ -128,7 +128,9 @@
     "semantic-release": "semantic-release",
     "build:css": "tailwindcss -i src/styles/index.css -o dist/styles.css --minify && cp src/styles/theme.css dist/theme.css && mkdir -p dist/themes && cp src/styles/themes/*.css dist/themes/",
     "themes": "jiti scripts/generate-themes.ts",
-    "contrast": "jiti scripts/contrast.ts"
+    "contrast": "jiti scripts/contrast.ts",
+    "knip": "knip",
+    "prepare": "husky"
   },
   "peerDependencies": {
     "lucide-react": "^1.0.0",
@@ -141,6 +143,8 @@
     "tailwind-merge": "^3.7.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
     "@eslint/js": "^9.39.5",
     "@semantic-release/changelog": "^7.0.0",
     "@semantic-release/git": "^11.0.1",
@@ -162,12 +166,16 @@
     "conventional-changelog-conventionalcommits": "^10.4.1",
     "culori": "^4.0.2",
     "eslint": "^9.39.5",
+    "eslint-plugin-import-x": "^4.18.1",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-react-refresh": "^0.5.7",
     "eslint-plugin-storybook": "^10.6.6",
     "globals": "^17.14.0",
+    "husky": "^9.1.7",
     "jiti": "^2.7.0",
     "jsdom": "^31.0.0",
+    "knip": "^6.44.2",
+    "lint-staged": "^17.6.0",
     "lucide-react": "^1.70.0",
     "prettier": "^3.9.10",
     "prettier-plugin-tailwindcss": "^0.8.1",

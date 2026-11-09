@@ -1,7 +1,7 @@
 import { render, type RenderResult } from '@testing-library/react';
 import type { ReactElement } from 'react';
-import { configureAxe } from 'vitest-axe';
 import { expect } from 'vitest';
+import { configureAxe } from 'vitest-axe';
 
 export const themes = ['light', 'dark'] as const;
 export type Theme = (typeof themes)[number];

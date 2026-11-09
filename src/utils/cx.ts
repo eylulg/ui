@@ -1,5 +1,5 @@
-import { twMerge, type ClassNameValue } from 'tailwind-merge';
 import { composeRenderProps } from 'react-aria-components';
+import { twMerge, type ClassNameValue } from 'tailwind-merge';
 
 /**
  * Joins class names and resolves Tailwind conflicts so the last one wins.
