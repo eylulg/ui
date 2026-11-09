@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Full index (all components, deps excluded)",
+    "path": "dist/index.js",
+    "import": "*",
+    "ignore": ["react", "react-dom", "react-aria-components", "tailwind-merge", "lucide-react"],
+    "limit": "6 kB"
+  },
+  {
+    "name": "Button only (tree shaken)",
+    "path": "dist/index.js",
+    "import": "{ Button }",
+    "ignore": ["react", "react-dom", "react-aria-components", "tailwind-merge", "lucide-react"],
+    "limit": "1 kB"
+  },
+  {
+    "name": "Per component entry: Dialog",
+    "path": "dist/components/Dialog/index.js",
+    "import": "{ Dialog }",
+    "ignore": ["react", "react-dom", "react-aria-components", "tailwind-merge", "lucide-react"],
+    "limit": "1.5 kB"
+  },
+  {
+    "name": "Stylesheet",
+    "path": "dist/styles.css",
+    "limit": "6.5 kB"
+  }
+]
