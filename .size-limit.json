@@ -1,16 +1,30 @@
 [
   {
-    "name": "Full index (all components, deps excluded)",
+    "name": "Full index (all 34 components, deps excluded)",
     "path": "dist/index.js",
     "import": "*",
-    "ignore": ["react", "react-dom", "react-aria-components", "tailwind-merge", "lucide-react"],
-    "limit": "6 kB"
+    "ignore": [
+      "react",
+      "react-dom",
+      "react-aria-components",
+      "tailwind-merge",
+      "lucide-react",
+      "@internationalized/date"
+    ],
+    "limit": "13 kB"
   },
   {
     "name": "Button only (tree shaken)",
     "path": "dist/index.js",
     "import": "{ Button }",
-    "ignore": ["react", "react-dom", "react-aria-components", "tailwind-merge", "lucide-react"],
+    "ignore": [
+      "react",
+      "react-dom",
+      "react-aria-components",
+      "tailwind-merge",
+      "lucide-react",
+      "@internationalized/date"
+    ],
     "limit": "1 kB"
   },
   {
@@ -21,8 +35,47 @@
     "limit": "1.5 kB"
   },
   {
+    "name": "Per component entry: Table",
+    "path": "dist/components/Table/index.js",
+    "import": "{ Table, TableHeader, Column, TableBody, Row, Cell }",
+    "ignore": ["react", "react-dom", "react-aria-components", "tailwind-merge", "lucide-react"],
+    "limit": "2.5 kB"
+  },
+  {
+    "name": "Per component entry: CommandPalette",
+    "path": "dist/components/CommandPalette/index.js",
+    "import": "{ CommandPalette }",
+    "ignore": ["react", "react-dom", "react-aria-components", "tailwind-merge", "lucide-react"],
+    "limit": "2.5 kB"
+  },
+  {
+    "name": "Chrome: full TopNav with switcher and toggle",
+    "path": "dist/chrome/index.js",
+    "import": "{ TopNav, ProjectSwitcher, ThemeToggle }",
+    "ignore": ["react", "react-dom", "react-aria-components", "tailwind-merge", "lucide-react"],
+    "limit": "5 kB"
+  },
+  {
+    "name": "Chrome: server safe parts",
+    "path": "dist/chrome/index.js",
+    "import": "{ AppShell, SiteFooter, BrandMark, themeInitScript }",
+    "ignore": ["react", "react-dom", "react-aria-components", "tailwind-merge", "lucide-react"],
+    "limit": "2.5 kB"
+  },
+  {
+    "name": "Theme variant matrix",
+    "path": "dist/styles/themes/variants.js",
+    "import": "{ variants }",
+    "limit": "3 kB"
+  },
+  {
     "name": "Stylesheet",
     "path": "dist/styles.css",
-    "limit": "6.5 kB"
+    "limit": "9 kB"
+  },
+  {
+    "name": "One theme variant file",
+    "path": "dist/themes/workspace.css",
+    "limit": "1 kB"
   }
 ]
