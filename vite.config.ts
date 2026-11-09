@@ -11,6 +11,7 @@ const entries = Object.fromEntries([
   ['styles/themes/variants', resolve(root, 'src/styles/themes/variants.ts')],
   ['chrome/index', resolve(root, 'src/chrome/index.ts')],
   ['chrome/projects', resolve(root, 'src/chrome/projects.ts')],
+  ['chrome/themeScript', resolve(root, 'src/chrome/themeScript.ts')],
   ...components.map((name) => [
     `components/${name}/index`,
     resolve(root, `src/components/${name}/index.ts`),

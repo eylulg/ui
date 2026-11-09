@@ -169,6 +169,10 @@
       "types": "./dist/chrome/projects.d.ts",
       "import": "./dist/chrome/projects.js"
     },
+    "./theme-script": {
+      "types": "./dist/chrome/themeScript.d.ts",
+      "import": "./dist/chrome/themeScript.js"
+    },
     "./cx": {
       "types": "./dist/utils/cx.d.ts",
       "import": "./dist/utils/cx.js"
