@@ -4,8 +4,10 @@
 [![Storybook](https://img.shields.io/badge/storybook-live-ff4785)](https://eylulg.github.io/ui/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-An accessible React 19 component library with a token based theme, light and dark modes, and
-per component entry points. Built and maintained by [Eylül Güneş](https://github.com/eylulg).
+The design system for all of [Eylül Güneş](https://github.com/eylulg)'s projects: an accessible
+React 19 component library, eight project theme variants on one visual language, and the shared
+app chrome (top nav, project switcher, theme toggle, footer) that makes moving between the
+projects feel like one product family.
 
 **Live docs:** https://eylulg.github.io/ui/
 
@@ -23,187 +25,228 @@ per component entry points. Built and maintained by [Eylül Güneş](https://git
   component changes and no runtime cost.
 - **Small and tree shakeable.** ESM only, one module per source file, `sideEffects` limited to
   CSS, and a dedicated entry point per component. A bundle size budget runs in CI.
-- **Accessibility is tested, not assumed.** Every component has keyboard tests and an axe audit
-  in both themes. Storybook runs axe on every story, including colour contrast.
+- **One family, eight variants.** Each project imports one variant file that changes only the
+  brand hue, the gray family, the radius and the density. Scales are generated in oklch with the
+  same lightness per step, so contrast is the same in every variant, and a test checks WCAG AA
+  for every text token in light and dark.
+- **Accessibility is tested, not assumed.** Tests cover the behaviour this library adds on top of
+  React Aria, and every component has an axe audit in both themes. Storybook runs axe on every
+  story, including colour contrast.
 
 ## Install
 
 ```bash
-npm install @eylulg/ui
+npm install @eylulg/ui react-aria-components lucide-react
 ```
 
-`react` and `react-dom` 19 are peer dependencies.
+`react`, `react-dom` 19 and `lucide-react` are peer dependencies. Until the package is on npm,
+install it from a local checkout with `npm install ../ui` (a `file:../ui` dependency). The full
+workflow, with Vite and Next.js examples, is in [docs/consuming.md](./docs/consuming.md).
 
 ## Usage
 
-Import the stylesheet once, at the root of your app:
+Pick one styles path. In an app that runs Tailwind 4, import the tokens and a variant into your
+own Tailwind entry so they also become utilities in your markup:
 
-```tsx
-import '@eylulg/ui/styles.css';
+```css
+@import 'tailwindcss';
+@import '@eylulg/ui/theme.css';
+@import '@eylulg/ui/themes/workspace.css';
+@source '../node_modules/@eylulg/ui/dist';
 ```
 
-Then use components from the index or from a per component entry point:
+Without Tailwind, import the compiled stylesheet and a variant once, at the root of the app:
+
+```ts
+import '@eylulg/ui/styles.css';
+import '@eylulg/ui/themes/workspace.css';
+```
+
+Then use components from a per component entry point (or the index):
 
 ```tsx
 import { Button } from '@eylulg/ui/button';
 import { Dialog, DialogTrigger } from '@eylulg/ui/dialog';
 import { Input } from '@eylulg/ui/input';
-import { ToastProvider, useToast } from '@eylulg/ui/toast';
 
-function InviteDialog() {
-  const { toast } = useToast();
+export function InviteDialog() {
   return (
     <DialogTrigger>
       <Button>Invite teammate</Button>
       <Dialog
         title="Invite teammate"
-        description="They will get an email with a sign in link."
-        footer={({ close }) => (
-          <>
-            <Button variant="secondary" onPress={close}>
-              Cancel
-            </Button>
-            <Button
-              onPress={() => {
-                toast({ title: 'Invitation sent', variant: 'success' });
-                close();
-              }}
-            >
-              Send invite
-            </Button>
-          </>
-        )}
+        footer={({ close }) => <Button onPress={close}>Send invite</Button>}
       >
         <Input label="Email" type="email" isRequired />
       </Dialog>
     </DialogTrigger>
   );
 }
-
-export function App() {
-  return (
-    <ToastProvider>
-      <InviteDialog />
-    </ToastProvider>
-  );
-}
 ```
 
 ### Dark mode
 
-Add the `dark` class to `<html>` or to any container. Everything inside follows.
+Dark mode is class based. `ThemeToggle` writes `dark-mode` on `<html>`; the theme also accepts
+`dark`, on `<html>` or on any container. Put `themeInitScript` in `<head>` to avoid a flash of the
+wrong theme (see [docs/consuming.md](./docs/consuming.md)).
 
-```ts
-document.documentElement.classList.toggle('dark', prefersDark);
-```
+## Theme variants
 
-### Using the tokens in your own Tailwind 4 app
+Every variant shares the base theme: type scale, spacing, semantic tokens and status colours. A
+variant overrides only the brand and gray scales, `--radius-*`, `--density-*`, `--font-display`
+(Inter everywhere) and `--font-mono` (a system monospace stack). Import exactly one, after
+`theme.css`.
 
-If your app already runs Tailwind 4, import the tokens instead of the compiled stylesheet and let
-your build generate the component classes. This avoids shipping Tailwind's preflight twice.
+| Variant          | Import                                 | Project               | Brand  | Gray         | Radius | Density     | Data font |
+| ---------------- | -------------------------------------- | --------------------- | ------ | ------------ | ------ | ----------- | --------- |
+| `portfolio`      | `@eylulg/ui/themes/portfolio.css`      | Portfolio             | indigo | cool (slate) | large  | comfortable | Inter     |
+| `workspace`      | `@eylulg/ui/themes/workspace.css`      | Workspace             | blue   | neutral      | small  | compact     | Inter     |
+| `review`         | `@eylulg/ui/themes/review.css`         | Review Companion      | teal   | cool (slate) | medium | comfortable | monospace |
+| `control-room`   | `@eylulg/ui/themes/control-room.css`   | Agent control room    | amber  | zinc         | small  | compact     | Inter     |
+| `watchlist`      | `@eylulg/ui/themes/watchlist.css`      | Watchlist             | rose   | warm (stone) | large  | comfortable | Inter     |
+| `tokens`         | `@eylulg/ui/themes/tokens.css`         | Tokens to Tailwind    | violet | neutral      | medium | comfortable | Inter     |
+| `plain-language` | `@eylulg/ui/themes/plain-language.css` | Plain Language add-in | cyan   | cool (slate) | medium | compact     | Inter     |
+| `sudoku`         | `@eylulg/ui/themes/sudoku.css`         | Sudoku                | green  | neutral      | medium | comfortable | Inter     |
 
-```css
-@import 'tailwindcss';
-@import '@eylulg/ui/theme.css';
-@source '../node_modules/@eylulg/ui/dist';
-```
+`control-room` also darkens the dark mode surfaces for an operations dashboard. `review` sets
+`font-data` (table cells, stat values) to the monospace stack.
 
-You then get utilities such as `bg-brand-600`, `text-secondary` and `border-control` in your own
-markup.
+- **Same contrast everywhere.** Scales run from 25 to 950 in oklch with fixed lightness per step;
+  chroma is reduced per step until the colour fits sRGB. `npm run themes` regenerates the scales
+  and CSS from `src/styles/themes/variants.ts`, and `npm run contrast` (also part of `npm test`)
+  checks text, icon, control border and focus ring contrast in light and dark for the base theme
+  and every variant. All pass AA; white on a primary button ranges from 4.83:1 (sudoku) to
+  5.74:1 (watchlist).
+- **Density.** Components size from `--density-*` through utilities such as `h-control-md`,
+  `px-control-x`, `py-item-y`, `px-cell-x` and `p-card`, so compact variants tighten every
+  control, menu row and table cell at once.
+- **Scoped variants.** Every variant file also applies under `[data-ui-variant="<name>"]`, so a
+  page can show a variant in a container. Storybook uses this for its variant pages.
+- **Typed matrix.** `import { variants, variantNames } from '@eylulg/ui/themes'` gives tools the
+  same data, including the generated scales.
 
 ## Overriding the brand scale
 
-The brand scale is eleven CSS variables, `--color-brand-25` to `--color-brand-950`. Redefine them
-after the library stylesheet and every semantic token that uses the brand (primary buttons, focus
-rings, selected states, links) follows:
-
-```css
-@import '@eylulg/ui/styles.css';
-
-:root {
-  --color-brand-50: #fdf2f8;
-  --color-brand-100: #fce7f3;
-  --color-brand-200: #fbcfe8;
-  --color-brand-300: #f9a8d4;
-  --color-brand-400: #f472b6;
-  --color-brand-500: #ec4899;
-  --color-brand-600: #db2777;
-  --color-brand-700: #be185d;
-  --color-brand-800: #9d174d;
-  --color-brand-900: #831843;
-}
-```
-
-Keep `brand-600` and `brand-700` at a contrast ratio of at least 4.5:1 against white, because
-primary buttons and brand text rely on them. To change a single decision rather than the whole
-scale, override the semantic variable instead, for example
-`:root { --ui-bg-brand-solid: var(--color-brand-700); }`.
-
-The full token reference, with swatches for both themes, is on the
-[Introduction page](https://eylulg.github.io/ui/?path=/docs/introduction--docs) of the Storybook.
+To change a single decision rather than switch variant, override a semantic variable after the
+library CSS, for example `:root { --ui-bg-brand-solid: var(--color-brand-700); }`, or redefine
+the `--color-brand-*` steps. Keep `brand-600` at 4.5:1 or more against white, because primary
+buttons place white text on it.
 
 ## Components
 
-| Component    | Import                   | Built on (React Aria)                              | Highlights                                                                                 |
-| ------------ | ------------------------ | -------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `Button`     | `@eylulg/ui/button`      | `Button`                                           | primary, secondary, tertiary, destructive; sm, md, lg; loading; leading and trailing icons |
-| `IconButton` | `@eylulg/ui/icon-button` | `Button`                                           | Required `aria-label`, same variants, loading                                              |
-| `Input`      | `@eylulg/ui/input`       | `TextField`, `Input`, `Group`                      | Label, hint, error, leading and trailing icons, two sizes                                  |
-| `Textarea`   | `@eylulg/ui/textarea`    | `TextField`, `TextArea`                            | Label, hint, error, optional resize                                                        |
-| `Select`     | `@eylulg/ui/select`      | `Select`, `Popover`, `ListBox`                     | Static or dynamic items, typeahead, label, hint, error                                     |
-| `Checkbox`   | `@eylulg/ui/checkbox`    | `Checkbox`                                         | Indeterminate, hint, invalid                                                               |
-| `RadioGroup` | `@eylulg/ui/radio-group` | `RadioGroup`, `Radio`                              | Vertical or horizontal, roving focus, hint, error                                          |
-| `Switch`     | `@eylulg/ui/switch`      | `Switch`                                           | Two sizes, hint                                                                            |
-| `Badge`      | `@eylulg/ui/badge`       | none (static)                                      | gray, brand, success, warning, error; dot; icon                                            |
-| `Tag`        | `@eylulg/ui/tag`         | `TagGroup`, `TagList`, `Tag`                       | Removable with button or Delete and Backspace, selectable                                  |
-| `Tooltip`    | `@eylulg/ui/tooltip`     | `TooltipTrigger`, `Tooltip`, `OverlayArrow`        | Opens on hover and focus, closes on Escape, four placements                                |
-| `Toast`      | `@eylulg/ui/toast`       | none (see note)                                    | `ToastProvider` and `useToast`, four variants, pause on hover and focus                    |
-| `Dialog`     | `@eylulg/ui/dialog`      | `DialogTrigger`, `ModalOverlay`, `Modal`, `Dialog` | Focus trap and restore, `alertdialog` role, three sizes                                    |
-| `Tabs`       | `@eylulg/ui/tabs`        | `Tabs`, `TabList`, `Tab`, `TabPanel`               | Horizontal or vertical, arrow keys, Home and End                                           |
-| `Skeleton`   | `@eylulg/ui/skeleton`    | none (static)                                      | text, circle, rect; multi line; respects reduced motion                                    |
-| `cx`         | `@eylulg/ui/cx`          |                                                    | `tailwind-merge` based class joiner, last class wins                                       |
+| Component                     | Import                       | Built on (React Aria)                                        | Highlights                                                                    |
+| ----------------------------- | ---------------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| `Avatar`                      | `@eylulg/ui/avatar`          | none (static, image fallback)                                | Image, initials fallback on error, status, sizes, `AvatarGroup` with overflow |
+| `Badge`                       | `@eylulg/ui/badge`           | none (static)                                                | gray, brand, success, warning, error; dot; icon                               |
+| `Breadcrumbs`                 | `@eylulg/ui/breadcrumbs`     | `Breadcrumbs`, `Breadcrumb`, `Link`                          | Nav landmark, current page, router links                                      |
+| `Button`                      | `@eylulg/ui/button`          | `Button`                                                     | primary, secondary, tertiary, destructive; sm, md, lg; loading; icons         |
+| `Card`                        | `@eylulg/ui/card`            | `Link`, `Button`                                             | Header, body, footer slots; interactive card as one link or button            |
+| `Checkbox`                    | `@eylulg/ui/checkbox`        | `Checkbox`                                                   | Indeterminate, hint, invalid                                                  |
+| `Combobox`                    | `@eylulg/ui/combobox`        | `ComboBox`, `Popover`, `ListBox`                             | Async loading, sections, empty state, descriptions                            |
+| `CommandPalette`              | `@eylulg/ui/command-palette` | `Autocomplete`, `SearchField`, `Menu`, `Modal`               | Search, groups, shortcuts, Cmd or Ctrl+K hook                                 |
+| `DatePicker, DateRangePicker` | `@eylulg/ui/date-picker`     | `DatePicker`, `DateRangePicker`, `Calendar`, `RangeCalendar` | Segmented input, calendar popover, hint, error                                |
+| `Dialog`                      | `@eylulg/ui/dialog`          | `Modal`, `Dialog`                                            | Focus trap and restore, `alertdialog` role, three sizes                       |
+| `Drawer`                      | `@eylulg/ui/drawer`          | `ModalOverlay`, `Modal`, `Dialog`                            | Left, right or bottom sheet; sticky footer; reduced motion                    |
+| `DropdownMenu`                | `@eylulg/ui/dropdown-menu`   | `MenuTrigger`, `Menu`, `MenuSection`, `SubmenuTrigger`       | Sections, checkbox and radio groups, shortcuts, danger items, submenus        |
+| `EmptyState`                  | `@eylulg/ui/empty-state`     | none (static)                                                | Icon, title, description, actions, two sizes                                  |
+| `IconButton`                  | `@eylulg/ui/icon-button`     | `Button`                                                     | Required `aria-label`, same variants, loading                                 |
+| `Input`                       | `@eylulg/ui/input`           | `TextField`, `Input`, `Group`                                | Label, hint, error, icons, two sizes                                          |
+| `Kbd`                         | `@eylulg/ui/kbd`             | none (static)                                                | Single keys or key combinations                                               |
+| `PageHeader`                  | `@eylulg/ui/page-header`     | none (static)                                                | Title, description, actions, breadcrumbs and meta slots                       |
+| `Pagination`                  | `@eylulg/ui/pagination`      | none (buttons or links)                                      | Ellipses, sibling count, `getPageHref` for link pagination                    |
+| `Popover`                     | `@eylulg/ui/popover`         | `Popover`, `Dialog`                                          | Non modal panel, optional arrow, title as name                                |
+| `ProgressBar`                 | `@eylulg/ui/progress-bar`    | `ProgressBar`                                                | Tones, sizes, value label, indeterminate                                      |
+| `RadioGroup`                  | `@eylulg/ui/radio-group`     | `RadioGroup`, `Radio`                                        | Vertical or horizontal, hint, error                                           |
+| `Select`                      | `@eylulg/ui/select`          | `Select`, `Popover`, `ListBox`                               | Static or dynamic items, typeahead, hint, error                               |
+| `Skeleton`                    | `@eylulg/ui/skeleton`        | none (static)                                                | text, circle, rect; multi line; reduced motion                                |
+| `Spinner`                     | `@eylulg/ui/spinner`         | none (static)                                                | Decorative or announced with a label, three sizes                             |
+| `Stat`                        | `@eylulg/ui/stat`            | none (static)                                                | Value, label, trend announced in words, `Sparkline`                           |
+| `Switch`                      | `@eylulg/ui/switch`          | `Switch`                                                     | Two sizes, hint                                                               |
+| `Table`                       | `@eylulg/ui/table`           | `Table`, `Column`, `Row`, `Cell`                             | Sortable columns, selection column, sticky header, empty state                |
+| `Tabs`                        | `@eylulg/ui/tabs`            | `Tabs`, `TabList`, `Tab`, `TabPanel`                         | Horizontal or vertical                                                        |
+| `Tag`                         | `@eylulg/ui/tag`             | `TagGroup`, `TagList`, `Tag`                                 | Removable, selectable                                                         |
+| `Textarea`                    | `@eylulg/ui/textarea`        | `TextField`, `TextArea`                                      | Label, hint, error, optional resize                                           |
+| `Toast`                       | `@eylulg/ui/toast`           | none (see note)                                              | `ToastProvider` and `useToast`, four variants, pause on hover and focus       |
+| `Tooltip`                     | `@eylulg/ui/tooltip`         | `TooltipTrigger`, `Tooltip`                                  | Hover and focus, Escape, four placements                                      |
+| `cx`                          | `@eylulg/ui/cx`              |                                                              | `tailwind-merge` based class joiner                                           |
 
-Icons come from [`lucide-react`](https://lucide.dev). Any component that accepts an icon takes a
-component such as `Plus` from `lucide-react`, or any component that accepts SVG props.
+Icons come from [`lucide-react`](https://lucide.dev), which is a peer dependency; the library
+re-exports none. Components that take an icon accept a component such as `Plus`.
 
-**A note on Toast.** React Aria's toast API is still exported as `UNSTABLE_` and may change in a
-minor release, so the Toast here is a small in house implementation: a labelled region that is
-always in the DOM with a polite live list inside, so screen readers announce each toast as it
-appears, and timers that pause while a toast is hovered or focused. It can move to React Aria
-once that API is stable.
+**A note on Toast.** React Aria's toast API is still exported as `UNSTABLE_`, so Toast is a small
+in house implementation: an always present labelled region with a polite live list, and timers
+that pause while a toast is hovered or focused.
+
+**A note on Card.** An interactive card (`href` or `onPress`) stretches its title link over the
+whole card. Actions in `CardHeader` and `CardFooter` stay separate tab stops above it; a control
+inside `CardBody` needs `relative z-10` to be clickable.
+
+## App chrome
+
+`@eylulg/ui/chrome` holds the parts every project shares:
+
+| Export            | What it does                                                                                             | Server safe |
+| ----------------- | -------------------------------------------------------------------------------------------------------- | ----------- |
+| `AppShell`        | Skip link, header, optional sidebar, main landmark, footer; 16px gutter at 375px                         | yes         |
+| `TopNav`          | Logo and product name, links via any `LinkComponent`, actions slot, mobile menu in a Drawer              | client      |
+| `SidebarNav`      | Sections, icons, collapsible groups, arrow keys, Home and End, `aria-current`                            | client      |
+| `ThemeToggle`     | Light, dark and system; writes `dark-mode` on `<html>`; persists in localStorage                         | client      |
+| `themeInitScript` | Inline `<head>` script that applies the stored theme before first paint (also `@eylulg/ui/theme-script`) | yes         |
+| `ProjectSwitcher` | DropdownMenu of the projects, current one marked                                                         | client      |
+| `SiteFooter`      | "Part of Eylül Güneş's projects", project links, GitHub, LinkedIn, Built with @eylulg/ui                 | yes         |
+| `BrandMark`       | The shared monogram, filled with the active brand colour                                                 | yes         |
+
+The project list lives in `@eylulg/ui/projects` (`id`, `name`, `description`, `url`,
+`plannedUrl`, `variant`, `repoUrl`). Projects without a deployment have `url: null` and a
+Vercel style `plannedUrl` placeholder, and link to their repository until they go live. **These
+URLs change when the custom domain arrives.** Pass `projects` to `ProjectSwitcher` or
+`SiteFooter` to override the list.
+
+In Next.js, server components can import the server safe parts directly. Render `TopNav` from a
+small `'use client'` file when you pass `next/link` as `LinkComponent`, because a server component
+cannot pass a function to a client component. See [docs/consuming.md](./docs/consuming.md).
 
 ## Development
 
 ```bash
 npm install
 npm run storybook        # docs and playground on http://localhost:6006
-npm test                 # Vitest, Testing Library, vitest-axe
+npm test                 # Vitest, Testing Library, vitest-axe, theme contrast check
 npm run typecheck
-npm run lint
-npm run build            # dist/ with ESM, type declarations and styles.css
+npm run lint             # ESLint with jsx-a11y and import order, zero warnings
+npm run format:check
+npm run knip             # unused files, exports and dependencies
+npm run build            # dist/ with ESM, type declarations, styles.css and theme files
 npm run size             # bundle size budget
 npm run build-storybook  # static Storybook in storybook-static/
+npm run themes           # regenerate variant scales and CSS from variants.ts
+npm run contrast         # print the contrast report for every variant
 ```
 
 ## Contributing
 
-1. **Conventional Commits are required.** Releases are fully automated by semantic-release, which
-   reads commit messages to choose the next version and write the changelog.
+These rules follow the shared engineering standards for all of Eylül's projects.
+
+1. **Conventional Commits are required** and checked by commitlint in a Husky `commit-msg` hook
+   and in CI, because semantic-release reads them to choose the next version.
    - `fix(button): keep width while loading` releases a patch.
    - `feat(select): support sections` releases a minor.
    - A `BREAKING CHANGE:` footer, or `!` after the type, releases a major.
    - `docs`, `test`, `chore`, `refactor`, `build` and `ci` do not release.
-2. **One folder per component** in `src/components/<Name>/` with exactly these files:
-   `<Name>.tsx`, `<Name>.stories.tsx`, `<Name>.test.tsx` and `index.ts`. Add the name to
-   `scripts/components.ts`, export it from `src/index.ts` and add an entry to `exports` in
-   `package.json`.
-3. **One test file per component.** It must cover rendering, keyboard interaction where the
-   component is interactive, and `expectNoA11yViolations`, which runs axe in light and dark.
+2. **One folder per component** in `src/components/<Name>/`: `<Name>.tsx`, `<Name>.stories.tsx`,
+   `index.ts` and `__tests__/<Name>.test.tsx`. Add the name to `scripts/components.ts`, export it
+   from `src/index.ts` and add an entry to `exports` in `package.json`. Shared test helpers live in
+   `src/test-utils/`.
+3. **Only tests worth having.** Test behaviour this library adds over React Aria (states, rules,
+   focus placement, logic), one behaviour per test, states folded into `it.each`, queries by role
+   and name. One `expectNoA11yViolations` run per component covers light and dark. No class name,
+   DOM structure or pass-through tests.
 4. **One story per variant**, so the a11y panel and visual review cover each of them.
-5. **Only semantic tokens in components.** Use `text-primary` rather than `text-gray-900`, so that
-   themes keep working.
-6. Run `npm run typecheck && npm run lint && npm test` before opening a pull request. CI runs the
-   same checks plus both builds and the size budget.
+5. **Only tokens in components.** Semantic colours (`text-primary`, not `text-gray-900`), radius
+   utilities and density utilities, so every theme variant keeps working.
+6. A pre-commit hook runs ESLint and Prettier on staged files. CI runs typecheck, lint, format,
+   knip, commitlint, tests, both builds, the size budget and a gitleaks secret scan. Dependabot
+   opens grouped updates monthly.
 
 ## Releases
 
