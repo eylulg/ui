@@ -49,6 +49,14 @@
       "types": "./dist/components/Dialog/index.d.ts",
       "import": "./dist/components/Dialog/index.js"
     },
+    "./drawer": {
+      "types": "./dist/components/Drawer/index.d.ts",
+      "import": "./dist/components/Drawer/index.js"
+    },
+    "./dropdown-menu": {
+      "types": "./dist/components/DropdownMenu/index.d.ts",
+      "import": "./dist/components/DropdownMenu/index.js"
+    },
     "./icon-button": {
       "types": "./dist/components/IconButton/index.d.ts",
       "import": "./dist/components/IconButton/index.js"
@@ -56,6 +64,10 @@
     "./input": {
       "types": "./dist/components/Input/index.d.ts",
       "import": "./dist/components/Input/index.js"
+    },
+    "./popover": {
+      "types": "./dist/components/Popover/index.d.ts",
+      "import": "./dist/components/Popover/index.js"
     },
     "./radio-group": {
       "types": "./dist/components/RadioGroup/index.d.ts",

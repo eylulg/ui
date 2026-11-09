@@ -85,7 +85,7 @@ export function SelectItem({ className, children, ...props }: SelectItemProps) {
       className={composeRenderProps(className, (consumer) =>
         cx(
           'flex cursor-pointer items-center gap-2 rounded-sm px-item-x py-item-y text-md text-primary outline-none',
-          'data-disabled:cursor-not-allowed data-disabled:text-disabled data-focused:bg-hover',
+          'data-disabled:cursor-not-allowed data-disabled:text-disabled data-focus-visible:outline-2 data-focus-visible:-outline-offset-2 data-focus-visible:outline-focus data-focused:bg-hover',
           consumer,
         ),
       )}
