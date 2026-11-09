@@ -1,0 +1,13 @@
+/*
+ * Entry for the published stylesheet (@eylulg/ui/styles.css).
+ * Compiles Tailwind with the design tokens and only the classes the
+ * components use. Automatic source detection is off so stories, tests and
+ * docs never leak extra utilities into the bundle.
+ */
+@import 'tailwindcss' source(none);
+@import './theme.css';
+
+@source '../components';
+@source '../internal';
+@source not '../components/**/*.stories.tsx';
+@source not '../components/**/*.test.tsx';

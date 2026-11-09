@@ -1,0 +1,305 @@
+/*
+ * @eylulg/ui design tokens
+ *
+ * Layer 1: primitive scales (brand, gray, success, warning, error) in @theme.
+ *          These generate utilities such as bg-brand-600 or text-gray-500.
+ * Layer 2: semantic tokens (text, bg, border, fg) declared as CSS variables
+ *          on :root and redefined under .dark. Components only use this layer,
+ *          so a theme switch or a brand override never touches component code.
+ *
+ * To rebrand, redefine the --color-brand-* variables after importing the
+ * stylesheet. See the README section "Overriding the brand scale".
+ */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Typography */
+  --font-sans:
+    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.125rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-md: 1rem;
+  --text-md--line-height: 1.5rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.875rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 2.375rem;
+
+  /* Spacing: every spacing utility is a multiple of this 4px base (p-2 = 8px). */
+  --spacing: 0.25rem;
+
+  /* Radius */
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.625rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px 0 rgb(16 24 40 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(16 24 40 / 0.1), 0 1px 2px -1px rgb(16 24 40 / 0.1);
+  --shadow-md: 0 4px 8px -2px rgb(16 24 40 / 0.1), 0 2px 4px -2px rgb(16 24 40 / 0.06);
+  --shadow-lg: 0 12px 16px -4px rgb(16 24 40 / 0.08), 0 4px 6px -2px rgb(16 24 40 / 0.03);
+  --shadow-xl: 0 20px 24px -4px rgb(16 24 40 / 0.08), 0 8px 8px -4px rgb(16 24 40 / 0.03);
+
+  /* Brand: an Aegean blue. Override these eleven steps to rebrand. */
+  --color-brand-25: #f5f8ff;
+  --color-brand-50: #eef3ff;
+  --color-brand-100: #dde7ff;
+  --color-brand-200: #c2d4ff;
+  --color-brand-300: #96b5fd;
+  --color-brand-400: #6690f8;
+  --color-brand-500: #3f6cf0;
+  --color-brand-600: #2a4fd6;
+  --color-brand-700: #223fb0;
+  --color-brand-800: #20378c;
+  --color-brand-900: #1f3270;
+  --color-brand-950: #151f45;
+
+  --color-gray-25: #fcfcfd;
+  --color-gray-50: #f8f9fb;
+  --color-gray-100: #f1f3f6;
+  --color-gray-200: #e3e7ed;
+  --color-gray-300: #cdd3dc;
+  --color-gray-400: #98a1b0;
+  --color-gray-500: #697386;
+  --color-gray-600: #4d5668;
+  --color-gray-700: #384152;
+  --color-gray-800: #232a37;
+  --color-gray-900: #151a24;
+  --color-gray-950: #0b0e14;
+
+  --color-success-25: #f6fef9;
+  --color-success-50: #ecfdf3;
+  --color-success-100: #d1fadf;
+  --color-success-200: #a6f4c5;
+  --color-success-300: #6ce9a6;
+  --color-success-400: #32d583;
+  --color-success-500: #12b76a;
+  --color-success-600: #039855;
+  --color-success-700: #027a48;
+  --color-success-800: #05603a;
+  --color-success-900: #054f31;
+  --color-success-950: #053321;
+
+  --color-warning-25: #fffcf5;
+  --color-warning-50: #fffaeb;
+  --color-warning-100: #fef0c7;
+  --color-warning-200: #fedf89;
+  --color-warning-300: #fec84b;
+  --color-warning-400: #fdb022;
+  --color-warning-500: #f79009;
+  --color-warning-600: #dc6803;
+  --color-warning-700: #b54708;
+  --color-warning-800: #93370d;
+  --color-warning-900: #7a2e0e;
+  --color-warning-950: #4e1d09;
+
+  --color-error-25: #fffbfa;
+  --color-error-50: #fef3f2;
+  --color-error-100: #fee4e2;
+  --color-error-200: #fecdca;
+  --color-error-300: #fda29b;
+  --color-error-400: #f97066;
+  --color-error-500: #f04438;
+  --color-error-600: #d92d20;
+  --color-error-700: #b42318;
+  --color-error-800: #912018;
+  --color-error-900: #7a271a;
+  --color-error-950: #55160c;
+
+  --animate-toast-in: toast-in 200ms ease-out;
+
+  @keyframes toast-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/*
+ * Semantic utilities. @theme inline makes the generated utility reference the
+ * --ui-* variable directly, so .dark on any ancestor switches the value.
+ *
+ * text-*    text colour         e.g. text-primary, text-secondary
+ * bg-*      surfaces             e.g. bg-primary, bg-brand-solid
+ * border-*  borders and rings    e.g. border-default, ring-focus
+ * fg-*      icons and glyphs     e.g. text-fg-secondary, text-fg-on-solid
+ */
+@theme inline {
+  --text-color-primary: var(--ui-text-primary);
+  --text-color-secondary: var(--ui-text-secondary);
+  --text-color-tertiary: var(--ui-text-tertiary);
+  --text-color-disabled: var(--ui-text-disabled);
+  --text-color-placeholder: var(--ui-text-placeholder);
+  --text-color-inverse: var(--ui-text-inverse);
+  --text-color-on-solid: var(--ui-text-on-solid);
+  --text-color-brand: var(--ui-text-brand);
+  --text-color-error: var(--ui-text-error);
+  --text-color-success: var(--ui-text-success);
+  --text-color-warning: var(--ui-text-warning);
+
+  --background-color-primary: var(--ui-bg-primary);
+  --background-color-secondary: var(--ui-bg-secondary);
+  --background-color-tertiary: var(--ui-bg-tertiary);
+  --background-color-elevated: var(--ui-bg-elevated);
+  --background-color-inverse: var(--ui-bg-inverse);
+  --background-color-disabled: var(--ui-bg-disabled);
+  --background-color-overlay: var(--ui-bg-overlay);
+  --background-color-brand-solid: var(--ui-bg-brand-solid);
+  --background-color-brand-solid-hover: var(--ui-bg-brand-solid-hover);
+  --background-color-brand-subtle: var(--ui-bg-brand-subtle);
+  --background-color-error-solid: var(--ui-bg-error-solid);
+  --background-color-error-solid-hover: var(--ui-bg-error-solid-hover);
+  --background-color-error-subtle: var(--ui-bg-error-subtle);
+  --background-color-success-subtle: var(--ui-bg-success-subtle);
+  --background-color-warning-subtle: var(--ui-bg-warning-subtle);
+  --background-color-hover: var(--ui-bg-hover);
+
+  --border-color-default: var(--ui-border-default);
+  --border-color-strong: var(--ui-border-strong);
+  --border-color-control: var(--ui-border-control);
+  --border-color-subtle: var(--ui-border-subtle);
+  --border-color-brand: var(--ui-border-brand);
+  --border-color-error: var(--ui-border-error);
+  --border-color-disabled: var(--ui-border-disabled);
+  --ring-color-default: var(--ui-border-default);
+  --ring-color-control: var(--ui-border-control);
+  --ring-color-focus: var(--ui-border-focus);
+  --ring-color-error: var(--ui-border-error);
+  --outline-color-focus: var(--ui-border-focus);
+
+  --color-fg-primary: var(--ui-fg-primary);
+  --color-fg-secondary: var(--ui-fg-secondary);
+  --color-fg-tertiary: var(--ui-fg-tertiary);
+  --color-fg-disabled: var(--ui-fg-disabled);
+  --color-fg-brand: var(--ui-fg-brand);
+  --color-fg-on-solid: var(--ui-fg-on-solid);
+  --color-fg-error: var(--ui-fg-error);
+  --color-fg-success: var(--ui-fg-success);
+  --color-fg-warning: var(--ui-fg-warning);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+
+    --ui-text-primary: var(--color-gray-900);
+    --ui-text-secondary: var(--color-gray-700);
+    --ui-text-tertiary: var(--color-gray-600);
+    --ui-text-disabled: var(--color-gray-500);
+    --ui-text-placeholder: var(--color-gray-500);
+    --ui-text-inverse: var(--color-white);
+    --ui-text-on-solid: var(--color-white);
+    --ui-text-brand: var(--color-brand-700);
+    --ui-text-error: var(--color-error-700);
+    --ui-text-success: var(--color-success-700);
+    --ui-text-warning: var(--color-warning-700);
+
+    --ui-bg-primary: var(--color-white);
+    --ui-bg-secondary: var(--color-gray-50);
+    --ui-bg-tertiary: var(--color-gray-100);
+    --ui-bg-elevated: var(--color-white);
+    --ui-bg-inverse: var(--color-gray-900);
+    --ui-bg-disabled: var(--color-gray-100);
+    --ui-bg-overlay: rgb(11 14 20 / 0.6);
+    --ui-bg-hover: var(--color-gray-50);
+    --ui-bg-brand-solid: var(--color-brand-600);
+    --ui-bg-brand-solid-hover: var(--color-brand-700);
+    --ui-bg-brand-subtle: var(--color-brand-50);
+    --ui-bg-error-solid: var(--color-error-600);
+    --ui-bg-error-solid-hover: var(--color-error-700);
+    --ui-bg-error-subtle: var(--color-error-50);
+    --ui-bg-success-subtle: var(--color-success-50);
+    --ui-bg-warning-subtle: var(--color-warning-50);
+
+    --ui-border-default: var(--color-gray-300);
+    --ui-border-strong: var(--color-gray-500);
+    /* Form control outlines keep 3:1 against the surface (WCAG 1.4.11). */
+    --ui-border-control: var(--color-gray-500);
+    --ui-border-subtle: var(--color-gray-200);
+    --ui-border-brand: var(--color-brand-600);
+    --ui-border-error: var(--color-error-600);
+    --ui-border-disabled: var(--color-gray-200);
+    --ui-border-focus: var(--color-brand-500);
+
+    --ui-fg-primary: var(--color-gray-900);
+    --ui-fg-secondary: var(--color-gray-600);
+    --ui-fg-tertiary: var(--color-gray-500);
+    --ui-fg-disabled: var(--color-gray-400);
+    --ui-fg-brand: var(--color-brand-600);
+    --ui-fg-on-solid: var(--color-white);
+    --ui-fg-error: var(--color-error-600);
+    --ui-fg-success: var(--color-success-600);
+    --ui-fg-warning: var(--color-warning-600);
+  }
+
+  .dark {
+    color-scheme: dark;
+
+    --ui-text-primary: var(--color-gray-50);
+    --ui-text-secondary: var(--color-gray-300);
+    --ui-text-tertiary: var(--color-gray-400);
+    --ui-text-disabled: var(--color-gray-500);
+    --ui-text-placeholder: var(--color-gray-400);
+    --ui-text-inverse: var(--color-gray-900);
+    --ui-text-on-solid: var(--color-white);
+    --ui-text-brand: var(--color-brand-300);
+    --ui-text-error: var(--color-error-300);
+    --ui-text-success: var(--color-success-300);
+    --ui-text-warning: var(--color-warning-300);
+
+    --ui-bg-primary: var(--color-gray-950);
+    --ui-bg-secondary: var(--color-gray-900);
+    --ui-bg-tertiary: var(--color-gray-800);
+    --ui-bg-elevated: var(--color-gray-900);
+    --ui-bg-inverse: var(--color-gray-50);
+    --ui-bg-disabled: var(--color-gray-800);
+    --ui-bg-overlay: rgb(0 0 0 / 0.7);
+    --ui-bg-hover: var(--color-gray-800);
+    --ui-bg-brand-solid: var(--color-brand-600);
+    --ui-bg-brand-solid-hover: var(--color-brand-500);
+    --ui-bg-brand-subtle: rgb(42 79 214 / 0.18);
+    --ui-bg-error-solid: var(--color-error-600);
+    --ui-bg-error-solid-hover: var(--color-error-700);
+    --ui-bg-error-subtle: rgb(217 45 32 / 0.18);
+    --ui-bg-success-subtle: rgb(3 152 85 / 0.18);
+    --ui-bg-warning-subtle: rgb(220 104 3 / 0.18);
+
+    --ui-border-default: var(--color-gray-700);
+    --ui-border-strong: var(--color-gray-400);
+    --ui-border-control: var(--color-gray-500);
+    --ui-border-subtle: var(--color-gray-800);
+    --ui-border-brand: var(--color-brand-400);
+    --ui-border-error: var(--color-error-400);
+    --ui-border-disabled: var(--color-gray-800);
+    --ui-border-focus: var(--color-brand-400);
+
+    --ui-fg-primary: var(--color-gray-50);
+    --ui-fg-secondary: var(--color-gray-300);
+    --ui-fg-tertiary: var(--color-gray-400);
+    --ui-fg-disabled: var(--color-gray-600);
+    --ui-fg-brand: var(--color-brand-400);
+    --ui-fg-on-solid: var(--color-white);
+    --ui-fg-error: var(--color-error-400);
+    --ui-fg-success: var(--color-success-400);
+    --ui-fg-warning: var(--color-warning-400);
+  }
+}
