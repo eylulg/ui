@@ -1,0 +1,9 @@
+@import '../src/styles/index.css';
+
+/* Stories and docs use these utilities; the published stylesheet does not. */
+@source '../src/**/*.stories.tsx';
+@source '../src/**/*.mdx';
+
+body {
+  @apply bg-primary font-sans text-primary antialiased;
+}

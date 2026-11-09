@@ -1,0 +1,98 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { ColorScales, RadiusAndShadowTable, SemanticTokenTable, TypeScale } from './Tokens';
+
+<Meta title="Introduction" />
+
+# @eylulg/ui
+
+An accessible React 19 component library. Behaviour, focus management and ARIA come from
+[React Aria Components](https://react-spectrum.adobe.com/react-aria/); every visual decision comes
+from Tailwind CSS 4 design tokens. Use the **Theme** toolbar above to switch between light and dark.
+
+## Install
+
+```bash
+npm install @eylulg/ui react react-dom
+```
+
+## Usage
+
+Import the stylesheet once at the root of your app, then import components from the index or from
+a per component entry point.
+
+```tsx
+import '@eylulg/ui/styles.css';
+import { Button } from '@eylulg/ui/button';
+import { Input } from '@eylulg/ui/input';
+
+export function SignIn() {
+  return (
+    <form className="flex flex-col gap-4">
+      <Input label="Email" type="email" isRequired />
+      <Button type="submit">Sign in</Button>
+    </form>
+  );
+}
+```
+
+Dark mode is class based: add `dark` to `<html>` (or any ancestor) and every component follows.
+
+## How the tokens are layered
+
+1. **Primitive scales** (`--color-brand-*`, `--color-gray-*` and so on) live in `@theme` and
+   generate Tailwind utilities such as `bg-brand-600`.
+2. **Semantic tokens** (`--ui-text-*`, `--ui-bg-*`, `--ui-border-*`, `--ui-fg-*`) point at the
+   primitives and are redefined under `.dark`. Components only use this layer, through utilities
+   like `text-primary`, `bg-elevated` or `border-default`.
+
+## Colour scales
+
+<ColorScales />
+
+## Semantic tokens
+
+These switch automatically with the theme. The fg tokens are for icons and glyphs.
+
+<SemanticTokenTable />
+
+## Typography
+
+<TypeScale />
+
+## Radius and shadows
+
+<RadiusAndShadowTable />
+
+## Spacing
+
+Spacing uses a single base, `--spacing: 0.25rem`. Every spacing utility is a multiple of it, so
+`p-2` is 8px and `gap-6` is 24px.
+
+## Overriding the brand
+
+Redefine the brand scale after the library stylesheet. Semantic tokens such as `bg-brand-solid`
+and the focus ring pick it up with no other change.
+
+```css
+@import '@eylulg/ui/styles.css';
+
+:root {
+  --color-brand-50: #fdf2f8;
+  --color-brand-100: #fce7f3;
+  --color-brand-300: #f9a8d4;
+  --color-brand-400: #f472b6;
+  --color-brand-500: #ec4899;
+  --color-brand-600: #db2777;
+  --color-brand-700: #be185d;
+}
+```
+
+Keep `brand-600` at a contrast ratio of at least 4.5:1 against white, because primary buttons
+place white text on it.
+
+## Accessibility
+
+- Keyboard support and ARIA patterns come from React Aria and are covered by unit tests.
+- Every component is audited with axe in both themes in CI, and the **Accessibility** panel in
+  this Storybook runs the same checks, including colour contrast, on every story.
+- Focus rings only appear for keyboard users, using `data-focus-visible`.
