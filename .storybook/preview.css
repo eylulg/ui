@@ -3,6 +3,7 @@
 /* Stories and docs use these utilities; the published stylesheet does not. */
 @source '../src/**/*.stories.tsx';
 @source '../src/**/*.mdx';
+@source '../src/docs';
 
 body {
   @apply bg-primary font-sans text-primary antialiased;
