@@ -1,0 +1,174 @@
+{
+  "name": "@eylulg/ui",
+  "version": "0.0.0-development",
+  "description": "Accessible React 19 component library built on React Aria Components and Tailwind CSS 4 design tokens.",
+  "license": "MIT",
+  "author": "Eylül Güneş (https://github.com/eylulg)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eylulg/ui.git"
+  },
+  "homepage": "https://eylulg.github.io/ui/",
+  "bugs": "https://github.com/eylulg/ui/issues",
+  "keywords": [
+    "react",
+    "design-system",
+    "react-aria",
+    "tailwindcss",
+    "components",
+    "accessibility"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./badge": {
+      "types": "./dist/components/Badge/index.d.ts",
+      "import": "./dist/components/Badge/index.js"
+    },
+    "./button": {
+      "types": "./dist/components/Button/index.d.ts",
+      "import": "./dist/components/Button/index.js"
+    },
+    "./checkbox": {
+      "types": "./dist/components/Checkbox/index.d.ts",
+      "import": "./dist/components/Checkbox/index.js"
+    },
+    "./dialog": {
+      "types": "./dist/components/Dialog/index.d.ts",
+      "import": "./dist/components/Dialog/index.js"
+    },
+    "./icon-button": {
+      "types": "./dist/components/IconButton/index.d.ts",
+      "import": "./dist/components/IconButton/index.js"
+    },
+    "./input": {
+      "types": "./dist/components/Input/index.d.ts",
+      "import": "./dist/components/Input/index.js"
+    },
+    "./radio-group": {
+      "types": "./dist/components/RadioGroup/index.d.ts",
+      "import": "./dist/components/RadioGroup/index.js"
+    },
+    "./select": {
+      "types": "./dist/components/Select/index.d.ts",
+      "import": "./dist/components/Select/index.js"
+    },
+    "./skeleton": {
+      "types": "./dist/components/Skeleton/index.d.ts",
+      "import": "./dist/components/Skeleton/index.js"
+    },
+    "./switch": {
+      "types": "./dist/components/Switch/index.d.ts",
+      "import": "./dist/components/Switch/index.js"
+    },
+    "./tabs": {
+      "types": "./dist/components/Tabs/index.d.ts",
+      "import": "./dist/components/Tabs/index.js"
+    },
+    "./tag": {
+      "types": "./dist/components/Tag/index.d.ts",
+      "import": "./dist/components/Tag/index.js"
+    },
+    "./textarea": {
+      "types": "./dist/components/Textarea/index.d.ts",
+      "import": "./dist/components/Textarea/index.js"
+    },
+    "./toast": {
+      "types": "./dist/components/Toast/index.d.ts",
+      "import": "./dist/components/Toast/index.js"
+    },
+    "./tooltip": {
+      "types": "./dist/components/Tooltip/index.d.ts",
+      "import": "./dist/components/Tooltip/index.js"
+    },
+    "./cx": {
+      "types": "./dist/utils/cx.d.ts",
+      "import": "./dist/utils/cx.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./theme.css": "./dist/theme.css",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "storybook dev -p 6006",
+    "build": "vite build && tsc -p tsconfig.build.json && npm run build:css",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "size": "size-limit",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "semantic-release": "semantic-release",
+    "build:css": "tailwindcss -i src/styles/index.css -o dist/styles.css --minify && cp src/styles/theme.css dist/theme.css"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "dependencies": {
+    "lucide-react": "^1.70.0",
+    "react-aria-components": "^1.22.1",
+    "tailwind-merge": "^3.7.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@semantic-release/changelog": "^7.0.0",
+    "@semantic-release/git": "^11.0.1",
+    "@size-limit/esbuild": "^14.3.0",
+    "@size-limit/file": "^14.3.0",
+    "@storybook/addon-a11y": "^10.6.6",
+    "@storybook/addon-docs": "^10.6.6",
+    "@storybook/react-vite": "^10.6.6",
+    "@tailwindcss/cli": "^4.3.5",
+    "@tailwindcss/vite": "^4.3.5",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.8",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "conventional-changelog-conventionalcommits": "^10.4.1",
+    "eslint": "^9.39.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "eslint-plugin-storybook": "^10.6.6",
+    "globals": "^17.14.0",
+    "jsdom": "^31.0.0",
+    "prettier": "^3.9.10",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "semantic-release": "^25.0.9",
+    "size-limit": "^14.3.0",
+    "storybook": "^10.6.6",
+    "tailwindcss": "^4.3.5",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.72.2",
+    "vite": "^8.3.7",
+    "vitest": "^5.1.0",
+    "vitest-axe": "^0.1.0"
+  }
+}
