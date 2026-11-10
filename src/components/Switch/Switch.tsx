@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, Ref } from 'react';
 import {
   Switch as AriaSwitch,
   composeRenderProps,
@@ -8,10 +8,12 @@ import { cx } from '../../utils/cx';
 
 export type SwitchSize = 'sm' | 'md';
 
-export interface SwitchProps extends Omit<AriaSwitchProps, 'children'> {
+export interface SwitchProps extends Omit<AriaSwitchProps, 'children' | 'inputRef'> {
   children?: ReactNode;
   hint?: ReactNode;
   size?: SwitchSize;
+  /** Ref to the native checkbox input that holds focus. */
+  ref?: Ref<HTMLInputElement>;
 }
 
 const sizes: Record<SwitchSize, { track: string; thumb: string }> = {
@@ -19,10 +21,11 @@ const sizes: Record<SwitchSize, { track: string; thumb: string }> = {
   md: { track: 'h-6 w-11', thumb: 'size-5 group-data-selected:translate-x-5' },
 };
 
-export function Switch({ children, hint, size = 'md', className, ...props }: SwitchProps) {
+export function Switch({ children, hint, size = 'md', ref, className, ...props }: SwitchProps) {
   return (
     <AriaSwitch
       {...props}
+      inputRef={ref}
       className={composeRenderProps(className, (consumer) =>
         cx(
           'group flex cursor-pointer items-start gap-3 text-sm text-secondary',

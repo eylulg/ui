@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, Ref } from 'react';
 import {
   TextArea as AriaTextArea,
   TextField,
@@ -18,6 +18,8 @@ export interface TextareaProps extends Omit<TextFieldProps, 'children'> {
   /** Allow the user to resize vertically. */
   resizable?: boolean;
   textareaClassName?: string;
+  /** Ref to the native textarea element. */
+  ref?: Ref<HTMLTextAreaElement>;
 }
 
 export function Textarea({
@@ -28,6 +30,7 @@ export function Textarea({
   rows = 4,
   resizable = true,
   textareaClassName,
+  ref,
   className,
   isInvalid,
   ...props
@@ -40,6 +43,7 @@ export function Textarea({
     >
       {label && <FieldLabel>{label}</FieldLabel>}
       <AriaTextArea
+        ref={ref}
         rows={rows}
         placeholder={placeholder}
         className={composeRenderProps(textareaClassName, (consumer) =>

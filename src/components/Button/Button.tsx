@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, Ref } from 'react';
 import {
   Button as AriaButton,
   composeRenderProps,
@@ -24,6 +24,8 @@ export interface ButtonProps extends Omit<AriaButtonProps, 'isPending'> {
   iconTrailing?: IconComponent;
   /** Text announced while loading. Defaults to the button label. */
   loadingLabel?: string;
+  /** Ref to the button element, for example to return focus to it. */
+  ref?: Ref<HTMLButtonElement>;
 }
 
 export const buttonVariants: Record<ButtonVariant, string> = {
@@ -56,6 +58,7 @@ export function Button({
   iconLeading: IconLeading,
   iconTrailing: IconTrailing,
   loadingLabel,
+  ref,
   className,
   children,
   ...props
@@ -63,6 +66,7 @@ export function Button({
   return (
     <AriaButton
       {...props}
+      ref={ref}
       isPending={isLoading}
       data-variant={variant}
       data-size={size}

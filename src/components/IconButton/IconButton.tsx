@@ -1,3 +1,4 @@
+import type { Ref } from 'react';
 import {
   Button as AriaButton,
   composeRenderProps,
@@ -18,6 +19,8 @@ export interface IconButtonProps extends Omit<AriaButtonProps, 'children' | 'isP
   variant?: ButtonVariant;
   size?: IconButtonSize;
   isLoading?: boolean;
+  /** Ref to the button element, for example to return focus to it. */
+  ref?: Ref<HTMLButtonElement>;
 }
 
 const sizes: Record<IconButtonSize, { button: string; icon: string }> = {
@@ -31,12 +34,14 @@ export function IconButton({
   variant = 'secondary',
   size = 'md',
   isLoading = false,
+  ref,
   className,
   ...props
 }: IconButtonProps) {
   return (
     <AriaButton
       {...props}
+      ref={ref}
       isPending={isLoading}
       data-variant={variant}
       className={composeRenderProps(className, (consumer) =>

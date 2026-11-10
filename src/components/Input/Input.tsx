@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, Ref } from 'react';
 import {
   Group,
   Input as AriaInput,
@@ -25,6 +25,8 @@ export interface InputProps extends Omit<TextFieldProps, 'children'> {
   iconTrailing?: IconComponent;
   /** Class applied to the native input element. */
   inputClassName?: string;
+  /** Ref to the native input element, not the wrapper. */
+  ref?: Ref<HTMLInputElement>;
 }
 
 const sizes: Record<InputSize, string> = {
@@ -41,6 +43,7 @@ export function Input({
   iconLeading: IconLeading,
   iconTrailing: IconTrailing,
   inputClassName,
+  ref,
   className,
   isInvalid,
   ...props
@@ -66,6 +69,7 @@ export function Input({
           <IconLeading aria-hidden="true" className="size-4 shrink-0 text-fg-tertiary" />
         )}
         <AriaInput
+          ref={ref}
           placeholder={placeholder}
           className={cx(
             'min-w-0 flex-1 bg-transparent text-primary outline-none placeholder:text-placeholder',

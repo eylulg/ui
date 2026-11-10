@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Plus } from 'lucide-react';
+import { createRef } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { expectNoA11yViolations } from '../../../test-utils/a11y';
 import { Button } from '../Button';
@@ -20,6 +21,14 @@ describe('Button', () => {
 
     expect(screen.getByRole('button', { name: 'Save' })).toHaveFocus();
     expect(onPress).not.toHaveBeenCalled();
+  });
+
+  it('forwards its ref to the button element', () => {
+    const ref = createRef<HTMLButtonElement>();
+
+    render(<Button ref={ref}>Save</Button>);
+
+    expect(ref.current).toBe(screen.getByRole('button', { name: 'Save' }));
   });
 
   it('has no axe violations in light and dark', async () => {

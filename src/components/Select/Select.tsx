@@ -1,5 +1,5 @@
 import { Check, ChevronDown } from 'lucide-react';
-import type { ReactNode } from 'react';
+import type { ReactNode, Ref } from 'react';
 import {
   Button as AriaButton,
   ListBox,
@@ -26,6 +26,8 @@ export interface SelectProps<T extends object> extends Omit<
   /** Items for dynamic collections. Pair with a render function as children. */
   items?: Iterable<T>;
   children: ReactNode | ((item: T) => ReactNode);
+  /** Ref to the trigger button, for example to move focus to the select. */
+  ref?: Ref<HTMLButtonElement>;
 }
 
 export function Select<T extends object>({
@@ -35,6 +37,7 @@ export function Select<T extends object>({
   placeholder = 'Select an option',
   items,
   children,
+  ref,
   className,
   isInvalid,
   ...props
@@ -50,6 +53,7 @@ export function Select<T extends object>({
     >
       {label && <FieldLabel>{label}</FieldLabel>}
       <AriaButton
+        ref={ref}
         className={cx(
           'flex h-control-md w-full cursor-pointer items-center gap-2 rounded-md border border-control bg-primary px-3 text-left text-md text-primary shadow-xs',
           'data-disabled:cursor-not-allowed data-disabled:border-disabled data-disabled:bg-disabled data-disabled:text-disabled',

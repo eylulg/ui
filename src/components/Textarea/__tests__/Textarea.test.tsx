@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { createRef } from 'react';
 import { describe, expect, it } from 'vitest';
 import { expectNoA11yViolations } from '../../../test-utils/a11y';
 import { Textarea } from '../Textarea';
@@ -25,6 +26,14 @@ describe('Textarea', () => {
     const textarea = screen.getByRole('textbox', { name: 'Name' });
     expect(textarea).toHaveAccessibleDescription(description);
     expect(textarea.getAttribute('aria-invalid') === 'true').toBe(invalid);
+  });
+
+  it('forwards its ref to the textarea element', () => {
+    const ref = createRef<HTMLTextAreaElement>();
+
+    render(<Textarea ref={ref} label="Message" />);
+
+    expect(ref.current).toBe(screen.getByRole('textbox', { name: 'Message' }));
   });
 
   it('has no axe violations in light and dark', async () => {

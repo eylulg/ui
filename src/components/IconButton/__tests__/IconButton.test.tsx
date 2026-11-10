@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Settings, Trash2 } from 'lucide-react';
+import { createRef } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { expectNoA11yViolations } from '../../../test-utils/a11y';
 import { IconButton } from '../IconButton';
@@ -14,6 +15,14 @@ describe('IconButton', () => {
     await user.click(screen.getByRole('button', { name: 'Delete' }));
 
     expect(onPress).not.toHaveBeenCalled();
+  });
+
+  it('forwards its ref to the button element', () => {
+    const ref = createRef<HTMLButtonElement>();
+
+    render(<IconButton ref={ref} icon={Settings} aria-label="Settings" />);
+
+    expect(ref.current).toBe(screen.getByRole('button', { name: 'Settings' }));
   });
 
   it('has no axe violations in light and dark', async () => {
