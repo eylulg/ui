@@ -23,7 +23,8 @@ npm install react-aria-components lucide-react
 ```
 
 `file:` installs a symlink, so the app always sees the latest `dist/`. Run `npm run build` in `ui`
-after a change (or keep `npx vite build --watch` running) and restart the app's dev server. When
+after a change (or keep `npx vite build --watch` running) and restart the app's dev server. A copied
+install (`--install-links`) works differently, see [One copy of React](#one-copy-of-react-with-a-linked-checkout). When
 the package is on npm, replace the `file:../ui` range with a version and nothing else changes.
 
 `react`, `react-dom` and `lucide-react` are peer dependencies (and `@fontsource-variable/inter`
@@ -43,8 +44,22 @@ context and `instanceof` checks. The cleanest fix is to install a copy instead o
 npm install ../ui --install-links     # packs ui and installs it like a registry package
 ```
 
-That needs `npm run build` and a reinstall after every library change. To keep the live symlink,
-point the tools at your copy:
+A copied install has three rules:
+
+- It is a snapshot. After every library rebuild (`npm run build` in `ui`), run the command again,
+  or the app keeps the old `dist/`. Restarting the dev server is not enough.
+- Any later `npm install <pkg>` or `npm install` in the app reverts `@eylulg/ui` to a symlink,
+  which brings the second copy of React back. Run `--install-links` last, after every other
+  install.
+- Add a script so nobody has to remember the flag:
+
+  ```json
+  { "scripts": { "relink": "npm install ../ui --install-links" } }
+  ```
+
+  Then the loop is `npm run build` in `ui`, `npm run relink` in the app.
+
+To keep the live symlink instead, point the tools at your copy:
 
 ```ts
 // vite.config.ts (Vite, and Vitest when it shares the config)
@@ -141,9 +156,10 @@ Import the plain tokens, then a variant:
 `tokens.css` holds custom properties only, on `:root` and `.dark-mode` (or `.dark`): the colour
 scales (`--color-brand-600`), the semantic set (`--ui-text-primary`, `--ui-bg-elevated`,
 `--ui-border-focus`), fonts (`--font-sans`, `--font-body`, `--font-display`, `--font-mono`,
-`--ui-font-data`), radii, shadows and density (`--density-control-md`). No preflight, no component
-styles, no Tailwind at-rules. It is generated from `theme.css`, so it cannot drift, and every
-variant file works on top of it. Use it for your own components:
+`--ui-font-data`), the type scale (`--text-xs` to `--text-3xl`, each with a
+`--text-xs--line-height` companion), radii, shadows and density (`--density-control-md`). No
+preflight, no component styles, no Tailwind at-rules. It is generated from `theme.css`, so it cannot
+drift, and every variant file works on top of it. Use it for your own components:
 
 ```css
 .card {
@@ -152,8 +168,69 @@ variant file works on top of it. Use it for your own components:
   border: 1px solid var(--ui-border-subtle);
   border-radius: var(--radius-lg);
   font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
 }
 ```
+
+Without Tailwind there is no preflight either, so the app must provide the minimal reset the
+tokens assume: `box-sizing: border-box` everywhere, no body margin, form controls that inherit
+font and colour, and no default margins on headings, paragraphs and lists. Import the optional
+`reset.css` after the tokens, or copy it:
+
+```css
+@import '@eylulg/ui/tokens.css';
+@import '@eylulg/ui/reset.css';
+@import '@eylulg/ui/themes/sudoku.css';
+```
+
+```css
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--ui-bg-primary);
+  color: var(--ui-text-primary);
+  font-family: var(--font-body);
+  line-height: 1.5;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+p,
+figure,
+blockquote {
+  margin: 0;
+}
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+```
+
+Headings and lists lose their browser styling, so set sizes with the type scale and restore bullets
+where prose needs them. Apps on path A or B already have Tailwind's preflight and must not import
+`reset.css`.
 
 Library components need their classes, so an app on path C that also renders them imports
 `styles.css` (path B) instead.
@@ -189,6 +266,10 @@ up without any other change, and keep working with a locally installed Inter whe
 | `tokens`         | Tokens to Tailwind    | violet | neutral | medium | comfortable |
 | `plain-language` | Plain Language add-in | cyan   | slate   | medium | compact     |
 | `sudoku`         | Sudoku                | green  | neutral | medium | comfortable |
+
+`control-room` also moves the status warning scale from the base orange amber to yellow (hue 95), so
+brand and warning badges do not look alike. Every contrast pair stays AA. Other variants keep the
+base warning scale.
 
 Import exactly one variant file after `theme.css`. To use a variant for part of a page only, put
 `data-ui-variant="review"` on a container: every variant file also applies under that attribute.
@@ -422,6 +503,24 @@ attributions a data provider requires or for extra links.
 have `url: null` and a `plannedUrl` (Vercel style placeholders), and link to their repository
 until they go live. The URLs change again when the custom domain arrives. Pass `projects={...}`
 to either component to override the list.
+
+For an app with translations, build the list from the library's and replace only the text. Ids,
+URLs and variants stay shared, so the "you are here" mark and the links keep working:
+
+```tsx
+import { projects } from '@eylulg/ui/projects';
+
+const translated = projects.map((project) => ({
+  ...project,
+  description: t(`projects.${project.id}`), // your i18n function
+}));
+
+<ProjectSwitcher projects={translated} currentId="workspace" labels={{ label: t('nav.projects') }} />
+<SiteFooter projects={translated} currentId="workspace" />
+```
+
+`SiteFooter` shows only the names, so its list needs translated `name` values only when the names
+themselves change. `ProjectSwitcher` shows the descriptions.
 
 ## CI for an app that links the library
 
