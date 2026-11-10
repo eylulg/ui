@@ -189,6 +189,10 @@
       "types": "./dist/utils/cx.d.ts",
       "import": "./dist/utils/cx.js"
     },
+    "./cx-lite": {
+      "types": "./dist/utils/cxLite.d.ts",
+      "import": "./dist/utils/cxLite.js"
+    },
     "./themes": {
       "types": "./dist/styles/themes/variants.d.ts",
       "import": "./dist/styles/themes/variants.js"
@@ -218,6 +222,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "size": "size-limit",
+    "measure": "jiti scripts/measure-bundles.ts",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "semantic-release": "semantic-release",
@@ -277,6 +282,7 @@
     "lucide-react": "^1.70.0",
     "playwright": "^1.65.0",
     "prettier": "^3.9.10",
+    "rolldown": "^1.2.18",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",

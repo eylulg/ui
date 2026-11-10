@@ -8,6 +8,7 @@ const root = import.meta.dirname;
 const entries = Object.fromEntries([
   ['index', resolve(root, 'src/index.ts')],
   ['utils/cx', resolve(root, 'src/utils/cx.ts')],
+  ['utils/cxLite', resolve(root, 'src/utils/cxLite.ts')],
   ['styles/themes/variants', resolve(root, 'src/styles/themes/variants.ts')],
   ['chrome/index', resolve(root, 'src/chrome/index.ts')],
   ['chrome/projects', resolve(root, 'src/chrome/projects.ts')],
