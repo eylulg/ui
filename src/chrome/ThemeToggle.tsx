@@ -44,7 +44,7 @@ const choices: ThemePreference[] = ['light', 'dark', 'system'];
 
 const group = 'inline-flex items-center gap-0.5 rounded-md border border-default bg-primary p-0.5';
 const button = [
-  'inline-flex size-control-xs cursor-pointer items-center justify-center rounded-sm text-fg-tertiary transition-colors',
+  'inline-flex size-control-xs min-h-6 min-w-6 cursor-pointer items-center justify-center rounded-sm text-fg-tertiary transition-colors',
   'data-hovered:bg-hover data-hovered:text-fg-secondary',
   'data-selected:bg-tertiary data-selected:text-fg-primary',
   focusRing,
