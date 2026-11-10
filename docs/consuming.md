@@ -26,11 +26,80 @@ npm install react-aria-components lucide-react
 after a change (or keep `npx vite build --watch` running) and restart the app's dev server. When
 the package is on npm, replace the `file:../ui` range with a version and nothing else changes.
 
-`react`, `react-dom` and `lucide-react` are peer dependencies. The library re-exports no icons:
-import them from `lucide-react` yourself and pass the component (`icon={Plus}`) or, in the chrome,
-an element (`icon: <Inbox />`).
+`react`, `react-dom` and `lucide-react` are peer dependencies (and `@fontsource-variable/inter`
+an optional one, see [Fonts](#fonts)). The library re-exports no icons: import them from
+`lucide-react` yourself and pass the component (`icon={Plus}`) or, in the chrome, an element
+(`icon: <Inbox />`).
 
-## Styles: pick one of two paths
+### One copy of React with a linked checkout
+
+In `ui`, `react`, `react-dom` and `lucide-react` are `devDependencies` plus `peerDependencies`,
+never `dependencies`, so a published install shares your copies. A `file:` link is different: the
+symlink resolves to the real folder, so the library's modules find `ui/node_modules`, which holds
+its own React, React Aria Components and lucide. Two copies break hooks, React Aria's router
+context and `instanceof` checks. The cleanest fix is to install a copy instead of a link:
+
+```bash
+npm install ../ui --install-links     # packs ui and installs it like a registry package
+```
+
+That needs `npm run build` and a reinstall after every library change. To keep the live symlink,
+point the tools at your copy:
+
+```ts
+// vite.config.ts (Vite, and Vitest when it shares the config)
+export default defineConfig({
+  resolve: { dedupe: ['react', 'react-dom', 'react-aria-components', 'lucide-react'] },
+});
+```
+
+```ts
+// next.config.ts (Next.js with Turbopack). The root must contain the linked folder.
+import path from 'node:path';
+
+const nextConfig: NextConfig = {
+  turbopack: {
+    root: path.resolve(import.meta.dirname, '..'),
+    resolveAlias: {
+      'react-aria-components': './node_modules/react-aria-components',
+      'lucide-react': './node_modules/lucide-react',
+    },
+  },
+};
+```
+
+If TypeScript reports that a `LucideIcon` is not assignable to `IconComponent`, two copies of
+`@types/react` resolve. Point both at yours:
+
+```json
+{ "compilerOptions": { "paths": { "react": ["./node_modules/@types/react"] } } }
+```
+
+None of this applies once the package is on npm.
+
+### Icons in Next.js server components
+
+lucide-react icons use React context, so a server component cannot render them. Re-export the ones
+you use from a client file and import them from there. A client reference can still be passed to a
+library component as a prop:
+
+```tsx
+// app/icons.ts
+'use client';
+export { Plus, Search, Settings } from 'lucide-react';
+```
+
+```tsx
+// app/page.tsx (a server component)
+import { Button } from '@eylulg/ui/button';
+import { Plus } from './icons';
+
+export default function Page() {
+  return <Button iconLeading={Plus}>New item</Button>;
+}
+```
+
+## Styles: pick one of three paths
 
 ### A. The app runs Tailwind 4 (recommended)
 
@@ -60,6 +129,54 @@ import '@eylulg/ui/themes/workspace.css';
 `styles.css` contains Tailwind's preflight, the tokens and only the classes the components use.
 Do not combine it with path A, or preflight ships twice.
 
+### C. The app styles itself and only wants the tokens
+
+Import the plain tokens, then a variant:
+
+```css
+@import '@eylulg/ui/tokens.css';
+@import '@eylulg/ui/themes/sudoku.css';
+```
+
+`tokens.css` holds custom properties only, on `:root` and `.dark-mode` (or `.dark`): the colour
+scales (`--color-brand-600`), the semantic set (`--ui-text-primary`, `--ui-bg-elevated`,
+`--ui-border-focus`), fonts (`--font-sans`, `--font-body`, `--font-display`, `--font-mono`,
+`--ui-font-data`), radii, shadows and density (`--density-control-md`). No preflight, no component
+styles, no Tailwind at-rules. It is generated from `theme.css`, so it cannot drift, and every
+variant file works on top of it. Use it for your own components:
+
+```css
+.card {
+  background: var(--ui-bg-elevated);
+  color: var(--ui-text-primary);
+  border: 1px solid var(--ui-border-subtle);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-body);
+}
+```
+
+Library components need their classes, so an app on path C that also renders them imports
+`styles.css` (path B) instead.
+
+## Fonts
+
+Every variant names Inter and falls back to the system font, so nothing downloads by default. To
+load Inter, install the optional peer and import `fonts.css` before the theme:
+
+```bash
+npm install @fontsource-variable/inter
+```
+
+```css
+@import '@eylulg/ui/fonts.css';
+@import '@eylulg/ui/theme.css'; /* or tokens.css, or styles.css */
+@import '@eylulg/ui/themes/workspace.css';
+```
+
+`fonts.css` imports the variable font from `@fontsource-variable/inter` and sets `--font-inter` to
+it. The theme's font stacks start with `var(--font-inter, 'Inter')`, so they pick the bundled font
+up without any other change, and keep working with a locally installed Inter when you skip it.
+
 ## Theme variants
 
 | Variant          | Project               | Brand  | Gray    | Radius | Density     |
@@ -87,6 +204,26 @@ variants.workspace.density; // 'compact'
 Dark mode is class based. `ThemeToggle` writes `dark-mode` on `<html>` (the theme also accepts
 `dark`) and remembers the choice in `localStorage`. Put `themeInitScript` in `<head>` so the first
 paint already has the right theme; otherwise the page flashes light before hydration.
+
+### Setting the theme from code
+
+`ThemeToggle` is built on `useTheme`, which you can call too, for a command palette or a settings
+page. It returns the user's choice, what is applied now, and a setter; the page and every
+`ThemeToggle` stay in step, and the choice is remembered in `localStorage` under the key
+`eylulg-ui-theme` (`themeStorageKey`; the value is `light` or `dark`, and the key is absent for
+system).
+
+```tsx
+import { useTheme } from '@eylulg/ui/chrome';
+
+function ThemeCommands() {
+  const { theme, resolved, setTheme } = useTheme(); // 'system', 'dark', ('light' | 'dark')
+  return <button onClick={() => setTheme(resolved === 'dark' ? 'light' : 'dark')}>Flip</button>;
+}
+```
+
+It is safe where `matchMedia` or storage is missing (tests, embedded webviews), and on the server it
+reports `system` and `light`.
 
 ## Vite (React Router)
 
@@ -228,9 +365,81 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 React hydrates. Server pages can render library components such as `Button` or `PageHeader`
 directly; interactive props like `onPress` need a client component, as with any React component.
 
+## Chrome details
+
+**Translating the chrome.** `TopNav`, `ThemeToggle`, `ProjectSwitcher` and `SiteFooter` take a
+`labels` object. Missing keys keep the English default, and project descriptions come from the
+`projects` list you pass, so translate those there. The skip link's text is
+`AppShell`'s `skipLinkLabel`.
+
+```tsx
+<TopNav productName="Watchlist" labels={{ openMenu: 'Menü öffnen', closeMenu: 'Menü schließen' }} />
+<ThemeToggle labels={{ ariaLabel: 'Farbschema', light: 'Hell', dark: 'Dunkel', system: 'System' }} />
+<ProjectSwitcher labels={{ label: 'Projekte', heading: 'Projekte von Eylül', youAreHere: 'Sie sind hier', sourceCode: '(Quellcode)' }} />
+<SiteFooter labels={{ intro: 'Teil der Projekte von Eylül Güneş', projectsNav: 'Projekte', source: '(Quellcode)', profilesNav: 'Profile', github: 'GitHub', linkedin: 'LinkedIn', builtWith: 'Gebaut mit @eylulg/ui' }} />
+```
+
+**TopNav slots.** `center` sits between the links and the actions (a search field or a command
+palette button), from the md breakpoint, and at the top of the mobile menu. `actions` is the right
+hand side from md and lives in the mobile menu below that. `compactActions` stays in the bar next to
+the menu button below md, so the theme toggle is reachable at 375px without opening the menu:
+
+```tsx
+<TopNav
+  productName="Workspace"
+  center={
+    <Button variant="secondary" size="sm" iconLeading={Search}>
+      Search
+    </Button>
+  }
+  actions={
+    <>
+      <ProjectSwitcher currentId="workspace" />
+      <ThemeToggle />
+    </>
+  }
+  compactActions={<ThemeToggle compact />}
+/>
+```
+
+`ThemeToggle compact` is one icon button that opens a menu of the three choices. The menu behind
+the menu button loads on first press, so a page that never opens it does not download React Aria's
+modal code.
+
+**AppShell width.** `maxWidth="6xl"` centres the content in a column as wide as `TopNav` and
+`SiteFooter`, so everything lines up. `contentClassName` adds layout classes (`space-y-8`) to that
+column.
+
+**SiteFooter extras.** `children` render between the project links and the profile row, for
+attributions a data provider requires or for extra links.
+
+**SidebarNav item actions.** `action` on an item renders a control beside its link, such as an
+`IconButton` that adds a child item. It is its own tab stop and arrow keys reach it.
+
 ## Project list
 
 `ProjectSwitcher` and `SiteFooter` read `@eylulg/ui/projects`. Projects that are not deployed yet
 have `url: null` and a `plannedUrl` (Vercel style placeholders), and link to their repository
 until they go live. The URLs change again when the custom domain arrives. Pass `projects={...}`
 to either component to override the list.
+
+## CI for an app that links the library
+
+Check the app and the library out as siblings and build the library first, so `file:../ui` resolves
+exactly as on a laptop:
+
+```yaml
+steps:
+  - uses: actions/checkout@v4
+    with: { path: app }
+  - uses: actions/checkout@v4
+    with: { repository: eylulg/ui, path: ui }
+  - run: npm ci && npm run build
+    working-directory: ui
+  - run: npm ci
+    working-directory: app
+  - run: npm run build
+    working-directory: app
+```
+
+Switch the dependency to a version range once the package is published, and drop the library steps.

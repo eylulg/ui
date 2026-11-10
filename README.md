@@ -39,9 +39,11 @@ projects feel like one product family.
 npm install @eylulg/ui react-aria-components lucide-react
 ```
 
-`react`, `react-dom` 19 and `lucide-react` are peer dependencies. Until the package is on npm,
-install it from a local checkout with `npm install ../ui` (a `file:../ui` dependency). The full
-workflow, with Vite and Next.js examples, is in [docs/consuming.md](./docs/consuming.md).
+`react`, `react-dom` 19 and `lucide-react` are peer dependencies, and `@fontsource-variable/inter`
+an optional one. Until the package is on npm, install it from a local checkout with
+`npm install ../ui` (a `file:../ui` dependency). The full workflow, including how to keep a single
+copy of React with a linked checkout, with Vite and Next.js examples, is in
+[docs/consuming.md](./docs/consuming.md).
 
 ## Usage
 
@@ -61,6 +63,11 @@ Without Tailwind, import the compiled stylesheet and a variant once, at the root
 import '@eylulg/ui/styles.css';
 import '@eylulg/ui/themes/workspace.css';
 ```
+
+An app that styles itself and only wants the design tokens imports `@eylulg/ui/tokens.css` (custom
+properties on `:root` and `.dark-mode`, no preflight, no component styles) and a variant. To load
+Inter, install `@fontsource-variable/inter` and import `@eylulg/ui/fonts.css` first; every variant
+names Inter and falls back to the system font without it.
 
 Then use components from a per component entry point (or the index):
 
@@ -134,48 +141,53 @@ buttons place white text on it.
 
 ## Components
 
-| Component                     | Import                       | Built on (React Aria)                                        | Highlights                                                                    |
-| ----------------------------- | ---------------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------- |
-| `Avatar`                      | `@eylulg/ui/avatar`          | none (static, image fallback)                                | Image, initials fallback on error, status, sizes, `AvatarGroup` with overflow |
-| `Badge`                       | `@eylulg/ui/badge`           | none (static)                                                | gray, brand, success, warning, error; dot; icon                               |
-| `Breadcrumbs`                 | `@eylulg/ui/breadcrumbs`     | `Breadcrumbs`, `Breadcrumb`, `Link`                          | Nav landmark, current page, router links                                      |
-| `Button`                      | `@eylulg/ui/button`          | `Button`                                                     | primary, secondary, tertiary, destructive; sm, md, lg; loading; icons         |
-| `Card`                        | `@eylulg/ui/card`            | `Link`, `Button`                                             | Header, body, footer slots; interactive card as one link or button            |
-| `Checkbox`                    | `@eylulg/ui/checkbox`        | `Checkbox`                                                   | Indeterminate, hint, invalid                                                  |
-| `Combobox`                    | `@eylulg/ui/combobox`        | `ComboBox`, `Popover`, `ListBox`                             | Async loading, sections, empty state, descriptions                            |
-| `CommandPalette`              | `@eylulg/ui/command-palette` | `Autocomplete`, `SearchField`, `Menu`, `Modal`               | Search, groups, shortcuts, Cmd or Ctrl+K hook                                 |
-| `DatePicker, DateRangePicker` | `@eylulg/ui/date-picker`     | `DatePicker`, `DateRangePicker`, `Calendar`, `RangeCalendar` | Segmented input, calendar popover, hint, error                                |
-| `Dialog`                      | `@eylulg/ui/dialog`          | `Modal`, `Dialog`                                            | Focus trap and restore, `alertdialog` role, three sizes                       |
-| `Drawer`                      | `@eylulg/ui/drawer`          | `ModalOverlay`, `Modal`, `Dialog`                            | Left, right or bottom sheet; sticky footer; reduced motion                    |
-| `DropdownMenu`                | `@eylulg/ui/dropdown-menu`   | `MenuTrigger`, `Menu`, `MenuSection`, `SubmenuTrigger`       | Sections, checkbox and radio groups, shortcuts, danger items, submenus        |
-| `EmptyState`                  | `@eylulg/ui/empty-state`     | none (static)                                                | Icon, title, description, actions, two sizes                                  |
-| `IconButton`                  | `@eylulg/ui/icon-button`     | `Button`                                                     | Required `aria-label`, same variants, loading                                 |
-| `Input`                       | `@eylulg/ui/input`           | `TextField`, `Input`, `Group`                                | Label, hint, error, icons, two sizes                                          |
-| `Kbd`                         | `@eylulg/ui/kbd`             | none (static)                                                | Single keys or key combinations                                               |
-| `PageHeader`                  | `@eylulg/ui/page-header`     | none (static)                                                | Title, description, actions, breadcrumbs and meta slots                       |
-| `Pagination`                  | `@eylulg/ui/pagination`      | none (buttons or links)                                      | Ellipses, sibling count, `getPageHref` for link pagination                    |
-| `Popover`                     | `@eylulg/ui/popover`         | `Popover`, `Dialog`                                          | Non modal panel, optional arrow, title as name                                |
-| `ProgressBar`                 | `@eylulg/ui/progress-bar`    | `ProgressBar`                                                | Tones, sizes, value label, indeterminate                                      |
-| `RadioGroup`                  | `@eylulg/ui/radio-group`     | `RadioGroup`, `Radio`                                        | Vertical or horizontal, hint, error                                           |
-| `Select`                      | `@eylulg/ui/select`          | `Select`, `Popover`, `ListBox`                               | Static or dynamic items, typeahead, hint, error                               |
-| `Skeleton`                    | `@eylulg/ui/skeleton`        | none (static)                                                | text, circle, rect; multi line; reduced motion                                |
-| `Spinner`                     | `@eylulg/ui/spinner`         | none (static)                                                | Decorative or announced with a label, three sizes                             |
-| `Stat`                        | `@eylulg/ui/stat`            | none (static)                                                | Value, label, trend announced in words, `Sparkline`                           |
-| `Switch`                      | `@eylulg/ui/switch`          | `Switch`                                                     | Two sizes, hint                                                               |
-| `Table`                       | `@eylulg/ui/table`           | `Table`, `Column`, `Row`, `Cell`                             | Sortable columns, selection column, sticky header, empty state                |
-| `Tabs`                        | `@eylulg/ui/tabs`            | `Tabs`, `TabList`, `Tab`, `TabPanel`                         | Horizontal or vertical                                                        |
-| `Tag`                         | `@eylulg/ui/tag`             | `TagGroup`, `TagList`, `Tag`                                 | Removable, selectable                                                         |
-| `Textarea`                    | `@eylulg/ui/textarea`        | `TextField`, `TextArea`                                      | Label, hint, error, optional resize                                           |
-| `Toast`                       | `@eylulg/ui/toast`           | none (see note)                                              | `ToastProvider` and `useToast`, four variants, pause on hover and focus       |
-| `Tooltip`                     | `@eylulg/ui/tooltip`         | `TooltipTrigger`, `Tooltip`                                  | Hover and focus, Escape, four placements                                      |
-| `cx`                          | `@eylulg/ui/cx`              |                                                              | `tailwind-merge` based class joiner                                           |
+| Component                     | Import                         | Built on (React Aria)                                        | Highlights                                                                                                                                 |
+| ----------------------------- | ------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `Avatar`                      | `@eylulg/ui/avatar`            | none (static, image fallback)                                | Image, initials fallback on error (drawn with CSS, so a labelled button's name stays valid), status, sizes, `AvatarGroup`                  |
+| `Badge`                       | `@eylulg/ui/badge`             | none (static)                                                | gray, brand, success, warning, error, blue, purple, pink, orange, indigo (AA in every variant); dot; icon                                  |
+| `Breadcrumbs`                 | `@eylulg/ui/breadcrumbs`       | `Breadcrumbs`, `Breadcrumb`, `Link`                          | Nav landmark, current page, router links                                                                                                   |
+| `Button`                      | `@eylulg/ui/button`            | `Button`, `Link`                                             | primary, secondary, tertiary, destructive, destructive-outline; sm, md, lg; loading; icons; `href` renders a link; `buttonStyles()`; `ref` |
+| `Card`                        | `@eylulg/ui/card`              | `Link`, `Button`                                             | Header, body, footer slots; interactive card as one link or button; `padding="none"` for media; aria props reach the link                  |
+| `Checkbox`                    | `@eylulg/ui/checkbox`          | `Checkbox`                                                   | Indeterminate, hint, invalid                                                                                                               |
+| `CodeBlock`                   | `@eylulg/ui/code-block`        | none (static)                                                | `pre` in the data font, labelled and keyboard scrollable, optional copy button with a status                                               |
+| `Combobox`                    | `@eylulg/ui/combobox`          | `ComboBox`, `Popover`, `ListBox`                             | Async loading, sections, empty state, descriptions                                                                                         |
+| `CommandPalette`              | `@eylulg/ui/command-palette`   | `Autocomplete`, `SearchField`, `Menu`, `Modal`               | Search, groups, shortcuts, Cmd or Ctrl+K hook, nested pages (Backspace goes back), `onSearchChange`, `closeOnAction`                       |
+| `DatePicker, DateRangePicker` | `@eylulg/ui/date-picker`       | `DatePicker`, `DateRangePicker`, `Calendar`, `RangeCalendar` | Segmented input, calendar popover, hint, error                                                                                             |
+| `Dialog`                      | `@eylulg/ui/dialog`            | `Modal`, `Dialog`                                            | Focus trap and restore, `alertdialog` role, three sizes, `headerActions` slot                                                              |
+| `Drawer`                      | `@eylulg/ui/drawer`            | `ModalOverlay`, `Modal`, `Dialog`                            | Left, right or bottom sheet; sticky footer; reduced motion                                                                                 |
+| `DropdownMenu`                | `@eylulg/ui/dropdown-menu`     | `MenuTrigger`, `Menu`, `MenuSection`, `SubmenuTrigger`       | Sections, checkbox and radio groups, shortcuts, danger items, submenus                                                                     |
+| `EmptyState`                  | `@eylulg/ui/empty-state`       | none (static)                                                | Icon, title, description, actions, two sizes, heading level 1 to 4                                                                         |
+| `FileDropZone`                | `@eylulg/ui/file-drop-zone`    | `DropZone`, `FileTrigger`                                    | Drop or pick files, accepted types checked on both paths, `onSelect` and `onReject`                                                        |
+| `IconButton`                  | `@eylulg/ui/icon-button`       | `Button`                                                     | Required `aria-label`, same variants, loading                                                                                              |
+| `Input`                       | `@eylulg/ui/input`             | `TextField`, `Input`, `Group`                                | Label, hint, error, icons, two sizes, `ref` to the input element                                                                           |
+| `Kbd`                         | `@eylulg/ui/kbd`               | none (static)                                                | Single keys or key combinations                                                                                                            |
+| `PageHeader`                  | `@eylulg/ui/page-header`       | none (static)                                                | Title, description, actions, breadcrumbs, eyebrow and meta slots                                                                           |
+| `Pagination`                  | `@eylulg/ui/pagination`        | none (buttons or links)                                      | Ellipses, sibling count, `getPageHref` for link pagination                                                                                 |
+| `Popover`                     | `@eylulg/ui/popover`           | `Popover`, `Dialog`                                          | Non modal panel, optional arrow, title as name                                                                                             |
+| `ProgressBar`                 | `@eylulg/ui/progress-bar`      | `ProgressBar`                                                | Tones, sizes, value label, indeterminate                                                                                                   |
+| `RadioGroup`                  | `@eylulg/ui/radio-group`       | `RadioGroup`, `Radio`                                        | Vertical or horizontal, hint, error                                                                                                        |
+| `SegmentedControl`            | `@eylulg/ui/segmented-control` | `ToggleButtonGroup`, `ToggleButton`                          | One of a few views (list or board), icons, two sizes, controlled or not                                                                    |
+| `Select`                      | `@eylulg/ui/select`            | `Select`, `Popover`, `ListBox`                               | Static or dynamic items, typeahead, hint, error, option `description`, `onKeyDown`, `ref` to the trigger                                   |
+| `Skeleton`                    | `@eylulg/ui/skeleton`          | none (static)                                                | text, circle, rect; multi line; reduced motion                                                                                             |
+| `Spinner`                     | `@eylulg/ui/spinner`           | none (static)                                                | Decorative or announced with a label, three sizes                                                                                          |
+| `Stat`                        | `@eylulg/ui/stat`              | none (static)                                                | `dl` semantics, `sm` and `md`, detail line, trend announced in words, `Sparkline`                                                          |
+| `Switch`                      | `@eylulg/ui/switch`            | `Switch`                                                     | Two sizes, hint, `ref` to the input                                                                                                        |
+| `Table`                       | `@eylulg/ui/table`             | `Table`, `Column`, `Row`, `Cell`                             | Sortable columns, selection column, sticky header, empty state                                                                             |
+| `Tabs`                        | `@eylulg/ui/tabs`              | `Tabs`, `TabList`, `Tab`, `TabPanel`                         | Horizontal or vertical                                                                                                                     |
+| `Tag`                         | `@eylulg/ui/tag`               | `TagGroup`, `TagList`, `Tag`                                 | Removable, selectable                                                                                                                      |
+| `Textarea`                    | `@eylulg/ui/textarea`          | `TextField`, `TextArea`                                      | Label, hint, error, optional resize, `font="data"`, `autoCapitalize`, `autoCorrect`                                                        |
+| `Toast`                       | `@eylulg/ui/toast`             | none (see note)                                              | `ToastProvider` and `useToast`, four variants, `action` button, pause on hover and focus, Escape and focus return                          |
+| `Tooltip`                     | `@eylulg/ui/tooltip`           | `TooltipTrigger`, `Tooltip`                                  | Hover and focus, Escape, four placements                                                                                                   |
+| `cx`                          | `@eylulg/ui/cx`                |                                                              | `tailwind-merge` based class joiner; imports nothing else, so server components can use it                                                 |
 
 Icons come from [`lucide-react`](https://lucide.dev), which is a peer dependency; the library
 re-exports none. Components that take an icon accept a component such as `Plus`.
 
 **A note on Toast.** React Aria's toast API is still exported as `UNSTABLE_`, so Toast is a small
 in house implementation: an always present labelled region with a polite live list, and timers
-that pause while a toast is hovered or focused.
+that pause while a toast is hovered or focused. A toast can carry one `action` button, and when a
+toast that holds focus closes (action, dismiss button or Escape), focus goes back to the control the
+user tabbed in from.
 
 **A note on Card.** An interactive card (`href` or `onPress`) stretches its title link over the
 whole card. Actions in `CardHeader` and `CardFooter` stay separate tab stops above it; a control
@@ -185,16 +197,17 @@ inside `CardBody` needs `relative z-10` to be clickable.
 
 `@eylulg/ui/chrome` holds the parts every project shares:
 
-| Export            | What it does                                                                                             | Server safe |
-| ----------------- | -------------------------------------------------------------------------------------------------------- | ----------- |
-| `AppShell`        | Skip link, header, optional sidebar, main landmark, footer; 16px gutter at 375px                         | yes         |
-| `TopNav`          | Logo and product name, links via any `LinkComponent`, actions slot, mobile menu in a Drawer              | client      |
-| `SidebarNav`      | Sections, icons, collapsible groups, arrow keys, Home and End, `aria-current`                            | client      |
-| `ThemeToggle`     | Light, dark and system; writes `dark-mode` on `<html>`; persists in localStorage                         | client      |
-| `themeInitScript` | Inline `<head>` script that applies the stored theme before first paint (also `@eylulg/ui/theme-script`) | yes         |
-| `ProjectSwitcher` | DropdownMenu of the projects, current one marked                                                         | client      |
-| `SiteFooter`      | "Part of Eylül Güneş's projects", project links, GitHub, LinkedIn, Built with @eylulg/ui                 | yes         |
-| `BrandMark`       | The shared monogram, filled with the active brand colour                                                 | yes         |
+| Export            | What it does                                                                                                                                                      | Server safe |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `AppShell`        | Skip link, header, optional sidebar, main landmark, footer; 16px gutter at 375px; `maxWidth` and `contentClassName`                                               | yes         |
+| `TopNav`          | Logo and product name, links via any `LinkComponent`, `center`, `actions` and `compactActions` slots, `labels`, mobile menu in a Drawer that loads on first press | client      |
+| `SidebarNav`      | Sections, icons, collapsible groups, an optional action per item, arrow keys, Home and End, `aria-current`                                                        | client      |
+| `ThemeToggle`     | Light, dark and system, or one icon button with `compact`; `labels`; writes `dark-mode` on `<html>`; persists in localStorage                                     | client      |
+| `useTheme`        | `{ theme, resolved, setTheme }` for a command palette or settings page; guards `matchMedia`                                                                       | client      |
+| `themeInitScript` | Inline `<head>` script that applies the stored theme before first paint (also `@eylulg/ui/theme-script`)                                                          | yes         |
+| `ProjectSwitcher` | DropdownMenu of the projects, current one marked                                                                                                                  | client      |
+| `SiteFooter`      | "Part of Eylül Güneş's projects", project links, GitHub, LinkedIn, Built with @eylulg/ui; `labels`, `children` for attributions                                   | yes         |
+| `BrandMark`       | The shared monogram, filled with the active brand colour                                                                                                          | yes         |
 
 The project list lives in `@eylulg/ui/projects` (`id`, `name`, `description`, `url`,
 `plannedUrl`, `variant`, `repoUrl`). Projects without a deployment have `url: null` and a
@@ -202,7 +215,9 @@ Vercel style `plannedUrl` placeholder, and link to their repository until they g
 URLs change when the custom domain arrives.** Pass `projects` to `ProjectSwitcher` or
 `SiteFooter` to override the list.
 
-In Next.js, server components can import the server safe parts directly. Render `TopNav` from a
+Every chrome part takes a `labels` object for translation, and `useTheme()` lets the app set the
+theme from code. `TopNav` loads its mobile menu on first press, so a page that never opens it pays
+about 1.6 kB gzip for the bar. In Next.js, server components can import the server safe parts directly. Render `TopNav` from a
 small `'use client'` file when you pass `next/link` as `LinkComponent`, because a server component
 cannot pass a function to a client component. See [docs/consuming.md](./docs/consuming.md).
 
