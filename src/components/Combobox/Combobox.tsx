@@ -40,7 +40,7 @@ const field =
 const input =
   'min-w-0 flex-1 bg-transparent text-md text-primary outline-none placeholder:text-placeholder disabled:cursor-not-allowed disabled:text-disabled';
 const toggle =
-  'flex size-control-xs shrink-0 cursor-pointer items-center justify-center rounded-sm text-fg-tertiary outline-none data-focus-visible:outline-2 data-focus-visible:outline-focus data-hovered:bg-hover';
+  'flex size-control-xs shrink-0 cursor-pointer items-center justify-center rounded-sm text-fg-tertiary outline-none data-focus-visible:outline-2 data-focus-visible:outline-solid data-focus-visible:outline-focus data-hovered:bg-hover';
 const emptyText = 'px-item-x py-item-y text-sm text-tertiary';
 
 /**

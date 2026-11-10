@@ -44,6 +44,8 @@ jobs:
         run: npm run size
       - name: Build Storybook
         run: npm run build-storybook
+      - name: Focus ring in Chromium
+        run: npx playwright install --with-deps chromium && npm run check:focus
 
   secrets:
     name: Secret scan

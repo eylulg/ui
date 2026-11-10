@@ -40,7 +40,7 @@ const headerCell =
 const sortableHeader = 'cursor-pointer data-hovered:text-secondary';
 const bodyCell = 'border-b border-subtle px-cell-x py-cell-y font-data text-secondary';
 const rowBase =
-  'cursor-default outline-none data-hovered:bg-hover data-selected:bg-brand-subtle data-focus-visible:outline-2 data-focus-visible:-outline-offset-2 data-focus-visible:outline-focus';
+  'cursor-default outline-none data-hovered:bg-hover data-selected:bg-brand-subtle data-focus-visible:outline-2 data-focus-visible:outline-solid data-focus-visible:-outline-offset-2 data-focus-visible:outline-focus';
 const selectionCell = 'w-10 px-cell-x';
 const emptyState = 'px-cell-x py-10 text-center text-sm text-tertiary';
 

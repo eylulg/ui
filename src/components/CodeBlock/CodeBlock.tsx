@@ -23,7 +23,7 @@ const copiedForMs = 2000;
 
 const frame = 'relative rounded-lg border border-subtle bg-secondary';
 const pre =
-  'overflow-auto rounded-lg p-4 font-data text-sm text-primary outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus';
+  'overflow-auto rounded-lg p-4 font-data text-sm text-primary outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:-outline-offset-2 focus-visible:outline-focus';
 
 /**
  * Preformatted text in the theme's data font, for generated output, commands

@@ -224,6 +224,7 @@
     "build:css": "tailwindcss -i src/styles/index.css -o dist/styles.css --minify && cp src/styles/theme.css src/styles/fonts.css src/styles/reset.css dist/ && jiti scripts/build-tokens.ts && mkdir -p dist/themes && cp src/styles/themes/*.css dist/themes/",
     "themes": "jiti scripts/generate-themes.ts",
     "contrast": "jiti scripts/contrast.ts",
+    "check:focus": "jiti scripts/check-focus-ring.ts",
     "knip": "knip",
     "prepare": "husky"
   },
@@ -274,6 +275,7 @@
     "knip": "^6.44.2",
     "lint-staged": "^17.6.0",
     "lucide-react": "^1.70.0",
+    "playwright": "^1.65.0",
     "prettier": "^3.9.10",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "react": "^19.3.1",

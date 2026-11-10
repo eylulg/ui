@@ -4,7 +4,7 @@ export const popoverSurface =
 
 /** A row in a menu, listbox or command list. Sized by the density tokens. */
 export const listItem =
-  'flex cursor-pointer items-center gap-2 rounded-sm px-item-x py-item-y text-sm text-primary outline-none select-none data-focused:bg-hover data-focus-visible:outline-2 data-focus-visible:-outline-offset-2 data-focus-visible:outline-focus data-pressed:bg-tertiary data-disabled:cursor-not-allowed data-disabled:text-disabled';
+  'flex cursor-pointer items-center gap-2 rounded-sm px-item-x py-item-y text-sm text-primary outline-none select-none data-focused:bg-hover data-focus-visible:outline-2 data-focus-visible:outline-solid data-focus-visible:-outline-offset-2 data-focus-visible:outline-focus data-pressed:bg-tertiary data-disabled:cursor-not-allowed data-disabled:text-disabled';
 
 /** Small uppercase heading above a group of list items. */
 export const listSectionHeader = 'px-item-x pt-2 pb-1 text-xs font-semibold text-tertiary';
