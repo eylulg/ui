@@ -171,6 +171,11 @@
   --text-color-error: var(--ui-text-error);
   --text-color-success: var(--ui-text-success);
   --text-color-warning: var(--ui-text-warning);
+  --text-color-blue: var(--ui-text-blue);
+  --text-color-purple: var(--ui-text-purple);
+  --text-color-pink: var(--ui-text-pink);
+  --text-color-orange: var(--ui-text-orange);
+  --text-color-indigo: var(--ui-text-indigo);
 
   --background-color-primary: var(--ui-bg-primary);
   --background-color-secondary: var(--ui-bg-secondary);
@@ -187,6 +192,11 @@
   --background-color-error-subtle: var(--ui-bg-error-subtle);
   --background-color-success-subtle: var(--ui-bg-success-subtle);
   --background-color-warning-subtle: var(--ui-bg-warning-subtle);
+  --background-color-blue-subtle: var(--ui-bg-blue-subtle);
+  --background-color-purple-subtle: var(--ui-bg-purple-subtle);
+  --background-color-pink-subtle: var(--ui-bg-pink-subtle);
+  --background-color-orange-subtle: var(--ui-bg-orange-subtle);
+  --background-color-indigo-subtle: var(--ui-bg-indigo-subtle);
   --background-color-hover: var(--ui-bg-hover);
 
   --border-color-default: var(--ui-border-default);
@@ -200,6 +210,11 @@
   --ring-color-control: var(--ui-border-control);
   --ring-color-focus: var(--ui-border-focus);
   --ring-color-error: var(--ui-border-error);
+  --ring-color-blue: var(--ui-border-blue);
+  --ring-color-purple: var(--ui-border-purple);
+  --ring-color-pink: var(--ui-border-pink);
+  --ring-color-orange: var(--ui-border-orange);
+  --ring-color-indigo: var(--ui-border-indigo);
   --outline-color-focus: var(--ui-border-focus);
 
   --color-fg-primary: var(--ui-fg-primary);
@@ -211,6 +226,11 @@
   --color-fg-error: var(--ui-fg-error);
   --color-fg-success: var(--ui-fg-success);
   --color-fg-warning: var(--ui-fg-warning);
+  --color-fg-blue: var(--ui-fg-blue);
+  --color-fg-purple: var(--ui-fg-purple);
+  --color-fg-pink: var(--ui-fg-pink);
+  --color-fg-orange: var(--ui-fg-orange);
+  --color-fg-indigo: var(--ui-fg-indigo);
 
   /* Font used for data: table cells, stats, code like values. */
   --font-data: var(--ui-font-data);
@@ -311,6 +331,28 @@
     --ui-fg-error: var(--color-error-600);
     --ui-fg-success: var(--color-success-600);
     --ui-fg-warning: var(--color-warning-600);
+
+    /* Extra badge hues. Fixed across variants; the contrast check covers each one. */
+    --ui-bg-blue-subtle: #eff6ff;
+    --ui-text-blue: #1d4ed8;
+    --ui-border-blue: #bfdbfe;
+    --ui-fg-blue: #2563eb;
+    --ui-bg-purple-subtle: #faf5ff;
+    --ui-text-purple: #7e22ce;
+    --ui-border-purple: #e9d5ff;
+    --ui-fg-purple: #9333ea;
+    --ui-bg-pink-subtle: #fdf2f8;
+    --ui-text-pink: #be185d;
+    --ui-border-pink: #fbcfe8;
+    --ui-fg-pink: #db2777;
+    --ui-bg-orange-subtle: #fff7ed;
+    --ui-text-orange: #c2410c;
+    --ui-border-orange: #fed7aa;
+    --ui-fg-orange: #ea580c;
+    --ui-bg-indigo-subtle: #eef2ff;
+    --ui-text-indigo: #4338ca;
+    --ui-border-indigo: #c7d2fe;
+    --ui-fg-indigo: #4f46e5;
   }
 
   .dark,
@@ -366,5 +408,26 @@
     --ui-fg-error: var(--color-error-400);
     --ui-fg-success: var(--color-success-400);
     --ui-fg-warning: var(--color-warning-400);
+
+    --ui-bg-blue-subtle: color-mix(in oklab, #2563eb 18%, transparent);
+    --ui-text-blue: #93c5fd;
+    --ui-border-blue: #1e40af;
+    --ui-fg-blue: #60a5fa;
+    --ui-bg-purple-subtle: color-mix(in oklab, #9333ea 18%, transparent);
+    --ui-text-purple: #d8b4fe;
+    --ui-border-purple: #6b21a8;
+    --ui-fg-purple: #c084fc;
+    --ui-bg-pink-subtle: color-mix(in oklab, #db2777 18%, transparent);
+    --ui-text-pink: #f9a8d4;
+    --ui-border-pink: #9d174d;
+    --ui-fg-pink: #f472b6;
+    --ui-bg-orange-subtle: color-mix(in oklab, #ea580c 18%, transparent);
+    --ui-text-orange: #fdba74;
+    --ui-border-orange: #9a3412;
+    --ui-fg-orange: #fb923c;
+    --ui-bg-indigo-subtle: color-mix(in oklab, #4f46e5 18%, transparent);
+    --ui-text-indigo: #a5b4fc;
+    --ui-border-indigo: #3730a3;
+    --ui-fg-indigo: #818cf8;
   }
 }

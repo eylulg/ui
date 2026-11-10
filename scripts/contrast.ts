@@ -24,6 +24,9 @@ export interface ContrastResult {
   pass: boolean;
 }
 
+/** Badge hues beyond brand, success, warning and error. */
+const extraHues = ['blue', 'purple', 'pink', 'orange', 'indigo'];
+
 /** Foreground token, the surfaces it must work on, and the minimum ratio. */
 export const pairs: Array<{ fg: string; bg: string[]; min: number }> = [
   {
@@ -50,6 +53,14 @@ export const pairs: Array<{ fg: string; bg: string[]; min: number }> = [
   { fg: 'text-error', bg: ['bg-primary', 'bg-elevated', 'bg-error-subtle'], min: 4.5 },
   { fg: 'text-success', bg: ['bg-primary', 'bg-elevated', 'bg-success-subtle'], min: 4.5 },
   { fg: 'text-warning', bg: ['bg-primary', 'bg-elevated', 'bg-warning-subtle'], min: 4.5 },
+  ...extraHues.flatMap((hue) => [
+    {
+      fg: `text-${hue}`,
+      bg: ['bg-primary', 'bg-elevated', `bg-${hue}-subtle`],
+      min: 4.5,
+    },
+    { fg: `fg-${hue}`, bg: ['bg-primary', 'bg-elevated'], min: 3 },
+  ]),
   { fg: 'text-on-solid', bg: ['bg-brand-solid', 'bg-error-solid'], min: 4.5 },
   { fg: 'text-inverse', bg: ['bg-inverse'], min: 4.5 },
   // Non text: icons, control outlines and focus rings need 3:1 (WCAG 1.4.11).
@@ -93,13 +104,16 @@ function palette(variant: VariantName | 'base'): Record<string, string> {
 function resolveValue(value: string, colors: Record<string, string>, backdrop?: Color): Color {
   const ref = /^var\(--color-([a-z]+(?:-\d+)?)\)$/.exec(value);
   if (ref) return resolveValue(colors[ref[1] ?? ''] ?? '', colors);
-  const mix = /^color-mix\(in oklab, var\(--color-([a-z]+-\d+)\) (\d+)%, transparent\)$/.exec(
-    value,
-  );
+  const mix =
+    /^color-mix\(in oklab, (?:var\(--color-([a-z]+-\d+)\)|(#[0-9a-f]{6})) (\d+)%, transparent\)$/i.exec(
+      value,
+    );
   if (mix) {
     if (!backdrop) throw new Error(`A translucent token needs a backdrop: ${value}`);
-    const top = resolveValue(colors[mix[1] ?? ''] ?? '', colors);
-    return interpolate([backdrop, top], 'oklab')(Number(mix[2]) / 100);
+    const top = mix[2]
+      ? resolveValue(mix[2], colors)
+      : resolveValue(colors[mix[1] ?? ''] ?? '', colors);
+    return interpolate([backdrop, top], 'oklab')(Number(mix[3]) / 100);
   }
   const color = parse(value);
   if (!color) throw new Error(`Cannot parse colour "${value}"`);

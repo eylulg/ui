@@ -7,7 +7,21 @@ const meta = {
   component: Badge,
   args: { children: 'Badge' },
   argTypes: {
-    color: { control: 'inline-radio', options: ['gray', 'brand', 'success', 'warning', 'error'] },
+    color: {
+      control: 'inline-radio',
+      options: [
+        'gray',
+        'brand',
+        'success',
+        'warning',
+        'error',
+        'blue',
+        'purple',
+        'pink',
+        'orange',
+        'indigo',
+      ],
+    },
     size: { control: 'inline-radio', options: ['sm', 'md'] },
     icon: { control: false },
   },
@@ -22,5 +36,11 @@ export const Success: Story = { args: { color: 'success', children: 'Paid' } };
 export const Warning: Story = { args: { color: 'warning', children: 'Pending' } };
 export const ErrorColor: Story = { name: 'Error', args: { color: 'error', children: 'Failed' } };
 export const Small: Story = { args: { size: 'sm' } };
+export const Blue: Story = { args: { color: 'blue', children: 'Backlog' } };
+export const Purple: Story = { args: { color: 'purple', children: 'In review' } };
+export const Pink: Story = { args: { color: 'pink', children: 'Design' } };
+export const Orange: Story = { args: { color: 'orange', children: 'Blocked' } };
+export const Indigo: Story = { args: { color: 'indigo', children: 'Planned' } };
+
 export const WithDot: Story = { args: { color: 'success', dot: true, children: 'Online' } };
 export const WithIcon: Story = { args: { color: 'brand', icon: Star, children: 'Featured' } };

@@ -2,7 +2,17 @@ import type { HTMLAttributes, ReactNode } from 'react';
 import type { IconComponent } from '../../internal/types';
 import { cx } from '../../utils/cx';
 
-export type BadgeColor = 'gray' | 'brand' | 'success' | 'warning' | 'error';
+export type BadgeColor =
+  | 'gray'
+  | 'brand'
+  | 'success'
+  | 'warning'
+  | 'error'
+  | 'blue'
+  | 'purple'
+  | 'pink'
+  | 'orange'
+  | 'indigo';
 export type BadgeSize = 'sm' | 'md';
 
 export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
@@ -32,6 +42,11 @@ const colors: Record<BadgeColor, { badge: string; dot: string }> = {
     badge: 'bg-error-subtle text-error ring-error-200 dark:ring-error-800',
     dot: 'bg-fg-error',
   },
+  blue: { badge: 'bg-blue-subtle text-blue ring-blue', dot: 'bg-fg-blue' },
+  purple: { badge: 'bg-purple-subtle text-purple ring-purple', dot: 'bg-fg-purple' },
+  pink: { badge: 'bg-pink-subtle text-pink ring-pink', dot: 'bg-fg-pink' },
+  orange: { badge: 'bg-orange-subtle text-orange ring-orange', dot: 'bg-fg-orange' },
+  indigo: { badge: 'bg-indigo-subtle text-indigo ring-indigo', dot: 'bg-fg-indigo' },
 };
 
 const sizes: Record<BadgeSize, string> = {
@@ -39,7 +54,12 @@ const sizes: Record<BadgeSize, string> = {
   md: 'h-6 gap-1.5 px-2.5 text-sm',
 };
 
-/** A static, non-interactive status label. */
+/**
+ * A static, non-interactive status label. Colour never carries the meaning
+ * alone: the text says it. Blue, purple, pink, orange and indigo are
+ * categorical hues for apps with many statuses; the contrast check covers
+ * each of them in light and dark.
+ */
 export function Badge({
   color = 'gray',
   size = 'md',
