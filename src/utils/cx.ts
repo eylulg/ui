@@ -1,4 +1,3 @@
-import { composeRenderProps } from 'react-aria-components';
 import { twMerge, type ClassNameValue } from 'tailwind-merge';
 
 /**
@@ -6,21 +5,29 @@ import { twMerge, type ClassNameValue } from 'tailwind-merge';
  * Falsy values are ignored, which keeps conditional classes readable:
  *
  *   cx('px-4 py-2', isLarge && 'px-6', className)
+ *
+ * This module imports nothing but tailwind-merge, so it is safe to use in a
+ * React Server Component.
  */
 export function cx(...inputs: ClassNameValue[]): string {
   return twMerge(...inputs);
 }
 
+type ClassNameProp<T> =
+  string | ((values: T & { defaultClassName: string | undefined }) => string) | undefined;
+
 /**
  * Merges a component's own classes with a consumer `className` that may be a
- * string or a React Aria render-prop function.
+ * string or a React Aria render-prop function. Same result as React Aria's
+ * `composeRenderProps`, without importing it.
  */
 export function composeClassName<T>(
-  className:
-    string | ((values: T & { defaultClassName: string | undefined }) => string) | undefined,
+  className: ClassNameProp<T>,
   base: string | ((values: T) => string),
-): string | ((values: T & { defaultClassName: string | undefined }) => string) {
-  return composeRenderProps(className, (consumer, values) =>
-    cx(typeof base === 'function' ? base(values) : base, consumer),
-  );
+): (values: T & { defaultClassName: string | undefined }) => string {
+  return (values) =>
+    cx(
+      typeof base === 'function' ? base(values) : base,
+      typeof className === 'function' ? className(values) : className,
+    );
 }
