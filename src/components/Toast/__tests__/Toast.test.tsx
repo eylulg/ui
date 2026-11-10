@@ -41,7 +41,12 @@ function AllVariants() {
 
   function handleShowAll() {
     for (const variant of variants) {
-      toast({ title: `${variant} title`, description: 'Details', variant });
+      toast({
+        title: `${variant} title`,
+        description: 'Details',
+        variant,
+        action: variant === 'error' ? { label: 'Retry', onPress: () => {} } : undefined,
+      });
     }
   }
 
@@ -83,6 +88,35 @@ describe('Toast', () => {
     await user.click(screen.getByRole('button', { name: 'Dismiss notification' }));
 
     expect(screen.queryByText('Saved')).not.toBeInTheDocument();
+  });
+
+  it('runs the action, closes the toast and returns focus to the control the user came from', async () => {
+    const user = userEvent.setup();
+    const onPress = vi.fn();
+    render(<Example action={{ label: 'Undo', onPress }} duration={60_000} />);
+    await user.click(screen.getByRole('button', { name: 'Notify' }));
+
+    await user.tab();
+    await user.tab();
+    expect(screen.getByRole('button', { name: 'Undo' })).toHaveFocus();
+    await user.keyboard('{Enter}');
+
+    expect(onPress).toHaveBeenCalledTimes(1);
+    expect(screen.queryByText('Saved')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Clear all' })).toHaveFocus();
+  });
+
+  it('closes a focused toast with Escape and returns focus', async () => {
+    const user = userEvent.setup();
+    render(<Example duration={60_000} />);
+    await user.click(screen.getByRole('button', { name: 'Notify' }));
+    await user.tab();
+    await user.tab();
+
+    await user.keyboard('{Escape}');
+
+    expect(screen.queryByText('Saved')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Clear all' })).toHaveFocus();
   });
 
   it('dismisses every toast with dismiss()', async () => {

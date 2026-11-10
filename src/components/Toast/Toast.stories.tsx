@@ -20,6 +20,25 @@ function Trigger({ variant, sticky }: { variant: ToastVariant; sticky?: boolean 
   );
 }
 
+function UndoTrigger() {
+  const { toast } = useToast();
+
+  function handleDelete() {
+    toast({
+      title: 'Issue deleted',
+      description: 'It stays in the trash for 30 days.',
+      variant: 'success',
+      action: { label: 'Undo', onPress: () => {} },
+    });
+  }
+
+  return (
+    <Button variant="secondary" onPress={handleDelete}>
+      Delete issue
+    </Button>
+  );
+}
+
 const meta = {
   title: 'Components/Toast',
   component: ToastProvider,
@@ -46,3 +65,12 @@ export const Success = make('success');
 export const Warning = make('warning');
 export const ErrorToast: Story = { ...make('error'), name: 'Error' };
 export const Persistent: Story = { ...make('info', true), name: 'Persistent (no auto close)' };
+
+/** An action button. Press it or Escape and focus returns to the control the user tabbed in from. */
+export const WithAction: Story = {
+  render: ({ placement, duration }) => (
+    <ToastProvider placement={placement as ToastPlacement} duration={duration}>
+      <UndoTrigger />
+    </ToastProvider>
+  ),
+};
