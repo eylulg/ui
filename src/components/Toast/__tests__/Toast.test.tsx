@@ -77,7 +77,7 @@ describe('Toast', () => {
 
     await user.click(screen.getByRole('button', { name: 'Notify' }));
 
-    expect(screen.getByText('Your changes are live.')).toBeInTheDocument();
+    expect(await screen.findByText('Your changes are live.')).toBeInTheDocument();
   });
 
   it('dismisses a toast with its close button', async () => {
@@ -85,7 +85,7 @@ describe('Toast', () => {
     render(<Example />);
     await user.click(screen.getByRole('button', { name: 'Notify' }));
 
-    await user.click(screen.getByRole('button', { name: 'Dismiss notification' }));
+    await user.click(await screen.findByRole('button', { name: 'Dismiss notification' }));
 
     expect(screen.queryByText('Saved')).not.toBeInTheDocument();
   });
@@ -95,6 +95,7 @@ describe('Toast', () => {
     const onPress = vi.fn();
     render(<Example action={{ label: 'Undo', onPress }} duration={60_000} />);
     await user.click(screen.getByRole('button', { name: 'Notify' }));
+    await screen.findByText('Saved');
 
     await user.tab();
     await user.tab();
@@ -110,6 +111,7 @@ describe('Toast', () => {
     const user = userEvent.setup();
     render(<Example duration={60_000} />);
     await user.click(screen.getByRole('button', { name: 'Notify' }));
+    await screen.findByText('Saved');
     await user.tab();
     await user.tab();
 
@@ -124,6 +126,7 @@ describe('Toast', () => {
     render(<Example />);
     await user.click(screen.getByRole('button', { name: 'Notify' }));
     await user.click(screen.getByRole('button', { name: 'Notify' }));
+    await screen.findAllByText('Saved');
 
     await user.click(screen.getByRole('button', { name: 'Clear all' }));
 
@@ -135,7 +138,7 @@ describe('Toast', () => {
     { duration: null, visible: true },
   ])(
     'with duration $duration is visible after the default delay: $visible',
-    ({ duration, visible }) => {
+    async ({ duration, visible }) => {
       vi.useFakeTimers();
       render(
         <ToastProvider duration={1000}>
@@ -143,6 +146,7 @@ describe('Toast', () => {
         </ToastProvider>,
       );
       notify();
+      await vi.waitFor(() => expect(screen.getByText('Saved')).toBeInTheDocument());
 
       act(() => {
         vi.advanceTimersByTime(1001);
@@ -167,6 +171,7 @@ describe('Toast', () => {
       ),
       async () => {
         await userEvent.setup().click(screen.getByRole('button', { name: 'Show all' }));
+        await screen.findByText('error title');
       },
     );
   });

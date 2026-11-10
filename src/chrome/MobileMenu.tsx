@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Drawer } from '../components/Drawer/Drawer';
+import { DrawerOverlay } from '../components/Drawer/DrawerOverlay';
 import type { LinkComponent, NavLink } from './types';
 
 export interface MobileMenuProps {
@@ -40,7 +40,7 @@ export function MobileMenu({
   mobileMenu,
 }: MobileMenuProps) {
   return (
-    <Drawer
+    <DrawerOverlay
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       title={productName}
@@ -73,6 +73,6 @@ export function MobileMenu({
           {actions && <div className={mobileActions}>{actions}</div>}
         </div>
       )}
-    </Drawer>
+    </DrawerOverlay>
   );
 }

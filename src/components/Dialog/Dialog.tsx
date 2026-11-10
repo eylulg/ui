@@ -1,15 +1,11 @@
-import { X } from 'lucide-react';
-import { useId, type ReactNode } from 'react';
+import { useContext, type ReactNode } from 'react';
 import {
-  Dialog as AriaDialog,
-  DialogTrigger,
-  Heading,
-  Modal,
-  ModalOverlay,
+  OverlayTriggerStateContext,
+  type DialogTriggerProps,
   type ModalOverlayProps,
 } from 'react-aria-components';
-import { cx } from '../../utils/cx';
-import { IconButton } from '../IconButton/IconButton';
+import { LazyDialogTrigger } from '../../internal/LazyDialogTrigger';
+import { createLazyModule } from '../../internal/lazyModule';
 
 export type DialogSize = 'sm' | 'md' | 'lg';
 
@@ -35,90 +31,25 @@ export interface DialogProps extends Pick<
   className?: string;
 }
 
-const sizes: Record<DialogSize, string> = {
-  sm: 'max-w-sm',
-  md: 'max-w-lg',
-  lg: 'max-w-2xl',
-};
+const overlay = /*#__PURE__*/ createLazyModule(() => import('./DialogOverlay'));
 
 /**
  * A modal dialog. Focus moves into the dialog when it opens, is trapped while
  * open and returns to the trigger on close. Place it inside a DialogTrigger
  * next to the button that opens it, or control it with isOpen.
+ *
+ * The modal's code loads the first time it opens, or earlier when the trigger
+ * is hovered or focused, so the very first open can take a moment on a slow
+ * connection.
  */
-export function Dialog({
-  title,
-  description,
-  children,
-  footer,
-  headerActions,
-  size = 'md',
-  role = 'dialog',
-  hideCloseButton = false,
-  closeLabel = 'Close',
-  isDismissable = true,
-  className,
-  ...overlayProps
-}: DialogProps) {
-  const descriptionId = useId();
-  return (
-    <ModalOverlay
-      {...overlayProps}
-      isDismissable={isDismissable}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-overlay p-4"
-    >
-      <Modal className={cx('w-full', sizes[size])}>
-        <AriaDialog
-          role={role}
-          aria-describedby={description ? descriptionId : undefined}
-          className={cx(
-            'flex max-h-[85vh] flex-col gap-4 overflow-auto rounded-xl bg-elevated p-card text-primary shadow-xl outline-none',
-            className,
-          )}
-        >
-          {({ close }) => (
-            <>
-              <div className="flex items-start gap-2">
-                <div className="flex min-w-0 flex-1 flex-col gap-1">
-                  <Heading slot="title" className="font-display text-lg font-semibold text-primary">
-                    {title}
-                  </Heading>
-                  {description && (
-                    <p id={descriptionId} className="text-sm text-tertiary">
-                      {description}
-                    </p>
-                  )}
-                </div>
-                {headerActions && (
-                  <div className="flex shrink-0 items-center gap-1">{headerActions}</div>
-                )}
-                {!hideCloseButton && (
-                  <IconButton
-                    icon={X}
-                    aria-label={closeLabel}
-                    variant="tertiary"
-                    size="sm"
-                    onPress={close}
-                    className="-mt-1 -mr-1 shrink-0"
-                  />
-                )}
-              </div>
-              {children && (
-                <div className="text-sm text-secondary">
-                  {typeof children === 'function' ? children({ close }) : children}
-                </div>
-              )}
-              {footer && (
-                <div className="mt-2 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-                  {typeof footer === 'function' ? footer({ close }) : footer}
-                </div>
-              )}
-            </>
-          )}
-        </AriaDialog>
-      </Modal>
-    </ModalOverlay>
-  );
+export function Dialog(props: DialogProps) {
+  const triggerState = useContext(OverlayTriggerStateContext);
+  const isWanted = props.isOpen ?? props.defaultOpen ?? triggerState?.isOpen ?? false;
+  const loaded = overlay.useModule(isWanted);
+  return loaded ? <loaded.DialogOverlay {...props} /> : null;
 }
 
-export { DialogTrigger };
+/** Wraps a trigger button and its Dialog, and preloads the dialog on hover or focus of the trigger. */
+export function DialogTrigger(props: DialogTriggerProps) {
+  return <LazyDialogTrigger module={overlay} {...props} />;
+}
