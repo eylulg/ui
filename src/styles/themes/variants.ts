@@ -215,8 +215,8 @@ export const variantSpecs: Record<VariantName, VariantSpec> = {
   assistant: {
     name: 'assistant',
     project: 'Assistant',
-    description: 'A conversational assistant. Coral brand, warm grays, large radius.',
-    brand: { name: 'coral', hue: 35, chroma: 0.2 },
+    description: 'A conversational assistant. Magenta brand, warm grays, large radius.',
+    brand: { name: 'magenta', hue: 330, chroma: 0.2 },
     gray: grays.warm,
     radius: 'large',
     density: 'comfortable',

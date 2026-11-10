@@ -104,17 +104,17 @@ variant overrides only the brand and gray scales, `--radius-*`, `--density-*`, `
 (Inter everywhere) and `--font-mono` (a system monospace stack). Import exactly one, after
 `theme.css`.
 
-| Variant          | Import                                 | Project               | Brand  | Gray         | Radius | Density     | Data font |
-| ---------------- | -------------------------------------- | --------------------- | ------ | ------------ | ------ | ----------- | --------- |
-| `portfolio`      | `@eylulg/ui/themes/portfolio.css`      | Portfolio             | indigo | cool (slate) | large  | comfortable | Inter     |
-| `workspace`      | `@eylulg/ui/themes/workspace.css`      | Workspace             | blue   | neutral      | small  | compact     | Inter     |
-| `review`         | `@eylulg/ui/themes/review.css`         | Review Companion      | teal   | cool (slate) | medium | comfortable | monospace |
-| `control-room`   | `@eylulg/ui/themes/control-room.css`   | Agent control room    | amber  | zinc         | small  | compact     | Inter     |
-| `watchlist`      | `@eylulg/ui/themes/watchlist.css`      | Watchlist             | rose   | warm (stone) | large  | comfortable | Inter     |
-| `tokens`         | `@eylulg/ui/themes/tokens.css`         | Tokens to Tailwind    | violet | neutral      | medium | comfortable | Inter     |
-| `plain-language` | `@eylulg/ui/themes/plain-language.css` | Plain Language add-in | cyan   | cool (slate) | medium | compact     | Inter     |
-| `sudoku`         | `@eylulg/ui/themes/sudoku.css`         | Sudoku                | green  | neutral      | medium | comfortable | Inter     |
-| `assistant`      | `@eylulg/ui/themes/assistant.css`      | Assistant             | coral  | warm (stone) | large  | comfortable | Inter     |
+| Variant          | Import                                 | Project               | Brand   | Gray         | Radius | Density     | Data font |
+| ---------------- | -------------------------------------- | --------------------- | ------- | ------------ | ------ | ----------- | --------- |
+| `portfolio`      | `@eylulg/ui/themes/portfolio.css`      | Portfolio             | indigo  | cool (slate) | large  | comfortable | Inter     |
+| `workspace`      | `@eylulg/ui/themes/workspace.css`      | Workspace             | blue    | neutral      | small  | compact     | Inter     |
+| `review`         | `@eylulg/ui/themes/review.css`         | Review Companion      | teal    | cool (slate) | medium | comfortable | monospace |
+| `control-room`   | `@eylulg/ui/themes/control-room.css`   | Agent control room    | amber   | zinc         | small  | compact     | Inter     |
+| `watchlist`      | `@eylulg/ui/themes/watchlist.css`      | Watchlist             | rose    | warm (stone) | large  | comfortable | Inter     |
+| `tokens`         | `@eylulg/ui/themes/tokens.css`         | Tokens to Tailwind    | violet  | neutral      | medium | comfortable | Inter     |
+| `plain-language` | `@eylulg/ui/themes/plain-language.css` | Plain Language add-in | cyan    | cool (slate) | medium | compact     | Inter     |
+| `sudoku`         | `@eylulg/ui/themes/sudoku.css`         | Sudoku                | green   | neutral      | medium | comfortable | Inter     |
+| `assistant`      | `@eylulg/ui/themes/assistant.css`      | Assistant             | magenta | warm (stone) | large  | comfortable | Inter     |
 
 `control-room` also darkens the dark mode surfaces for an operations dashboard. `review` sets
 `font-data` (table cells, stat values) to the monospace stack.
@@ -122,9 +122,9 @@ variant overrides only the brand and gray scales, `--radius-*`, `--density-*`, `
 - **Same contrast everywhere.** Scales run from 25 to 950 in oklch with fixed lightness per step;
   chroma is reduced per step until the colour fits sRGB. `npm run themes` regenerates the scales
   and CSS from `src/styles/themes/variants.ts`, and `npm run contrast` (also part of `npm test`)
-  checks text, icon, control border and focus ring contrast in light and dark for the base theme
+  checks text, icon, control border and focus ring contrast, and white text on the solid hover fill, in light and dark for the base theme
   and every variant. All pass AA; white on a primary button ranges from 4.83:1 (sudoku) to
-  5.74:1 (watchlist).
+  5.75:1 (assistant).
 - **Density.** Components size from `--density-*` through utilities such as `h-control-md`,
   `px-control-x`, `py-item-y`, `px-cell-x` and `p-card`, so compact variants tighten every
   control, menu row and table cell at once.
