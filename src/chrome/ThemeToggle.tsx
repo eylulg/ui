@@ -1,24 +1,46 @@
 import { Monitor, Moon, Sun } from 'lucide-react';
-import { useEffect, useSyncExternalStore } from 'react';
 import { ToggleButton, ToggleButtonGroup, type Key } from 'react-aria-components';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '../components/DropdownMenu/DropdownMenu';
+import { IconButton } from '../components/IconButton/IconButton';
 import { focusRing } from '../internal/focusRing';
 import type { IconComponent } from '../internal/types';
 import { cx } from '../utils/cx';
-import { darkModeClass, themeStorageKey } from './themeScript';
+import { useTheme, type ThemePreference } from './useTheme';
 
-export type ThemePreference = 'light' | 'dark' | 'system';
+export interface ThemeToggleLabels {
+  light: string;
+  dark: string;
+  system: string;
+  /** Accessible name of the whole control. */
+  ariaLabel: string;
+}
 
 export interface ThemeToggleProps {
-  /** Accessible name of the group. */
+  /** Accessible name of the group. Overrides `labels.ariaLabel`. */
   'aria-label'?: string;
+  /** Translated texts. Missing keys keep the English default. */
+  labels?: Partial<ThemeToggleLabels>;
+  /**
+   * One icon button that opens a menu of the three choices, for tight spaces
+   * such as the top bar at 375px. The default shows the three choices inline.
+   */
+  compact?: boolean;
   className?: string;
 }
 
-const options: Array<{ id: ThemePreference; label: string; icon: IconComponent }> = [
-  { id: 'light', label: 'Light theme', icon: Sun },
-  { id: 'dark', label: 'Dark theme', icon: Moon },
-  { id: 'system', label: 'System theme', icon: Monitor },
-];
+const defaultLabels: ThemeToggleLabels = {
+  light: 'Light theme',
+  dark: 'Dark theme',
+  system: 'System theme',
+  ariaLabel: 'Colour theme',
+};
+
+const icons: Record<ThemePreference, IconComponent> = { light: Sun, dark: Moon, system: Monitor };
+const choices: ThemePreference[] = ['light', 'dark', 'system'];
 
 const group = 'inline-flex items-center gap-0.5 rounded-md border border-default bg-primary p-0.5';
 const button = [
@@ -28,83 +50,56 @@ const button = [
   focusRing,
 ].join(' ');
 
-const darkQuery = '(prefers-color-scheme: dark)';
-const listeners = new Set<() => void>();
-/** Holds the choice for this page when storage is blocked (private mode, sandboxed iframes). */
-let unsaved: ThemePreference | null = null;
-
-function isPreference(value: unknown): value is ThemePreference {
+function isPreference(value: Key | undefined): value is ThemePreference {
   return value === 'light' || value === 'dark' || value === 'system';
 }
 
-function readPreference(): ThemePreference {
-  if (unsaved) return unsaved;
-  try {
-    const stored = window.localStorage.getItem(themeStorageKey);
-    return isPreference(stored) ? stored : 'system';
-  } catch {
-    return 'system';
-  }
-}
-
-function serverPreference(): ThemePreference {
-  return 'system';
-}
-
-function subscribe(listener: () => void) {
-  listeners.add(listener);
-  window.addEventListener('storage', listener);
-  return () => {
-    listeners.delete(listener);
-    window.removeEventListener('storage', listener);
-  };
-}
-
-function writePreference(preference: ThemePreference) {
-  try {
-    if (preference === 'system') window.localStorage.removeItem(themeStorageKey);
-    else window.localStorage.setItem(themeStorageKey, preference);
-    unsaved = null;
-  } catch {
-    unsaved = preference;
-  }
-  for (const listener of listeners) listener();
-}
-
-function applyTheme(preference: ThemePreference) {
-  const isDark =
-    preference === 'dark' || (preference === 'system' && window.matchMedia(darkQuery).matches);
-  const root = document.documentElement;
-  root.classList.toggle(darkModeClass, isDark);
-  root.style.colorScheme = isDark ? 'dark' : 'light';
-}
-
 /**
- * Light, dark and system theme switch. Writes the `dark-mode` class on
- * <html>, remembers the choice in localStorage and follows the operating
- * system while set to system. Pair it with themeInitScript in <head> so the
- * first paint already has the right theme.
+ * Light, dark and system theme switch built on `useTheme`: it writes the
+ * `dark-mode` class on <html>, remembers the choice in localStorage and
+ * follows the operating system while set to system. Pair it with
+ * themeInitScript in <head> so the first paint already has the right theme.
  */
 export function ThemeToggle({
-  'aria-label': ariaLabel = 'Colour theme',
+  'aria-label': ariaLabelProp,
+  labels,
+  compact = false,
   className,
 }: ThemeToggleProps) {
-  const preference = useSyncExternalStore(subscribe, readPreference, serverPreference);
+  const { theme, setTheme } = useTheme();
+  const text = { ...defaultLabels, ...labels };
+  const ariaLabel = ariaLabelProp ?? text.ariaLabel;
 
-  useEffect(() => {
-    applyTheme(preference);
-    if (preference !== 'system') return;
-    const media = window.matchMedia(darkQuery);
-    function handleSystemChange() {
-      applyTheme('system');
-    }
-    media.addEventListener('change', handleSystemChange);
-    return () => media.removeEventListener('change', handleSystemChange);
-  }, [preference]);
-
-  function handleSelectionChange(keys: Set<Key>) {
+  function handleSelectionChange(keys: Set<Key> | 'all') {
+    if (keys === 'all') return;
     const [next] = keys;
-    if (isPreference(next)) writePreference(next);
+    if (isPreference(next)) setTheme(next);
+  }
+
+  if (compact) {
+    return (
+      <DropdownMenu>
+        <IconButton
+          icon={icons[theme]}
+          aria-label={ariaLabel}
+          variant="tertiary"
+          className={className}
+        />
+        <DropdownMenuContent
+          placement="bottom end"
+          selectionMode="single"
+          disallowEmptySelection
+          selectedKeys={[theme]}
+          onSelectionChange={handleSelectionChange}
+        >
+          {choices.map((id) => (
+            <DropdownMenuItem key={id} id={id} icon={icons[id]}>
+              {text[id]}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
   }
 
   return (
@@ -112,15 +107,18 @@ export function ThemeToggle({
       aria-label={ariaLabel}
       selectionMode="single"
       disallowEmptySelection
-      selectedKeys={[preference]}
+      selectedKeys={[theme]}
       onSelectionChange={handleSelectionChange}
       className={cx(group, className)}
     >
-      {options.map(({ id, label, icon: Icon }) => (
-        <ToggleButton key={id} id={id} aria-label={label} className={button}>
-          <Icon aria-hidden="true" className="size-4" />
-        </ToggleButton>
-      ))}
+      {choices.map((id) => {
+        const Icon = icons[id];
+        return (
+          <ToggleButton key={id} id={id} aria-label={text[id]} className={button}>
+            <Icon aria-hidden="true" className="size-4" />
+          </ToggleButton>
+        );
+      })}
     </ToggleButtonGroup>
   );
 }

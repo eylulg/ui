@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Search } from 'lucide-react';
 import { expect, userEvent, within } from 'storybook/test';
+import { Button } from '../components/Button/Button';
 import { ProjectSwitcher } from './ProjectSwitcher';
 import { ThemeToggle } from './ThemeToggle';
 import { TopNav } from './TopNav';
@@ -28,6 +30,40 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 export const WithoutLinks: Story = { args: { links: [] } };
+
+export const CentreSlotAndCompactTheme: Story = {
+  args: {
+    center: (
+      <Button variant="secondary" iconLeading={Search} size="sm">
+        Search
+      </Button>
+    ),
+    actions: <ProjectSwitcher currentId="review-companion" />,
+    compactActions: <ThemeToggle compact />,
+  },
+};
+
+export const Translated: Story = {
+  args: {
+    productName: 'Überprüfungsbegleiter',
+    labels: { openMenu: 'Menü öffnen', closeMenu: 'Menü schließen' },
+    actions: (
+      <>
+        <ProjectSwitcher
+          labels={{ label: 'Projekte', heading: 'Projekte von Eylül', youAreHere: 'Sie sind hier' }}
+        />
+        <ThemeToggle
+          labels={{ ariaLabel: 'Farbschema', light: 'Hell', dark: 'Dunkel', system: 'System' }}
+        />
+      </>
+    ),
+  },
+};
+
+export const PhoneWithThemeInBar: Story = {
+  args: { compactActions: <ThemeToggle compact /> },
+  globals: { viewport: { value: 'mobile1', isRotated: false } },
+};
 
 export const MobileMenu: Story = {
   globals: { viewport: { value: 'mobile1', isRotated: false } },

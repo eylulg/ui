@@ -60,13 +60,13 @@ export const Website: Story = {
     ),
     footer: <SiteFooter currentId="portfolio" />,
     children: (
-      <div className="mx-auto flex max-w-6xl flex-col gap-6">
-        <PageHeader
-          title="Projects"
-          description="Things I designed and built, with the decisions behind them."
-        />
-      </div>
+      <PageHeader
+        title="Projects"
+        description="Things I designed and built, with the decisions behind them."
+      />
     ),
+    maxWidth: '6xl',
+    contentClassName: 'flex flex-col gap-6',
   },
 };
 

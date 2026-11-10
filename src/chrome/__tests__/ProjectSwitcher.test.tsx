@@ -51,6 +51,28 @@ describe('ProjectSwitcher', () => {
     expect(screen.getByRole('menuitem', { name: /^Live app\s*You are here/ })).toBeVisible();
   });
 
+  it('shows translated texts', async () => {
+    const user = userEvent.setup();
+    render(
+      <ProjectSwitcher
+        projects={list}
+        currentId="live"
+        labels={{
+          label: 'Projekte',
+          heading: 'Projekte von Eylül',
+          youAreHere: 'Sie sind hier',
+          sourceCode: '(Quellcode)',
+        }}
+      />,
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Projekte' }));
+
+    expect(await screen.findByRole('group', { name: 'Projekte von Eylül' })).toBeInTheDocument();
+    expect(screen.getByRole('menuitem', { name: /^Live app\s*Sie sind hier/ })).toBeVisible();
+    expect(screen.getByRole('menuitem', { name: /Not deployed \(Quellcode\)/ })).toBeVisible();
+  });
+
   it('has no axe violations in light and dark while open', async () => {
     await expectNoA11yViolations(
       () => <ProjectSwitcher currentId="portfolio" />,

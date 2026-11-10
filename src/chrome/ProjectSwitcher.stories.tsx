@@ -22,3 +22,14 @@ export const Open: Story = {
     await expect(await body.findByRole('menuitem', { name: /^Sudoku/ })).toBeInTheDocument();
   },
 };
+
+export const Translated: Story = {
+  args: {
+    labels: {
+      label: 'Projekte',
+      heading: 'Projekte von Eylül Güneş',
+      youAreHere: 'Sie sind hier',
+      sourceCode: '(Quellcode)',
+    },
+  },
+};

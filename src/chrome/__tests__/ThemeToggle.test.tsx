@@ -69,9 +69,48 @@ describe('ThemeToggle', () => {
     await user.click(screen.getByRole('radio', { name: 'Dark theme' }));
 
     expect(document.documentElement).toHaveClass('dark-mode');
+
+    vi.restoreAllMocks();
+    mockSystemDark(false);
+    await user.click(screen.getByRole('radio', { name: 'System theme' }));
+  });
+
+  it('shows translated labels', () => {
+    mockSystemDark(false);
+
+    render(
+      <ThemeToggle
+        labels={{ ariaLabel: 'Farbschema', light: 'Hell', dark: 'Dunkel', system: 'System' }}
+      />,
+    );
+
+    expect(screen.getByRole('radiogroup', { name: 'Farbschema' })).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: 'Dunkel' })).toBeInTheDocument();
+  });
+
+  it('offers the same choices from one icon button when compact', async () => {
+    const user = userEvent.setup();
+    mockSystemDark(false);
+    render(<ThemeToggle compact />);
+
+    await user.click(screen.getByRole('button', { name: 'Colour theme' }));
+    await user.click(await screen.findByRole('menuitemradio', { name: 'Dark theme' }));
+
+    expect(document.documentElement).toHaveClass('dark-mode');
+    expect(window.localStorage.getItem(themeStorageKey)).toBe('dark');
   });
 
   it('has no axe violations in light and dark', async () => {
     await expectNoA11yViolations(() => <ThemeToggle />);
+  });
+
+  it('has no axe violations in compact form while open', async () => {
+    await expectNoA11yViolations(
+      () => <ThemeToggle compact />,
+      async () => {
+        await userEvent.setup().click(screen.getByRole('button', { name: 'Colour theme' }));
+        await screen.findByRole('menu');
+      },
+    );
   });
 });

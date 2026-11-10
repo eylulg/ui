@@ -20,6 +20,32 @@ describe('SiteFooter', () => {
     expect(screen.getByRole('link', { name: 'Portfolio' })).toHaveAttribute('aria-current', 'page');
   });
 
+  it('translates every visible string and shows extra content', () => {
+    render(
+      <SiteFooter
+        labels={{
+          intro: 'Teil der Projekte von Eylül Güneş',
+          projectsNav: 'Projekte',
+          source: '(Quellcode)',
+          profilesNav: 'Profile',
+          github: 'GitHub (Code)',
+          linkedin: 'LinkedIn (Netzwerk)',
+          builtWith: 'Gebaut mit @eylulg/ui',
+        }}
+      >
+        <p>Film data by TMDB</p>
+      </SiteFooter>,
+    );
+
+    const projects = screen.getByRole('navigation', { name: 'Projekte' });
+    expect(within(projects).getByRole('link', { name: 'Sudoku (Quellcode)' })).toBeInTheDocument();
+    expect(screen.getByText('Teil der Projekte von Eylül Güneş')).toBeInTheDocument();
+    expect(screen.getByRole('list', { name: 'Profile' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'LinkedIn (Netzwerk)' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Gebaut mit @eylulg/ui' })).toBeInTheDocument();
+    expect(screen.getByText('Film data by TMDB')).toBeInTheDocument();
+  });
+
   it('has no axe violations in light and dark', async () => {
     await expectNoA11yViolations(() => <SiteFooter currentId="portfolio" />);
   });

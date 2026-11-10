@@ -1,10 +1,19 @@
 import { Menu } from 'lucide-react';
-import type { ReactNode } from 'react';
-import { Drawer, DrawerTrigger } from '../components/Drawer/Drawer';
+import { lazy, Suspense, useState, type ReactNode } from 'react';
 import { IconButton } from '../components/IconButton/IconButton';
 import { Anchor } from './Anchor';
 import { BrandMark } from './BrandMark';
 import type { LinkComponent, NavLink } from './types';
+
+// Loaded on the first press of the menu button, so the Drawer stays out of the first chunk.
+const MobileMenu = lazy(() =>
+  import('./MobileMenu').then((module) => ({ default: module.MobileMenu })),
+);
+
+export interface TopNavLabels {
+  openMenu: string;
+  closeMenu: string;
+}
 
 export interface TopNavProps {
   productName: string;
@@ -15,13 +24,29 @@ export interface TopNavProps {
   links?: NavLink[];
   /** Your router's link, such as Next.js `Link` or React Router's `Link`. */
   LinkComponent?: LinkComponent;
-  /** Right hand slot, usually ProjectSwitcher and ThemeToggle. */
+  /**
+   * Middle slot between the links and the actions, such as a search field or a
+   * command palette button. Shown from the md breakpoint and at the top of the
+   * mobile menu.
+   */
+  center?: ReactNode;
+  /** Right hand slot, usually ProjectSwitcher and ThemeToggle. Shown from the md breakpoint and in the mobile menu. */
   actions?: ReactNode;
+  /**
+   * Controls that stay in the bar below the md breakpoint, next to the menu
+   * button, such as `<ThemeToggle compact />`. Hidden from md up, where
+   * `actions` takes over, so do not repeat a control in both.
+   */
+  compactActions?: ReactNode;
   /** Extra content for the mobile menu, such as the app's SidebarNav. */
   mobileMenu?: ReactNode;
   /** Accessible name of the primary navigation. */
   navLabel?: string;
+  /** Translated texts. Missing keys keep the English default. */
+  labels?: Partial<TopNavLabels>;
 }
+
+const defaultLabels: TopNavLabels = { openMenu: 'Open menu', closeMenu: 'Close menu' };
 
 const header = 'sticky top-0 z-40 border-b border-subtle bg-primary/90 backdrop-blur';
 const bar = 'mx-auto flex h-14 w-full max-w-6xl items-center gap-3 px-4 sm:px-6 lg:px-8';
@@ -36,15 +61,11 @@ const navLink = [
   'aria-[current=page]:text-brand',
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
 ].join(' ');
-const mobileLink = [
-  'block rounded-md px-item-x py-item-y text-md font-medium text-secondary hover:bg-hover',
-  'aria-[current=page]:bg-brand-subtle aria-[current=page]:text-brand',
-  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
-].join(' ');
 const spacer = 'flex-1';
+const desktopSpacer = 'hidden flex-1 md:block';
+const desktopCenter = 'hidden min-w-0 items-center md:flex';
 const desktopActions = 'hidden items-center gap-2 md:flex';
-const mobileActions = 'flex flex-wrap items-center gap-2 border-t border-subtle pt-4';
-const mobileList = 'flex flex-col gap-1';
+const compactBar = 'flex items-center gap-1 md:hidden';
 
 /**
  * Top bar shared by every project: logo and product name, primary links, a
@@ -57,10 +78,22 @@ export function TopNav({
   homeHref = '/',
   links = [],
   LinkComponent = Anchor,
+  center,
   actions,
+  compactActions,
   mobileMenu,
   navLabel = 'Main',
+  labels,
 }: TopNavProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [hasOpened, setHasOpened] = useState(false);
+  const text = { ...defaultLabels, ...labels };
+
+  function handleOpenMenu() {
+    setHasOpened(true);
+    setIsOpen(true);
+  }
+
   return (
     <header className={header}>
       <div className={bar}>
@@ -86,36 +119,39 @@ export function TopNav({
           </nav>
         )}
         <div className={spacer} />
+        {center && (
+          <>
+            <div className={desktopCenter}>{center}</div>
+            <div className={desktopSpacer} />
+          </>
+        )}
         {actions && <div className={desktopActions}>{actions}</div>}
-        <DrawerTrigger>
-          <IconButton icon={Menu} aria-label="Open menu" variant="tertiary" className="md:hidden" />
-          <Drawer title={productName} side="left" size="sm" closeLabel="Close menu">
-            {({ close }) => (
-              <div className="flex flex-col gap-4">
-                {links.length > 0 && (
-                  <nav aria-label={navLabel}>
-                    <ul className={mobileList}>
-                      {links.map((link) => (
-                        <li key={link.href}>
-                          <LinkComponent
-                            href={link.href}
-                            className={mobileLink}
-                            aria-current={link.isCurrent ? 'page' : undefined}
-                            onClick={close}
-                          >
-                            {link.label}
-                          </LinkComponent>
-                        </li>
-                      ))}
-                    </ul>
-                  </nav>
-                )}
-                {mobileMenu}
-                {actions && <div className={mobileActions}>{actions}</div>}
-              </div>
-            )}
-          </Drawer>
-        </DrawerTrigger>
+        {compactActions && <div className={compactBar}>{compactActions}</div>}
+        <IconButton
+          icon={Menu}
+          aria-label={text.openMenu}
+          aria-haspopup="dialog"
+          aria-expanded={isOpen}
+          variant="tertiary"
+          className="md:hidden"
+          onPress={handleOpenMenu}
+        />
+        {hasOpened && (
+          <Suspense fallback={null}>
+            <MobileMenu
+              isOpen={isOpen}
+              onOpenChange={setIsOpen}
+              productName={productName}
+              closeLabel={text.closeMenu}
+              navLabel={navLabel}
+              links={links}
+              LinkComponent={LinkComponent}
+              center={center}
+              actions={actions}
+              mobileMenu={mobileMenu}
+            />
+          </Suspense>
+        )}
       </div>
     </header>
   );

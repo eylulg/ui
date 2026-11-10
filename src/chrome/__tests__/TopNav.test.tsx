@@ -62,6 +62,44 @@ describe('TopNav', () => {
     await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
   });
 
+  it('returns focus to the menu button when the menu closes', async () => {
+    render(<TopNav productName="Workspace" links={links} />);
+    const { user } = await openMenu();
+
+    await user.keyboard('{Escape}');
+
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Open menu' })).toHaveFocus());
+  });
+
+  it('shows the centre slot in the bar and at the top of the menu, and compact actions in the bar', async () => {
+    render(
+      <TopNav
+        productName="Workspace"
+        center={<button type="button">Search</button>}
+        compactActions={<button type="button">Theme</button>}
+      />,
+    );
+
+    expect(screen.getByRole('button', { name: 'Theme' })).toBeInTheDocument();
+    const { drawer } = await openMenu();
+
+    expect(within(drawer).getByRole('button', { name: 'Search' })).toBeInTheDocument();
+  });
+
+  it('shows translated menu labels', async () => {
+    const user = userEvent.setup();
+    render(
+      <TopNav
+        productName="Workspace"
+        labels={{ openMenu: 'Menü öffnen', closeMenu: 'Menü schließen' }}
+      />,
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Menü öffnen' }));
+
+    expect(await screen.findByRole('button', { name: 'Menü schließen' })).toBeInTheDocument();
+  });
+
   it('has no axe violations in light and dark', async () => {
     await expectNoA11yViolations(() => <TopNav productName="Workspace" links={links} />);
   });

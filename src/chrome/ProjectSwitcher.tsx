@@ -8,19 +8,43 @@ import {
 } from '../components/DropdownMenu/DropdownMenu';
 import { projectHref, projects as defaultProjects, type Project } from './projects';
 
+export interface ProjectSwitcherLabels {
+  /** Visible text of the trigger. */
+  label: string;
+  /** Heading above the list. */
+  heading: string;
+  /** Description of the current project. */
+  youAreHere: string;
+  /** Added after the description of a project that links to its source code. */
+  sourceCode: string;
+}
+
 export interface ProjectSwitcherProps {
   /** Overrides the built in project list. */
   projects?: Project[];
   /** id of the project the switcher is shown in. */
   currentId?: string;
-  /** Visible trigger text. */
+  /** Visible trigger text. `labels.label` wins when both are set. */
   label?: string;
+  /** Translated texts. Missing keys keep the English default. Translate project descriptions in `projects`. */
+  labels?: Partial<ProjectSwitcherLabels>;
 }
 
-function describe(project: Project, currentId: string | undefined): string {
-  if (project.id === currentId) return 'You are here';
+const defaultLabels: ProjectSwitcherLabels = {
+  label: 'Projects',
+  heading: "Eylül Güneş's projects",
+  youAreHere: 'You are here',
+  sourceCode: '(source code)',
+};
+
+function describe(
+  project: Project,
+  currentId: string | undefined,
+  text: ProjectSwitcherLabels,
+): string {
+  if (project.id === currentId) return text.youAreHere;
   if (project.url) return project.description;
-  return `${project.description} (source code)`;
+  return `${project.description} ${text.sourceCode}`;
 }
 
 /**
@@ -30,22 +54,24 @@ function describe(project: Project, currentId: string | undefined): string {
 export function ProjectSwitcher({
   projects = defaultProjects,
   currentId,
-  label = 'Projects',
+  label,
+  labels,
 }: ProjectSwitcherProps) {
+  const text = { ...defaultLabels, ...(label ? { label } : {}), ...labels };
   return (
     <DropdownMenu>
       <Button variant="tertiary" size="sm" iconLeading={LayoutGrid} iconTrailing={ChevronDown}>
-        {label}
+        {text.label}
       </Button>
       <DropdownMenuContent placement="bottom end" popoverClassName="w-80">
-        <DropdownMenuSection title="Eylül Güneş's projects">
+        <DropdownMenuSection title={text.heading}>
           {projects.map((project) => (
             <DropdownMenuItem
               key={project.id}
               id={project.id}
               href={projectHref(project)}
               icon={project.id === currentId ? Check : undefined}
-              description={describe(project, currentId)}
+              description={describe(project, currentId, text)}
             >
               {project.name}
             </DropdownMenuItem>
