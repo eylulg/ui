@@ -24,7 +24,7 @@ projects feel like one product family.
   `warning`, `error`). Dark mode and rebranding are a matter of redefining variables, with no
   component changes and no runtime cost.
 - **Small and tree shakeable.** ESM only, one module per source file, `sideEffects` limited to
-  CSS, and a dedicated entry point per component. A bundle size budget runs in CI.
+  CSS, and a dedicated entry point per component. Overlays (menus, dialogs, drawers, popovers, tooltips, the command palette) load on first open, so a route pays for triggers only. A bundle size budget runs in CI; numbers are in [docs/performance.md](./docs/performance.md).
 - **One family, nine variants.** Each project imports one variant file that changes only the
   brand hue, the gray family, the radius and the density. Scales are generated in oklch with the
   same lightness per step, so contrast is the same in every variant, and a test checks WCAG AA

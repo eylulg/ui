@@ -498,6 +498,12 @@ attributions a data provider requires or for extra links.
 **SidebarNav item actions.** `action` on an item renders a control beside its link, such as an
 `IconButton` that adds a child item. It is its own tab stop and arrow keys reach it.
 
+## Overlays load on first open
+
+`Dialog`, `Drawer`, `Popover`, `DropdownMenu`, `Tooltip`, `CommandPalette`, the toast markup, `ProjectSwitcher` and `ThemeToggle compact` keep their trigger in the first load and fetch the overlay code on hover or focus of the trigger, and at the latest when it opens. The trigger and its ARIA attributes render at once. The first open can take a moment on a slow connection, and in tests it is asynchronous: use `await screen.findByRole('menu')`, not `getByRole`. If the download fails, nothing opens and the next press tries again. `Select`, `Combobox` and the date pickers are not split. Sizes and the reasons are in [performance.md](./performance.md).
+
+`@eylulg/ui/cx-lite` joins class names without tailwind-merge (93 B instead of 8.5 kB gzip). Use it for conditional classes in your own markup, and `@eylulg/ui/cx` where a later class must override an earlier one.
+
 ## Project list
 
 `ProjectSwitcher` and `SiteFooter` read `@eylulg/ui/projects`. Projects that are not deployed yet
