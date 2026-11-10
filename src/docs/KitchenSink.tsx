@@ -1,4 +1,4 @@
-import { FolderOpen, Plus, Settings, Star } from 'lucide-react';
+import { FolderOpen, LayoutGrid, List, Plus, Settings, Star } from 'lucide-react';
 import { BrandMark } from '../chrome/BrandMark';
 import { Avatar, AvatarGroup } from '../components/Avatar/Avatar';
 import { Badge } from '../components/Badge/Badge';
@@ -6,9 +6,11 @@ import { BreadcrumbItem, Breadcrumbs } from '../components/Breadcrumbs/Breadcrum
 import { Button } from '../components/Button/Button';
 import { Card, CardBody, CardFooter, CardHeader } from '../components/Card/Card';
 import { Checkbox } from '../components/Checkbox/Checkbox';
+import { CodeBlock } from '../components/CodeBlock/CodeBlock';
 import { Combobox, ComboboxItem } from '../components/Combobox/Combobox';
 import { DatePicker } from '../components/DatePicker/DatePicker';
 import { EmptyState } from '../components/EmptyState/EmptyState';
+import { FileDropZone } from '../components/FileDropZone/FileDropZone';
 import { IconButton } from '../components/IconButton/IconButton';
 import { Input } from '../components/Input/Input';
 import { Kbd } from '../components/Kbd/Kbd';
@@ -16,6 +18,10 @@ import { PageHeader } from '../components/PageHeader/PageHeader';
 import { Pagination } from '../components/Pagination/Pagination';
 import { ProgressBar } from '../components/ProgressBar/ProgressBar';
 import { Radio, RadioGroup } from '../components/RadioGroup/RadioGroup';
+import {
+  SegmentedControl,
+  SegmentedControlItem,
+} from '../components/SegmentedControl/SegmentedControl';
 import { Select, SelectItem } from '../components/Select/Select';
 import { Skeleton } from '../components/Skeleton/Skeleton';
 import { Spinner } from '../components/Spinner/Spinner';
@@ -59,6 +65,18 @@ export function KitchenSink({ label }: { label: string }) {
           <Button variant="secondary">Secondary</Button>
           <Button variant="tertiary">Tertiary</Button>
           <Button variant="destructive">Delete</Button>
+          <Button variant="destructive-outline">Archive</Button>
+          <Button href="#docs" variant="secondary">
+            Documentation
+          </Button>
+          <SegmentedControl aria-label={`View, ${label}`} defaultSelectedKey="list">
+            <SegmentedControlItem id="list" icon={List}>
+              List
+            </SegmentedControlItem>
+            <SegmentedControlItem id="board" icon={LayoutGrid}>
+              Board
+            </SegmentedControlItem>
+          </SegmentedControl>
           <IconButton icon={Settings} aria-label="Settings" />
           <Kbd keys={['⌘', 'K']} />
           <Spinner label="Loading" />
@@ -72,6 +90,11 @@ export function KitchenSink({ label }: { label: string }) {
           <Badge color="warning">Blocked</Badge>
           <Badge color="error">Failed</Badge>
           <Badge icon={Star}>Starred</Badge>
+          <Badge color="blue">Backlog</Badge>
+          <Badge color="purple">Review</Badge>
+          <Badge color="pink">Design</Badge>
+          <Badge color="orange">Waiting</Badge>
+          <Badge color="indigo">Planned</Badge>
           <AvatarGroup aria-label="Assignees" max={3}>
             <Avatar name="Eylül Güneş" status="online" />
             <Avatar name="Ada Lovelace" />
@@ -84,8 +107,12 @@ export function KitchenSink({ label }: { label: string }) {
       <div className={grid}>
         <Input label="Title" placeholder="Fix the flaky test" hint="Short and specific." />
         <Select label="Status" defaultSelectedKey="review">
-          <SelectItem id="todo">To do</SelectItem>
-          <SelectItem id="review">In review</SelectItem>
+          <SelectItem id="todo" description="Not started">
+            To do
+          </SelectItem>
+          <SelectItem id="review" description="Waiting for feedback">
+            In review
+          </SelectItem>
         </Select>
         <Combobox label="Assignee" placeholder="Search people">
           <ComboboxItem id="eylul">Eylül Güneş</ComboboxItem>
@@ -93,9 +120,21 @@ export function KitchenSink({ label }: { label: string }) {
         </Combobox>
         <DatePicker label="Due date" />
         <Textarea label="Notes" errorMessage="Add a note before you submit." />
+        <Textarea label="Query" font="data" defaultValue="select * from issues" />
+        <FileDropZone
+          label="Drop a JSON file here"
+          hint="JSON, up to 2 MB"
+          acceptedFileTypes={['.json']}
+          onSelect={() => {}}
+        />
+        <CodeBlock label={`Install command, ${label}`} copyable>
+          npm install @eylulg/ui
+        </CodeBlock>
         <div className="flex flex-col gap-3">
           <Checkbox defaultSelected>Notify watchers</Checkbox>
-          <Switch defaultSelected>Auto assign</Switch>
+          <Switch defaultSelected hint="Picks the least busy teammate">
+            Auto assign
+          </Switch>
           <RadioGroup label="Priority" defaultValue="high" orientation="horizontal">
             <Radio value="low">Low</Radio>
             <Radio value="high">High</Radio>
@@ -146,9 +185,11 @@ export function KitchenSink({ label }: { label: string }) {
             <Stat
               label="This sprint"
               value="34"
+              detail="of 40 planned"
               delta={{ value: '12%', trend: 'up' }}
               sparkline={<Sparkline values={[18, 22, 21, 27, 30, 34]} />}
             />
+            <Stat size="sm" label="Carry over" value="3" />
           </CardBody>
           <CardFooter>
             <ProgressBar label="Sprint progress" value={68} />

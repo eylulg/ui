@@ -1,6 +1,6 @@
 [
   {
-    "name": "Full index (all 34 components, deps excluded)",
+    "name": "Full index (all components, deps excluded)",
     "path": "dist/index.js",
     "import": "*",
     "ignore": [
@@ -11,7 +11,7 @@
       "lucide-react",
       "@internationalized/date"
     ],
-    "limit": "13 kB"
+    "limit": "14 kB"
   },
   {
     "name": "Button only (tree shaken)",
@@ -49,11 +49,25 @@
     "limit": "2.5 kB"
   },
   {
-    "name": "Chrome: full TopNav with switcher and toggle",
+    "name": "Chrome: TopNav, ProjectSwitcher and ThemeToggle, with the lazy mobile menu inlined",
     "path": "dist/chrome/index.js",
     "import": "{ TopNav, ProjectSwitcher, ThemeToggle }",
     "ignore": ["react", "react-dom", "react-aria-components", "tailwind-merge", "lucide-react"],
-    "limit": "5 kB"
+    "limit": "6 kB"
+  },
+  {
+    "name": "Chrome: TopNav first load (mobile menu loads on first press)",
+    "path": "dist/chrome/index.js",
+    "import": "{ TopNav }",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react-aria-components",
+      "tailwind-merge",
+      "lucide-react",
+      "./dist/chrome/MobileMenu.js"
+    ],
+    "limit": "2 kB"
   },
   {
     "name": "Chrome: server safe parts",

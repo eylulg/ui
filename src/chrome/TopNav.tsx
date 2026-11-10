@@ -1,6 +1,5 @@
 import { Menu } from 'lucide-react';
 import { lazy, Suspense, useState, type ReactNode } from 'react';
-import { IconButton } from '../components/IconButton/IconButton';
 import { Anchor } from './Anchor';
 import { BrandMark } from './BrandMark';
 import type { LinkComponent, NavLink } from './types';
@@ -65,6 +64,11 @@ const spacer = 'flex-1';
 const desktopSpacer = 'hidden flex-1 md:block';
 const desktopCenter = 'hidden min-w-0 items-center md:flex';
 const desktopActions = 'hidden items-center gap-2 md:flex';
+// A native button keeps react-aria-components out of the first load of a page that never opens the menu.
+const menuButton = [
+  'inline-flex size-control-md cursor-pointer items-center justify-center rounded-md text-secondary hover:bg-hover hover:text-primary md:hidden',
+  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+].join(' ');
 const compactBar = 'flex items-center gap-1 md:hidden';
 
 /**
@@ -127,15 +131,16 @@ export function TopNav({
         )}
         {actions && <div className={desktopActions}>{actions}</div>}
         {compactActions && <div className={compactBar}>{compactActions}</div>}
-        <IconButton
-          icon={Menu}
+        <button
+          type="button"
           aria-label={text.openMenu}
           aria-haspopup="dialog"
           aria-expanded={isOpen}
-          variant="tertiary"
-          className="md:hidden"
-          onPress={handleOpenMenu}
-        />
+          className={menuButton}
+          onClick={handleOpenMenu}
+        >
+          <Menu aria-hidden="true" className="size-5" />
+        </button>
         {hasOpened && (
           <Suspense fallback={null}>
             <MobileMenu
