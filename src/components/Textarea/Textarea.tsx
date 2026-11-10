@@ -33,7 +33,7 @@ export interface TextareaProps extends Omit<
   /** Turn off for code and technical text. */
   autoCorrect?: 'on' | 'off';
   /** Browser spell checking. Turn off for code. */
-  spellCheck?: boolean;
+  spellCheck?: boolean | 'true' | 'false';
   /** Ref to the native textarea element. */
   ref?: Ref<HTMLTextAreaElement>;
 }
