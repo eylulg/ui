@@ -1,12 +1,8 @@
-import { Check, ChevronDown, LayoutGrid } from 'lucide-react';
-import { Button } from '../components/Button/Button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSection,
-} from '../components/DropdownMenu/DropdownMenu';
-import { projectHref, projects as defaultProjects, type Project } from './projects';
+import { ChevronDown, LayoutGrid } from 'lucide-react';
+import { buttonStyles } from '../components/Button/buttonStyles';
+import { createLazyModule } from '../internal/lazyModule';
+import { useLazyMenuTrigger } from '../internal/useLazyMenuTrigger';
+import { projects as defaultProjects, type Project } from './projects';
 
 export interface ProjectSwitcherLabels {
   /** Visible text of the trigger. */
@@ -37,19 +33,16 @@ const defaultLabels: ProjectSwitcherLabels = {
   sourceCode: '(source code)',
 };
 
-function describe(
-  project: Project,
-  currentId: string | undefined,
-  text: ProjectSwitcherLabels,
-): string {
-  if (project.id === currentId) return text.youAreHere;
-  if (project.url) return project.description;
-  return `${project.description} ${text.sourceCode}`;
-}
+const menu = /*#__PURE__*/ createLazyModule(() => import('./ProjectSwitcherMenu'));
+const trigger = `${buttonStyles({ variant: 'tertiary', size: 'sm' })} hover:bg-hover hover:text-primary`;
 
 /**
  * A menu of Eylül's projects so moving between them feels like one product.
  * Live projects link to their site; the others link to their repository.
+ *
+ * The trigger is a plain button. The menu, with React Aria's menu and popover
+ * code, loads when the trigger is hovered or focused, and at the latest on the
+ * first press, which then opens it.
  */
 export function ProjectSwitcher({
   projects = defaultProjects,
@@ -58,26 +51,24 @@ export function ProjectSwitcher({
   labels,
 }: ProjectSwitcherProps) {
   const text = { ...defaultLabels, ...(label ? { label } : {}), ...labels };
+  const { loaded, triggerProps } = useLazyMenuTrigger(menu);
+
+  if (loaded)
+    return <loaded.ProjectSwitcherMenu projects={projects} currentId={currentId} text={text} />;
+
   return (
-    <DropdownMenu>
-      <Button variant="tertiary" size="sm" iconLeading={LayoutGrid} iconTrailing={ChevronDown}>
+    <button
+      type="button"
+      data-variant="tertiary"
+      data-size="sm"
+      className={trigger}
+      {...triggerProps}
+    >
+      <span className="inline-flex items-center gap-[inherit]">
+        <LayoutGrid aria-hidden="true" className="size-4 shrink-0" />
         {text.label}
-      </Button>
-      <DropdownMenuContent placement="bottom end" popoverClassName="w-80">
-        <DropdownMenuSection title={text.heading}>
-          {projects.map((project) => (
-            <DropdownMenuItem
-              key={project.id}
-              id={project.id}
-              href={projectHref(project)}
-              icon={project.id === currentId ? Check : undefined}
-              description={describe(project, currentId, text)}
-            >
-              {project.name}
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuSection>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        <ChevronDown aria-hidden="true" className="size-4 shrink-0" />
+      </span>
+    </button>
   );
 }

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { expectNoA11yViolations } from '../../test-utils/a11y';
@@ -43,6 +43,18 @@ describe('ProjectSwitcher', () => {
       'href',
       href,
     );
+  });
+
+  it('returns focus to the trigger when the menu closes', async () => {
+    const user = userEvent.setup();
+    render(<ProjectSwitcher projects={list} currentId="live" />);
+    await user.click(screen.getByRole('button', { name: 'Projects' }));
+    await screen.findByRole('menu');
+
+    await user.keyboard('{Escape}');
+
+    await waitFor(() => expect(screen.queryByRole('menu')).not.toBeInTheDocument());
+    expect(screen.getByRole('button', { name: 'Projects' })).toHaveFocus();
   });
 
   it('tells the user which project they are in', async () => {

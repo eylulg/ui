@@ -1,14 +1,10 @@
-import { Monitor, Moon, Sun } from 'lucide-react';
 import { ToggleButton, ToggleButtonGroup, type Key } from 'react-aria-components';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from '../components/DropdownMenu/DropdownMenu';
-import { IconButton } from '../components/IconButton/IconButton';
+import { buttonBase, buttonVariants } from '../components/Button/buttonStyles';
 import { focusRing } from '../internal/focusRing';
-import type { IconComponent } from '../internal/types';
+import { createLazyModule } from '../internal/lazyModule';
+import { useLazyMenuTrigger } from '../internal/useLazyMenuTrigger';
 import { cx } from '../utils/cx';
+import { choices, icons } from './themeChoices';
 import { useTheme, type ThemePreference } from './useTheme';
 
 export interface ThemeToggleLabels {
@@ -39,8 +35,7 @@ const defaultLabels: ThemeToggleLabels = {
   ariaLabel: 'Colour theme',
 };
 
-const icons: Record<ThemePreference, IconComponent> = { light: Sun, dark: Moon, system: Monitor };
-const choices: ThemePreference[] = ['light', 'dark', 'system'];
+const menu = /*#__PURE__*/ createLazyModule(() => import('./ThemeToggleMenu'));
 
 const group = 'inline-flex items-center gap-0.5 rounded-md border border-default bg-primary p-0.5';
 const button = [
@@ -78,27 +73,13 @@ export function ThemeToggle({
 
   if (compact) {
     return (
-      <DropdownMenu>
-        <IconButton
-          icon={icons[theme]}
-          aria-label={ariaLabel}
-          variant="tertiary"
-          className={className}
-        />
-        <DropdownMenuContent
-          placement="bottom end"
-          selectionMode="single"
-          disallowEmptySelection
-          selectedKeys={[theme]}
-          onSelectionChange={handleSelectionChange}
-        >
-          {choices.map((id) => (
-            <DropdownMenuItem key={id} id={id} icon={icons[id]}>
-              {text[id]}
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <CompactToggle
+        theme={theme}
+        ariaLabel={ariaLabel}
+        text={text}
+        className={className}
+        onSelectionChange={handleSelectionChange}
+      />
     );
   }
 
@@ -120,5 +101,55 @@ export function ThemeToggle({
         );
       })}
     </ToggleButtonGroup>
+  );
+}
+
+const compactTrigger = cx(
+  buttonBase,
+  buttonVariants.tertiary,
+  'size-control-md p-0 hover:bg-hover hover:text-primary',
+);
+
+interface CompactToggleProps {
+  theme: ThemePreference;
+  ariaLabel: string;
+  text: ThemeToggleLabels;
+  className: string | undefined;
+  onSelectionChange: (keys: Set<Key> | 'all') => void;
+}
+
+// A plain icon button until the menu's code has loaded, so the bar never waits for it.
+function CompactToggle({
+  theme,
+  ariaLabel,
+  text,
+  className,
+  onSelectionChange,
+}: CompactToggleProps) {
+  const { loaded, triggerProps } = useLazyMenuTrigger(menu);
+
+  if (loaded) {
+    return (
+      <loaded.ThemeToggleMenu
+        theme={theme}
+        ariaLabel={ariaLabel}
+        text={text}
+        className={className}
+        onSelectionChange={onSelectionChange}
+      />
+    );
+  }
+
+  const Icon = icons[theme];
+  return (
+    <button
+      type="button"
+      aria-label={ariaLabel}
+      data-variant="tertiary"
+      className={cx(compactTrigger, className)}
+      {...triggerProps}
+    >
+      <Icon aria-hidden="true" className="size-5" />
+    </button>
   );
 }

@@ -7,7 +7,7 @@ import {
 import { Spinner } from '../../internal/Spinner';
 import type { IconComponent } from '../../internal/types';
 import { cx } from '../../utils/cx';
-import { buttonBase, buttonVariants, type ButtonVariant } from '../Button/Button';
+import { buttonBase, buttonVariants, type ButtonVariant } from '../Button/buttonStyles';
 
 export type IconButtonSize = 'sm' | 'md' | 'lg';
 
