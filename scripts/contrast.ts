@@ -95,9 +95,10 @@ function semanticBlock(mode: Mode): Record<string, string> {
 function palette(variant: VariantName | 'base'): Record<string, string> {
   const colors = baseScales();
   if (variant === 'base') return colors;
-  const { brand, gray } = variants[variant].colors;
+  const { brand, gray, warning } = variants[variant].colors;
   for (const [step, value] of Object.entries(brand)) colors[`brand-${step}`] = value;
   for (const [step, value] of Object.entries(gray)) colors[`gray-${step}`] = value;
+  for (const [step, value] of Object.entries(warning ?? {})) colors[`warning-${step}`] = value;
   return colors;
 }
 

@@ -49,7 +49,7 @@ describe('theme variants', () => {
       const declared = [...css.matchAll(/^\s+(--[\w-]+):/gm)].map((match) => match[1]!);
       for (const variable of declared) {
         expect(variable).toMatch(
-          /^--(color-(brand|gray)-\d+|radius-[\w]+|density-[\w-]+|font-(display|mono)|ui-font-data|ui-bg-(primary|secondary|elevated))$/,
+          /^--(color-(brand|gray|warning)-\d+|radius-[\w]+|density-[\w-]+|font-(display|mono)|ui-font-data|ui-bg-(primary|secondary|elevated))$/,
         );
       }
     }

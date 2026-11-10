@@ -18,19 +18,24 @@ function Swatches({ name }: { name: VariantName }) {
   const { colors } = variants[name];
   return (
     <div className="flex flex-col gap-3">
-      {(['brand', 'gray'] as const).map((scale) => (
-        <div key={scale} className="flex flex-col gap-1">
-          <span className="font-mono text-xs text-secondary">--color-{scale}-*</span>
-          <div className="grid grid-cols-6 gap-1 sm:grid-cols-12">
-            {scaleSteps.map((step) => (
-              <div key={step} className="flex flex-col gap-1">
-                <div className={swatch} style={{ background: colors[scale][step] }} />
-                <span className="text-center font-mono text-xs text-tertiary">{step}</span>
+      {(['brand', 'warning', 'gray'] as const).map((scale) => {
+        const colorScale = colors[scale];
+        return (
+          colorScale && (
+            <div key={scale} className="flex flex-col gap-1">
+              <span className="font-mono text-xs text-secondary">--color-{scale}-*</span>
+              <div className="grid grid-cols-6 gap-1 sm:grid-cols-12">
+                {scaleSteps.map((step) => (
+                  <div key={step} className="flex flex-col gap-1">
+                    <div className={swatch} style={{ background: colorScale[step] }} />
+                    <span className="text-center font-mono text-xs text-tertiary">{step}</span>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
-      ))}
+            </div>
+          )
+        );
+      })}
     </div>
   );
 }
@@ -53,6 +58,14 @@ function VariantPage({ name }: { name: VariantName }) {
         <dd>
           {variant.brand.name}, hue {variant.brand.hue}
         </dd>
+        {variant.warning && (
+          <>
+            <dt className="text-tertiary">Warning</dt>
+            <dd>
+              {variant.warning.name}, hue {variant.warning.hue}
+            </dd>
+          </>
+        )}
         <dt className="text-tertiary">Gray</dt>
         <dd>
           {variant.gray.family} ({variant.gray.like} like)
