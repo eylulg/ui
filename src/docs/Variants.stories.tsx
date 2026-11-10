@@ -114,6 +114,7 @@ export const Watchlist: Story = { args: { name: 'watchlist' } };
 export const Tokens: Story = { args: { name: 'tokens' } };
 export const PlainLanguage: Story = { args: { name: 'plain-language' } };
 export const Sudoku: Story = { args: { name: 'sudoku' } };
+export const Assistant: Story = { args: { name: 'assistant' } };
 
 export const Overview: Story = {
   args: { name: 'portfolio' },

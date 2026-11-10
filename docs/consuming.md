@@ -266,6 +266,7 @@ up without any other change, and keep working with a locally installed Inter whe
 | `tokens`         | Tokens to Tailwind    | violet | neutral | medium | comfortable |
 | `plain-language` | Plain Language add-in | cyan   | slate   | medium | compact     |
 | `sudoku`         | Sudoku                | green  | neutral | medium | comfortable |
+| `assistant`      | Assistant             | coral  | stone   | large  | comfortable |
 
 `control-room` also moves the status warning scale from the base orange amber to yellow (hue 95), so
 brand and warning badges do not look alike. Every contrast pair stays AA. Other variants keep the

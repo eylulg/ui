@@ -22,6 +22,7 @@ export const variantNames = [
   'tokens',
   'plain-language',
   'sudoku',
+  'assistant',
 ] as const;
 
 export type VariantName = (typeof variantNames)[number];
@@ -208,6 +209,16 @@ export const variantSpecs: Record<VariantName, VariantSpec> = {
     brand: { name: 'green', hue: 148, chroma: 0.17 },
     gray: grays.neutral,
     radius: 'medium',
+    density: 'comfortable',
+    fonts: fonts(),
+  },
+  assistant: {
+    name: 'assistant',
+    project: 'Assistant',
+    description: 'A conversational assistant. Coral brand, warm grays, large radius.',
+    brand: { name: 'coral', hue: 35, chroma: 0.2 },
+    gray: grays.warm,
+    radius: 'large',
     density: 'comfortable',
     fonts: fonts(),
   },

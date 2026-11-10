@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 The design system for all of [Eylül Güneş](https://github.com/eylulg)'s projects: an accessible
-React 19 component library, eight project theme variants on one visual language, and the shared
+React 19 component library, nine project theme variants on one visual language, and the shared
 app chrome (top nav, project switcher, theme toggle, footer) that makes moving between the
 projects feel like one product family.
 
@@ -25,7 +25,7 @@ projects feel like one product family.
   component changes and no runtime cost.
 - **Small and tree shakeable.** ESM only, one module per source file, `sideEffects` limited to
   CSS, and a dedicated entry point per component. A bundle size budget runs in CI.
-- **One family, eight variants.** Each project imports one variant file that changes only the
+- **One family, nine variants.** Each project imports one variant file that changes only the
   brand hue, the gray family, the radius and the density. Scales are generated in oklch with the
   same lightness per step, so contrast is the same in every variant, and a test checks WCAG AA
   for every text token in light and dark.
@@ -114,6 +114,7 @@ variant overrides only the brand and gray scales, `--radius-*`, `--density-*`, `
 | `tokens`         | `@eylulg/ui/themes/tokens.css`         | Tokens to Tailwind    | violet | neutral      | medium | comfortable | Inter     |
 | `plain-language` | `@eylulg/ui/themes/plain-language.css` | Plain Language add-in | cyan   | cool (slate) | medium | compact     | Inter     |
 | `sudoku`         | `@eylulg/ui/themes/sudoku.css`         | Sudoku                | green  | neutral      | medium | comfortable | Inter     |
+| `assistant`      | `@eylulg/ui/themes/assistant.css`      | Assistant             | coral  | warm (stone) | large  | comfortable | Inter     |
 
 `control-room` also darkens the dark mode surfaces for an operations dashboard. `review` sets
 `font-data` (table cells, stat values) to the monospace stack.
