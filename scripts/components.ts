@@ -25,6 +25,7 @@ export const components = [
   'Popover',
   'ProgressBar',
   'RadioGroup',
+  'SegmentedControl',
   'Select',
   'Skeleton',
   'Spinner',

@@ -20,6 +20,7 @@ export * from './components/Pagination';
 export * from './components/Popover';
 export * from './components/ProgressBar';
 export * from './components/RadioGroup';
+export * from './components/SegmentedControl';
 export * from './components/Select';
 export * from './components/Skeleton';
 export * from './components/Spinner';

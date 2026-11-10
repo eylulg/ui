@@ -121,6 +121,10 @@
       "types": "./dist/components/RadioGroup/index.d.ts",
       "import": "./dist/components/RadioGroup/index.js"
     },
+    "./segmented-control": {
+      "types": "./dist/components/SegmentedControl/index.d.ts",
+      "import": "./dist/components/SegmentedControl/index.js"
+    },
     "./select": {
       "types": "./dist/components/Select/index.d.ts",
       "import": "./dist/components/Select/index.js"
