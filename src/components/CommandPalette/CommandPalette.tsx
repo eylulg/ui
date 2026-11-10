@@ -151,6 +151,7 @@ export function CommandGroup({ heading, children, className, ...props }: Command
 export interface CommandItemProps extends Omit<MenuItemProps, 'children'> {
   children: ReactNode;
   icon?: IconComponent;
+  /** Secondary line. It joins the accessible name after the label, so the name contains the visible text. */
   description?: ReactNode;
   /** Keys of the shortcut that runs this command outside the palette, such as ['⌘', 'N']. */
   shortcut?: string[];
@@ -172,16 +173,16 @@ export function CommandItem({
       className={composeRenderProps(className, (consumer) => cx(listItem, consumer))}
     >
       {Icon && <Icon aria-hidden="true" className="size-4 shrink-0 text-fg-tertiary" />}
-      <span className="flex min-w-0 flex-1 flex-col">
-        <Text slot="label" className="truncate">
+      {description ? (
+        <span className="flex min-w-0 flex-1 flex-col">
+          <span className="truncate">{children}</span>
+          <span className="truncate text-xs text-tertiary">{description}</span>
+        </span>
+      ) : (
+        <Text slot="label" className="min-w-0 flex-1 truncate">
           {children}
         </Text>
-        {description && (
-          <Text slot="description" className="truncate text-xs text-tertiary">
-            {description}
-          </Text>
-        )}
-      </span>
+      )}
       {shortcut && <Kbd keys={shortcut} aria-hidden="true" className="ml-4" />}
     </MenuItem>
   );

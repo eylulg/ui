@@ -39,15 +39,16 @@ describe('ProjectSwitcher', () => {
   ])('links $name to its site, or its repository when not live', async ({ name, href }) => {
     await open();
 
-    expect(screen.getByRole('menuitem', { name })).toHaveAttribute('href', href);
+    expect(screen.getByRole('menuitem', { name: new RegExp(`^${name}`) })).toHaveAttribute(
+      'href',
+      href,
+    );
   });
 
   it('tells the user which project they are in', async () => {
     await open();
 
-    expect(screen.getByRole('menuitem', { name: 'Live app' })).toHaveAccessibleDescription(
-      'You are here',
-    );
+    expect(screen.getByRole('menuitem', { name: /^Live app\s*You are here/ })).toBeVisible();
   });
 
   it('has no axe violations in light and dark while open', async () => {

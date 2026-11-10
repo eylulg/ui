@@ -19,6 +19,6 @@ export const Open: Story = {
     const canvas = within(canvasElement);
     const body = within(canvasElement.ownerDocument.body);
     await userEvent.click(canvas.getByRole('button', { name: 'Projects' }));
-    await expect(await body.findByRole('menuitem', { name: 'Sudoku' })).toBeInTheDocument();
+    await expect(await body.findByRole('menuitem', { name: /^Sudoku/ })).toBeInTheDocument();
   },
 };

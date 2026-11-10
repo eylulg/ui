@@ -35,6 +35,13 @@ const statuses: Record<AvatarStatus, { dot: string; label: string }> = {
 const surface =
   'inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-subtle font-semibold text-brand ring-1 ring-default select-none';
 
+/**
+ * Initials are drawn from a data attribute through CSS, not rendered as text.
+ * An avatar inside a labelled button would otherwise add visible text the
+ * button's accessible name does not contain (axe label-content-name-mismatch).
+ */
+const initialsText = 'after:content-[attr(data-initials)]';
+
 const dotBase =
   'absolute right-0 bottom-0 rounded-full outline-2 outline-(--ui-bg-primary) outline-solid';
 
@@ -61,9 +68,12 @@ function AvatarImage({ name, src, sizeClass }: { name: string; src?: string; siz
 
   if (!src || failed) {
     return (
-      <span role="img" aria-label={name} className={cx(surface, sizeClass)}>
-        <span aria-hidden="true">{getInitials(name)}</span>
-      </span>
+      <span
+        role="img"
+        aria-label={name}
+        data-initials={getInitials(name)}
+        className={cx(surface, initialsText, sizeClass)}
+      />
     );
   }
   return (
@@ -124,10 +134,9 @@ export function AvatarGroup({
         <span
           role="img"
           aria-label={`${hidden} more`}
-          className={cx(surface, 'bg-tertiary text-secondary', sizes[size].avatar)}
-        >
-          <span aria-hidden="true">+{hidden}</span>
-        </span>
+          data-initials={`+${hidden}`}
+          className={cx(surface, initialsText, 'bg-tertiary text-secondary', sizes[size].avatar)}
+        />
       )}
     </div>
   );

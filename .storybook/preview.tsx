@@ -92,6 +92,10 @@ const preview: Preview = {
     a11y: {
       // Fail the a11y panel (and test runs) on violations instead of only reporting them.
       test: 'error',
+      config: {
+        // Experimental in axe and off by default; voice control users rely on it.
+        rules: [{ id: 'label-content-name-mismatch', enabled: true }],
+      },
     },
     options: {
       storySort: {

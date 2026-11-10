@@ -24,7 +24,9 @@ describe('Avatar', () => {
 
     fireEvent.error(screen.getByRole('img', { name: 'Eylül Güneş' }));
 
-    expect(screen.getByRole('img', { name: 'Eylül Güneş' })).toHaveTextContent('EG');
+    const fallback = screen.getByRole('img', { name: 'Eylül Güneş' });
+    expect(fallback).not.toHaveAttribute('src');
+    expect(fallback).toHaveAttribute('data-initials', 'EG');
   });
 
   it('announces the status as text', () => {
@@ -43,7 +45,7 @@ describe('Avatar', () => {
       </AvatarGroup>,
     );
 
-    expect(screen.getByRole('img', { name: '2 more' })).toHaveTextContent('+2');
+    expect(screen.getByRole('img', { name: '2 more' })).toHaveAttribute('data-initials', '+2');
     expect(screen.queryByRole('img', { name: 'Alan Turing' })).not.toBeInTheDocument();
   });
 

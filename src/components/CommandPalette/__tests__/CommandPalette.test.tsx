@@ -74,7 +74,7 @@ describe('CommandPalette', () => {
 
     await user.keyboard('theme');
 
-    expect(screen.getByRole('menuitem', { name: 'Change theme' })).toBeInTheDocument();
+    expect(screen.getByRole('menuitem', { name: /^Change theme/ })).toBeInTheDocument();
     expect(screen.queryByRole('menuitem', { name: 'Create issue' })).not.toBeInTheDocument();
   });
 

@@ -73,7 +73,11 @@ export interface DropdownMenuItemProps<T extends object = object> extends Omit<
   children: ReactNode;
   /** Leading icon component, for example from lucide-react. */
   icon?: IconComponent;
-  /** Secondary line under the label. */
+  /**
+   * Secondary line under the label. It becomes part of the item's accessible
+   * name, which then starts with the label, so the name always contains the
+   * visible text (WCAG 2.5.3).
+   */
   description?: ReactNode;
   /** Keyboard shortcut hint, such as "⌘K". Display only. */
   shortcut?: string;
@@ -112,16 +116,16 @@ export function DropdownMenuItem<T extends object = object>({
               className={cx('size-4 shrink-0', isDanger ? 'text-fg-error' : 'text-fg-tertiary')}
             />
           )}
-          <span className="flex min-w-0 flex-1 flex-col">
-            <Text slot="label" className="truncate">
+          {description ? (
+            <span className="flex min-w-0 flex-1 flex-col">
+              <span className="truncate">{children}</span>
+              <span className="truncate text-xs text-tertiary">{description}</span>
+            </span>
+          ) : (
+            <Text slot="label" className="min-w-0 flex-1 truncate">
               {children}
             </Text>
-            {description && (
-              <Text slot="description" className="truncate text-xs text-tertiary">
-                {description}
-              </Text>
-            )}
-          </span>
+          )}
           {shortcut && (
             <Keyboard className="ml-4 font-mono text-xs text-tertiary">{shortcut}</Keyboard>
           )}
