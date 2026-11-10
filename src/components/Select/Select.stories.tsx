@@ -31,3 +31,24 @@ export const WithError: Story = { args: { errorMessage: 'Choose a city to contin
 export const Preselected: Story = { args: { defaultSelectedKey: 'ist' } };
 export const DisabledOption: Story = { args: { disabledKeys: ['ber'] } };
 export const Disabled: Story = { args: { isDisabled: true } };
+
+const countries: Record<string, string> = {
+  ams: 'The Netherlands',
+  osl: 'Norway',
+  ist: 'Türkiye',
+  ber: 'Germany',
+};
+
+/** A supporting line per option. It is not repeated in the trigger after choosing. */
+export const WithDescriptions: Story = {
+  args: {
+    children: (item: object) => {
+      const city = item as (typeof cities)[number];
+      return (
+        <SelectItem id={city.id} description={countries[city.id]}>
+          {city.name}
+        </SelectItem>
+      );
+    },
+  },
+};

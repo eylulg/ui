@@ -31,6 +31,19 @@ export const Default: Story = {
   ),
 };
 
+/** `padding="none"` lets media run to the edge; the text parts add their own padding. */
+export const MediaCard: Story = {
+  render: () => (
+    <Card padding="none" href="#film">
+      <div aria-hidden="true" className="aspect-video bg-brand-subtle" />
+      <div className="flex flex-col gap-stack p-card">
+        <CardHeader title="Arrival" description="2016, science fiction" />
+        <CardBody>Twelve alien ships appear around the world.</CardBody>
+      </div>
+    </Card>
+  ),
+};
+
 export const WithActionsAndFooter: Story = {
   render: () => (
     <Card>

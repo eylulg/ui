@@ -8,6 +8,7 @@ import {
   Select as AriaSelect,
   SelectValue,
   composeRenderProps,
+  type ButtonProps as AriaButtonProps,
   type ListBoxItemProps,
   type SelectProps as AriaSelectProps,
 } from 'react-aria-components';
@@ -28,6 +29,12 @@ export interface SelectProps<T extends object> extends Omit<
   children: ReactNode | ((item: T) => ReactNode);
   /** Ref to the trigger button, for example to move focus to the select. */
   ref?: Ref<HTMLButtonElement>;
+  /**
+   * Key presses on the trigger while the list is closed, for example Escape to
+   * cancel a form. React Aria stops propagation after calling it; call
+   * `event.continuePropagation()` to let the key reach parent handlers too.
+   */
+  onKeyDown?: AriaButtonProps['onKeyDown'];
 }
 
 export function Select<T extends object>({
@@ -38,6 +45,7 @@ export function Select<T extends object>({
   items,
   children,
   ref,
+  onKeyDown,
   className,
   isInvalid,
   ...props
@@ -54,6 +62,7 @@ export function Select<T extends object>({
       {label && <FieldLabel>{label}</FieldLabel>}
       <AriaButton
         ref={ref}
+        onKeyDown={onKeyDown}
         className={cx(
           'flex h-control-md w-full cursor-pointer items-center gap-2 rounded-md border border-control bg-primary px-3 text-left text-md text-primary shadow-xs',
           'data-disabled:cursor-not-allowed data-disabled:border-disabled data-disabled:bg-disabled data-disabled:text-disabled',
@@ -61,7 +70,7 @@ export function Select<T extends object>({
           focusRing,
         )}
       >
-        <SelectValue className="flex-1 truncate data-placeholder:text-placeholder" />
+        <SelectValue className="flex-1 truncate data-placeholder:text-placeholder [&_[data-item-description]]:hidden" />
         <ChevronDown aria-hidden="true" className="size-4 shrink-0 text-fg-tertiary" />
       </AriaButton>
       {hint && !errorMessage && <FieldHint>{hint}</FieldHint>}
@@ -78,9 +87,15 @@ export function Select<T extends object>({
   );
 }
 
-export type SelectItemProps = ListBoxItemProps;
+export interface SelectItemProps extends ListBoxItemProps {
+  /**
+   * Supporting text under the label. It joins the option's accessible name
+   * after the label, and is left out of the trigger once the option is chosen.
+   */
+  description?: ReactNode;
+}
 
-export function SelectItem({ className, children, ...props }: SelectItemProps) {
+export function SelectItem({ className, children, description, ...props }: SelectItemProps) {
   const textValue = props.textValue ?? (typeof children === 'string' ? children : undefined);
   return (
     <ListBoxItem
@@ -96,7 +111,14 @@ export function SelectItem({ className, children, ...props }: SelectItemProps) {
     >
       {composeRenderProps(children, (content, { isSelected }) => (
         <>
-          <span className="flex-1 truncate">{content}</span>
+          <span className="flex min-w-0 flex-1 flex-col">
+            <span className="truncate">{content}</span>
+            {description && (
+              <span data-item-description="" className="truncate text-xs text-tertiary">
+                {description}
+              </span>
+            )}
+          </span>
           {isSelected && <Check aria-hidden="true" className="size-4 shrink-0 text-fg-brand" />}
         </>
       ))}

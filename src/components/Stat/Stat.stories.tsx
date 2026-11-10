@@ -24,6 +24,9 @@ export const FallIsGood: Story = {
     delta: { value: '0.1 pt', trend: 'down', isPositive: true, label: 'vs last week' },
   },
 };
+/** The compact size for a sticky summary bar. */
+export const Small: Story = { args: { size: 'sm', detail: 'of 200 pull requests' } };
+export const WithDetail: Story = { args: { detail: 'Across 12 services' } };
 export const Neutral: Story = {
   args: { delta: { value: '0%', trend: 'neutral', label: 'vs last week' } },
 };

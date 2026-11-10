@@ -18,9 +18,15 @@ export interface StatDelta {
   isPositive?: boolean;
 }
 
-export interface StatProps extends HTMLAttributes<HTMLDivElement> {
+export type StatSize = 'sm' | 'md';
+
+export interface StatProps extends HTMLAttributes<HTMLDListElement> {
   label: ReactNode;
   value: ReactNode;
+  /** `sm` fits a compact summary bar; `md` is the dashboard size. */
+  size?: StatSize;
+  /** A line of context under the value, such as "of 200 reviewed". */
+  detail?: ReactNode;
   delta?: StatDelta;
   /** Inline chart slot, usually a Sparkline. */
   sparkline?: ReactNode;
@@ -50,16 +56,28 @@ const tone = {
 
 const card = 'rounded-xl border border-subtle bg-elevated p-card shadow-xs';
 
+const sizes: Record<StatSize, { root: string; label: string; value: string }> = {
+  sm: { root: 'gap-1', label: 'text-xs', value: 'text-xl' },
+  md: { root: 'gap-2', label: 'text-sm', value: 'text-3xl' },
+};
+
 function toneFor({ trend, isPositive }: StatDelta): keyof typeof tone {
   if (trend === 'neutral') return 'neutral';
   const positive = isPositive ?? trend === 'up';
   return positive ? 'positive' : 'negative';
 }
 
-/** A single metric: label, value, an optional change and an optional sparkline. */
+/**
+ * A single metric: label, value, an optional detail line, an optional change
+ * and an optional sparkline. It is a description list, so a screen reader
+ * announces the label as the term and the value as its description. Put
+ * several Stats in a grid or flex container, not inside another list.
+ */
 export function Stat({
   label,
   value,
+  size = 'md',
+  detail,
   delta,
   sparkline,
   isCard = false,
@@ -70,14 +88,19 @@ export function Stat({
   const TrendIcon = delta ? trendIcons[delta.trend] : null;
 
   return (
-    <div {...props} className={cx('flex flex-col gap-2', isCard && card, className)}>
-      <p className="text-sm font-medium text-tertiary">{label}</p>
-      <div className="flex items-end justify-between gap-4">
-        <p className="font-data text-3xl font-semibold text-primary tabular-nums">{value}</p>
-        {sparkline && <div className="shrink-0 text-fg-brand">{sparkline}</div>}
-      </div>
+    <dl {...props} className={cx('flex flex-col', sizes[size].root, isCard && card, className)}>
+      <dt className={cx('font-medium text-tertiary', sizes[size].label)}>{label}</dt>
+      <dd className="flex items-end justify-between gap-4">
+        <span
+          className={cx('font-data font-semibold text-primary tabular-nums', sizes[size].value)}
+        >
+          {value}
+        </span>
+        {sparkline && <span className="shrink-0 text-fg-brand">{sparkline}</span>}
+      </dd>
+      {detail && <dd className="text-sm text-tertiary">{detail}</dd>}
       {delta && TrendIcon && (
-        <p className="flex flex-wrap items-center gap-1 text-sm">
+        <dd className="flex flex-wrap items-center gap-1 text-sm">
           <span
             className={cx('inline-flex items-center gap-0.5 font-medium', tone[toneFor(delta)])}
           >
@@ -86,9 +109,9 @@ export function Stat({
             {delta.value}
           </span>
           {delta.label && <span className="text-tertiary">{delta.label}</span>}
-        </p>
+        </dd>
       )}
-    </div>
+    </dl>
   );
 }
 

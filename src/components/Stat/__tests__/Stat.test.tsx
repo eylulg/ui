@@ -26,6 +26,16 @@ describe('Stat', () => {
     expect(screen.getByText(words)).toBeInTheDocument();
   });
 
+  it('pairs the label with its value and detail as a term and its descriptions', () => {
+    render(<Stat label="Reviewed" value="128" detail="of 200 pull requests" size="sm" />);
+
+    expect(screen.getByRole('term')).toHaveTextContent('Reviewed');
+    expect(screen.getAllByRole('definition').map((item) => item.textContent)).toEqual([
+      '128',
+      'of 200 pull requests',
+    ]);
+  });
+
   it.each([
     { label: 'Weekly deploys', role: true },
     { label: undefined, role: false },

@@ -42,6 +42,14 @@ describe('Card', () => {
     expect(screen.getByRole(role, { name: 'Theme variants' })).toBeInTheDocument();
   });
 
+  it('hands aria props to the link or button of an interactive card', () => {
+    render(<Example href="/themes" aria-keyshortcuts="G T" aria-describedby="hint" />);
+
+    const link = screen.getByRole('link', { name: 'Theme variants' });
+    expect(link).toHaveAttribute('aria-keyshortcuts', 'G T');
+    expect(link).toHaveAttribute('aria-describedby', 'hint');
+  });
+
   it('runs onPress when the card is activated from the keyboard', async () => {
     const user = userEvent.setup();
     const onPress = vi.fn();
