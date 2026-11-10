@@ -77,5 +77,15 @@
     "name": "One theme variant file",
     "path": "dist/themes/workspace.css",
     "limit": "1 kB"
+  },
+  {
+    "name": "Plain tokens (no Tailwind)",
+    "path": "dist/tokens.css",
+    "limit": "2.5 kB"
+  },
+  {
+    "name": "Optional Inter loader",
+    "path": "dist/fonts.css",
+    "limit": "0.3 kB"
   }
 ]

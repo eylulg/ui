@@ -183,6 +183,8 @@
     },
     "./styles.css": "./dist/styles.css",
     "./theme.css": "./dist/theme.css",
+    "./tokens.css": "./dist/tokens.css",
+    "./fonts.css": "./dist/fonts.css",
     "./themes/*.css": "./dist/themes/*.css",
     "./package.json": "./package.json"
   },
@@ -206,7 +208,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "semantic-release": "semantic-release",
-    "build:css": "tailwindcss -i src/styles/index.css -o dist/styles.css --minify && cp src/styles/theme.css dist/theme.css && mkdir -p dist/themes && cp src/styles/themes/*.css dist/themes/",
+    "build:css": "tailwindcss -i src/styles/index.css -o dist/styles.css --minify && cp src/styles/theme.css src/styles/fonts.css dist/ && jiti scripts/build-tokens.ts && mkdir -p dist/themes && cp src/styles/themes/*.css dist/themes/",
     "themes": "jiti scripts/generate-themes.ts",
     "contrast": "jiti scripts/contrast.ts",
     "knip": "knip",
@@ -215,7 +217,8 @@
   "peerDependencies": {
     "lucide-react": "^1.0.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "@fontsource-variable/inter": "^5.0.0"
   },
   "dependencies": {
     "@internationalized/date": "^3.12.4",
@@ -226,6 +229,7 @@
     "@commitlint/cli": "^21.2.4",
     "@commitlint/config-conventional": "^21.2.4",
     "@eslint/js": "^9.39.5",
+    "@fontsource-variable/inter": "^5.3.0",
     "@semantic-release/changelog": "^7.0.0",
     "@semantic-release/git": "^11.0.1",
     "@size-limit/esbuild": "^14.3.0",
@@ -270,5 +274,10 @@
     "vite": "^8.3.7",
     "vitest": "^5.1.0",
     "vitest-axe": "^0.1.0"
+  },
+  "peerDependenciesMeta": {
+    "@fontsource-variable/inter": {
+      "optional": true
+    }
   }
 }

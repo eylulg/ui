@@ -1,0 +1,14 @@
+/*
+ * Optional: loads Inter from @fontsource-variable/inter and points the theme at it.
+ *
+ *   npm install @fontsource-variable/inter
+ *   @import '@eylulg/ui/fonts.css';
+ *
+ * Import it before the theme and variant files. Without it the theme still
+ * names Inter and falls back to the system font when Inter is not installed.
+ */
+@import '@fontsource-variable/inter';
+
+:root {
+  --font-inter: 'Inter Variable';
+}

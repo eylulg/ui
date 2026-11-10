@@ -92,9 +92,13 @@ export interface Variant extends VariantSpec {
   colors: { brand: ColorScale; gray: ColorScale };
 }
 
-/** Inter for every variant keeps the family coherent. */
+/**
+ * Inter for every variant keeps the family coherent. `--font-inter` is set by
+ * @eylulg/ui/fonts.css; without it the stack names an installed Inter and then
+ * falls back to the system font.
+ */
 export const displayFont =
-  "'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
+  "var(--font-inter, 'Inter'), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
 
 /** A system monospace stack: no web font download, native look on every OS. */
 export const monoFont =
