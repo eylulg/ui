@@ -37,7 +37,7 @@ const nav = 'flex flex-col gap-4 p-3';
 const list = 'flex flex-col gap-0.5';
 const sectionTitle = 'px-item-x pb-1 text-xs font-semibold text-tertiary';
 const toggle = [
-  'flex w-full cursor-pointer items-center justify-between rounded-sm px-item-x pb-1 text-xs font-semibold text-tertiary data-hovered:text-secondary',
+  'flex w-full cursor-pointer items-center justify-between rounded-sm px-item-x min-h-6 text-xs font-semibold text-tertiary data-hovered:text-secondary',
   focusRing,
 ].join(' ');
 const chevron =
