@@ -10,7 +10,7 @@ const meta = {
   argTypes: {
     variant: {
       control: 'inline-radio',
-      options: ['primary', 'secondary', 'tertiary', 'destructive'],
+      options: ['primary', 'secondary', 'tertiary', 'destructive', 'destructive-outline'],
     },
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
     iconLeading: { control: false },
@@ -28,6 +28,25 @@ export const Destructive: Story = {
   args: { variant: 'destructive', children: 'Delete', iconLeading: Trash2 },
 };
 
+export const DestructiveOutline: Story = {
+  args: { variant: 'destructive-outline', children: 'Delete project', iconLeading: Trash2 },
+};
+
+/** With `href`, Button renders a link (an anchor) with button styles. */
+export const AsLink: Story = {
+  args: {
+    href: '#docs',
+    variant: 'secondary',
+    children: 'Read the docs',
+    iconTrailing: ArrowRight,
+  },
+  play: async ({ canvasElement }) => {
+    await expect(
+      within(canvasElement).getByRole('link', { name: 'Read the docs' }),
+    ).toHaveAttribute('href', '#docs');
+  },
+};
+
 export const Small: Story = { args: { size: 'sm' } };
 export const Medium: Story = { args: { size: 'md' } };
 export const Large: Story = { args: { size: 'lg' } };
@@ -43,7 +62,9 @@ export const AllVariants: Story = {
     <div className="flex flex-col gap-4">
       {(['sm', 'md', 'lg'] as const).map((size) => (
         <div key={size} className="flex flex-wrap items-center gap-3">
-          {(['primary', 'secondary', 'tertiary', 'destructive'] as const).map((variant) => (
+          {(
+            ['primary', 'secondary', 'tertiary', 'destructive', 'destructive-outline'] as const
+          ).map((variant) => (
             <Button key={variant} {...args} variant={variant} size={size}>
               {variant}
             </Button>
