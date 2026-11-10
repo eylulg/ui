@@ -1,5 +1,13 @@
-import { Search } from 'lucide-react';
-import { useEffect, useRef, type Dispatch, type ReactNode, type SetStateAction } from 'react';
+import { ArrowLeft, Search } from 'lucide-react';
+import {
+  useEffect,
+  useRef,
+  useState,
+  type Dispatch,
+  type KeyboardEvent as ReactKeyboardEvent,
+  type ReactNode,
+  type SetStateAction,
+} from 'react';
 import {
   Autocomplete,
   Dialog,
@@ -21,13 +29,39 @@ import {
 import { listItem, listSectionHeader } from '../../internal/surfaces';
 import type { IconComponent } from '../../internal/types';
 import { cx } from '../../utils/cx';
+import { IconButton } from '../IconButton/IconButton';
 import { Kbd } from '../Kbd/Kbd';
+
+export interface CommandPalettePage {
+  /** Identifies the page. The search text resets when it changes. */
+  id: string;
+  /** Shown before the search field and announced when the page opens, such as "Change status". */
+  title: string;
+}
 
 export interface CommandPaletteProps {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
-  /** Called with the id of the chosen command, after which the palette closes. */
+  /** Called with the id of the chosen command. The palette closes afterwards unless `closeOnAction` is false. */
   onAction?: (key: Key) => void;
+  /**
+   * Whether choosing a command closes the palette. Set it to false when some
+   * commands open a sub page: keep the page in your state, render its commands
+   * as `children`, and call `onOpenChange(false)` yourself after a final command.
+   */
+  closeOnAction?: boolean;
+  /** Called with the search text as the user types. */
+  onSearchChange?: (value: string) => void;
+  /**
+   * The sub page being shown, or nothing for the top level. While it is set the
+   * palette shows its title and a back button, and Backspace in an empty
+   * search field calls `onBack`.
+   */
+  page?: CommandPalettePage;
+  /** Go up one level: Backspace in an empty search field, or the back button. */
+  onBack?: () => void;
+  /** Accessible name of the back button. */
+  backLabel?: string;
   /** Accessible name of the dialog. */
   label?: string;
   /** Accessible name and placeholder of the search field. */
@@ -49,6 +83,7 @@ const searchInput =
   'min-w-0 flex-1 bg-transparent text-md text-primary outline-none placeholder:text-placeholder [&::-webkit-search-cancel-button]:hidden';
 const list = 'max-h-[min(24rem,60vh)] overflow-auto p-1 outline-none';
 const empty = 'px-4 py-8 text-center text-sm text-tertiary';
+const pageTitle = 'shrink-0 rounded-sm bg-tertiary px-2 py-0.5 text-xs font-medium text-secondary';
 
 /**
  * A searchable list of commands in a modal, opened with Cmd or Ctrl and K
@@ -61,6 +96,11 @@ export function CommandPalette({
   isOpen,
   onOpenChange,
   onAction,
+  closeOnAction = true,
+  onSearchChange,
+  page,
+  onBack,
+  backLabel = 'Back',
   label = 'Command palette',
   searchLabel = 'Search commands',
   placeholder = 'Type a command or search',
@@ -72,15 +112,26 @@ export function CommandPalette({
       <Modal className={modal}>
         <Dialog aria-label={label} className="outline-none">
           {({ close }) => (
-            <CommandSearch
-              close={close}
-              onAction={onAction}
-              searchLabel={searchLabel}
-              placeholder={placeholder}
-              emptyState={emptyState}
-            >
-              {children}
-            </CommandSearch>
+            <>
+              <span role="status" className="sr-only">
+                {page?.title}
+              </span>
+              <CommandSearch
+                key={page?.id}
+                close={close}
+                onAction={onAction}
+                closeOnAction={closeOnAction}
+                onSearchChange={onSearchChange}
+                page={page}
+                onBack={onBack}
+                backLabel={backLabel}
+                searchLabel={searchLabel}
+                placeholder={placeholder}
+                emptyState={emptyState}
+              >
+                {children}
+              </CommandSearch>
+            </>
           )}
         </Dialog>
       </Modal>
@@ -90,14 +141,28 @@ export function CommandPalette({
 
 interface CommandSearchProps extends Pick<
   CommandPaletteProps,
-  'onAction' | 'searchLabel' | 'placeholder' | 'emptyState' | 'children'
+  | 'onAction'
+  | 'onSearchChange'
+  | 'page'
+  | 'onBack'
+  | 'searchLabel'
+  | 'placeholder'
+  | 'emptyState'
+  | 'children'
 > {
   close: () => void;
+  closeOnAction: boolean;
+  backLabel: string;
 }
 
 function CommandSearch({
   close,
   onAction,
+  closeOnAction,
+  onSearchChange,
+  page,
+  onBack,
+  backLabel,
   searchLabel,
   placeholder,
   emptyState,
@@ -105,6 +170,7 @@ function CommandSearch({
 }: CommandSearchProps) {
   const { contains } = useFilter({ sensitivity: 'base' });
   const inputRef = useRef<HTMLInputElement>(null);
+  const [search, setSearch] = useState('');
 
   // The search field, not the dialog, receives focus on open, as in the WAI combobox pattern.
   useEffect(() => {
@@ -113,7 +179,22 @@ function CommandSearch({
 
   function handleAction(key: Key) {
     onAction?.(key);
-    close();
+    if (closeOnAction) close();
+  }
+
+  function handleSearchChange(value: string) {
+    setSearch(value);
+    onSearchChange?.(value);
+  }
+
+  function handleKeyDown(event: ReactKeyboardEvent<HTMLInputElement>) {
+    if (event.key !== 'Backspace' || search !== '' || !page) return;
+    event.preventDefault();
+    onBack?.();
+  }
+
+  function handleBack() {
+    onBack?.();
   }
 
   function renderEmptyState() {
@@ -121,10 +202,29 @@ function CommandSearch({
   }
 
   return (
-    <Autocomplete filter={contains}>
+    <Autocomplete filter={contains} inputValue={search} onInputChange={handleSearchChange}>
       <SearchField aria-label={searchLabel} className={searchRow}>
-        <Search aria-hidden="true" className="size-5 shrink-0 text-fg-tertiary" />
-        <Input ref={inputRef} placeholder={placeholder} className={searchInput} />
+        {page ? (
+          <>
+            <IconButton
+              icon={ArrowLeft}
+              aria-label={backLabel}
+              variant="tertiary"
+              size="sm"
+              className="-ml-2 shrink-0"
+              onPress={handleBack}
+            />
+            <span className={pageTitle}>{page.title}</span>
+          </>
+        ) : (
+          <Search aria-hidden="true" className="size-5 shrink-0 text-fg-tertiary" />
+        )}
+        <Input
+          ref={inputRef}
+          placeholder={placeholder}
+          onKeyDown={handleKeyDown}
+          className={searchInput}
+        />
       </SearchField>
       <Menu onAction={handleAction} renderEmptyState={renderEmptyState} className={list}>
         {children}

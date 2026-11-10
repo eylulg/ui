@@ -41,6 +41,52 @@ function Example({ onAction = () => {} }: { onAction?: (key: Key) => void }) {
   );
 }
 
+function NestedExample({ onSearchChange }: { onSearchChange?: (value: string) => void }) {
+  const [isOpen, setOpen] = useState(true);
+  const [page, setPage] = useState<string | null>(null);
+  const [done, setDone] = useState('');
+
+  function handleAction(key: Key) {
+    if (key === 'status') {
+      setPage('status');
+      return;
+    }
+    setDone(String(key));
+    setOpen(false);
+  }
+
+  function handleBack() {
+    setPage(null);
+  }
+
+  return (
+    <>
+      <p>Chose {done}</p>
+      <CommandPalette
+        isOpen={isOpen}
+        onOpenChange={setOpen}
+        onAction={handleAction}
+        closeOnAction={false}
+        onSearchChange={onSearchChange}
+        page={page ? { id: page, title: 'Change status' } : undefined}
+        onBack={handleBack}
+      >
+        {page === 'status' ? (
+          <CommandGroup heading="Status">
+            <CommandItem id="todo">Todo</CommandItem>
+            <CommandItem id="done">Done</CommandItem>
+          </CommandGroup>
+        ) : (
+          <CommandGroup heading="Issues">
+            <CommandItem id="status">Change status</CommandItem>
+            <CommandItem id="assign">Assign to me</CommandItem>
+          </CommandGroup>
+        )}
+      </CommandPalette>
+    </>
+  );
+}
+
 async function open() {
   const user = userEvent.setup();
   await user.click(screen.getByRole('button', { name: 'Open commands' }));
@@ -56,6 +102,40 @@ describe('CommandPalette', () => {
     await user.keyboard(keys);
 
     expect(await screen.findByRole('dialog', { name: 'Command palette' })).toBeInTheDocument();
+  });
+
+  it('opens a sub page, goes back with Backspace and closes only after a final command', async () => {
+    const user = userEvent.setup();
+    render(<NestedExample />);
+    await user.click(await screen.findByRole('menuitem', { name: 'Change status' }));
+
+    expect(await screen.findByRole('menuitem', { name: 'Todo' })).toBeInTheDocument();
+    expect(screen.queryByRole('menuitem', { name: 'Assign to me' })).not.toBeInTheDocument();
+
+    await waitFor(() =>
+      expect(screen.getByRole('searchbox', { name: 'Search commands' })).toHaveFocus(),
+    );
+    await user.keyboard('{Backspace}');
+
+    expect(await screen.findByRole('menuitem', { name: 'Assign to me' })).toBeInTheDocument();
+
+    await user.click(screen.getByRole('menuitem', { name: 'Assign to me' }));
+
+    expect(screen.getByText('Chose assign')).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+  });
+
+  it('keeps Backspace for editing text while the search is not empty', async () => {
+    const user = userEvent.setup();
+    const onSearchChange = vi.fn();
+    render(<NestedExample onSearchChange={onSearchChange} />);
+    await user.click(await screen.findByRole('menuitem', { name: 'Change status' }));
+    await screen.findByRole('menuitem', { name: 'Todo' });
+
+    await user.keyboard('do{Backspace}');
+
+    expect(screen.getByRole('menuitem', { name: 'Todo' })).toBeInTheDocument();
+    expect(onSearchChange).toHaveBeenLastCalledWith('d');
   });
 
   it('starts with focus in the search field', async () => {

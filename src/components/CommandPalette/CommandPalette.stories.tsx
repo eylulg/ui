@@ -91,3 +91,85 @@ export const NoResults: Story = {
     await expect(await body.findByText('No results')).toBeVisible();
   },
 };
+
+const statuses = ['Backlog', 'Todo', 'In progress', 'Done'];
+
+function NestedPalette() {
+  const [isOpen, setOpen] = useState(false);
+  const [page, setPage] = useState<string | null>(null);
+  const [search, setSearch] = useState('');
+  const [status, setStatus] = useState('Backlog');
+  useCommandPaletteShortcut(setOpen);
+
+  function handleOpen() {
+    setPage(null);
+    setOpen(true);
+  }
+
+  function handleAction(key: React.Key) {
+    if (key === 'status') {
+      setPage('status');
+      return;
+    }
+    setStatus(String(key));
+    setOpen(false);
+  }
+
+  function handleBack() {
+    setPage(null);
+  }
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center gap-3">
+        <Button variant="secondary" onPress={handleOpen}>
+          Open commands
+        </Button>
+        <span className="text-sm text-tertiary">Status: {status}</span>
+      </div>
+      <p className="text-xs text-tertiary">Search text: {search || 'empty'}</p>
+      <CommandPalette
+        isOpen={isOpen}
+        onOpenChange={setOpen}
+        onAction={handleAction}
+        closeOnAction={false}
+        onSearchChange={setSearch}
+        page={page ? { id: page, title: 'Change status' } : undefined}
+        onBack={handleBack}
+      >
+        {page === 'status' ? (
+          <CommandGroup heading="Status">
+            {statuses.map((name) => (
+              <CommandItem key={name} id={name}>
+                {name}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        ) : (
+          <CommandGroup heading="Issue">
+            <CommandItem id="status" description="Opens a list of statuses">
+              Change status
+            </CommandItem>
+            <CommandItem id="assign" icon={UserPlus}>
+              Assign to me
+            </CommandItem>
+          </CommandGroup>
+        )}
+      </CommandPalette>
+    </div>
+  );
+}
+
+/** Sub pages: the app keeps the page, Backspace in an empty search or the back button goes up. */
+export const NestedPages: Story = {
+  render: () => <NestedPalette />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+    await userEvent.click(canvas.getByRole('button', { name: 'Open commands' }));
+    await userEvent.click(await body.findByRole('menuitem', { name: /^Change status/ }));
+    await expect(await body.findByRole('menuitem', { name: 'In progress' })).toBeVisible();
+    await userEvent.keyboard('{Backspace}');
+    await expect(await body.findByRole('menuitem', { name: 'Assign to me' })).toBeVisible();
+  },
+};
