@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Archive, Copy, LogOut, Pencil, Settings, Trash2, User } from 'lucide-react';
-import { expect, fn, userEvent, within } from 'storybook/test';
+import { expect, fn, userEvent, waitFor, within } from 'storybook/test';
 import { Button } from '../Button/Button';
 import {
   DropdownMenu,
@@ -135,7 +135,8 @@ export const KeyboardNavigation: Story = {
     await userEvent.keyboard('{ArrowDown}');
     await body.findByRole('menu');
     await userEvent.keyboard('{ArrowDown}{Enter}');
-    await expect(onAction).toHaveBeenCalledWith('duplicate');
-    await expect(canvas.getByRole('button', { name: 'Actions' })).toHaveFocus();
+    // React Aria passes a second argument to onAction, so read the key itself.
+    await expect(onAction.mock.calls[0]?.[0]).toBe('duplicate');
+    await waitFor(() => expect(canvas.getByRole('button', { name: 'Actions' })).toHaveFocus());
   },
 };

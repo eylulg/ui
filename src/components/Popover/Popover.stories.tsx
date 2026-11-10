@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, userEvent, within } from 'storybook/test';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { Button } from '../Button/Button';
 import { Switch } from '../Switch/Switch';
 import { Popover, PopoverTrigger } from './Popover';
@@ -44,6 +44,7 @@ export const KeyboardOpen: Story = {
     const body = within(canvasElement.ownerDocument.body);
     await expect(await body.findByRole('dialog', { name: 'Filters' })).toBeInTheDocument();
     await userEvent.keyboard('{Escape}');
-    await expect(canvas.getByRole('button', { name: 'Filters' })).toHaveFocus();
+    // Focus returns after the exit animation, so wait for it.
+    await waitFor(() => expect(canvas.getByRole('button', { name: 'Filters' })).toHaveFocus());
   },
 };
