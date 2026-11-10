@@ -1,0 +1,52 @@
+/*
+ * @eylulg/ui minimal reset, for apps that use tokens.css without Tailwind.
+ *
+ * Import it after tokens.css and before a variant file. Apps on styles.css
+ * or on Tailwind already have Tailwind's preflight and must not import it.
+ */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--ui-bg-primary);
+  color: var(--ui-text-primary);
+  font-family: var(--font-body);
+  line-height: 1.5;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+p,
+figure,
+blockquote {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

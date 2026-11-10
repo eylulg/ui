@@ -47,6 +47,15 @@ describe('plain tokens', () => {
     );
   });
 
+  it('carries the type scale of the Tailwind theme, line heights included', () => {
+    const scale = [
+      ...themeCss.matchAll(/^\s+(--(?:text-(?!color-)|leading-|tracking-)[\w-]+):/gm),
+    ].map(([, name = '']) => name);
+
+    expect(scale).toContain('--text-xs--line-height');
+    expect([...declared(tokens)]).toEqual(expect.arrayContaining(scale));
+  });
+
   it.each(['base', ...variantNames] as const)(
     'resolves every variable with the %s variant on top',
     (name) => {

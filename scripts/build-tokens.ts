@@ -13,7 +13,7 @@ const header = `/*
  * @eylulg/ui plain tokens, for apps that do not run Tailwind.
  *
  * Custom properties only: the colour scales, the semantic --ui-* set for light
- * (:root) and dark (.dark-mode or .dark), fonts, radii, shadows and density.
+ * (:root) and dark (.dark-mode or .dark), fonts, the type scale, radii, shadows and density.
  * No preflight and no component styles. Import it before a variant file:
  *
  *   @import '@eylulg/ui/tokens.css';
@@ -52,7 +52,7 @@ export function tokensCss(themeCss: string): string {
 
   const primitives = [
     ...blockBody(themeCss, themeStart).matchAll(
-      /^\s*(--(?:font|radius|shadow|color)-[\w-]+):\s*([^;]+);/gm,
+      /^\s*(--(?:font|radius|shadow|color|leading|tracking|text-(?!color-))[\w-]+):\s*([^;]+);/gm,
     ),
   ].map(([, name = '', value = '']) => `  ${name}: ${value.replace(/\s+/g, ' ').trim()};`);
 

@@ -197,6 +197,7 @@
     "./theme.css": "./dist/theme.css",
     "./tokens.css": "./dist/tokens.css",
     "./fonts.css": "./dist/fonts.css",
+    "./reset.css": "./dist/reset.css",
     "./themes/*.css": "./dist/themes/*.css",
     "./package.json": "./package.json"
   },
@@ -220,7 +221,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "semantic-release": "semantic-release",
-    "build:css": "tailwindcss -i src/styles/index.css -o dist/styles.css --minify && cp src/styles/theme.css src/styles/fonts.css dist/ && jiti scripts/build-tokens.ts && mkdir -p dist/themes && cp src/styles/themes/*.css dist/themes/",
+    "build:css": "tailwindcss -i src/styles/index.css -o dist/styles.css --minify && cp src/styles/theme.css src/styles/fonts.css src/styles/reset.css dist/ && jiti scripts/build-tokens.ts && mkdir -p dist/themes && cp src/styles/themes/*.css dist/themes/",
     "themes": "jiti scripts/generate-themes.ts",
     "contrast": "jiti scripts/contrast.ts",
     "knip": "knip",
