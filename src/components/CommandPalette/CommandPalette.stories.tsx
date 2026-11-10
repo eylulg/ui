@@ -30,7 +30,7 @@ function Palette({ onAction }: { onAction?: (key: React.Key) => void }) {
   }
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex min-h-screen items-start gap-3">
       <Button variant="secondary" onPress={handleOpen}>
         Open commands
       </Button>
@@ -66,6 +66,54 @@ function Palette({ onAction }: { onAction?: (key: React.Key) => void }) {
 
 export const Default: Story = {
   render: (args) => <Palette onAction={args.onAction} />,
+};
+
+export const Open: Story = {
+  ...Default,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+    await userEvent.click(canvas.getByRole('button', { name: 'Open commands' }));
+    await body.findByRole('menuitem', { name: 'Create issue' });
+  },
+};
+
+const manyCommands = Array.from({ length: 24 }, (_, index) => `Command ${index + 1}`);
+
+function LongPalette() {
+  const [isOpen, setOpen] = useState(false);
+
+  function handleOpen() {
+    setOpen(true);
+  }
+
+  return (
+    <div className="min-h-screen">
+      <Button variant="secondary" onPress={handleOpen}>
+        Open commands
+      </Button>
+      <CommandPalette isOpen={isOpen} onOpenChange={setOpen}>
+        <CommandGroup heading="Commands">
+          {manyCommands.map((name) => (
+            <CommandItem key={name} id={name} icon={<FilePlus />} shortcut={['G']}>
+              {name}
+            </CommandItem>
+          ))}
+        </CommandGroup>
+      </CommandPalette>
+    </div>
+  );
+}
+
+/** More commands than fit, so the list scrolls. Icons are passed as elements. */
+export const LongList: Story = {
+  render: () => <LongPalette />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+    await userEvent.click(canvas.getByRole('button', { name: 'Open commands' }));
+    await body.findByRole('menuitem', { name: 'Command 1' });
+  },
 };
 
 export const SearchAndRun: Story = {

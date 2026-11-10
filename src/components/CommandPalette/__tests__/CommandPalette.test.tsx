@@ -29,7 +29,9 @@ function Example({ onAction = () => {} }: { onAction?: (key: Key) => void }) {
           <CommandItem id="new-issue" icon={FilePlus} shortcut={['C']}>
             Create issue
           </CommandItem>
-          <CommandItem id="assign">Assign to me</CommandItem>
+          <CommandItem id="assign" icon={<FilePlus />}>
+            Assign to me
+          </CommandItem>
         </CommandGroup>
         <CommandGroup heading="Preferences">
           <CommandItem id="theme" icon={Moon} description="Light, dark or system">
@@ -113,7 +115,7 @@ describe('CommandPalette', () => {
     expect(screen.queryByRole('menuitem', { name: 'Assign to me' })).not.toBeInTheDocument();
 
     await waitFor(() =>
-      expect(screen.getByRole('searchbox', { name: 'Search commands' })).toHaveFocus(),
+      expect(screen.getByRole('combobox', { name: 'Search commands' })).toHaveFocus(),
     );
     await user.keyboard('{Backspace}');
 
@@ -144,7 +146,7 @@ describe('CommandPalette', () => {
     await open();
 
     await waitFor(() =>
-      expect(screen.getByRole('searchbox', { name: 'Search commands' })).toHaveFocus(),
+      expect(screen.getByRole('combobox', { name: 'Search commands' })).toHaveFocus(),
     );
   });
 

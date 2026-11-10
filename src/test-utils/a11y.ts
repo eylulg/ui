@@ -17,6 +17,8 @@ const axe = configureAxe({
     'page-has-heading-one': { enabled: false },
     'landmark-one-main': { enabled: false },
     'color-contrast': { enabled: false },
+    // Experimental in axe and off by default; voice control users rely on it.
+    'label-content-name-mismatch': { enabled: true },
   },
 });
 

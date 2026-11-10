@@ -1,5 +1,6 @@
 import { ArrowLeft, Search } from 'lucide-react';
 import {
+  isValidElement,
   useEffect,
   useRef,
   useState,
@@ -82,6 +83,7 @@ const searchRow =
 const searchInput =
   'min-w-0 flex-1 bg-transparent text-md text-primary outline-none placeholder:text-placeholder [&::-webkit-search-cancel-button]:hidden';
 const list = 'max-h-[min(24rem,60vh)] overflow-auto p-1 outline-none';
+const itemIcon = 'inline-flex shrink-0 text-fg-tertiary [&>svg]:size-4';
 const empty = 'px-4 py-8 text-center text-sm text-tertiary';
 const pageTitle = 'shrink-0 rounded-sm bg-tertiary px-2 py-0.5 text-xs font-medium text-secondary';
 
@@ -221,6 +223,9 @@ function CommandSearch({
         )}
         <Input
           ref={inputRef}
+          // A combobox popup is exempt from axe scrollable-region-focusable, and keeps focus in the field.
+          role="combobox"
+          aria-expanded
           placeholder={placeholder}
           onKeyDown={handleKeyDown}
           className={searchInput}
@@ -250,16 +255,37 @@ export function CommandGroup({ heading, children, className, ...props }: Command
 
 export interface CommandItemProps extends Omit<MenuItemProps, 'children'> {
   children: ReactNode;
-  icon?: IconComponent;
+  /** A lucide-react style component, or an element such as `<Inbox />`. */
+  icon?: IconComponent | ReactNode;
   /** Secondary line. It joins the accessible name after the label, so the name contains the visible text. */
   description?: ReactNode;
   /** Keys of the shortcut that runs this command outside the palette, such as ['⌘', 'N']. */
   shortcut?: string[];
 }
 
+function isIconComponent(icon: IconComponent | ReactNode): icon is IconComponent {
+  return (
+    typeof icon === 'function' ||
+    (typeof icon === 'object' && icon !== null && !isValidElement(icon) && '$$typeof' in icon)
+  );
+}
+
+function renderIcon(icon: IconComponent | ReactNode) {
+  if (isIconComponent(icon)) {
+    const Icon = icon;
+    return <Icon aria-hidden="true" className="size-4 shrink-0 text-fg-tertiary" />;
+  }
+  if (!icon) return null;
+  return (
+    <span aria-hidden="true" className={itemIcon}>
+      {icon}
+    </span>
+  );
+}
+
 export function CommandItem({
   children,
-  icon: Icon,
+  icon,
   description,
   shortcut,
   className,
@@ -272,7 +298,7 @@ export function CommandItem({
       textValue={textValue}
       className={composeRenderProps(className, (consumer) => cx(listItem, consumer))}
     >
-      {Icon && <Icon aria-hidden="true" className="size-4 shrink-0 text-fg-tertiary" />}
+      {renderIcon(icon)}
       {description ? (
         <span className="flex min-w-0 flex-1 flex-col">
           <span className="truncate">{children}</span>
@@ -283,7 +309,7 @@ export function CommandItem({
           {children}
         </Text>
       )}
-      {shortcut && <Kbd keys={shortcut} aria-hidden="true" className="ml-4" />}
+      {shortcut && <Kbd keys={shortcut} decorative className="ml-4" />}
     </MenuItem>
   );
 }
