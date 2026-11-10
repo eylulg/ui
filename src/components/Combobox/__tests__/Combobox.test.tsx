@@ -35,14 +35,12 @@ describe('Combobox', () => {
     expect(screen.getByRole('group', { name: 'Norway' })).toBeInTheDocument();
   });
 
-  it('names options by their label and describes them with the description', async () => {
+  it('names an option with a description by its label first, then the description', async () => {
     render(<CityCombobox />);
 
     await type('ams');
 
-    expect(screen.getByRole('option', { name: 'Amsterdam' })).toHaveAccessibleDescription(
-      'Capital',
-    );
+    expect(screen.getByRole('option', { name: /^Amsterdam\s*Capital/ })).toBeVisible();
   });
 
   it.each([

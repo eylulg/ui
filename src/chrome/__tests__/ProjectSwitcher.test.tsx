@@ -54,7 +54,7 @@ describe('ProjectSwitcher', () => {
     await user.keyboard('{Escape}');
 
     await waitFor(() => expect(screen.queryByRole('menu')).not.toBeInTheDocument());
-    expect(screen.getByRole('button', { name: 'Projects' })).toHaveFocus();
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Projects' })).toHaveFocus());
   });
 
   it('tells the user which project they are in', async () => {

@@ -109,16 +109,16 @@ export function ComboboxItem({ children, description, className, ...props }: Com
         cx(listItem, 'data-selected:font-medium', consumer),
       )}
     >
-      <span className="flex min-w-0 flex-1 flex-col">
-        <Text slot="label" className="truncate">
+      {description ? (
+        <span className="flex min-w-0 flex-1 flex-col">
+          <span className="truncate">{children}</span>
+          <span className="truncate text-xs text-tertiary">{description}</span>
+        </span>
+      ) : (
+        <Text slot="label" className="min-w-0 flex-1 truncate">
           {children}
         </Text>
-        {description && (
-          <Text slot="description" className="truncate text-xs text-tertiary">
-            {description}
-          </Text>
-        )}
-      </span>
+      )}
     </ListBoxItem>
   );
 }
