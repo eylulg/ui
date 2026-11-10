@@ -44,6 +44,9 @@ const rowBase =
 const selectionCell = 'w-10 px-cell-x';
 const emptyState = 'px-cell-x py-10 text-center text-sm text-tertiary';
 
+const headerKey = { id: 'ui-table-header' };
+const bodyKey = { id: 'ui-table-body' };
+
 const align: Record<CellAlign, string> = {
   start: 'text-left',
   end: 'text-right tabular-nums',
@@ -82,7 +85,7 @@ export function TableHeader<T extends object>({
   const hasSelectionColumn = selectionBehavior === 'toggle' && selectionMode !== 'none';
 
   return (
-    <AriaTableHeader {...props} columns={columns}>
+    <AriaTableHeader {...props} {...headerKey} columns={columns}>
       {hasSelectionColumn && (
         <AriaColumn className={cx(headerCell, selectionCell)}>
           {selectionMode === 'multiple' ? (
@@ -142,7 +145,13 @@ export function TableBody<T extends object>({ emptyState: empty, ...props }: Tab
     return <div className={emptyState}>{empty}</div>;
   }
 
-  return <AriaTableBody {...props} renderEmptyState={empty ? renderEmptyState : undefined} />;
+  return (
+    <AriaTableBody
+      {...props}
+      {...bodyKey}
+      renderEmptyState={empty ? renderEmptyState : undefined}
+    />
+  );
 }
 
 export function Row<T extends object>({

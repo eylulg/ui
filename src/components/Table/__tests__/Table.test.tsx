@@ -1,7 +1,9 @@
-import { render, screen, within } from '@testing-library/react';
+import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import type { Selection, SortDescriptor } from 'react-aria-components';
+import { hydrateRoot } from 'react-dom/client';
+import { renderToString } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { expectNoA11yViolations } from '../../../test-utils/a11y';
 import { Cell, Column, Row, Table, TableBody, TableHeader } from '../Table';
@@ -109,5 +111,21 @@ describe('Table', () => {
 
   it('has no axe violations in light and dark', async () => {
     await expectNoA11yViolations(() => <IssueTable selectionMode="multiple" />);
+  });
+
+  it('adopts the server markup on hydration instead of recreating the header and body', async () => {
+    const container = document.createElement('div');
+    document.body.append(container);
+    container.innerHTML = renderToString(<IssueTable selectionMode="multiple" />);
+    const header = container.querySelector('thead');
+    const body = container.querySelector('tbody');
+
+    await act(async () => {
+      hydrateRoot(container, <IssueTable selectionMode="multiple" />);
+    });
+
+    expect(container.querySelector('thead')).toBe(header);
+    expect(container.querySelector('tbody')).toBe(body);
+    container.remove();
   });
 });
