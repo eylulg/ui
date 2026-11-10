@@ -24,6 +24,17 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
+/** Level 1 when the empty state is the whole page, such as a missing page. */
+export const PageLevel: Story = {
+  args: {
+    headingLevel: 1,
+    title: 'Page not found',
+    description: 'The page may have moved. Go back to the start.',
+    icon: SearchX,
+    primaryAction: <Button href="/">Go to the start</Button>,
+  },
+};
+
 export const WithActions: Story = {
   args: {
     primaryAction: <Button>Create issue</Button>,

@@ -8,6 +8,8 @@ export interface PageHeaderProps {
   actions?: ReactNode;
   /** Usually a Breadcrumbs element, rendered above the title. */
   breadcrumbs?: ReactNode;
+  /** Short label above the title, such as a section or an item type. Text, not a heading. */
+  eyebrow?: ReactNode;
   /** Extra context under the description, such as badges or an updated time. */
   meta?: ReactNode;
   /** Use 2 when the page already has an h1, for example inside a tab. */
@@ -23,6 +25,7 @@ export function PageHeader({
   description,
   actions,
   breadcrumbs,
+  eyebrow,
   meta,
   headingLevel = 1,
   className,
@@ -33,6 +36,7 @@ export function PageHeader({
       {breadcrumbs}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex min-w-0 flex-col gap-1">
+          {eyebrow && <p className="text-sm font-semibold text-brand">{eyebrow}</p>}
           <Heading className="font-display text-2xl font-semibold break-words text-primary sm:text-3xl">
             {title}
           </Heading>

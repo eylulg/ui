@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { ExternalLink } from 'lucide-react';
 import { expect, screen, userEvent, waitFor, within } from 'storybook/test';
 import { Button } from '../Button/Button';
+import { IconButton } from '../IconButton/IconButton';
 import { Input } from '../Input/Input';
 import { Dialog, DialogTrigger, type DialogProps } from './Dialog';
 
@@ -27,6 +29,22 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+export const WithHeaderActions: Story = {
+  render: (args) => (
+    <Example
+      {...args}
+      triggerLabel="Open issue"
+      title="Fix the sidebar focus order"
+      description="WS-142"
+      headerActions={
+        <IconButton icon={ExternalLink} aria-label="Open as page" variant="tertiary" size="sm" />
+      }
+    >
+      Arrow keys skip the section toggles.
+    </Example>
+  ),
+};
 
 export const Default: Story = {
   render: (args) => (

@@ -27,6 +27,8 @@ export interface DialogProps extends Pick<
   size?: DialogSize;
   /** Role "alertdialog" for destructive confirmations that need an explicit choice. */
   role?: 'dialog' | 'alertdialog';
+  /** Controls in the header next to the title, such as a button to open the item in a page. They come before the close button. */
+  headerActions?: ReactNode;
   /** Hide the close button in the header. */
   hideCloseButton?: boolean;
   closeLabel?: string;
@@ -49,6 +51,7 @@ export function Dialog({
   description,
   children,
   footer,
+  headerActions,
   size = 'md',
   role = 'dialog',
   hideCloseButton = false,
@@ -69,32 +72,37 @@ export function Dialog({
           role={role}
           aria-describedby={description ? descriptionId : undefined}
           className={cx(
-            'relative flex max-h-[85vh] flex-col gap-4 overflow-auto rounded-xl bg-elevated p-card text-primary shadow-xl outline-none',
+            'flex max-h-[85vh] flex-col gap-4 overflow-auto rounded-xl bg-elevated p-card text-primary shadow-xl outline-none',
             className,
           )}
         >
           {({ close }) => (
             <>
-              <div className="flex flex-col gap-1 pr-8">
-                <Heading slot="title" className="font-display text-lg font-semibold text-primary">
-                  {title}
-                </Heading>
-                {description && (
-                  <p id={descriptionId} className="text-sm text-tertiary">
-                    {description}
-                  </p>
+              <div className="flex items-start gap-2">
+                <div className="flex min-w-0 flex-1 flex-col gap-1">
+                  <Heading slot="title" className="font-display text-lg font-semibold text-primary">
+                    {title}
+                  </Heading>
+                  {description && (
+                    <p id={descriptionId} className="text-sm text-tertiary">
+                      {description}
+                    </p>
+                  )}
+                </div>
+                {headerActions && (
+                  <div className="flex shrink-0 items-center gap-1">{headerActions}</div>
+                )}
+                {!hideCloseButton && (
+                  <IconButton
+                    icon={X}
+                    aria-label={closeLabel}
+                    variant="tertiary"
+                    size="sm"
+                    onPress={close}
+                    className="-mt-1 -mr-1 shrink-0"
+                  />
                 )}
               </div>
-              {!hideCloseButton && (
-                <IconButton
-                  icon={X}
-                  aria-label={closeLabel}
-                  variant="tertiary"
-                  size="sm"
-                  onPress={close}
-                  className="absolute top-4 right-4"
-                />
-              )}
               {children && (
                 <div className="text-sm text-secondary">
                   {typeof children === 'function' ? children({ close }) : children}

@@ -1,8 +1,10 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ExternalLink } from 'lucide-react';
 import { describe, expect, it, vi } from 'vitest';
 import { expectNoA11yViolations } from '../../../test-utils/a11y';
 import { Button } from '../../Button/Button';
+import { IconButton } from '../../IconButton/IconButton';
 import { Input } from '../../Input/Input';
 import { Dialog, DialogTrigger } from '../Dialog';
 
@@ -13,6 +15,9 @@ function Example({ onConfirm = () => {} }: { onConfirm?: () => void }) {
       <Dialog
         title="Edit profile"
         description="Changes are saved to your account."
+        headerActions={
+          <IconButton icon={ExternalLink} aria-label="Open as page" variant="tertiary" size="sm" />
+        }
         footer={({ close }) => (
           <>
             <Button variant="secondary" onPress={close}>
@@ -79,6 +84,15 @@ describe('Dialog', () => {
     await user.click(screen.getByRole('button', { name: 'Save' }));
 
     expect(onConfirm).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps header actions beside the title and the close button reachable', async () => {
+    render(<Example />);
+
+    const { dialog } = await open();
+
+    expect(within(dialog).getByRole('button', { name: 'Open as page' })).toBeInTheDocument();
+    expect(within(dialog).getByRole('button', { name: 'Close' })).toBeInTheDocument();
   });
 
   it('has no axe violations in light and dark while open', async () => {

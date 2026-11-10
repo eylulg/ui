@@ -52,6 +52,14 @@ export const WithActionsAndMeta: Story = {
   },
 };
 
+export const WithEyebrow: Story = {
+  args: {
+    eyebrow: 'Case study',
+    title: 'Review Companion',
+    description: 'Triaging review findings.',
+  },
+};
+
 export const Phone: Story = {
   ...WithActionsAndMeta,
   decorators: [
