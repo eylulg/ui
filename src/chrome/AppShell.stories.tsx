@@ -35,9 +35,13 @@ const actions = (
   </>
 );
 
+// Element props would dump a React element tree into the controls.
+const noControl = { control: false } as const;
+
 const meta = {
   title: 'Chrome/AppShell',
   component: AppShell,
+  argTypes: { header: noControl, sidebar: noControl, footer: noControl, children: noControl },
   parameters: { layout: 'fullscreen', noPadding: true },
   args: { children: null },
 } satisfies Meta<typeof AppShell>;

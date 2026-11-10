@@ -6,9 +6,19 @@ import { ProjectSwitcher } from './ProjectSwitcher';
 import { ThemeToggle } from './ThemeToggle';
 import { TopNav } from './TopNav';
 
+// Element props would dump a React element tree into the controls.
+const noControl = { control: false } as const;
+
 const meta = {
   title: 'Chrome/TopNav',
   component: TopNav,
+  argTypes: {
+    logo: noControl,
+    center: noControl,
+    actions: noControl,
+    compactActions: noControl,
+    mobileMenu: noControl,
+  },
   parameters: { layout: 'fullscreen', noPadding: true },
   args: {
     productName: 'Review Companion',

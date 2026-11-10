@@ -1,8 +1,16 @@
 import type { StorybookConfig } from '@storybook/react-vite';
+import remarkGfm from 'remark-gfm';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(ts|tsx)'],
-  addons: ['@storybook/addon-docs', '@storybook/addon-a11y'],
+  addons: [
+    {
+      name: '@storybook/addon-docs',
+      // MDX 3 needs remark-gfm for tables.
+      options: { mdxPluginOptions: { mdxCompileOptions: { remarkPlugins: [remarkGfm] } } },
+    },
+    '@storybook/addon-a11y',
+  ],
   framework: {
     name: '@storybook/react-vite',
     options: {

@@ -1,5 +1,7 @@
+import { DocsContainer, type DocsContainerProps } from '@storybook/addon-docs/blocks';
 import type { Decorator, Preview } from '@storybook/react-vite';
 import { useEffect, type ReactNode } from 'react';
+import { addons } from 'storybook/preview-api';
 import { variantCss, variantNames, variants } from '../src/styles/themes/variants';
 import './preview.css';
 
@@ -36,6 +38,37 @@ function ThemeRoot({
     else root.dataset.uiVariant = variant;
   }, [theme, variant]);
   return <div className={noPadding ? flush : padded}>{children}</div>;
+}
+
+type Globals = { theme?: Theme; variant?: Variant };
+
+function applyGlobals({ theme = 'light', variant = 'base' }: Globals) {
+  const root = document.documentElement;
+  root.classList.toggle('dark-mode', theme === 'dark');
+  if (variant === 'base') delete root.dataset.uiVariant;
+  else root.dataset.uiVariant = variant;
+}
+
+// MDX pages such as the Introduction have no story, so withTheme never runs
+// there. Follow the toolbar from the docs container instead. Pages with stories
+// keep using the decorator, which also honours forceTheme.
+function ThemedDocsContainer(props: DocsContainerProps) {
+  const { context } = props;
+  useEffect(() => {
+    if (context.componentStories().length > 0) return;
+    const preview = (
+      window as unknown as {
+        __STORYBOOK_PREVIEW__?: { storyStoreValue?: { userGlobals?: { get(): Globals } } };
+      }
+    ).__STORYBOOK_PREVIEW__;
+    const current = preview?.storyStoreValue?.userGlobals?.get();
+    if (current) applyGlobals(current);
+    const channel = addons.getChannel();
+    const onChange = ({ globals }: { globals: Globals }) => applyGlobals(globals);
+    channel.on('globalsUpdated', onChange);
+    return () => channel.off('globalsUpdated', onChange);
+  }, [context]);
+  return <DocsContainer {...props} />;
 }
 
 const withTheme: Decorator = (Story, context) => (
@@ -86,6 +119,7 @@ const preview: Preview = {
   },
   parameters: {
     layout: 'fullscreen',
+    docs: { container: ThemedDocsContainer },
     controls: {
       matchers: { color: /(background|color)$/i },
     },

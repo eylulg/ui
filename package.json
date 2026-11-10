@@ -229,10 +229,10 @@
     "prepare": "husky"
   },
   "peerDependencies": {
+    "@fontsource-variable/inter": "^5.0.0",
     "lucide-react": "^1.0.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "@fontsource-variable/inter": "^5.0.0"
+    "react-dom": "^19.0.0"
   },
   "dependencies": {
     "@internationalized/date": "^3.12.4",
@@ -280,6 +280,7 @@
     "prettier-plugin-tailwindcss": "^0.8.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
+    "remark-gfm": "^4.0.1",
     "semantic-release": "^25.0.9",
     "size-limit": "^14.3.0",
     "storybook": "^10.6.6",

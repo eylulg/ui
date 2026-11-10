@@ -1,9 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SiteFooter } from './SiteFooter';
 
+// Element props would dump a React element tree into the controls.
+const noControl = { control: false } as const;
+
 const meta = {
   title: 'Chrome/SiteFooter',
   component: SiteFooter,
+  argTypes: { children: noControl },
   parameters: { layout: 'fullscreen', noPadding: true },
   args: { currentId: 'portfolio' },
 } satisfies Meta<typeof SiteFooter>;
