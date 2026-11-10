@@ -48,6 +48,15 @@ export const projects: Project[] = [
     repoUrl: 'https://github.com/eylulg/review-companion',
   },
   {
+    id: 'assistant-studio',
+    name: 'Assistant Studio',
+    description: 'Streaming assistant with tool use, approval gates and evals',
+    url: null,
+    plannedUrl: 'https://assistant-studio-eylulg.vercel.app',
+    variant: 'assistant',
+    repoUrl: 'https://github.com/eylulg/assistant-studio',
+  },
+  {
     id: 'agent-control-room',
     name: 'Agent control room',
     description: 'Watch and steer running AI agents',
