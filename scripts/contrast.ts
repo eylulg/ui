@@ -61,7 +61,17 @@ export const pairs: Array<{ fg: string; bg: string[]; min: number }> = [
     },
     { fg: `fg-${hue}`, bg: ['bg-primary', 'bg-elevated'], min: 3 },
   ]),
-  { fg: 'text-on-solid', bg: ['bg-brand-solid', 'bg-error-solid'], min: 4.5 },
+  // Solid buttons: the resting, hover and pressed fills all carry white text.
+  {
+    fg: 'text-on-solid',
+    bg: ['bg-brand-solid', 'bg-brand-solid-hover', 'bg-error-solid', 'bg-error-solid-hover'],
+    min: 4.5,
+  },
+  {
+    fg: 'fg-on-solid',
+    bg: ['bg-brand-solid', 'bg-brand-solid-hover', 'bg-error-solid', 'bg-error-solid-hover'],
+    min: 4.5,
+  },
   { fg: 'text-inverse', bg: ['bg-inverse'], min: 4.5 },
   // Non text: icons, control outlines and focus rings need 3:1 (WCAG 1.4.11).
   { fg: 'fg-brand', bg: ['bg-primary', 'bg-elevated'], min: 3 },

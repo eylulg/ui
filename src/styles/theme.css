@@ -382,7 +382,7 @@
     --ui-bg-overlay: rgb(0 0 0 / 0.7);
     --ui-bg-hover: var(--color-gray-800);
     --ui-bg-brand-solid: var(--color-brand-600);
-    --ui-bg-brand-solid-hover: var(--color-brand-500);
+    --ui-bg-brand-solid-hover: var(--color-brand-700);
     --ui-bg-brand-subtle: color-mix(in oklab, var(--color-brand-600) 18%, transparent);
     --ui-bg-error-solid: var(--color-error-600);
     --ui-bg-error-solid-hover: var(--color-error-700);
