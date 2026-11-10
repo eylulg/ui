@@ -9,6 +9,7 @@ export const components = [
   'Button',
   'Card',
   'Checkbox',
+  'CodeBlock',
   'Combobox',
   'CommandPalette',
   'DatePicker',

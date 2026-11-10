@@ -57,6 +57,10 @@
       "types": "./dist/components/Checkbox/index.d.ts",
       "import": "./dist/components/Checkbox/index.js"
     },
+    "./code-block": {
+      "types": "./dist/components/CodeBlock/index.d.ts",
+      "import": "./dist/components/CodeBlock/index.js"
+    },
     "./combobox": {
       "types": "./dist/components/Combobox/index.d.ts",
       "import": "./dist/components/Combobox/index.js"

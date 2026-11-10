@@ -8,7 +8,12 @@ import {
 import { FieldErrorMessage, FieldHint, FieldLabel, controlBase } from '../../internal/Field';
 import { cx } from '../../utils/cx';
 
-export interface TextareaProps extends Omit<TextFieldProps, 'children'> {
+export type TextareaFont = 'sans' | 'data';
+
+export interface TextareaProps extends Omit<
+  TextFieldProps,
+  'children' | 'autoCapitalize' | 'autoCorrect' | 'spellCheck'
+> {
   label?: ReactNode;
   hint?: ReactNode;
   errorMessage?: string;
@@ -18,6 +23,17 @@ export interface TextareaProps extends Omit<TextFieldProps, 'children'> {
   /** Allow the user to resize vertically. */
   resizable?: boolean;
   textareaClassName?: string;
+  /**
+   * `data` uses the theme's data font (monospace in some variants), for code,
+   * logs and generated output. The default is the interface font.
+   */
+  font?: TextareaFont;
+  /** Turn off for identifiers, code and commands. */
+  autoCapitalize?: 'off' | 'none' | 'on' | 'sentences' | 'words' | 'characters';
+  /** Turn off for code and technical text. */
+  autoCorrect?: 'on' | 'off';
+  /** Browser spell checking. Turn off for code. */
+  spellCheck?: boolean;
   /** Ref to the native textarea element. */
   ref?: Ref<HTMLTextAreaElement>;
 }
@@ -30,6 +46,10 @@ export function Textarea({
   rows = 4,
   resizable = true,
   textareaClassName,
+  font = 'sans',
+  autoCapitalize,
+  autoCorrect,
+  spellCheck,
   ref,
   className,
   isInvalid,
@@ -45,9 +65,18 @@ export function Textarea({
       <AriaTextArea
         ref={ref}
         rows={rows}
+        autoCapitalize={autoCapitalize}
+        autoCorrect={autoCorrect}
+        spellCheck={spellCheck}
         placeholder={placeholder}
         className={composeRenderProps(textareaClassName, (consumer) =>
-          cx(controlBase, 'px-3 py-2', resizable ? 'resize-y' : 'resize-none', consumer),
+          cx(
+            controlBase,
+            'px-3 py-2',
+            font === 'data' && 'font-data',
+            resizable ? 'resize-y' : 'resize-none',
+            consumer,
+          ),
         )}
       />
       {hint && !errorMessage && <FieldHint>{hint}</FieldHint>}

@@ -10,6 +10,12 @@ export interface SidebarNavItem extends NavLink {
   icon?: ReactNode;
   /** Trailing content such as a count. */
   badge?: ReactNode;
+  /**
+   * A secondary control beside the link, such as an IconButton that adds a
+   * child item. It is a sibling of the link, not inside it, so both stay
+   * separate tab stops and arrow keys reach it. Give it its own accessible name.
+   */
+  action?: ReactNode;
 }
 
 export interface SidebarNavSection {
@@ -36,8 +42,9 @@ const toggle = [
 ].join(' ');
 const chevron =
   'size-3.5 transition-transform group-data-expanded:rotate-180 motion-reduce:transition-none';
+const row = 'flex items-center gap-1';
 const link = [
-  'flex items-center gap-2 rounded-md px-item-x py-item-y text-sm font-medium text-secondary hover:bg-hover hover:text-primary',
+  'flex min-w-0 flex-1 items-center gap-2 rounded-md px-item-x py-item-y text-sm font-medium text-secondary hover:bg-hover hover:text-primary',
   'aria-[current=page]:bg-brand-subtle aria-[current=page]:text-brand',
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
   '[&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:text-fg-tertiary aria-[current=page]:[&_svg]:text-fg-brand',
@@ -74,7 +81,7 @@ function Items({
   return (
     <ul className={list}>
       {items.map((item) => (
-        <li key={item.href}>
+        <li key={item.href} className={row}>
           <LinkComponent
             href={item.href}
             className={link}
@@ -84,6 +91,7 @@ function Items({
             <span className="truncate">{item.label}</span>
             {item.badge && <span className={badge}>{item.badge}</span>}
           </LinkComponent>
+          {item.action && <span className="shrink-0">{item.action}</span>}
         </li>
       ))}
     </ul>

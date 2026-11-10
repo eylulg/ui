@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { CircleDot, Inbox, Layers, Users } from 'lucide-react';
+import { CircleDot, Inbox, Layers, Plus, Users } from 'lucide-react';
 import { expect, userEvent, within } from 'storybook/test';
+import { IconButton } from '../components/IconButton/IconButton';
 import { SidebarNav } from './SidebarNav';
 
 const meta = {
@@ -39,6 +40,34 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+
+/** A secondary control beside the link, as its own tab stop. */
+export const WithItemAction: Story = {
+  args: {
+    sections: [
+      {
+        id: 'teams',
+        title: 'Teams',
+        items: [
+          {
+            href: '#web',
+            label: 'Web',
+            icon: <Users />,
+            action: (
+              <IconButton
+                icon={Plus}
+                aria-label="Add project to Web"
+                variant="tertiary"
+                size="sm"
+              />
+            ),
+          },
+          { href: '#platform', label: 'Platform', icon: <Layers /> },
+        ],
+      },
+    ],
+  },
+};
 
 export const CollapsedSection: Story = {
   args: {
