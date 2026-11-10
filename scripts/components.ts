@@ -17,6 +17,7 @@ export const components = [
   'Drawer',
   'DropdownMenu',
   'EmptyState',
+  'FileDropZone',
   'IconButton',
   'Input',
   'Kbd',

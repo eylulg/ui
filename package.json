@@ -89,6 +89,10 @@
       "types": "./dist/components/EmptyState/index.d.ts",
       "import": "./dist/components/EmptyState/index.js"
     },
+    "./file-drop-zone": {
+      "types": "./dist/components/FileDropZone/index.d.ts",
+      "import": "./dist/components/FileDropZone/index.js"
+    },
     "./icon-button": {
       "types": "./dist/components/IconButton/index.d.ts",
       "import": "./dist/components/IconButton/index.js"
