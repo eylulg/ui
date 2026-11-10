@@ -85,7 +85,7 @@ export const projects: Project[] = [
   {
     id: 'sudoku',
     name: 'Sudoku',
-    description: 'A sudoku game with notes and hints',
+    description: 'A sudoku game with a unique-solution generator, hints and a keyboard grid',
     url: null,
     plannedUrl: 'https://sudoku-eylulg.vercel.app',
     variant: 'sudoku',
