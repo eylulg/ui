@@ -72,7 +72,7 @@ export const projects: Project[] = [
     url: null,
     plannedUrl: 'https://watchlist-eylulg.vercel.app',
     variant: 'watchlist',
-    repoUrl: 'https://github.com/eylulg/movies-series-website-demo',
+    repoUrl: 'https://github.com/eylulg/watchlist',
   },
   {
     id: 'tokens-to-tailwind',
@@ -104,8 +104,7 @@ export const projects: Project[] = [
     id: 'ui',
     name: 'Component library',
     description: 'The @eylulg/ui Storybook every project is built with',
-    url: null,
-    plannedUrl: 'https://eylulg.github.io/ui/',
+    url: 'https://eylulg.github.io/ui/',
     variant: null,
     repoUrl: 'https://github.com/eylulg/ui',
   },
