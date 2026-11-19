@@ -26,6 +26,22 @@ export const SingleBar: Story = {
     series: outcomes.map((s) => ({ ...s, values: s.values.slice(0, 1) })),
   },
 };
+const profit = [
+  { id: 'profit', label: 'Profit', values: [40, -25, 10, null, 18] },
+  { id: 'refunds', label: 'Refunds', values: [-12, -8, 6, 14, -20] },
+];
+/** Bars grow down from the zero line, and a missing value leaves a gap with no mark. */
+export const NegativeAndMissing: Story = {
+  args: { title: 'Profit by feature', series: profit, hasValueLabels: true },
+};
+export const NegativeHorizontalStacked: Story = {
+  args: {
+    title: 'Profit by feature',
+    series: profit,
+    orientation: 'horizontal',
+    grouping: 'stacked',
+  },
+};
 export const Empty: Story = { args: { categories: [], series: [] } };
 export const LongLabels: Story = {
   args: {
