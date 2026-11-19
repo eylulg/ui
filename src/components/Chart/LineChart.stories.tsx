@@ -48,7 +48,7 @@ export const NarrowPhone: Story = {
   ),
 };
 export const Variants: Story = {
-  parameters: { layout: 'padded' },
+  parameters: { layout: 'padded', forceTheme: 'light' },
   render: (args) => (
     <VariantGrid>
       <LineChart {...args} />

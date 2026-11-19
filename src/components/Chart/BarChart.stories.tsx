@@ -73,7 +73,7 @@ export const NarrowPhone: Story = {
   ),
 };
 export const Variants: Story = {
-  parameters: { layout: 'padded' },
+  parameters: { layout: 'padded', forceTheme: 'light' },
   args: { grouping: 'stacked' },
   render: (args) => (
     <VariantGrid>

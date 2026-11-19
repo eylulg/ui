@@ -56,7 +56,7 @@ const steps = [
 
 /** The series colours and the sequential ramp in four variants, light and dark. */
 export const Palette: Story = {
-  parameters: { layout: 'padded' },
+  parameters: { layout: 'padded', forceTheme: 'light' },
   render: () => (
     <VariantGrid>
       <div className="flex flex-col gap-3">
