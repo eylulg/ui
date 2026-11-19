@@ -8,6 +8,7 @@ export const components = [
   'Breadcrumbs',
   'Button',
   'Card',
+  'Chart',
   'Checkbox',
   'CodeBlock',
   'Combobox',
