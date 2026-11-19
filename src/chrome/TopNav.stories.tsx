@@ -19,7 +19,7 @@ const meta = {
     compactActions: noControl,
     mobileMenu: noControl,
   },
-  parameters: { layout: 'fullscreen', noPadding: true },
+  parameters: { layout: 'fullscreen' },
   args: {
     productName: 'Review Companion',
     links: [

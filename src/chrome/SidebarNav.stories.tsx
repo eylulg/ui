@@ -7,6 +7,7 @@ import { SidebarNav } from './SidebarNav';
 const meta = {
   title: 'Chrome/SidebarNav',
   component: SidebarNav,
+  parameters: { layout: 'padded' },
   args: {
     sections: [
       {

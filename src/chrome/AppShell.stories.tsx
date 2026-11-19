@@ -42,7 +42,7 @@ const meta = {
   title: 'Chrome/AppShell',
   component: AppShell,
   argTypes: { header: noControl, sidebar: noControl, footer: noControl, children: noControl },
-  parameters: { layout: 'fullscreen', noPadding: true },
+  parameters: { layout: 'fullscreen' },
   args: { children: null },
 } satisfies Meta<typeof AppShell>;
 
