@@ -261,7 +261,7 @@ up without any other change, and keep working with a locally installed Inter whe
 | `portfolio`      | Portfolio             | indigo  | slate   | large  | comfortable |
 | `workspace`      | Workspace             | blue    | neutral | small  | compact     |
 | `review`         | Review Companion      | teal    | slate   | medium | comfortable |
-| `control-room`   | Agent control room    | amber   | zinc    | small  | compact     |
+| `control-room`   | Agent workflows       | amber   | zinc    | small  | compact     |
 | `watchlist`      | Watchlist             | rose    | stone   | large  | comfortable |
 | `tokens`         | Tokens to Tailwind    | violet  | neutral | medium | comfortable |
 | `plain-language` | Plain Language add-in | cyan    | slate   | medium | compact     |
