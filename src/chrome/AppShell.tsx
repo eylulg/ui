@@ -23,7 +23,7 @@ export interface AppShellProps {
   contentClassName?: string;
 }
 
-const root = 'flex min-h-dvh flex-col bg-primary font-sans text-primary';
+const root = 'flex min-h-dvh flex-col bg-secondary font-sans text-primary';
 const skipLink =
   'sr-only rounded-md bg-elevated px-4 py-2 text-sm font-semibold text-brand shadow-lg focus:not-sr-only focus:fixed focus:top-3 focus:left-4 focus:z-50 focus:outline-2 focus:outline-offset-2 focus:outline-focus';
 const body = 'flex min-h-0 w-full flex-1';

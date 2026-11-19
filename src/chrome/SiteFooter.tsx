@@ -38,7 +38,7 @@ const defaultLabels: SiteFooterLabels = {
   builtWith: 'Built with @eylulg/ui',
 };
 
-const footer = 'border-t border-subtle bg-secondary';
+const footer = 'border-t border-default bg-secondary';
 const inner = 'mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8';
 const intro = 'flex items-center gap-2 text-sm text-secondary';
 const list = 'flex flex-wrap gap-x-5 gap-y-2';

@@ -47,7 +47,7 @@ export interface TopNavProps {
 
 const defaultLabels: TopNavLabels = { openMenu: 'Open menu', closeMenu: 'Close menu' };
 
-const header = 'sticky top-0 z-40 border-b border-subtle bg-primary/90 backdrop-blur';
+const header = 'sticky top-0 z-40 border-b border-default bg-secondary/90 backdrop-blur';
 const bar = 'mx-auto flex h-14 w-full max-w-6xl items-center gap-3 px-4 sm:px-6 lg:px-8';
 const brand = [
   'flex min-w-0 items-center gap-2 rounded-md font-display text-md font-semibold text-primary',
