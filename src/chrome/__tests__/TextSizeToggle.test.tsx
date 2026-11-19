@@ -8,21 +8,15 @@ import { textSizeStorageKey } from '../themeScript';
 afterEach(() => {
   window.localStorage.clear();
   document.documentElement.removeAttribute('data-ui-text');
-  document.documentElement.style.removeProperty('--ui-text-size');
 });
 
 describe('TextSizeToggle', () => {
-  it.each([
-    { variantDefault: 'default', pressed: false },
-    { variantDefault: 'compact', pressed: true },
-  ])('starts from the $variantDefault size of the variant', ({ variantDefault, pressed }) => {
-    document.documentElement.style.setProperty('--ui-text-size', variantDefault);
-
+  it('starts at default text', () => {
     render(<TextSizeToggle />);
 
     expect(screen.getByRole('button', { name: 'Compact text' })).toHaveAttribute(
       'aria-pressed',
-      String(pressed),
+      'false',
     );
   });
 
@@ -40,14 +34,15 @@ describe('TextSizeToggle', () => {
     );
   });
 
-  it('switches a compact variant back to default text', async () => {
+  it('switches back to default text', async () => {
     const user = userEvent.setup();
-    document.documentElement.style.setProperty('--ui-text-size', 'compact');
     render(<TextSizeToggle />);
+    await user.click(screen.getByRole('button', { name: 'Compact text' }));
 
     await user.click(screen.getByRole('button', { name: 'Compact text' }));
 
     expect(document.documentElement).toHaveAttribute('data-ui-text', 'default');
+    expect(window.localStorage.getItem(textSizeStorageKey)).toBe('default');
   });
 
   it('has no axe violations in light and dark', async () => {

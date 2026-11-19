@@ -4,7 +4,7 @@ import { focusRing } from '../internal/focusRing';
 import { createLazyModule } from '../internal/lazyModule';
 import { useLazyMenuTrigger } from '../internal/useLazyMenuTrigger';
 import { cx } from '../utils/cx';
-import { choices, icons } from './themeChoices';
+import { choices, compactFrame, icons } from './themeChoices';
 import { useTheme, type ThemePreference } from './useTheme';
 
 export interface ThemeToggleLabels {
@@ -37,9 +37,10 @@ const defaultLabels: ThemeToggleLabels = {
 
 const menu = /*#__PURE__*/ createLazyModule(() => import('./ThemeToggleMenu'));
 
-const group = 'inline-flex items-center gap-0.5 rounded-md border border-default bg-primary p-0.5';
+const group =
+  'inline-flex h-control-md items-center gap-0.5 rounded-md border border-default bg-primary p-0.5';
 const button = [
-  'inline-flex size-control-xs min-h-6 min-w-6 cursor-pointer items-center justify-center rounded-sm text-fg-tertiary transition-colors',
+  'inline-flex aspect-square h-full cursor-pointer items-center justify-center rounded-sm text-fg-tertiary transition-colors',
   'data-hovered:bg-hover data-hovered:text-fg-secondary',
   'data-selected:bg-tertiary data-selected:text-fg-primary',
   focusRing,
@@ -107,6 +108,7 @@ export function ThemeToggle({
 const compactTrigger = cx(
   buttonBase,
   buttonVariants.tertiary,
+  compactFrame,
   'size-control-md p-0 hover:bg-hover hover:text-primary',
 );
 

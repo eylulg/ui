@@ -11,7 +11,7 @@ from [React Aria Components](https://react-spectrum.adobe.com/react-aria/); ever
 comes from Tailwind CSS 4 design tokens.
 
 Use the **Theme** toolbar above to switch between light and dark, the **Variant** toolbar to see
-any story in a project's theme, and the **Text size** toolbar to try compact and default text.
+any story in a project's colour, and the **Text size** toolbar to try compact and default text.
 The **Theme variants** pages show each project's theme with every component in light and dark
 side by side; **Chrome** has the shared top nav, sidebar, project switcher, theme and text size
 toggles, footer and logo.
@@ -21,7 +21,7 @@ toggles, footer and logo.
 - **A calm frame.** Warm sand paper in light mode, warm brown in dark. The frame never competes
   with the work, and it is the same in every project.
 - **Colour is identity.** Each project has one colour, its seed. A colour always means a project,
-  never decoration. Clay is the brand, shared by the portfolio and the logo.
+  never decoration. Green is the brand, shared by the portfolio and the logo letters.
 - **Readable everywhere.** Every text pairing passes WCAG AA in both modes and every non-text
   mark reaches 3:1. `npm run contrast` checks it for every variant.
 - **Plain voice.** Project names are Title Case; everything else is sentence case. Short
@@ -64,38 +64,30 @@ Dark mode is class based: `ThemeToggle` writes `dark-mode` on `<html>` (`dark` w
 
 ## Theme variants
 
-Every theme has four settings: colour, font pairing, text size and density. The frame and the
-shape (14px buttons, 20px cards, 24px page panels) are shared.
+A theme changes colour only. The fonts (Manrope for headings, Inter for text, JetBrains Mono for
+code only), the text size, the density, the frame and the shape (14px buttons, 20px cards, 24px
+page panels) are the same in every theme.
 
-| Variant          | Project               | Colour     | Font pairing | Text size | Density     |
-| ---------------- | --------------------- | ---------- | ------------ | --------- | ----------- |
-| `portfolio`      | Portfolio             | Clay       | Friendly     | default   | comfortable |
-| `workspace`      | Workspace             | Slate blue | Product      | compact   | compact     |
-| `review`         | Review Companion      | Eucalyptus | Technical    | compact   | comfortable |
-| `control-room`   | Agent Workflows       | Ink        | Product      | compact   | compact     |
-| `watchlist`      | Watchlist             | Rose       | Editorial    | default   | comfortable |
-| `tokens`         | Tokens to Tailwind    | Iris       | Product      | default   | comfortable |
-| `plain-language` | Plain Language Add-in | Sea glass  | Friendly     | default   | compact     |
-| `sudoku`         | Sudoku                | Sage       | Friendly     | default   | comfortable |
-| `assistant`      | Assistant Studio      | Plum       | Friendly     | default   | comfortable |
+| Variant          | Project               | Colour     |
+| ---------------- | --------------------- | ---------- |
+| `portfolio`      | Portfolio             | Green      |
+| `workspace`      | Workspace             | Slate blue |
+| `review`         | Review Companion      | Eucalyptus |
+| `control-room`   | Agent Workflows       | Clay       |
+| `watchlist`      | Watchlist             | Rose       |
+| `tokens`         | Tokens to Tailwind    | Iris       |
+| `plain-language` | Plain Language Add-in | Sea glass  |
+| `sudoku`         | Sudoku                | Ink        |
+| `assistant`      | Assistant Studio      | Plum       |
 
 **Colour.** In light mode the seed is the solid fill and carries white text; the tinted fill is
 the seed mixed 24% into warm paper. In dark mode a lighter solid carries the page colour as text,
 and the tint is the seed mixed 32% into the dark page. The brand scale is generated from the seed
 in oklch with the same lightness per step, so contrast matches across variants.
 
-**Font pairings.** Inter is the reading font everywhere; the heading font changes:
-
-| Pairing   | Heading font                                 | Projects                                                   |
-| --------- | -------------------------------------------- | ---------------------------------------------------------- |
-| Friendly  | Manrope                                      | Portfolio, Assistant Studio, Plain Language Add-in, Sudoku |
-| Product   | Inter Tight                                  | Workspace, Agent Workflows, Tokens to Tailwind             |
-| Technical | Inter, with JetBrains Mono for code and data | Review Companion                                           |
-| Editorial | Newsreader, for titles only                  | Watchlist                                                  |
-
-**Text size** is its own setting, separate from density. Compact has a 14px body (12, 13, 14,
-16, 20, 24, 32); default has a 16px body (13, 14, 16, 18, 22, 28, 40). Each variant picks a
-default, and visitors can switch it with `TextSizeToggle`, next to the light and dark toggle.
+**Text size** is a visitor setting, separate from density. Default has a 16px body (13, 14, 16, 18,
+22, 28, 40); compact has a 14px body (12, 13, 14, 16, 20, 24, 32). Visitors switch it with
+`TextSizeToggle`, next to the light and dark toggle.
 
 To switch themes live, as the portfolio's theme picker does, import `@eylulg/ui/themes/all.css`
 and set `data-ui-variant` on `<html>` or on any container.
@@ -109,7 +101,7 @@ and set `data-ui-variant` on `<html>` or on any container.
    through utilities like `text-primary`, `bg-elevated` or `border-default`.
 3. **Density and text size** (`--density-*`, `--text-*`) size controls, rows, cells, cards and
    type through utilities like `h-control-md`, `py-item-y`, `p-card` and `text-md`. The visitor's
-   text size, `data-ui-text` on `<html>`, overrides the variant's default.
+   text size, `data-ui-text` on `<html>`, switches to the compact scale.
 
 ## Colour scales
 

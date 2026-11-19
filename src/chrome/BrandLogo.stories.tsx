@@ -17,7 +17,7 @@ type Story = StoryObj<typeof meta>;
 /** A draft. Stroke weight and thick-to-thin contrast are still open. */
 export const Default: Story = {};
 
-/** The logo keeps its colours in every project: clay and ink, light clay and cream in dark mode. */
+/** The logo keeps its colours in every project: green letters and ink lines, light green and cream in dark mode. */
 export const LightAndDark: Story = {
   render: (args) => (
     <div className='flex flex-wrap gap-4'>

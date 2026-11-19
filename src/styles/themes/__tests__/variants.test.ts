@@ -8,7 +8,6 @@ import { brandLightness, scalesModule } from '../../../../scripts/palette';
 import {
   allVariantsCss,
   scaleSteps,
-  textSizeLines,
   variantFileCss,
   variantNames,
   variantSpecs,
@@ -50,7 +49,7 @@ describe('theme variants', () => {
     expect(readFileSync(resolve(dir, 'all.css'), 'utf8')).toBe(allVariantsCss(variants));
   });
 
-  it('gives the base theme the portfolio colour, Clay', () => {
+  it('gives the base theme the portfolio colour, green', () => {
     const { seed, colors } = variants.portfolio;
 
     expect(themeCss).toContain(`--color-brand-seed: ${seed.light};`);
@@ -60,28 +59,12 @@ describe('theme variants', () => {
     }
   });
 
-  it('lets the visitor override the text size with the same scale the variants use', () => {
-    for (const size of ['compact', 'default'] as const) {
-      const rule = themeCss.slice(themeCss.indexOf(`:root[data-ui-text='${size}']`));
-      const block = rule.slice(rule.indexOf('{') + 1, rule.indexOf('}'));
-
-      expect(
-        block
-          .trim()
-          .split('\n')
-          .map((line) => line.trim()),
-      ).toEqual(textSizeLines(size, ''));
-    }
-  });
-
-  it('only sets the seed, brand scale, density, fonts and text size', () => {
+  it('only sets the seed and the brand scale', () => {
     for (const name of variantNames) {
       const css = readFileSync(resolve(dir, `${name}.css`), 'utf8');
       const declared = [...css.matchAll(/^\s+(--[\w-]+):/gm)].map((match) => match[1]!);
       for (const variable of declared) {
-        expect(variable).toMatch(
-          /^--(color-brand-(\d+|seed|seed-dark)|density-[\w-]+|font-display|ui-font-data|ui-text-size|text-[\w-]+)$/,
-        );
+        expect(variable).toMatch(/^--color-brand-(\d+|seed|seed-dark)$/);
       }
     }
   });

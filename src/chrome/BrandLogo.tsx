@@ -14,7 +14,7 @@ const lines = 'fill-(--ui-logo-lines)';
  * Eylül Güneş's logo, a draft: a horse's head in brush strokes. A slanted
  * script E is the neck and mane, a script G the cheek, and tapering ink lines
  * draw the ear, the face and the muzzle. Its colours are the same in every
- * project: clay letters and ink lines, light clay and cream in dark mode.
+ * project: green letters and ink lines, light green and cream in dark mode.
  */
 export function BrandLogo({ title, size = 64, ...props }: BrandLogoProps) {
   const labelled = Boolean(title);

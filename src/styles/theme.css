@@ -6,14 +6,14 @@
  * Layer 2: semantic tokens (text, bg, border, fg) declared as CSS variables
  *          on :root and redefined under .dark. Components only use this layer,
  *          so a theme switch or a brand override never touches component code.
- * Layer 3: density and text size tokens (--density-*, --text-*). A variant
- *          or the visitor can make the whole library tighter or its text
- *          smaller without touching component code.
+ * Layer 3: density and text size tokens (--density-*, --text-*). The same in
+ *          every variant. The visitor can make the text smaller with
+ *          TextSizeToggle, without touching component code.
  *
- * The base theme is the portfolio's: the Clay brand on a warm sand frame. To
+ * The base theme is the portfolio's: the green brand on a warm sand frame. To
  * theme a project, import one of the variant files (@eylulg/ui/themes/<name>.css)
- * after this file. A variant sets the seed colour, the font pairing, the text
- * size and the density; the frame and the shape are shared by every project.
+ * after this file. A variant changes colour only; the frame, the fonts, the
+ * text size, the density and the shape are shared by every project.
  */
 
 /*
@@ -25,10 +25,10 @@
 @theme {
   /* Typography */
   /*
-   * Inter is the reading font everywhere; the heading font (--font-display)
-   * comes from the variant's font pairing. @eylulg/ui/fonts.css sets the
-   * --font-* names to the bundled variable fonts; without it each stack names
-   * an installed copy and then falls back to the system font.
+   * Inter is the reading font and Manrope the heading font (--font-display),
+   * in every variant. @eylulg/ui/fonts.css sets the --font-* names to the
+   * bundled variable fonts; without it each stack names an installed copy and
+   * then falls back to the system font.
    */
   --font-sans:
     var(--font-inter, 'Inter'), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
@@ -83,24 +83,24 @@
   --shadow-xl: 0 20px 24px -4px rgb(44 37 33 / 0.08), 0 8px 8px -4px rgb(44 37 33 / 0.03);
 
   /*
-   * Brand: Clay, the portfolio's colour. The seeds are the solid fills, light
+   * Brand: green, the portfolio's colour. The seeds are the solid fills, light
    * and dark; the scale is generated from the light seed (the portfolio
    * variant's scale, kept in sync by the themes test).
    */
-  --color-brand-seed: #b8583e;
-  --color-brand-seed-dark: #e8a58c;
-  --color-brand-25: oklch(0.985 0.0074 36.1);
-  --color-brand-50: oklch(0.97 0.015 36.1);
-  --color-brand-100: oklch(0.935 0.0336 36.1);
-  --color-brand-200: oklch(0.885 0.0621 36.1);
-  --color-brand-300: oklch(0.81 0.0994 36.1);
-  --color-brand-400: oklch(0.715 0.123 36.1);
-  --color-brand-500: oklch(0.625 0.1308 36.1);
-  --color-brand-600: oklch(0.535 0.1256 36.1);
-  --color-brand-700: oklch(0.47 0.1125 36.1);
-  --color-brand-800: oklch(0.395 0.0942 36.1);
-  --color-brand-900: oklch(0.325 0.0759 36.1);
-  --color-brand-950: oklch(0.255 0.0576 36.1);
+  --color-brand-seed: #446c2b;
+  --color-brand-seed-dark: #97bf82;
+  --color-brand-25: oklch(0.985 0.0084 135);
+  --color-brand-50: oklch(0.97 0.0167 135);
+  --color-brand-100: oklch(0.935 0.0335 135);
+  --color-brand-200: oklch(0.885 0.0544 135);
+  --color-brand-300: oklch(0.81 0.0795 135);
+  --color-brand-400: oklch(0.715 0.0983 135);
+  --color-brand-500: oklch(0.625 0.1046 135);
+  --color-brand-600: oklch(0.535 0.1004 135);
+  --color-brand-700: oklch(0.47 0.09 135);
+  --color-brand-800: oklch(0.395 0.0753 135);
+  --color-brand-900: oklch(0.325 0.0607 135);
+  --color-brand-950: oklch(0.255 0.046 135);
 
   /* Warm grays, shared by every project. 25, 100 and 300 are the light frame, 900 and 950 the dark. */
   --color-gray-25: #fffcf8;
@@ -289,8 +289,7 @@
 
 @layer base {
   /*
-   * Density defaults (comfortable). Variants such as workspace override these
-   * with compact values. They are independent of light and dark.
+   * Density, the same in every variant. Independent of light and dark.
    */
   :root,
   [data-ui-variant] {
@@ -317,8 +316,6 @@
     color-scheme: light;
 
     --ui-font-data: var(--font-sans);
-    /* The variant's default text size, read by useTextSize. */
-    --ui-text-size: default;
 
     /* The frame: warm sand page, lighter surfaces, ink text. */
     --ui-text-primary: #2c2521;
@@ -371,8 +368,8 @@
     --ui-fg-success: var(--color-success-600);
     --ui-fg-warning: var(--color-warning-600);
 
-    /* The logo keeps its own colours in every project: clay letters, ink lines. */
-    --ui-logo-letters: #b8583e;
+    /* The logo keeps its own colours in every project: green letters, ink lines. */
+    --ui-logo-letters: #446c2b;
     --ui-logo-lines: #2c2521;
 
     /* Extra badge hues. Fixed across variants; the contrast check covers each one. */
@@ -475,7 +472,7 @@
     --ui-fg-success: var(--color-success-400);
     --ui-fg-warning: var(--color-warning-400);
 
-    --ui-logo-letters: #e8a58c;
+    --ui-logo-letters: #97bf82;
     --ui-logo-lines: #f3ede5;
 
     --ui-bg-blue-subtle: color-mix(in oklab, #2563eb 18%, transparent);
@@ -514,14 +511,8 @@
   }
 }
 
-/*
- * The visitor's text size, from useTextSize or themeInitScript. Outside any
- * layer and more specific than a variant's own selector, so it wins over the
- * variant's default size, also inside a container with data-ui-variant.
- */
-:root[data-ui-text='compact'],
-[data-ui-text='compact'] [data-ui-variant],
-[data-ui-variant][data-ui-text='compact'] {
+/* The visitor's text size, from useTextSize or themeInitScript. Default is the type scale above. */
+:root[data-ui-text='compact'] {
   --text-xs: 0.75rem;
   --text-xs--line-height: 1rem;
   --text-sm: 0.8125rem;
@@ -536,23 +527,4 @@
   --text-2xl--line-height: 2rem;
   --text-3xl: 2rem;
   --text-3xl--line-height: 2.375rem;
-}
-
-:root[data-ui-text='default'],
-[data-ui-text='default'] [data-ui-variant],
-[data-ui-variant][data-ui-text='default'] {
-  --text-xs: 0.8125rem;
-  --text-xs--line-height: 1.125rem;
-  --text-sm: 0.875rem;
-  --text-sm--line-height: 1.25rem;
-  --text-md: 1rem;
-  --text-md--line-height: 1.5rem;
-  --text-lg: 1.125rem;
-  --text-lg--line-height: 1.75rem;
-  --text-xl: 1.375rem;
-  --text-xl--line-height: 1.875rem;
-  --text-2xl: 1.75rem;
-  --text-2xl--line-height: 2.25rem;
-  --text-3xl: 2.5rem;
-  --text-3xl--line-height: 2.875rem;
 }

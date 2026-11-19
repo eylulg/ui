@@ -64,8 +64,9 @@ export const pairs: Array<{ fg: string; bg: string[]; min: number; modes?: Mode[
   { fg: 'bg-brand-solid', bg: surfaces, min: 3 },
   { fg: 'border-control', bg: surfaces, min: 3 },
   { fg: 'border-focus', bg: [...surfaces, 'bg-brand-subtle'], min: 3 },
-  { fg: 'logo-letters', bg: surfaces, min: 3 },
-  { fg: 'logo-lines', bg: surfaces, min: 3 },
+  // The logo is the same in every theme, so it must work on every page background.
+  { fg: 'logo-letters', bg: [...surfaces, 'bg-tertiary', 'bg-brand-subtle'], min: 3 },
+  { fg: 'logo-lines', bg: [...surfaces, 'bg-tertiary', 'bg-brand-subtle'], min: 3 },
   // Chart marks are non text: every series colour needs 3:1 on every surface a chart can sit on.
   ...[...chartSeries, 'chart-muted'].map((fg) => ({ fg, bg: surfaces, min: 3 })),
   // Heat grid cells print their value in one of two inks, chosen by the step.

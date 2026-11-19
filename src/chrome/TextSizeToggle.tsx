@@ -19,8 +19,8 @@ const button = [
 
 /**
  * Switches the page between compact and default text, next to ThemeToggle.
- * Pressed means compact. Built on `useTextSize`: it starts from the theme
- * variant's default and remembers the visitor's choice.
+ * Pressed means compact. Built on `useTextSize`: it starts at default text
+ * and remembers the visitor's choice.
  */
 export function TextSizeToggle({
   'aria-label': ariaLabel = 'Compact text',

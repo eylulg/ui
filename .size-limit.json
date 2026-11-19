@@ -176,7 +176,7 @@
     "name": "Theme variant matrix",
     "path": "dist/styles/themes/variants.js",
     "import": "{ variants }",
-    "limit": "1.8 kB"
+    "limit": "1.4 kB"
   },
   {
     "name": "Stylesheet",
@@ -186,7 +186,7 @@
   {
     "name": "One theme variant file",
     "path": "dist/themes/workspace.css",
-    "limit": "600 B"
+    "limit": "250 B"
   },
   {
     "name": "Plain tokens (no Tailwind)",
@@ -194,8 +194,8 @@
     "limit": "2.1 kB"
   },
   {
-    "name": "Optional font loader, five families",
+    "name": "Optional font loader, three families",
     "path": "dist/fonts.css",
-    "limit": "160 B"
+    "limit": "130 B"
   }
 ]

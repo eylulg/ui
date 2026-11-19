@@ -1,7 +1,7 @@
 import { create } from 'storybook/theming';
 
 // The library's own colours, from src/styles/theme.css: the warm frame, the
-// Clay brand and the logo's colours, which stay the same in every project.
+// green brand and the logo's colours, which stay the same in every project.
 const frame = {
   light: {
     page: '#f7f1e8',
@@ -18,7 +18,7 @@ const frame = {
     muted: '#bdb2a5',
   },
 };
-const clay = { light: '#b8583e', dark: '#e8a58c' };
+const green = { light: '#446c2b', dark: '#97bf82' };
 const control = { light: '#efe7da', dark: '#3f3832' };
 
 const fontBase = '"Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif';
@@ -30,7 +30,7 @@ function brandImage(mode: 'light' | 'dark') {
   const svg =
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 36" width="170" height="36">' +
     '<g transform="scale(0.18)"><g transform="translate(14 8) scale(0.9)">' +
-    `<g fill="${clay[mode]}">` +
+    `<g fill="${green[mode]}">` +
     '<g transform="translate(128 46) skewX(-32) translate(-128 -46)">' +
     '<path d="M128 46 C110 40 88 46 86 62 C84 76 96 84 106 88 C94 82 88 74 90 63 C93 50 110 46 128 50 Z"/>' +
     '<path d="M106 88 C80 96 70 124 80 150 C90 172 116 184 146 178 C116 182 92 170 86 150 C78 126 88 102 106 88 Z"/>' +
@@ -66,8 +66,8 @@ function theme(mode: 'light' | 'dark') {
     ...shared,
     base: mode,
     brandImage: brandImage(mode),
-    colorPrimary: clay[mode],
-    colorSecondary: clay[mode],
+    colorPrimary: green[mode],
+    colorSecondary: green[mode],
     appBg: page,
     appContentBg: surface,
     appPreviewBg: page,
@@ -77,8 +77,8 @@ function theme(mode: 'light' | 'dark') {
     textMutedColor: muted,
     barBg: surface,
     barTextColor: muted,
-    barHoverColor: clay[mode],
-    barSelectedColor: clay[mode],
+    barHoverColor: green[mode],
+    barSelectedColor: green[mode],
     buttonBg: control[mode],
     buttonBorder: border,
     booleanBg: control[mode],
