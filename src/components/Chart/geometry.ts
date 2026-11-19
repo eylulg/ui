@@ -26,12 +26,13 @@ export function markerPath(shape: MarkerShape, x: number, y: number, r: number):
   }
 }
 
-export type BarEnd = 'top' | 'right' | 'none';
+export type BarEnd = 'top' | 'right' | 'bottom' | 'left' | 'none';
 
 /**
  * A bar with a rounded data end and a square base. `top` rounds the upper corners of a column,
- * `right` the right corners of a horizontal bar, `none` draws a plain rectangle (the inner
- * segments of a stack).
+ * `right` the right corners of a horizontal bar, `bottom` and `left` the same for a bar that
+ * grows below or to the left of zero, and `none` draws a plain rectangle (the inner segments of a
+ * stack).
  */
 export function barPath(
   x: number,
@@ -46,6 +47,14 @@ export function barPath(
   if (end === 'top') {
     const r = Math.min(radius, width / 2, height);
     return `M${x} ${y + height}V${y + r}a${r} ${r} 0 0 1 ${r} ${-r}h${width - 2 * r}a${r} ${r} 0 0 1 ${r} ${r}V${y + height}Z`;
+  }
+  if (end === 'bottom') {
+    const r = Math.min(radius, width / 2, height);
+    return `M${x} ${y}h${width}V${y + height - r}a${r} ${r} 0 0 1 ${-r} ${r}H${x + r}a${r} ${r} 0 0 1 ${-r} ${-r}Z`;
+  }
+  if (end === 'left') {
+    const r = Math.min(radius, height / 2, width);
+    return `M${x + width} ${y}H${x + r}a${r} ${r} 0 0 0 ${-r} ${r}V${y + height - r}a${r} ${r} 0 0 0 ${r} ${r}H${x + width}Z`;
   }
   const r = Math.min(radius, height / 2, width);
   return `M${x} ${y}H${x + width - r}a${r} ${r} 0 0 1 ${r} ${r}V${y + height - r}a${r} ${r} 0 0 1 ${-r} ${r}H${x}Z`;

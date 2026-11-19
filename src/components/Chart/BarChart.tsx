@@ -2,22 +2,26 @@ import { cx } from '../../utils/cxLite';
 import { ChartFrame } from './ChartFrame';
 import { ChartLegend } from './ChartLegend';
 import { ChartTooltip, type TooltipRow } from './ChartTooltip';
-import { createValueFormat, textWidth, truncate, type ValueFormat } from './format';
+import { createValueFormat, fitText, textWidth, truncate, type ValueFormat } from './format';
 import { barPath, type BarEnd } from './geometry';
 import { ChartMark, useChartInteraction } from './interaction';
+import { chartLabels } from './labels';
 import { linearScale, niceTicks, sampleIndexes } from './scale';
 import { seriesStyle } from './series';
 import { describeBars, plural } from './summary';
-import type { ChartBaseProps, ChartSeries } from './types';
+import type { ChartBaseProps, ChartLabels, ChartSeries } from './types';
 
 export interface BarChartProps extends ChartBaseProps {
   /** One name per bar group. */
   categories: string[];
-  /** Up to six series get a colour each. Values are zero or more; `null` leaves the bar out. */
+  /**
+   * Up to six series get a colour each. Negative values grow down or to the left of zero; `null`
+   * leaves the bar out and reads as "No data".
+   */
   series: ChartSeries[];
   orientation?: 'vertical' | 'horizontal';
   grouping?: 'grouped' | 'stacked';
-  /** Header of the first table column. */
+  /** Header of the first table column. Defaults to `labels.category`. */
   categoryLabel?: string;
   /** Intl options for values in the axis, tooltip and table. */
   valueFormat?: Intl.NumberFormatOptions;
@@ -26,10 +30,43 @@ export interface BarChartProps extends ChartBaseProps {
 }
 
 const gap = 2;
-const rowHeight = 28;
+
+function isNumber(value: number | null | undefined): value is number {
+  return typeof value === 'number';
+}
 
 function amount(value: number | null | undefined): number {
-  return typeof value === 'number' ? Math.max(0, value) : 0;
+  return isNumber(value) ? value : 0;
+}
+
+interface Extent {
+  low: number;
+  high: number;
+  isInteger: boolean;
+}
+
+/** The range the value axis must cover: stacks add up per sign, groups are single bars. */
+function extentOf(categories: string[], series: ChartSeries[], isStacked: boolean): Extent {
+  const known = series.flatMap((s) => s.values.filter(isNumber));
+  if (!isStacked) {
+    return {
+      low: Math.min(0, ...known),
+      high: Math.max(0, ...known),
+      isInteger: known.every(Number.isInteger),
+    };
+  }
+  const sums = categories.map((_, index) => {
+    const values = series.map((s) => amount(s.values[index]));
+    return {
+      up: values.filter((value) => value > 0).reduce((sum, value) => sum + value, 0),
+      down: values.filter((value) => value < 0).reduce((sum, value) => sum + value, 0),
+    };
+  });
+  return {
+    low: Math.min(0, ...sums.map((sum) => sum.down)),
+    high: Math.max(0, ...sums.map((sum) => sum.up)),
+    isInteger: known.every(Number.isInteger),
+  };
 }
 
 /**
@@ -42,7 +79,7 @@ export function BarChart({
   series,
   orientation = 'vertical',
   grouping = 'grouped',
-  categoryLabel = 'Category',
+  categoryLabel,
   valueFormat,
   hasValueLabels = false,
   title,
@@ -54,14 +91,14 @@ export function BarChart({
   isCard,
   className,
 }: BarChartProps) {
+  const text = chartLabels(labels);
   const isStacked = grouping === 'stacked' && series.length > 1;
   const totals = categories.map((_, index) =>
     series.reduce((sum, s) => sum + amount(s.values[index]), 0),
   );
-  const peak = isStacked
-    ? Math.max(0, ...totals)
-    : Math.max(0, ...series.flatMap((s) => s.values.map(amount)));
-  const vf = createValueFormat(peak, locale, valueFormat);
+  const extent = extentOf(categories, series, isStacked);
+  const hasValues = series.some((s) => s.values.some(isNumber));
+  const vf = createValueFormat(Math.max(-extent.low, extent.high), locale, valueFormat);
   const colors = series.map((s, index) => s.colorIndex ?? index);
   const headline = `${orientation === 'vertical' ? 'Vertical' : 'Horizontal'} ${isStacked ? 'stacked' : 'grouped'} bar chart of ${plural(categories.length, 'category', 'categories')} and ${plural(series.length, 'series', 'series')}.`;
 
@@ -72,7 +109,7 @@ export function BarChart({
       labels={labels}
       isCard={isCard}
       className={className}
-      isEmpty={categories.length === 0 || series.length === 0}
+      isEmpty={categories.length === 0 || series.length === 0 || !hasValues}
       summary={summary ?? describeBars(headline, categories, series, vf.full)}
       legend={
         series.length > 1 && (
@@ -83,12 +120,16 @@ export function BarChart({
         )
       }
       table={{
-        head: [categoryLabel, ...series.map((s) => s.label), ...(isStacked ? ['Total'] : [])],
+        head: [
+          categoryLabel ?? text.category,
+          ...series.map((s) => s.label),
+          ...(isStacked ? [text.total] : []),
+        ],
         rows: categories.map((name, index) => [
           name,
           ...series.map((s) => {
             const value = s.values[index];
-            return typeof value === 'number' ? vf.full(value) : '';
+            return isNumber(value) ? vf.full(value) : '';
           }),
           ...(isStacked ? [vf.full(totals[index] ?? 0)] : []),
         ]),
@@ -104,8 +145,9 @@ export function BarChart({
           orientation={orientation}
           isStacked={isStacked}
           vf={vf}
-          peak={peak}
+          extent={extent}
           totals={totals}
+          words={text}
           hasValueLabels={hasValueLabels}
         />
       )}
@@ -133,8 +175,9 @@ interface BarPlotProps extends Pick<BarChartProps, 'categories' | 'series' | 'ha
   orientation: 'vertical' | 'horizontal';
   isStacked: boolean;
   vf: ValueFormat;
-  peak: number;
+  extent: Extent;
   totals: number[];
+  words: ChartLabels;
 }
 
 function BarPlot({
@@ -146,8 +189,9 @@ function BarPlot({
   orientation,
   isStacked,
   vf,
-  peak,
+  extent,
   totals,
+  words,
   hasValueLabels,
 }: BarPlotProps) {
   const isVertical = orientation === 'vertical';
@@ -163,18 +207,22 @@ function BarPlot({
     ? 0
     : Math.min(textWidth('x'.repeat(longest)), Math.max(60, width * 0.35));
   const ticks = niceTicks(
-    0,
-    peak,
+    extent.low,
+    extent.high,
     Math.max(2, Math.floor((isVertical ? plotHeight : width / 3) / (isVertical ? 48 : 70))),
+    extent.isInteger,
   );
   const widest = Math.max(...ticks.ticks.map((tick) => textWidth(vf.axis(tick))));
   const left = isVertical ? widest + 12 : sideLabels + 12;
-  const valueLabelRoom =
-    !isVertical && hasValueLabels && !isStacked ? textWidth(vf.full(peak)) + 12 : 14;
+  const valueLabelRoom = Math.max(
+    !isVertical && hasValueLabels && !isStacked ? textWidth(vf.full(extent.high)) + 12 : 0,
+    isVertical ? 14 : widest / 2 + 4,
+  );
   const plotWidth = Math.max(40, width - left - valueLabelRoom);
 
   const valueExtent = isVertical ? plotHeight : plotWidth;
-  const scale = linearScale([0, ticks.max], [0, valueExtent]);
+  const scale = linearScale([ticks.min, ticks.max], [0, valueExtent]);
+  const zero = scale(0);
   const slot = (isVertical ? plotWidth : plotHeight) / count;
   const thickness = isStacked
     ? Math.min(28, slot * 0.6)
@@ -183,38 +231,57 @@ function BarPlot({
 
   const bars: Bar[] = categories.flatMap((_, category) => {
     const start = category * slot + (slot - groupSize) / 2;
-    let used = 0;
-    const lastSegment = series.findLastIndex((s) => amount(s.values[category]) > 0);
-    return series.map((s, index): Bar => {
-      const value = amount(s.values[category]);
-      const length = Math.max(0, scale(value));
-      const offset = isStacked ? 0 : index * (thickness + gap);
-      let from = 0;
-      let size = length;
+    const values = series.map((s) => s.values[category]);
+    const firstUp = values.findIndex((value) => isNumber(value) && value > 0);
+    const lastUp = values.findLastIndex((value) => isNumber(value) && value > 0);
+    const firstDown = values.findIndex((value) => isNumber(value) && value < 0);
+    const lastDown = values.findLastIndex((value) => isNumber(value) && value < 0);
+    let up = 0;
+    let down = 0;
+    return series.flatMap((_, index): Bar[] => {
+      const value = values[index];
+      if (!isNumber(value)) return [];
+      const isDown = value < 0;
+      let from = Math.min(zero, scale(value));
+      let to = Math.max(zero, scale(value));
       if (isStacked) {
-        from = scale(used);
-        used += value;
-        size = scale(used) - from;
-        if (index !== 0 && from > 0) {
-          from += gap / 2;
-          size -= gap / 2;
-        }
-        if (index !== lastSegment) size -= gap / 2;
-        size = Math.max(0, size);
+        const before = isDown ? down : up;
+        const after = before + value;
+        if (isDown) down = after;
+        else up = after;
+        [from, to] = [Math.min(scale(before), scale(after)), Math.max(scale(before), scale(after))];
+        const isFirst = index === (isDown ? firstDown : firstUp);
+        const isLast = index === (isDown ? lastDown : lastUp);
+        const innerInset = isFirst ? 0 : gap / 2;
+        const outerInset = isLast ? 0 : gap / 2;
+        if (isDown) [from, to] = [from + outerInset, to - innerInset];
+        else [from, to] = [from + innerInset, to - outerInset];
+        to = Math.max(from, to);
       }
-      const end: BarEnd =
-        isStacked && index !== lastSegment ? 'none' : isVertical ? 'top' : 'right';
-      return {
-        key: `${category}-${s.id}`,
-        category,
-        series: index,
-        value,
-        x: isVertical ? start + offset : from,
-        y: isVertical ? plotHeight - from - size : start + offset,
-        w: isVertical ? thickness : size,
-        h: isVertical ? size : thickness,
-        end,
-      };
+      const isEnd = !isStacked || index === (isDown ? lastDown : lastUp);
+      const end: BarEnd = !isEnd
+        ? 'none'
+        : isVertical
+          ? isDown
+            ? 'bottom'
+            : 'top'
+          : isDown
+            ? 'left'
+            : 'right';
+      const offset = isStacked ? 0 : index * (thickness + gap);
+      return [
+        {
+          key: `${category}-${series[index]?.id}`,
+          category,
+          series: index,
+          value,
+          x: isVertical ? start + offset : from,
+          y: isVertical ? plotHeight - to : start + offset,
+          w: isVertical ? thickness : to - from,
+          h: isVertical ? to - from : thickness,
+          end,
+        },
+      ];
     });
   });
 
@@ -223,29 +290,37 @@ function BarPlot({
   const activeCategory = active?.category ?? null;
 
   const rowsFor = (category: number, emphasised?: number): TooltipRow[] => [
-    ...series.map((s, index) => ({
-      id: s.id,
-      label: s.label,
-      value: vf.full(amount(s.values[category])),
-      index: colors[index] ?? index,
-      isEmphasised: index === emphasised,
-    })),
-    ...(isStacked ? [{ id: 'total', label: 'Total', value: vf.full(totals[category] ?? 0) }] : []),
+    ...series.map((s, index) => {
+      const value = s.values[category];
+      return {
+        id: s.id,
+        label: s.label,
+        value: isNumber(value) ? vf.full(value) : words.noData,
+        index: colors[index] ?? index,
+        isEmphasised: index === emphasised,
+      };
+    }),
+    ...(isStacked
+      ? [{ id: 'total', label: words.total, value: vf.full(totals[category] ?? 0) }]
+      : []),
   ];
 
-  const fullLabelWidth = textWidth('x'.repeat(longest));
-  const showAll = fullLabelWidth + 8 <= slot;
-  const fitChars = Math.max(3, Math.floor((slot - 8) / 6.6));
   const tickLabels = isVertical
-    ? showAll || slot >= 60
-      ? categories.map((c, index) => ({ index, text: truncate(c, fitChars) }))
+    ? slot >= 60 || textWidth('x'.repeat(longest)) + 8 <= slot
+      ? categories.map((c, index) => ({ index, text: fitText(c, Math.max(3 * 6.6, slot - 8)) }))
       : sampleIndexes(count, Math.floor(plotWidth / (textWidth('x'.repeat(12)) + 12))).map(
           (index) => ({
             index,
             text: truncate(categories[index] ?? '', 12),
           }),
         )
-    : categories.map((c, index) => ({ index, text: truncate(c, Math.floor(sideLabels / 6.6)) }));
+    : categories.map((c, index) => ({ index, text: fitText(c, sideLabels) }));
+
+  const tooltipPlacement = !isVertical
+    ? 'beside'
+    : active && (active.value < 0 || active.y + top < 96)
+      ? 'below'
+      : 'above';
 
   return (
     <>
@@ -339,32 +414,36 @@ function BarPlot({
           {hasValueLabels &&
             !isStacked &&
             bars.map((bar) => {
-              const text = vf.full(bar.value);
-              const room = isVertical ? bar.w + gap : rowHeight / 2;
-              if (
-                bar.value === 0 ||
-                (isVertical && textWidth(text) > Math.max(room, (slot * 0.9) / perGroup))
-              )
-                return null;
-              return isVertical ? (
+              const label = vf.full(bar.value);
+              const isDown = bar.value < 0;
+              if (bar.value === 0) return null;
+              if (isVertical) {
+                const y = isDown ? bar.y + bar.h + 14 : bar.y - 6;
+                if (textWidth(label) > Math.max(bar.w + gap, (slot * 0.9) / perGroup)) return null;
+                if (y > plotHeight) return null;
+                return (
+                  <text
+                    key={bar.key}
+                    x={bar.x + bar.w / 2}
+                    y={y}
+                    textAnchor="middle"
+                    className="fill-(--ui-text-secondary) text-xs"
+                  >
+                    {label}
+                  </text>
+                );
+              }
+              if (isDown && bar.x - 6 - textWidth(label) < 0) return null;
+              return (
                 <text
                   key={bar.key}
-                  x={bar.x + bar.w / 2}
-                  y={bar.y - 6}
-                  textAnchor="middle"
-                  className="fill-(--ui-text-secondary) text-xs"
-                >
-                  {text}
-                </text>
-              ) : (
-                <text
-                  key={bar.key}
-                  x={bar.x + bar.w + 6}
+                  x={isDown ? bar.x - 6 : bar.x + bar.w + 6}
                   y={bar.y + bar.h / 2}
                   dy="0.32em"
+                  textAnchor={isDown ? 'end' : 'start'}
                   className="fill-(--ui-text-secondary) text-xs"
                 >
-                  {text}
+                  {label}
                 </text>
               );
             })}
@@ -373,9 +452,20 @@ function BarPlot({
       {bars.map((bar, index) => {
         const minimum = 12;
         const long = Math.max(isVertical ? bar.h : bar.w, minimum);
+        const isDown = bar.value < 0;
         const box = isVertical
-          ? { left: bar.x - 1, top: bar.y + bar.h - long, width: bar.w + 2, height: long }
-          : { left: bar.x - 1, top: bar.y - 1, width: long + 2, height: bar.h + 2 };
+          ? {
+              left: bar.x - 1,
+              top: isDown ? bar.y : bar.y + bar.h - long,
+              width: bar.w + 2,
+              height: long,
+            }
+          : {
+              left: isDown ? bar.x + bar.w - long - 1 : bar.x - 1,
+              top: bar.y - 1,
+              width: long + 2,
+              height: bar.h + 2,
+            };
         const category = categories[bar.category] ?? '';
         const name = series[bar.series]?.label ?? '';
         return (
@@ -395,13 +485,27 @@ function BarPlot({
       })}
       {active && activeCategory !== null && (
         <ChartTooltip
-          x={left + (isVertical ? active.x + active.w / 2 : active.x + active.w)}
-          y={top + (isVertical ? active.y : active.y + active.h / 2)}
+          x={
+            left +
+            (isVertical
+              ? active.x + active.w / 2
+              : active.value < 0
+                ? active.x
+                : active.x + active.w)
+          }
+          y={
+            top +
+            (isVertical
+              ? active.value < 0
+                ? active.y + active.h
+                : active.y
+              : active.y + active.h / 2)
+          }
           containerWidth={width}
           title={categories[activeCategory] ?? ''}
           rows={rowsFor(activeCategory, active.series)}
           variant="bar"
-          placement={isVertical ? (active.y + top < 96 ? 'below' : 'above') : 'beside'}
+          placement={tooltipPlacement}
         />
       )}
     </>

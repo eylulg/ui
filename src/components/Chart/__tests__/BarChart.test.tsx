@@ -45,6 +45,71 @@ describe('BarChart', () => {
     ]);
   });
 
+  it.each([
+    {
+      name: 'a negative value',
+      values: [40, -25, 10],
+      mark: 'Search, Profit: -25',
+      absent: undefined,
+      row: 'Search-25',
+    },
+    {
+      name: 'a missing value',
+      values: [40, null, 10],
+      mark: 'Chat, Profit: 40',
+      absent: 'Search, Profit: 0',
+      row: 'Search',
+    },
+  ])('never shows $name as another number', async ({ values, mark, absent, row }) => {
+    const user = userEvent.setup();
+    render(
+      <BarChart
+        title="Profit"
+        categories={['Chat', 'Search', 'Review']}
+        series={[{ id: 'profit', label: 'Profit', values }]}
+      />,
+    );
+
+    expect(screen.getByRole('img', { name: mark })).toBeInTheDocument();
+    if (absent) expect(screen.queryByRole('img', { name: absent })).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Show table' }));
+
+    expect(screen.getAllByRole('row').map((r) => r.textContent)).toContain(row);
+  });
+
+  it('says No data in the tooltip for a series without a value', async () => {
+    const user = userEvent.setup();
+    render(
+      <BarChart
+        {...props}
+        series={[
+          { id: 'passed', label: 'Passed', values: [30, 12] },
+          { id: 'failed', label: 'Failed', values: [null, 9] },
+        ]}
+      />,
+    );
+
+    await user.hover(screen.getByRole('img', { name: 'Chat, Passed: 30' }));
+
+    expect(screen.getByRole('tooltip')).toHaveTextContent('No dataFailed');
+  });
+
+  it.each([
+    { name: 'all zero', values: [0, 0], absent: '-1' },
+    { name: 'whole numbers', values: [0, 1], absent: '0.5' },
+  ])('draws no impossible tick for $name data', ({ values, absent }) => {
+    render(
+      <BarChart
+        title="Errors"
+        categories={['Chat', 'Search']}
+        series={[{ id: 'e', label: 'Errors', values }]}
+      />,
+    );
+
+    expect(screen.queryByText(absent)).not.toBeInTheDocument();
+  });
+
   it('shows a message and no table when there are no bars', () => {
     render(<BarChart {...props} categories={[]} series={[]} />);
 
