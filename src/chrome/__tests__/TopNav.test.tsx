@@ -1,6 +1,6 @@
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { expectNoA11yViolations } from '../../test-utils/a11y';
 import { TopNav } from '../TopNav';
 import type { LinkProps } from '../types';
@@ -17,6 +17,10 @@ function RouterLink({ href, children, ...props }: LinkProps) {
     </a>
   );
 }
+
+// The overlay is a lazy chunk. Importing it once here keeps its first transform, which is slow on a
+// busy machine, out of the tests' one second wait for the overlay to appear.
+beforeAll(() => import('../MobileMenu'));
 
 async function openMenu() {
   const user = userEvent.setup();
