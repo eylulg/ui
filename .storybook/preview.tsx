@@ -2,41 +2,33 @@ import { DocsContainer, type DocsContainerProps } from '@storybook/addon-docs/bl
 import type { Decorator, Preview } from '@storybook/react-vite';
 import { useEffect, useState, type ReactNode } from 'react';
 import { addons } from 'storybook/preview-api';
-import { variantCss, variantNames, variants } from '../src/styles/themes/variants';
+import { variantNames, variants } from '../src/styles/themes/variants';
 import { darkTheme, lightTheme } from './theme';
 import './preview.css';
 
 type Theme = 'light' | 'dark';
 type Variant = 'base' | (typeof variantNames)[number];
+/** `variant` keeps the variant's own default text size. */
+type TextSize = 'variant' | 'compact' | 'default';
 
-// Scoped copies of every variant, so the toolbar can switch them and the
-// variant pages can render several side by side.
-const style = document.createElement('style');
-style.dataset.uiVariants = '';
-style.textContent = variantNames
-  .map((name) => variantCss(variants[name], `[data-ui-variant='${name}']`))
-  .join('\n');
-document.head.append(style);
+type Globals = { theme?: Theme; variant?: Variant; textSize?: TextSize };
 
-function ThemeRoot({
-  theme,
-  variant,
-  children,
-}: {
-  theme: Theme;
-  variant: Variant;
-  children: ReactNode;
-}) {
-  useEffect(() => {
-    const root = document.documentElement;
-    root.classList.toggle('dark-mode', theme === 'dark');
-    if (variant === 'base') delete root.dataset.uiVariant;
-    else root.dataset.uiVariant = variant;
-  }, [theme, variant]);
-  return <div className='min-h-full bg-primary text-primary'>{children}</div>;
+function applyGlobals({ theme = 'light', variant = 'base', textSize = 'variant' }: Globals) {
+  const root = document.documentElement;
+  root.classList.toggle('dark-mode', theme === 'dark');
+  if (variant === 'base') delete root.dataset.uiVariant;
+  else root.dataset.uiVariant = variant;
+  if (textSize === 'variant') delete root.dataset.uiText;
+  else root.dataset.uiText = textSize;
 }
 
-type Globals = { theme?: Theme; variant?: Variant };
+function ThemeRoot({ globals, children }: { globals: Globals; children: ReactNode }) {
+  const { theme, variant, textSize } = globals;
+  useEffect(() => {
+    applyGlobals({ theme, variant, textSize });
+  }, [theme, variant, textSize]);
+  return <div className='min-h-full bg-secondary text-primary'>{children}</div>;
+}
 
 function readGlobals(): Globals {
   const preview = (
@@ -45,13 +37,6 @@ function readGlobals(): Globals {
     }
   ).__STORYBOOK_PREVIEW__;
   return preview?.storyStoreValue?.userGlobals?.get() ?? {};
-}
-
-function applyGlobals({ theme = 'light', variant = 'base' }: Globals) {
-  const root = document.documentElement;
-  root.classList.toggle('dark-mode', theme === 'dark');
-  if (variant === 'base') delete root.dataset.uiVariant;
-  else root.dataset.uiVariant = variant;
 }
 
 // Follows the toolbar from the docs container: it picks the Storybook docs
@@ -77,8 +62,11 @@ function ThemedDocsContainer(props: DocsContainerProps) {
 
 const withTheme: Decorator = (Story, context) => (
   <ThemeRoot
-    theme={(context.parameters.forceTheme ?? context.globals.theme ?? 'light') as Theme}
-    variant={(context.parameters.forceVariant ?? context.globals.variant ?? 'base') as Variant}
+    globals={{
+      theme: (context.parameters.forceTheme ?? context.globals.theme ?? 'light') as Theme,
+      variant: (context.parameters.forceVariant ?? context.globals.variant ?? 'base') as Variant,
+      textSize: (context.globals.textSize ?? 'variant') as TextSize,
+    }}
   >
     <Story />
   </ThemeRoot>
@@ -106,11 +94,24 @@ const preview: Preview = {
         title: 'Variant',
         icon: 'paintbrush',
         items: [
-          { value: 'base', title: 'Base theme' },
+          { value: 'base', title: 'Base theme (Clay)' },
           ...variantNames.map((name) => ({
             value: name,
-            title: `${name} (${variants[name].project})`,
+            title: `${variants[name].project} (${variants[name].seed.name})`,
           })),
+        ],
+        dynamicTitle: true,
+      },
+    },
+    textSize: {
+      description: 'Text size',
+      toolbar: {
+        title: 'Text size',
+        icon: 'paragraph',
+        items: [
+          { value: 'variant', title: "Variant's default" },
+          { value: 'compact', title: 'Compact, body 14' },
+          { value: 'default', title: 'Default, body 16' },
         ],
         dynamicTitle: true,
       },
@@ -119,6 +120,7 @@ const preview: Preview = {
   initialGlobals: {
     theme: 'light',
     variant: 'base',
+    textSize: 'variant',
   },
   parameters: {
     layout: 'centered',

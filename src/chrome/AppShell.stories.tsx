@@ -6,6 +6,7 @@ import { AppShell } from './AppShell';
 import { ProjectSwitcher } from './ProjectSwitcher';
 import { SidebarNav, type SidebarNavSection } from './SidebarNav';
 import { SiteFooter } from './SiteFooter';
+import { TextSizeToggle } from './TextSizeToggle';
 import { ThemeToggle } from './ThemeToggle';
 import { TopNav } from './TopNav';
 
@@ -31,6 +32,7 @@ const sections: SidebarNavSection[] = [
 const actions = (
   <>
     <ProjectSwitcher currentId='workspace' />
+    <TextSizeToggle />
     <ThemeToggle />
   </>
 );

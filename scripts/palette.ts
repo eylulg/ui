@@ -1,12 +1,12 @@
 /**
  * Colour scale generation for the theme variants. Dev only: uses culori.
  *
- * Every scale uses the same oklch lightness per step, so a given step has
+ * Every brand scale uses the same oklch lightness per step, so a given step has
  * (almost exactly) the same luminance and therefore the same contrast in
  * every variant. Chroma follows a fixed profile that peaks at step 500 and is
  * reduced per step until the colour fits in sRGB, keeping hue and lightness.
  */
-import { clampChroma, formatCss, type Oklch } from 'culori';
+import { clampChroma, converter, formatCss, parse, type Oklch } from 'culori';
 import {
   scaleSteps,
   type ColorScale,
@@ -30,22 +30,6 @@ export const brandLightness: Record<ScaleStep, number> = {
   '800': 0.395,
   '900': 0.325,
   '950': 0.255,
-};
-
-/** oklch L for gray scales. Darker ends than brand, for dark surfaces. */
-export const grayLightness: Record<ScaleStep, number> = {
-  '25': 0.99,
-  '50': 0.975,
-  '100': 0.945,
-  '200': 0.905,
-  '300': 0.845,
-  '400': 0.715,
-  '500': 0.555,
-  '600': 0.465,
-  '700': 0.385,
-  '800': 0.29,
-  '900': 0.215,
-  '950': 0.16,
 };
 
 export const chromaProfile: Record<ScaleStep, number> = {
@@ -82,14 +66,14 @@ export function buildScale(
   ) as ColorScale;
 }
 
+const toOklch = converter('oklch');
+
+/** The brand scale takes the hue and chroma of the light seed, so tints and text match it. */
 export function buildVariantScales(spec: VariantSpec): VariantColors {
-  return {
-    brand: buildScale(brandLightness, spec.brand.hue, spec.brand.chroma),
-    gray: buildScale(grayLightness, spec.gray.hue, spec.gray.chroma),
-    ...(spec.warning && {
-      warning: buildScale(brandLightness, spec.warning.hue, spec.warning.chroma),
-    }),
-  };
+  const seed = parse(spec.seed.light);
+  if (!seed) throw new Error(`Cannot parse seed "${spec.seed.light}" of ${spec.name}`);
+  const { c = 0, h = 0 } = toOklch(seed);
+  return { brand: buildScale(brandLightness, round(h, 1), round(c, 4)) };
 }
 
 export function buildAllScales(specs: Record<VariantName, VariantSpec>) {

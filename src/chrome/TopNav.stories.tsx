@@ -3,6 +3,7 @@ import { Search } from 'lucide-react';
 import { expect, userEvent, within } from 'storybook/test';
 import { Button } from '../components/Button/Button';
 import { ProjectSwitcher } from './ProjectSwitcher';
+import { TextSizeToggle } from './TextSizeToggle';
 import { ThemeToggle } from './ThemeToggle';
 import { TopNav } from './TopNav';
 
@@ -29,6 +30,7 @@ const meta = {
     actions: (
       <>
         <ProjectSwitcher currentId='review-companion' />
+        <TextSizeToggle />
         <ThemeToggle />
       </>
     ),

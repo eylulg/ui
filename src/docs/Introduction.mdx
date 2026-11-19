@@ -10,10 +10,22 @@ nine project theme variants and the shared app chrome. Behaviour, focus manageme
 from [React Aria Components](https://react-spectrum.adobe.com/react-aria/); every visual decision
 comes from Tailwind CSS 4 design tokens.
 
-Use the **Theme** toolbar above to switch between light and dark, and the **Variant** toolbar to
-see any story in a project's variant. The **Theme variants** pages show each variant's scales and
-every component in light and dark side by side; **Chrome** has the shared top nav, sidebar,
-project switcher, theme toggle and footer.
+Use the **Theme** toolbar above to switch between light and dark, the **Variant** toolbar to see
+any story in a project's theme, and the **Text size** toolbar to try compact and default text.
+The **Theme variants** pages show each project's theme with every component in light and dark
+side by side; **Chrome** has the shared top nav, sidebar, project switcher, theme and text size
+toggles, footer and logo.
+
+## The design language
+
+- **A calm frame.** Warm sand paper in light mode, warm brown in dark. The frame never competes
+  with the work, and it is the same in every project.
+- **Colour is identity.** Each project has one colour, its seed. A colour always means a project,
+  never decoration. Clay is the brand, shared by the portfolio and the logo.
+- **Readable everywhere.** Every text pairing passes WCAG AA in both modes and every non-text
+  mark reaches 3:1. `npm run contrast` checks it for every variant.
+- **Plain voice.** Project names are Title Case; everything else is sentence case. Short
+  sentences, no long dashes, no buzzwords.
 
 ## Install
 
@@ -52,20 +64,41 @@ Dark mode is class based: `ThemeToggle` writes `dark-mode` on `<html>` (`dark` w
 
 ## Theme variants
 
-| Variant          | Project               | Brand   | Gray    | Radius | Density                |
-| ---------------- | --------------------- | ------- | ------- | ------ | ---------------------- |
-| `portfolio`      | Portfolio             | indigo  | slate   | large  | comfortable            |
-| `workspace`      | Workspace             | blue    | neutral | small  | compact                |
-| `review`         | Review Companion      | teal    | slate   | medium | comfortable, mono data |
-| `control-room`   | Agent workflows       | amber   | zinc    | small  | compact, darker dark   |
-| `watchlist`      | Watchlist             | rose    | stone   | large  | comfortable            |
-| `tokens`         | Tokens to Tailwind    | violet  | neutral | medium | comfortable            |
-| `plain-language` | Plain Language add-in | cyan    | slate   | medium | compact                |
-| `sudoku`         | Sudoku                | green   | neutral | medium | comfortable            |
-| `assistant`      | Assistant             | magenta | stone   | large  | comfortable            |
+Every theme has four settings: colour, font pairing, text size and density. The frame and the
+shape (14px buttons, 20px cards, 24px page panels) are shared.
 
-Scales are generated in oklch with the same lightness per step, so contrast matches across
-variants, and a test checks AA for every text token in light and dark.
+| Variant          | Project               | Colour     | Font pairing | Text size | Density     |
+| ---------------- | --------------------- | ---------- | ------------ | --------- | ----------- |
+| `portfolio`      | Portfolio             | Clay       | Friendly     | default   | comfortable |
+| `workspace`      | Workspace             | Slate blue | Product      | compact   | compact     |
+| `review`         | Review Companion      | Eucalyptus | Technical    | compact   | comfortable |
+| `control-room`   | Agent Workflows       | Ink        | Product      | compact   | compact     |
+| `watchlist`      | Watchlist             | Rose       | Editorial    | default   | comfortable |
+| `tokens`         | Tokens to Tailwind    | Iris       | Product      | default   | comfortable |
+| `plain-language` | Plain Language Add-in | Sea glass  | Friendly     | default   | compact     |
+| `sudoku`         | Sudoku                | Sage       | Friendly     | default   | comfortable |
+| `assistant`      | Assistant Studio      | Plum       | Friendly     | default   | comfortable |
+
+**Colour.** In light mode the seed is the solid fill and carries white text; the tinted fill is
+the seed mixed 24% into warm paper. In dark mode a lighter solid carries the page colour as text,
+and the tint is the seed mixed 32% into the dark page. The brand scale is generated from the seed
+in oklch with the same lightness per step, so contrast matches across variants.
+
+**Font pairings.** Inter is the reading font everywhere; the heading font changes:
+
+| Pairing   | Heading font                                 | Projects                                                   |
+| --------- | -------------------------------------------- | ---------------------------------------------------------- |
+| Friendly  | Manrope                                      | Portfolio, Assistant Studio, Plain Language Add-in, Sudoku |
+| Product   | Inter Tight                                  | Workspace, Agent Workflows, Tokens to Tailwind             |
+| Technical | Inter, with JetBrains Mono for code and data | Review Companion                                           |
+| Editorial | Newsreader, for titles only                  | Watchlist                                                  |
+
+**Text size** is its own setting, separate from density. Compact has a 14px body (12, 13, 14,
+16, 20, 24, 32); default has a 16px body (13, 14, 16, 18, 22, 28, 40). Each variant picks a
+default, and visitors can switch it with `TextSizeToggle`, next to the light and dark toggle.
+
+To switch themes live, as the portfolio's theme picker does, import `@eylulg/ui/themes/all.css`
+and set `data-ui-variant` on `<html>` or on any container.
 
 ## How the tokens are layered
 
@@ -74,8 +107,9 @@ variants, and a test checks AA for every text token in light and dark.
 2. **Semantic tokens** (`--ui-text-*`, `--ui-bg-*`, `--ui-border-*`, `--ui-fg-*`) point at the
    primitives and are redefined under `.dark` and `.dark-mode`. Components only use this layer,
    through utilities like `text-primary`, `bg-elevated` or `border-default`.
-3. **Shape and density** (`--radius-*`, `--density-*`) size controls, rows, cells and cards
-   through utilities like `rounded-md`, `h-control-md`, `py-item-y` and `p-card`.
+3. **Density and text size** (`--density-*`, `--text-*`) size controls, rows, cells, cards and
+   type through utilities like `h-control-md`, `py-item-y`, `p-card` and `text-md`. The visitor's
+   text size, `data-ui-text` on `<html>`, overrides the variant's default.
 
 ## Colour scales
 
@@ -102,25 +136,21 @@ Spacing uses a single base, `--spacing: 0.25rem`. Every spacing utility is a mul
 
 ## Overriding the brand
 
-Redefine the brand scale after the library stylesheet. Semantic tokens such as `bg-brand-solid`
-and the focus ring pick it up with no other change.
+Set your own seeds after the library stylesheet. Solid fills, tints, brand text and the focus
+ring all follow them.
 
 ```css
 @import '@eylulg/ui/styles.css';
 
 :root {
-  --color-brand-50: #fdf2f8;
-  --color-brand-100: #fce7f3;
-  --color-brand-300: #f9a8d4;
-  --color-brand-400: #f472b6;
-  --color-brand-500: #ec4899;
-  --color-brand-600: #db2777;
-  --color-brand-700: #be185d;
+  --color-brand-seed: #3f6fb6;
+  --color-brand-seed-dark: #8cb2eb;
 }
 ```
 
-Keep `brand-600` at a contrast ratio of at least 4.5:1 against white, because primary buttons
-place white text on it.
+The light seed needs 4.5:1 against white, because solid buttons put white text on it, and the
+dark seed 4.5:1 against the dark page. Run `npm run contrast` after adding a variant to
+`variants.ts`.
 
 ## Accessibility
 

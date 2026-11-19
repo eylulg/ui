@@ -39,8 +39,8 @@ projects feel like one product family.
 npm install @eylulg/ui react-aria-components lucide-react
 ```
 
-`react`, `react-dom` 19 and `lucide-react` are peer dependencies, and `@fontsource-variable/inter`
-an optional one. Until the package is on npm, install it from a local checkout with
+`react`, `react-dom` 19 and `lucide-react` are peer dependencies, and the `@fontsource-variable`
+packages of the five fonts (Inter, Manrope, Inter Tight, Newsreader, JetBrains Mono) optional ones. Until the package is on npm, install it from a local checkout with
 `npm install ../ui` (a `file:../ui` dependency). The full workflow, including how to keep a single
 copy of React with a linked checkout, with Vite and Next.js examples, is in
 [docs/consuming.md](./docs/consuming.md).
@@ -66,8 +66,9 @@ import '@eylulg/ui/themes/workspace.css';
 
 An app that styles itself and only wants the design tokens imports `@eylulg/ui/tokens.css` (custom
 properties on `:root` and `.dark-mode`, no preflight, no component styles) and a variant. To load
-Inter, install `@fontsource-variable/inter` and import `@eylulg/ui/fonts.css` first; every variant
-names Inter and falls back to the system font without it.
+the fonts, install the `@fontsource-variable` packages and import `@eylulg/ui/fonts.css` first. A
+browser downloads only the fonts a page uses; without the file every variant names its fonts and
+falls back to the system font.
 
 Then use components from a per component entry point (or the index):
 
@@ -99,46 +100,53 @@ wrong theme (see [docs/consuming.md](./docs/consuming.md)).
 
 ## Theme variants
 
-Every variant shares the base theme: type scale, spacing, semantic tokens and status colours. A
-variant overrides only the brand and gray scales, `--radius-*`, `--density-*`, `--font-display`
-(Inter everywhere) and `--font-mono` (a system monospace stack). Import exactly one, after
-`theme.css`.
+Every variant shares the base theme: the warm frame (sand page and lighter cards in light mode,
+warm brown in dark), the shape (14px buttons and inputs, 20px cards, 24px page panels), the
+spacing, the status colours and the semantic tokens. A variant sets four things: its colour, its
+font pairing, its default text size and its density. Import exactly one, after `theme.css`.
 
-| Variant          | Import                                 | Project               | Brand   | Gray         | Radius | Density     | Data font |
-| ---------------- | -------------------------------------- | --------------------- | ------- | ------------ | ------ | ----------- | --------- |
-| `portfolio`      | `@eylulg/ui/themes/portfolio.css`      | Portfolio             | indigo  | cool (slate) | large  | comfortable | Inter     |
-| `workspace`      | `@eylulg/ui/themes/workspace.css`      | Workspace             | blue    | neutral      | small  | compact     | Inter     |
-| `review`         | `@eylulg/ui/themes/review.css`         | Review Companion      | teal    | cool (slate) | medium | comfortable | monospace |
-| `control-room`   | `@eylulg/ui/themes/control-room.css`   | Agent workflows       | amber   | zinc         | small  | compact     | Inter     |
-| `watchlist`      | `@eylulg/ui/themes/watchlist.css`      | Watchlist             | rose    | warm (stone) | large  | comfortable | Inter     |
-| `tokens`         | `@eylulg/ui/themes/tokens.css`         | Tokens to Tailwind    | violet  | neutral      | medium | comfortable | Inter     |
-| `plain-language` | `@eylulg/ui/themes/plain-language.css` | Plain Language add-in | cyan    | cool (slate) | medium | compact     | Inter     |
-| `sudoku`         | `@eylulg/ui/themes/sudoku.css`         | Sudoku                | green   | neutral      | medium | comfortable | Inter     |
-| `assistant`      | `@eylulg/ui/themes/assistant.css`      | Assistant             | magenta | warm (stone) | large  | comfortable | Inter     |
+| Variant          | Import                                 | Project               | Colour     | Light     | Dark      | Font pairing | Text size | Density     |
+| ---------------- | -------------------------------------- | --------------------- | ---------- | --------- | --------- | ------------ | --------- | ----------- |
+| `portfolio`      | `@eylulg/ui/themes/portfolio.css`      | Portfolio             | Clay       | `#b8583e` | `#e8a58c` | Friendly     | default   | comfortable |
+| `workspace`      | `@eylulg/ui/themes/workspace.css`      | Workspace             | Slate blue | `#3f6fb6` | `#8cb2eb` | Product      | compact   | compact     |
+| `review`         | `@eylulg/ui/themes/review.css`         | Review Companion      | Eucalyptus | `#177360` | `#8ad0bc` | Technical    | compact   | comfortable |
+| `control-room`   | `@eylulg/ui/themes/control-room.css`   | Agent Workflows       | Ink        | `#293647` | `#c4d2e5` | Product      | compact   | compact     |
+| `watchlist`      | `@eylulg/ui/themes/watchlist.css`      | Watchlist             | Rose       | `#af5275` | `#ed99b6` | Editorial    | default   | comfortable |
+| `tokens`         | `@eylulg/ui/themes/tokens.css`         | Tokens to Tailwind    | Iris       | `#7766b6` | `#b8aded` | Product      | default   | comfortable |
+| `plain-language` | `@eylulg/ui/themes/plain-language.css` | Plain Language Add-in | Sea glass  | `#2d7787` | `#81b6c3` | Friendly     | default   | compact     |
+| `sudoku`         | `@eylulg/ui/themes/sudoku.css`         | Sudoku                | Sage       | `#446c2b` | `#97bf82` | Friendly     | default   | comfortable |
+| `assistant`      | `@eylulg/ui/themes/assistant.css`      | Assistant Studio      | Plum       | `#824d85` | `#deb0e0` | Friendly     | default   | comfortable |
 
-`control-room` also darkens the dark mode surfaces for an operations dashboard. `review` sets
-`font-data` (table cells, stat values) to the monospace stack.
+Font pairings keep Inter for reading text and change the heading font: Friendly is Manrope,
+Product is Inter Tight, Technical is Inter with JetBrains Mono for code and data, and Editorial is
+Newsreader for titles only.
 
-- **Same contrast everywhere.** Scales run from 25 to 950 in oklch with fixed lightness per step;
-  chroma is reduced per step until the colour fits sRGB. `npm run themes` regenerates the scales
-  and CSS from `src/styles/themes/variants.ts`, and `npm run contrast` (also part of `npm test`)
-  checks text, icon, control border and focus ring contrast, and white text on the solid hover fill, in light and dark for the base theme
-  and every variant. All pass AA; white on a primary button ranges from 4.83:1 (sudoku) to
-  5.75:1 (assistant).
+- **Colour.** In light mode the seed is the solid fill and carries white text; the tinted fill is
+  the seed mixed 24% into warm paper. In dark mode the lighter dark seed is the solid and carries
+  the page colour as text; the tint is the seed mixed 32% into the dark page. The brand scale
+  (`--color-brand-25` to `950`) is generated from the seed in oklch with fixed lightness per
+  step. `npm run themes` regenerates the scales and CSS from `src/styles/themes/variants.ts`.
+- **Contrast.** `npm run contrast` (also part of `npm test`) checks every text token at 4.5:1 and
+  every icon, solid fill, control border, focus ring, logo stroke and chart series at 3:1, on the
+  card, the page and popovers, in light and dark, for the base theme and every variant.
+- **Text size.** Compact has a 14px body, default a 16px body. `TextSizeToggle` (or `useTextSize`)
+  lets the visitor switch; the choice is written as `data-ui-text` on `<html>`, remembered, and
+  applied before first paint by `themeInitScript`.
 - **Density.** Components size from `--density-*` through utilities such as `h-control-md`,
   `px-control-x`, `py-item-y`, `px-cell-x` and `p-card`, so compact variants tighten every
   control, menu row and table cell at once.
-- **Scoped variants.** Every variant file also applies under `[data-ui-variant="<name>"]`, so a
-  page can show a variant in a container. Storybook uses this for its variant pages.
+- **Live switching.** `@eylulg/ui/themes/all.css` holds every variant under
+  `[data-ui-variant="<name>"]` only, so a page can switch themes by changing one attribute, or show
+  several projects side by side. The portfolio's theme picker and Storybook use it.
 - **Typed matrix.** `import { variants, variantNames } from '@eylulg/ui/themes'` gives tools the
-  same data, including the generated scales.
+  same data, including seeds, pairings and the generated scales.
 
-## Overriding the brand scale
+## Overriding the brand
 
-To change a single decision rather than switch variant, override a semantic variable after the
-library CSS, for example `:root { --ui-bg-brand-solid: var(--color-brand-700); }`, or redefine
-the `--color-brand-*` steps. Keep `brand-600` at 4.5:1 or more against white, because primary
-buttons place white text on it.
+To change a single decision rather than switch variant, set `--color-brand-seed` and
+`--color-brand-seed-dark` after the library CSS, or override one semantic variable such as
+`--ui-bg-brand-solid`. Keep the light seed at 4.5:1 or more against white and the dark seed at
+4.5:1 against the dark page.
 
 ## Components
 

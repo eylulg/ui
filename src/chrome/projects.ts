@@ -31,7 +31,7 @@ export const projects: Project[] = [
   },
   {
     id: 'ui',
-    name: 'Component library',
+    name: 'Component Library',
     description: 'The @eylulg/ui Storybook every project is built with',
     url: 'https://eylulg.github.io/ui/',
     variant: null,
@@ -48,7 +48,7 @@ export const projects: Project[] = [
   },
   {
     id: 'agent-control-room',
-    name: 'Agent workflows',
+    name: 'Agent Workflows',
     description: 'Build agent workflows as graphs and watch them run',
     url: 'https://eylulg.github.io/agent-control-room/',
     variant: 'control-room',
@@ -92,7 +92,7 @@ export const projects: Project[] = [
   },
   {
     id: 'plain-language',
-    name: 'Plain Language add-in',
+    name: 'Plain Language Add-in',
     description: 'A Word add-in that suggests plainer wording',
     url: null,
     variant: 'plain-language',

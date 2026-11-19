@@ -4,9 +4,11 @@ import { parse, type Oklch } from 'culori';
 import { describe, expect, it } from 'vitest';
 import pkg from '../../../../package.json';
 import { checkSeparation, checkVariant } from '../../../../scripts/contrast';
-import { brandLightness, grayLightness, scalesModule } from '../../../../scripts/palette';
+import { brandLightness, scalesModule } from '../../../../scripts/palette';
 import {
+  allVariantsCss,
   scaleSteps,
+  textSizeLines,
   variantFileCss,
   variantNames,
   variantSpecs,
@@ -15,6 +17,7 @@ import {
 } from '../variants';
 
 const dir = resolve(import.meta.dirname, '..');
+const themeCss = readFileSync(resolve(dir, '../theme.css'), 'utf8');
 
 describe('theme variants', () => {
   it.each(['base', ...variantNames] as const)('%s meets WCAG AA in light and dark', (name) => {
@@ -29,13 +32,11 @@ describe('theme variants', () => {
     expect(weak.map((r) => `${r.mode} ${r.a} and ${r.b}: ${r.normal} / ${r.cvd}`)).toEqual([]);
   });
 
-  it('uses the same lightness per step in every variant, so contrast matches', () => {
+  it('uses the same lightness per brand step in every variant, so contrast matches', () => {
     for (const name of variantNames) {
       for (const step of scaleSteps) {
         const brand = parse(variants[name].colors.brand[step]) as Oklch;
-        const gray = parse(variants[name].colors.gray[step]) as Oklch;
         expect(brand.l).toBeCloseTo(brandLightness[step], 3);
-        expect(gray.l).toBeCloseTo(grayLightness[step], 3);
       }
     }
   });
@@ -46,15 +47,40 @@ describe('theme variants', () => {
       const file = readFileSync(resolve(dir, `${name}.css`), 'utf8');
       expect(file, `${name}.css is stale, run npm run themes`).toBe(variantFileCss(variants[name]));
     }
+    expect(readFileSync(resolve(dir, 'all.css'), 'utf8')).toBe(allVariantsCss(variants));
   });
 
-  it('only overrides primitives, shape, density and fonts (plus dark surfaces)', () => {
+  it('gives the base theme the portfolio colour, Clay', () => {
+    const { seed, colors } = variants.portfolio;
+
+    expect(themeCss).toContain(`--color-brand-seed: ${seed.light};`);
+    expect(themeCss).toContain(`--color-brand-seed-dark: ${seed.dark};`);
+    for (const step of scaleSteps) {
+      expect(themeCss).toContain(`--color-brand-${step}: ${colors.brand[step]};`);
+    }
+  });
+
+  it('lets the visitor override the text size with the same scale the variants use', () => {
+    for (const size of ['compact', 'default'] as const) {
+      const rule = themeCss.slice(themeCss.indexOf(`:root[data-ui-text='${size}']`));
+      const block = rule.slice(rule.indexOf('{') + 1, rule.indexOf('}'));
+
+      expect(
+        block
+          .trim()
+          .split('\n')
+          .map((line) => line.trim()),
+      ).toEqual(textSizeLines(size, ''));
+    }
+  });
+
+  it('only sets the seed, brand scale, density, fonts and text size', () => {
     for (const name of variantNames) {
       const css = readFileSync(resolve(dir, `${name}.css`), 'utf8');
       const declared = [...css.matchAll(/^\s+(--[\w-]+):/gm)].map((match) => match[1]!);
       for (const variable of declared) {
         expect(variable).toMatch(
-          /^--(color-(brand|gray|warning)-\d+|radius-[\w]+|density-[\w-]+|font-(display|mono)|ui-font-data|ui-bg-(primary|secondary|elevated))$/,
+          /^--(color-brand-(\d+|seed|seed-dark)|density-[\w-]+|font-display|ui-font-data|ui-text-size|text-[\w-]+)$/,
         );
       }
     }

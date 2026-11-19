@@ -6,14 +6,14 @@
  * Layer 2: semantic tokens (text, bg, border, fg) declared as CSS variables
  *          on :root and redefined under .dark. Components only use this layer,
  *          so a theme switch or a brand override never touches component code.
+ * Layer 3: density and text size tokens (--density-*, --text-*). A variant
+ *          or the visitor can make the whole library tighter or its text
+ *          smaller without touching component code.
  *
- * Layer 3: shape and density tokens (--radius-*, --density-*). Components
- *          size controls and paddings from these, so a variant can make the
- *          whole library tighter or rounder without touching component code.
- *
- * To rebrand, import one of the variant files (@eylulg/ui/themes/<name>.css)
- * after this file, or redefine the --color-brand-* variables yourself. See
- * the README sections "Theme variants" and "Overriding the brand scale".
+ * The base theme is the portfolio's: the Clay brand on a warm sand frame. To
+ * theme a project, import one of the variant files (@eylulg/ui/themes/<name>.css)
+ * after this file. A variant sets the seed colour, the font pairing, the text
+ * size and the density; the frame and the shape are shared by every project.
  */
 
 /*
@@ -25,18 +25,23 @@
 @theme {
   /* Typography */
   /*
-   * Inter when it is installed on the device, or when @eylulg/ui/fonts.css is
-   * imported, which sets --font-inter to the bundled variable font.
+   * Inter is the reading font everywhere; the heading font (--font-display)
+   * comes from the variant's font pairing. @eylulg/ui/fonts.css sets the
+   * --font-* names to the bundled variable fonts; without it each stack names
+   * an installed copy and then falls back to the system font.
    */
   --font-sans:
     var(--font-inter, 'Inter'), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
   --font-display:
-    var(--font-inter, 'Inter'), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    var(--font-manrope, 'Manrope'), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-mono:
+    var(--font-jetbrains-mono, 'JetBrains Mono'), ui-monospace, SFMono-Regular, 'SF Mono', Menlo,
+    Consolas, monospace;
 
-  --text-xs: 0.75rem;
+  /* The default text size. Compact variants and the visitor's choice override these. */
+  --text-xs: 0.8125rem;
   --text-xs--line-height: 1.125rem;
   --text-sm: 0.875rem;
   --text-sm--line-height: 1.25rem;
@@ -44,58 +49,72 @@
   --text-md--line-height: 1.5rem;
   --text-lg: 1.125rem;
   --text-lg--line-height: 1.75rem;
-  --text-xl: 1.25rem;
+  --text-xl: 1.375rem;
   --text-xl--line-height: 1.875rem;
-  --text-2xl: 1.5rem;
-  --text-2xl--line-height: 2rem;
-  --text-3xl: 1.875rem;
-  --text-3xl--line-height: 2.375rem;
+  --text-2xl: 1.75rem;
+  --text-2xl--line-height: 2.25rem;
+  --text-3xl: 2.5rem;
+  --text-3xl--line-height: 2.875rem;
+  /* A fluid size for one hero heading per page. Outside the text size setting. */
+  --text-display: clamp(2.5rem, 1.6rem + 3.4vw, 4.25rem);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.025em;
 
   /* Spacing: every spacing utility is a multiple of this 4px base (p-2 = 8px). */
   --spacing: 0.25rem;
 
-  /* Radius */
-  --radius-xs: 0.25rem;
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.625rem;
-  --radius-xl: 0.75rem;
-  --radius-2xl: 1rem;
+  /*
+   * Radius, the same in every project: 14px buttons and inputs (md), 20px
+   * cards (xl), 24px page panels (2xl).
+   */
+  --radius-xs: 0.375rem;
+  --radius-sm: 0.625rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-xs: 0 1px 2px 0 rgb(16 24 40 / 0.05);
-  --shadow-sm: 0 1px 3px 0 rgb(16 24 40 / 0.1), 0 1px 2px -1px rgb(16 24 40 / 0.1);
-  --shadow-md: 0 4px 8px -2px rgb(16 24 40 / 0.1), 0 2px 4px -2px rgb(16 24 40 / 0.06);
-  --shadow-lg: 0 12px 16px -4px rgb(16 24 40 / 0.08), 0 4px 6px -2px rgb(16 24 40 / 0.03);
-  --shadow-xl: 0 20px 24px -4px rgb(16 24 40 / 0.08), 0 8px 8px -4px rgb(16 24 40 / 0.03);
+  /* Shadows: soft and warm. A hairline border does most of the work. */
+  --shadow-xs: 0 1px 2px 0 rgb(44 37 33 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(44 37 33 / 0.08), 0 1px 2px -1px rgb(44 37 33 / 0.08);
+  --shadow-md: 0 4px 8px -2px rgb(44 37 33 / 0.08), 0 2px 4px -2px rgb(44 37 33 / 0.05);
+  --shadow-lg: 0 12px 16px -4px rgb(44 37 33 / 0.08), 0 4px 6px -2px rgb(44 37 33 / 0.03);
+  --shadow-xl: 0 20px 24px -4px rgb(44 37 33 / 0.08), 0 8px 8px -4px rgb(44 37 33 / 0.03);
 
-  /* Brand: an Aegean blue. Override these eleven steps to rebrand. */
-  --color-brand-25: #f5f8ff;
-  --color-brand-50: #eef3ff;
-  --color-brand-100: #dde7ff;
-  --color-brand-200: #c2d4ff;
-  --color-brand-300: #96b5fd;
-  --color-brand-400: #6690f8;
-  --color-brand-500: #3f6cf0;
-  --color-brand-600: #2a4fd6;
-  --color-brand-700: #223fb0;
-  --color-brand-800: #20378c;
-  --color-brand-900: #1f3270;
-  --color-brand-950: #151f45;
+  /*
+   * Brand: Clay, the portfolio's colour. The seeds are the solid fills, light
+   * and dark; the scale is generated from the light seed (the portfolio
+   * variant's scale, kept in sync by the themes test).
+   */
+  --color-brand-seed: #b8583e;
+  --color-brand-seed-dark: #e8a58c;
+  --color-brand-25: oklch(0.985 0.0074 36.1);
+  --color-brand-50: oklch(0.97 0.015 36.1);
+  --color-brand-100: oklch(0.935 0.0336 36.1);
+  --color-brand-200: oklch(0.885 0.0621 36.1);
+  --color-brand-300: oklch(0.81 0.0994 36.1);
+  --color-brand-400: oklch(0.715 0.123 36.1);
+  --color-brand-500: oklch(0.625 0.1308 36.1);
+  --color-brand-600: oklch(0.535 0.1256 36.1);
+  --color-brand-700: oklch(0.47 0.1125 36.1);
+  --color-brand-800: oklch(0.395 0.0942 36.1);
+  --color-brand-900: oklch(0.325 0.0759 36.1);
+  --color-brand-950: oklch(0.255 0.0576 36.1);
 
-  --color-gray-25: #fcfcfd;
-  --color-gray-50: #f8f9fb;
-  --color-gray-100: #f1f3f6;
-  --color-gray-200: #e3e7ed;
-  --color-gray-300: #cdd3dc;
-  --color-gray-400: #98a1b0;
-  --color-gray-500: #697386;
-  --color-gray-600: #4d5668;
-  --color-gray-700: #384152;
-  --color-gray-800: #232a37;
-  --color-gray-900: #151a24;
-  --color-gray-950: #0b0e14;
+  /* Warm grays, shared by every project. 25, 100 and 300 are the light frame, 900 and 950 the dark. */
+  --color-gray-25: #fffcf8;
+  --color-gray-50: #fbf7f1;
+  --color-gray-100: #f7f1e8;
+  --color-gray-200: #efe7da;
+  --color-gray-300: #e8dfd0;
+  --color-gray-400: #bdb2a5;
+  --color-gray-500: #8a7f75;
+  --color-gray-600: #6c625a;
+  --color-gray-700: #4f4640;
+  --color-gray-800: #3f3832;
+  --color-gray-900: #2a2521;
+  --color-gray-950: #211d1a;
 
   --color-success-25: #f6fef9;
   --color-success-50: #ecfdf3;
@@ -290,38 +309,42 @@
 
   /*
    * Semantic tokens are declared on :root and again on any element with
-   * data-ui-variant, so a variant scoped to a container (as in Storybook)
-   * resolves them against its own primitive scales.
+   * data-ui-variant, so a variant scoped to a container (as in Storybook or a
+   * project preview) resolves them against its own seed and scale.
    */
   :root,
   [data-ui-variant] {
     color-scheme: light;
 
     --ui-font-data: var(--font-sans);
+    /* The variant's default text size, read by useTextSize. */
+    --ui-text-size: default;
 
-    --ui-text-primary: var(--color-gray-900);
+    /* The frame: warm sand page, lighter surfaces, ink text. */
+    --ui-text-primary: #2c2521;
     --ui-text-secondary: var(--color-gray-700);
     --ui-text-tertiary: var(--color-gray-600);
     --ui-text-disabled: var(--color-gray-500);
-    --ui-text-placeholder: var(--color-gray-500);
-    --ui-text-inverse: var(--color-white);
-    --ui-text-on-solid: var(--color-white);
-    --ui-text-brand: var(--color-brand-700);
+    --ui-text-placeholder: var(--color-gray-600);
+    --ui-text-inverse: var(--color-gray-25);
+    --ui-text-on-solid: #ffffff;
+    --ui-text-brand: color-mix(in oklch, var(--color-brand-seed) 80%, black);
     --ui-text-error: var(--color-error-700);
     --ui-text-success: var(--color-success-700);
     --ui-text-warning: var(--color-warning-700);
 
-    --ui-bg-primary: var(--color-white);
-    --ui-bg-secondary: var(--color-gray-50);
-    --ui-bg-tertiary: var(--color-gray-100);
-    --ui-bg-elevated: var(--color-white);
-    --ui-bg-inverse: var(--color-gray-900);
-    --ui-bg-disabled: var(--color-gray-100);
-    --ui-bg-overlay: rgb(11 14 20 / 0.6);
-    --ui-bg-hover: var(--color-gray-50);
-    --ui-bg-brand-solid: var(--color-brand-600);
-    --ui-bg-brand-solid-hover: var(--color-brand-700);
-    --ui-bg-brand-subtle: var(--color-brand-50);
+    --ui-bg-primary: var(--color-gray-25);
+    --ui-bg-secondary: var(--color-gray-100);
+    --ui-bg-tertiary: var(--color-gray-200);
+    --ui-bg-elevated: var(--color-gray-25);
+    --ui-bg-inverse: #2c2521;
+    --ui-bg-disabled: var(--color-gray-200);
+    --ui-bg-overlay: rgb(44 37 33 / 0.55);
+    --ui-bg-hover: var(--color-gray-100);
+    /* Project colour: the seed is the solid, and a tint of it on warm paper is the subtle fill. */
+    --ui-bg-brand-solid: var(--color-brand-seed);
+    --ui-bg-brand-solid-hover: color-mix(in oklch, var(--color-brand-seed) 84%, black);
+    --ui-bg-brand-subtle: color-mix(in oklch, var(--color-brand-seed) 24%, #fbf7f1);
     --ui-bg-error-solid: var(--color-error-600);
     --ui-bg-error-solid-hover: var(--color-error-700);
     --ui-bg-error-subtle: var(--color-error-50);
@@ -333,20 +356,24 @@
     /* Form control outlines keep 3:1 against the surface (WCAG 1.4.11). */
     --ui-border-control: var(--color-gray-500);
     --ui-border-subtle: var(--color-gray-200);
-    --ui-border-brand: var(--color-brand-600);
+    --ui-border-brand: var(--color-brand-seed);
     --ui-border-error: var(--color-error-600);
     --ui-border-disabled: var(--color-gray-200);
-    --ui-border-focus: var(--color-brand-500);
+    --ui-border-focus: var(--color-brand-seed);
 
-    --ui-fg-primary: var(--color-gray-900);
+    --ui-fg-primary: #2c2521;
     --ui-fg-secondary: var(--color-gray-600);
     --ui-fg-tertiary: var(--color-gray-500);
     --ui-fg-disabled: var(--color-gray-400);
-    --ui-fg-brand: var(--color-brand-600);
-    --ui-fg-on-solid: var(--color-white);
+    --ui-fg-brand: var(--color-brand-seed);
+    --ui-fg-on-solid: #ffffff;
     --ui-fg-error: var(--color-error-600);
     --ui-fg-success: var(--color-success-600);
     --ui-fg-warning: var(--color-warning-600);
+
+    /* The logo keeps its own colours in every project: clay letters, ink lines. */
+    --ui-logo-letters: #b8583e;
+    --ui-logo-lines: #2c2521;
 
     /* Extra badge hues. Fixed across variants; the contrast check covers each one. */
     --ui-bg-blue-subtle: #eff6ff;
@@ -376,9 +403,9 @@
      * surface of every variant, and every pair stays apart under colour vision
      * deficiency (npm run contrast).
      */
-    --ui-chart-1: #6f82ff;
+    --ui-chart-1: #6c7ffb;
     --ui-chart-2: #f1515f;
-    --ui-chart-3: #009e94;
+    --ui-chart-3: #009b91;
     --ui-chart-4: #5532bb;
     --ui-chart-5: #7c5801;
     --ui-chart-6: #9a005e;
@@ -398,53 +425,58 @@
   .dark-mode [data-ui-variant] {
     color-scheme: dark;
 
-    --ui-text-primary: var(--color-gray-50);
+    /* The frame: warm brown page, a lighter surface, cream text. */
+    --ui-text-primary: #f3ede5;
     --ui-text-secondary: var(--color-gray-300);
     --ui-text-tertiary: var(--color-gray-400);
     --ui-text-disabled: var(--color-gray-500);
     --ui-text-placeholder: var(--color-gray-400);
-    --ui-text-inverse: var(--color-gray-900);
-    --ui-text-on-solid: var(--color-white);
-    --ui-text-brand: var(--color-brand-300);
+    --ui-text-inverse: #2c2521;
+    /* Dark solids are light, so the text on them is the dark page colour. */
+    --ui-text-on-solid: var(--color-gray-950);
+    --ui-text-brand: var(--color-brand-seed-dark);
     --ui-text-error: var(--color-error-300);
     --ui-text-success: var(--color-success-300);
     --ui-text-warning: var(--color-warning-300);
 
-    --ui-bg-primary: var(--color-gray-950);
-    --ui-bg-secondary: var(--color-gray-900);
+    --ui-bg-primary: var(--color-gray-900);
+    --ui-bg-secondary: var(--color-gray-950);
     --ui-bg-tertiary: var(--color-gray-800);
-    --ui-bg-elevated: var(--color-gray-900);
-    --ui-bg-inverse: var(--color-gray-50);
+    --ui-bg-elevated: #312b26;
+    --ui-bg-inverse: #f3ede5;
     --ui-bg-disabled: var(--color-gray-800);
-    --ui-bg-overlay: rgb(0 0 0 / 0.7);
-    --ui-bg-hover: var(--color-gray-800);
-    --ui-bg-brand-solid: var(--color-brand-600);
-    --ui-bg-brand-solid-hover: var(--color-brand-700);
-    --ui-bg-brand-subtle: color-mix(in oklab, var(--color-brand-600) 18%, transparent);
-    --ui-bg-error-solid: var(--color-error-600);
-    --ui-bg-error-solid-hover: var(--color-error-700);
+    --ui-bg-overlay: rgb(0 0 0 / 0.65);
+    --ui-bg-hover: #36302b;
+    --ui-bg-brand-solid: var(--color-brand-seed-dark);
+    --ui-bg-brand-solid-hover: color-mix(in oklch, var(--color-brand-seed-dark) 80%, white);
+    --ui-bg-brand-subtle: color-mix(in oklch, var(--color-brand-seed) 32%, #211d1a);
+    --ui-bg-error-solid: var(--color-error-300);
+    --ui-bg-error-solid-hover: var(--color-error-200);
     --ui-bg-error-subtle: color-mix(in oklab, var(--color-error-600) 18%, transparent);
     --ui-bg-success-subtle: color-mix(in oklab, var(--color-success-600) 18%, transparent);
     --ui-bg-warning-subtle: color-mix(in oklab, var(--color-warning-600) 18%, transparent);
 
-    --ui-border-default: var(--color-gray-700);
+    --ui-border-default: var(--color-gray-800);
     --ui-border-strong: var(--color-gray-400);
     --ui-border-control: var(--color-gray-500);
-    --ui-border-subtle: var(--color-gray-800);
-    --ui-border-brand: var(--color-brand-400);
+    --ui-border-subtle: #36302b;
+    --ui-border-brand: var(--color-brand-seed-dark);
     --ui-border-error: var(--color-error-400);
     --ui-border-disabled: var(--color-gray-800);
-    --ui-border-focus: var(--color-brand-400);
+    --ui-border-focus: var(--color-brand-seed-dark);
 
-    --ui-fg-primary: var(--color-gray-50);
+    --ui-fg-primary: #f3ede5;
     --ui-fg-secondary: var(--color-gray-300);
     --ui-fg-tertiary: var(--color-gray-400);
     --ui-fg-disabled: var(--color-gray-600);
-    --ui-fg-brand: var(--color-brand-400);
-    --ui-fg-on-solid: var(--color-white);
+    --ui-fg-brand: var(--color-brand-seed-dark);
+    --ui-fg-on-solid: var(--color-gray-950);
     --ui-fg-error: var(--color-error-400);
     --ui-fg-success: var(--color-success-400);
     --ui-fg-warning: var(--color-warning-400);
+
+    --ui-logo-letters: #e8a58c;
+    --ui-logo-lines: #f3ede5;
 
     --ui-bg-blue-subtle: color-mix(in oklab, #2563eb 18%, transparent);
     --ui-text-blue: #93c5fd;
@@ -480,4 +512,47 @@
     --ui-chart-seq-4: #7aaeef;
     --ui-chart-seq-5: #b3d4ff;
   }
+}
+
+/*
+ * The visitor's text size, from useTextSize or themeInitScript. Outside any
+ * layer and more specific than a variant's own selector, so it wins over the
+ * variant's default size, also inside a container with data-ui-variant.
+ */
+:root[data-ui-text='compact'],
+[data-ui-text='compact'] [data-ui-variant],
+[data-ui-variant][data-ui-text='compact'] {
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.8125rem;
+  --text-sm--line-height: 1.125rem;
+  --text-md: 0.875rem;
+  --text-md--line-height: 1.25rem;
+  --text-lg: 1rem;
+  --text-lg--line-height: 1.5rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl: 2rem;
+  --text-3xl--line-height: 2.375rem;
+}
+
+:root[data-ui-text='default'],
+[data-ui-text='default'] [data-ui-variant],
+[data-ui-variant][data-ui-text='default'] {
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.125rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-md: 1rem;
+  --text-md--line-height: 1.5rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl: 1.375rem;
+  --text-xl--line-height: 1.875rem;
+  --text-2xl: 1.75rem;
+  --text-2xl--line-height: 2.25rem;
+  --text-3xl: 2.5rem;
+  --text-3xl--line-height: 2.875rem;
 }
