@@ -17,7 +17,7 @@ Numbers for `@eylulg/ui`, how they were measured and what did and did not shrink
 | @eylulg/ui/breadcrumbs                                                                                   |             20.56 |            20.56 |  +0.00 |        20.56 |       20.56 |
 | @eylulg/ui/button                                                                                        |             23.82 |            23.84 |  +0.02 |        23.82 |       23.84 |
 | @eylulg/ui/card                                                                                          |             22.26 |            22.26 |  +0.00 |        22.26 |       22.26 |
-| @eylulg/ui/chart                                                                                         |               n/a |            14.13 |    new |          n/a |       14.13 |
+| @eylulg/ui/chart                                                                                         |               n/a |            15.13 |    new |          n/a |       15.13 |
 | @eylulg/ui/checkbox                                                                                      |             24.39 |            24.39 |  +0.00 |        24.39 |       24.39 |
 | @eylulg/ui/chrome                                                                                        |             68.65 |            36.31 | -32.34 |        71.72 |       79.89 |
 | @eylulg/ui/code-block                                                                                    |             23.43 |            23.46 |  +0.03 |        23.43 |       23.46 |
@@ -59,7 +59,7 @@ Numbers for `@eylulg/ui`, how they were measured and what did and did not shrink
 
 First load drops where an overlay used to ride along with its trigger: the chrome entry 68.7 to 36.3 kB, command palette 60.7 to 0.9, dialog 37.5 to 20.2, drawer 37.7 to 20.2, toast 25.4 to 9.6, tooltip 21.9 to 13.6, popover 33.9 to 25.5, dropdown menu 59.5 to 49.4. Total rises by about 1 kB per split entry for the extra chunk wrapper and the loader. A landing without a `Select` goes from 71.8 to 41.1 kB.
 
-The chart entry is new in this pass: 14.1 kB gzip for all three charts, legend, tooltip and table together, with no overlay split. It holds no chart library and no tailwind-merge (it uses cx-lite); it does include React Aria's focus ring hook and prop merging. A page that imports only `LineChart` pays 8.7 kB brotli of the library's own code plus those hooks (`npm run size`).
+The chart entry is new in this pass: 15.1 kB gzip for all three charts, legend, tooltip and table together, with no overlay split. It holds no chart library and no tailwind-merge (it uses cx-lite); it does include React Aria's focus ring hook and prop merging. A page that imports only `LineChart` pays 9.2 kB brotli of the library's own code plus those hooks (`npm run size`).
 
 ## What loads when
 
