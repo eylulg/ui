@@ -123,45 +123,36 @@ export const PlainLanguage: Story = { args: { name: 'plain-language' } };
 export const Sudoku: Story = { args: { name: 'sudoku' } };
 export const Assistant: Story = { args: { name: 'assistant' } };
 
-/** Every project's colour, font pairing and text size, in light and dark. */
+/** Every project's colour, font pairing and text size, in the mode the Theme toolbar picks. */
 export const Overview: Story = {
   args: { name: 'portfolio' },
+  // The variant pages force light so their light and dark panels sit side by side.
+  // The overview shows one grid, so it follows the Theme toolbar instead.
+  parameters: { forceTheme: null },
   render: () => (
-    <div className='flex flex-col gap-6'>
-      {(['light', 'dark'] as const).map((mode) => (
-        <section
-          key={mode}
-          aria-label={mode === 'light' ? 'Light' : 'Dark'}
-          className={mode === 'dark' ? darkPanel : panel}
+    <ul className={`grid gap-4 sm:grid-cols-2 xl:grid-cols-3 ${panel}`}>
+      {variantNames.map((name) => (
+        <li
+          key={name}
+          data-ui-variant={name}
+          className='flex flex-col gap-3 rounded-xl border border-default bg-primary p-card'
         >
-          <ul className='grid gap-4 sm:grid-cols-2 xl:grid-cols-3'>
-            {variantNames.map((name) => (
-              <li
-                key={name}
-                data-ui-variant={name}
-                className='flex flex-col gap-3 rounded-xl border border-default bg-primary p-card'
-              >
-                <span className='flex items-center justify-between gap-3'>
-                  <span className='font-display text-xl font-semibold'>
-                    {variants[name].project}
-                  </span>
-                  <span aria-hidden='true' className='size-6 rounded-full bg-brand-solid' />
-                </span>
-                <span className='text-sm text-tertiary'>
-                  {variants[name].seed.name}, {pairings[variants[name].pairing].label.toLowerCase()}{' '}
-                  pairing, {variants[name].textSize} text
-                </span>
-                <span className='flex items-center gap-2 rounded-md bg-brand-subtle p-3'>
-                  <span className='rounded-md bg-brand-solid px-3 py-1.5 text-sm font-semibold text-on-solid'>
-                    Save changes
-                  </span>
-                  <span className='text-sm font-medium text-brand'>In review</span>
-                </span>
-              </li>
-            ))}
-          </ul>
-        </section>
+          <span className='flex items-center justify-between gap-3'>
+            <span className='font-display text-xl font-semibold'>{variants[name].project}</span>
+            <span aria-hidden='true' className='size-6 rounded-full bg-brand-solid' />
+          </span>
+          <span className='text-sm text-tertiary'>
+            {variants[name].seed.name}, {pairings[variants[name].pairing].label.toLowerCase()}{' '}
+            pairing, {variants[name].textSize} text
+          </span>
+          <span className='flex items-center gap-2 rounded-md bg-brand-subtle p-3'>
+            <span className='rounded-md bg-brand-solid px-3 py-1.5 text-sm font-semibold text-on-solid'>
+              Save changes
+            </span>
+            <span className='text-sm font-medium text-brand'>In review</span>
+          </span>
+        </li>
       ))}
-    </div>
+    </ul>
   ),
 };
