@@ -20,7 +20,7 @@ describe('getInitials', () => {
 
 describe('Avatar', () => {
   it('falls back to initials named by the person when the image fails', () => {
-    render(<Avatar name="Eylül Güneş" src="https://example.com/missing.png" />);
+    render(<Avatar name='Eylül Güneş' src='https://example.com/missing.png' />);
 
     fireEvent.error(screen.getByRole('img', { name: 'Eylül Güneş' }));
 
@@ -30,18 +30,18 @@ describe('Avatar', () => {
   });
 
   it('announces the status as text', () => {
-    render(<Avatar name="Eylül Güneş" status="away" />);
+    render(<Avatar name='Eylül Güneş' status='away' />);
 
     expect(screen.getByText('Away')).toBeInTheDocument();
   });
 
   it('collapses avatars beyond max into a named counter', () => {
     render(
-      <AvatarGroup aria-label="Reviewers" max={2}>
-        <Avatar name="Ada Lovelace" />
-        <Avatar name="Grace Hopper" />
-        <Avatar name="Alan Turing" />
-        <Avatar name="Katherine Johnson" />
+      <AvatarGroup aria-label='Reviewers' max={2}>
+        <Avatar name='Ada Lovelace' />
+        <Avatar name='Grace Hopper' />
+        <Avatar name='Alan Turing' />
+        <Avatar name='Katherine Johnson' />
       </AvatarGroup>,
     );
 
@@ -52,13 +52,13 @@ describe('Avatar', () => {
   it('has no axe violations in light and dark', async () => {
     await expectNoA11yViolations(() => (
       <div>
-        <Avatar name="Eylül Güneş" src={image} status="online" />
-        <Avatar name="Ada Lovelace" size="xs" />
-        <Avatar name="Grace Hopper" size="xl" status="busy" />
-        <AvatarGroup aria-label="Reviewers" max={2} size="sm">
-          <Avatar name="Ada Lovelace" size="sm" />
-          <Avatar name="Grace Hopper" size="sm" />
-          <Avatar name="Alan Turing" size="sm" />
+        <Avatar name='Eylül Güneş' src={image} status='online' />
+        <Avatar name='Ada Lovelace' size='xs' />
+        <Avatar name='Grace Hopper' size='xl' status='busy' />
+        <AvatarGroup aria-label='Reviewers' max={2} size='sm'>
+          <Avatar name='Ada Lovelace' size='sm' />
+          <Avatar name='Grace Hopper' size='sm' />
+          <Avatar name='Alan Turing' size='sm' />
         </AvatarGroup>
       </div>
     ));

@@ -52,7 +52,7 @@ export function IconButton({
         isPending ? (
           <Spinner className={sizes[size].icon} />
         ) : (
-          <Icon aria-hidden="true" className={sizes[size].icon} />
+          <Icon aria-hidden='true' className={sizes[size].icon} />
         )
       }
     </AriaButton>

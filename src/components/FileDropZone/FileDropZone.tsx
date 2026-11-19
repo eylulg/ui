@@ -103,17 +103,17 @@ export function FileDropZone({
 
   return (
     <DropZone isDisabled={isDisabled} onDrop={handleDrop} className={cx(zone, className)}>
-      <Upload aria-hidden="true" className="size-6 text-fg-tertiary" />
-      <Text slot="label" className="text-sm font-medium text-primary">
+      <Upload aria-hidden='true' className='size-6 text-fg-tertiary' />
+      <Text slot='label' className='text-sm font-medium text-primary'>
         {label}
       </Text>
-      {hint && <span className="text-sm text-tertiary">{hint}</span>}
+      {hint && <span className='text-sm text-tertiary'>{hint}</span>}
       <FileTrigger
         acceptedFileTypes={acceptedFileTypes}
         allowsMultiple={allowsMultiple}
         onSelect={handleSelect}
       >
-        <Button variant="secondary" size="sm" isDisabled={isDisabled}>
+        <Button variant='secondary' size='sm' isDisabled={isDisabled}>
           {buttonLabel}
         </Button>
       </FileTrigger>

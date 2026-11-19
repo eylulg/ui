@@ -11,20 +11,20 @@ function Example(props: Omit<CardProps, 'children'>) {
   return (
     <Card {...props}>
       <CardHeader
-        title="Theme variants"
-        description="Eight project palettes"
+        title='Theme variants'
+        description='Eight project palettes'
         actions={
           <IconButton
             icon={MoreHorizontal}
-            aria-label="More options"
-            variant="tertiary"
-            size="sm"
+            aria-label='More options'
+            variant='tertiary'
+            size='sm'
           />
         }
       />
       <CardBody>Generated in oklch with matched contrast.</CardBody>
       <CardFooter>
-        <Button size="sm" variant="secondary">
+        <Button size='sm' variant='secondary'>
           Archive
         </Button>
       </CardFooter>
@@ -43,7 +43,7 @@ describe('Card', () => {
   });
 
   it('hands aria props to the link or button of an interactive card', () => {
-    render(<Example href="/themes" aria-keyshortcuts="G T" aria-describedby="hint" />);
+    render(<Example href='/themes' aria-keyshortcuts='G T' aria-describedby='hint' />);
 
     const link = screen.getByRole('link', { name: 'Theme variants' });
     expect(link).toHaveAttribute('aria-keyshortcuts', 'G T');
@@ -63,7 +63,7 @@ describe('Card', () => {
 
   it('keeps nested actions as separate tab stops after the card', async () => {
     const user = userEvent.setup();
-    render(<Example href="/themes" />);
+    render(<Example href='/themes' />);
 
     await user.tab();
     await user.tab();
@@ -75,7 +75,7 @@ describe('Card', () => {
     await expectNoA11yViolations(() => (
       <div>
         <Example />
-        <Example href="/themes" />
+        <Example href='/themes' />
       </div>
     ));
   });

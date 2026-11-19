@@ -21,7 +21,7 @@ const states = [
 
 describe('Textarea', () => {
   it.each(states)('describes the field with its $state', ({ props, description, invalid }) => {
-    render(<Textarea label="Name" {...props} />);
+    render(<Textarea label='Name' {...props} />);
 
     const textarea = screen.getByRole('textbox', { name: 'Name' });
     expect(textarea).toHaveAccessibleDescription(description);
@@ -31,13 +31,13 @@ describe('Textarea', () => {
   it('forwards its ref to the textarea element', () => {
     const ref = createRef<HTMLTextAreaElement>();
 
-    render(<Textarea ref={ref} label="Message" />);
+    render(<Textarea ref={ref} label='Message' />);
 
     expect(ref.current).toBe(screen.getByRole('textbox', { name: 'Message' }));
   });
 
   it('passes autoCapitalize, autoCorrect and spellCheck to the textarea', () => {
-    render(<Textarea label="Query" autoCapitalize="off" autoCorrect="off" spellCheck={false} />);
+    render(<Textarea label='Query' autoCapitalize='off' autoCorrect='off' spellCheck={false} />);
 
     const textarea = screen.getByRole('textbox', { name: 'Query' });
     expect(textarea).toHaveAttribute('autocapitalize', 'off');
@@ -48,10 +48,10 @@ describe('Textarea', () => {
   it('has no axe violations in light and dark', async () => {
     await expectNoA11yViolations(() => (
       <div>
-        <Textarea label="Message" hint="Be kind." />
-        <Textarea label="Query" font="data" />
-        <Textarea label="Bio" errorMessage="Required." />
-        <Textarea label="Disabled" isDisabled />
+        <Textarea label='Message' hint='Be kind.' />
+        <Textarea label='Query' font='data' />
+        <Textarea label='Bio' errorMessage='Required.' />
+        <Textarea label='Disabled' isDisabled />
       </div>
     ));
   });

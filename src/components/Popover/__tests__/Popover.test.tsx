@@ -8,10 +8,10 @@ import { Popover, PopoverTrigger } from '../Popover';
 function Example() {
   return (
     <PopoverTrigger>
-      <Button variant="secondary">Filters</Button>
-      <Popover title="Issue filters">
+      <Button variant='secondary'>Filters</Button>
+      <Popover title='Issue filters'>
         {({ close }) => (
-          <Button size="sm" onPress={close}>
+          <Button size='sm' onPress={close}>
             Apply filters
           </Button>
         )}

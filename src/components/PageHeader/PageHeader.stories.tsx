@@ -28,7 +28,7 @@ export const WithBreadcrumbs: Story = {
   args: {
     breadcrumbs: (
       <Breadcrumbs>
-        <BreadcrumbItem href="#">Workspace</BreadcrumbItem>
+        <BreadcrumbItem href='#'>Workspace</BreadcrumbItem>
         <BreadcrumbItem>Issues</BreadcrumbItem>
       </Breadcrumbs>
     ),
@@ -39,13 +39,13 @@ export const WithActionsAndMeta: Story = {
   args: {
     actions: (
       <>
-        <Button variant="secondary">Export issues</Button>
+        <Button variant='secondary'>Export issues</Button>
         <Button iconLeading={Plus}>New issue</Button>
       </>
     ),
     meta: (
       <>
-        <Badge color="brand">12 open</Badge>
+        <Badge color='brand'>12 open</Badge>
         <span>Updated 5 minutes ago</span>
       </>
     ),
@@ -64,7 +64,7 @@ export const Phone: Story = {
   ...WithActionsAndMeta,
   decorators: [
     (Story) => (
-      <div className="max-w-[375px] px-4">
+      <div className='max-w-[375px] px-4'>
         <Story />
       </div>
     ),

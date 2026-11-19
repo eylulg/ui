@@ -356,7 +356,7 @@ function Nav() {
   const { pathname } = useLocation();
   return (
     <TopNav
-      productName="Workspace"
+      productName='Workspace'
       LinkComponent={RouterLink}
       links={[
         { href: '/', label: 'Issues', isCurrent: pathname === '/' },
@@ -364,7 +364,7 @@ function Nav() {
       ]}
       actions={
         <>
-          <ProjectSwitcher currentId="workspace" />
+          <ProjectSwitcher currentId='workspace' />
           <ThemeToggle />
         </>
       }
@@ -374,7 +374,7 @@ function Nav() {
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
-    <AppShell header={<Nav />} footer={<SiteFooter currentId="workspace" />}>
+    <AppShell header={<Nav />} footer={<SiteFooter currentId='workspace' />}>
       <Button>New issue</Button>
     </AppShell>
   </BrowserRouter>,
@@ -406,12 +406,12 @@ export function Nav() {
   const pathname = usePathname();
   return (
     <TopNav
-      productName="Workspace"
+      productName='Workspace'
       LinkComponent={Link}
       links={links.map((link) => ({ ...link, isCurrent: link.href === pathname }))}
       actions={
         <>
-          <ProjectSwitcher currentId="workspace" />
+          <ProjectSwitcher currentId='workspace' />
           <ThemeToggle />
         </>
       }
@@ -429,12 +429,12 @@ import './globals.css';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang='en' suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body>
-        <AppShell header={<Nav />} footer={<SiteFooter currentId="workspace" />}>
+        <AppShell header={<Nav />} footer={<SiteFooter currentId='workspace' />}>
           {children}
         </AppShell>
       </body>
@@ -468,15 +468,15 @@ the menu button below md, so the theme toggle is reachable at 375px without open
 
 ```tsx
 <TopNav
-  productName="Workspace"
+  productName='Workspace'
   center={
-    <Button variant="secondary" size="sm" iconLeading={Search}>
+    <Button variant='secondary' size='sm' iconLeading={Search}>
       Search
     </Button>
   }
   actions={
     <>
-      <ProjectSwitcher currentId="workspace" />
+      <ProjectSwitcher currentId='workspace' />
       <ThemeToggle />
     </>
   }

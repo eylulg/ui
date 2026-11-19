@@ -81,10 +81,10 @@ export function InviteDialog() {
     <DialogTrigger>
       <Button>Invite teammate</Button>
       <Dialog
-        title="Invite teammate"
+        title='Invite teammate'
         footer={({ close }) => <Button onPress={close}>Send invite</Button>}
       >
-        <Input label="Email" type="email" isRequired />
+        <Input label='Email' type='email' isRequired />
       </Dialog>
     </DialogTrigger>
   );
@@ -207,18 +207,18 @@ charts use, exported for your own layouts.
 import { HeatGrid, LineChart } from '@eylulg/ui/chart';
 
 <LineChart
-  title="Requests per day"
+  title='Requests per day'
   x={days}
   series={[
     { id: 'chat', label: 'Chat', values: chat },
     { id: 'search', label: 'Search', values: search },
   ]}
-  locale="en-GB"
+  locale='en-GB'
 />;
 
 <HeatGrid
-  title="Checks by case"
-  rowLabel="Case"
+  title='Checks by case'
+  rowLabel='Case'
   rows={[{ id: 'refund', label: 'Refund request' }]}
   columns={[{ id: 'cites', label: 'Cites source' }]}
   states={{

@@ -88,10 +88,10 @@ function Items({
             aria-current={item.isCurrent ? 'page' : undefined}
           >
             {item.icon}
-            <span className="truncate">{item.label}</span>
+            <span className='truncate'>{item.label}</span>
             {item.badge && <span className={badge}>{item.badge}</span>}
           </LinkComponent>
-          {item.action && <span className="shrink-0">{item.action}</span>}
+          {item.action && <span className='shrink-0'>{item.action}</span>}
         </li>
       ))}
     </ul>
@@ -118,12 +118,12 @@ export function SidebarNav({
           <Disclosure
             key={section.id}
             defaultExpanded={section.defaultExpanded ?? true}
-            className="group"
+            className='group'
           >
             <Heading level={2}>
-              <Button slot="trigger" className={toggle}>
+              <Button slot='trigger' className={toggle}>
                 {section.title}
-                <ChevronDown aria-hidden="true" className={chevron} />
+                <ChevronDown aria-hidden='true' className={chevron} />
               </Button>
             </Heading>
             <DisclosurePanel>

@@ -25,16 +25,16 @@ function Example({ onAction = () => {} }: { onAction?: (key: Key) => void }) {
     <>
       <Button onPress={handleOpen}>Open commands</Button>
       <CommandPalette isOpen={isOpen} onOpenChange={setOpen} onAction={onAction}>
-        <CommandGroup heading="Issues">
-          <CommandItem id="new-issue" icon={FilePlus} shortcut={['C']}>
+        <CommandGroup heading='Issues'>
+          <CommandItem id='new-issue' icon={FilePlus} shortcut={['C']}>
             Create issue
           </CommandItem>
-          <CommandItem id="assign" icon={<FilePlus />}>
+          <CommandItem id='assign' icon={<FilePlus />}>
             Assign to me
           </CommandItem>
         </CommandGroup>
-        <CommandGroup heading="Preferences">
-          <CommandItem id="theme" icon={Moon} description="Light, dark or system">
+        <CommandGroup heading='Preferences'>
+          <CommandItem id='theme' icon={Moon} description='Light, dark or system'>
             Change theme
           </CommandItem>
         </CommandGroup>
@@ -74,14 +74,14 @@ function NestedExample({ onSearchChange }: { onSearchChange?: (value: string) =>
         onBack={handleBack}
       >
         {page === 'status' ? (
-          <CommandGroup heading="Status">
-            <CommandItem id="todo">Todo</CommandItem>
-            <CommandItem id="done">Done</CommandItem>
+          <CommandGroup heading='Status'>
+            <CommandItem id='todo'>Todo</CommandItem>
+            <CommandItem id='done'>Done</CommandItem>
           </CommandGroup>
         ) : (
-          <CommandGroup heading="Issues">
-            <CommandItem id="status">Change status</CommandItem>
-            <CommandItem id="assign">Assign to me</CommandItem>
+          <CommandGroup heading='Issues'>
+            <CommandItem id='status'>Change status</CommandItem>
+            <CommandItem id='assign'>Assign to me</CommandItem>
           </CommandGroup>
         )}
       </CommandPalette>

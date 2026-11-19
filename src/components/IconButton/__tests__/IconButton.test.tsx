@@ -10,7 +10,7 @@ describe('IconButton', () => {
   it('keeps its name and ignores presses while loading', async () => {
     const user = userEvent.setup();
     const onPress = vi.fn();
-    render(<IconButton icon={Trash2} aria-label="Delete" isLoading onPress={onPress} />);
+    render(<IconButton icon={Trash2} aria-label='Delete' isLoading onPress={onPress} />);
 
     await user.click(screen.getByRole('button', { name: 'Delete' }));
 
@@ -20,7 +20,7 @@ describe('IconButton', () => {
   it('forwards its ref to the button element', () => {
     const ref = createRef<HTMLButtonElement>();
 
-    render(<IconButton ref={ref} icon={Settings} aria-label="Settings" />);
+    render(<IconButton ref={ref} icon={Settings} aria-label='Settings' />);
 
     expect(ref.current).toBe(screen.getByRole('button', { name: 'Settings' }));
   });
@@ -28,9 +28,9 @@ describe('IconButton', () => {
   it('has no axe violations in light and dark', async () => {
     await expectNoA11yViolations(() => (
       <div>
-        <IconButton icon={Settings} aria-label="Settings" />
-        <IconButton icon={Trash2} aria-label="Delete" variant="destructive" />
-        <IconButton icon={Settings} aria-label="Disabled settings" isDisabled />
+        <IconButton icon={Settings} aria-label='Settings' />
+        <IconButton icon={Trash2} aria-label='Delete' variant='destructive' />
+        <IconButton icon={Settings} aria-label='Disabled settings' isDisabled />
       </div>
     ));
   });

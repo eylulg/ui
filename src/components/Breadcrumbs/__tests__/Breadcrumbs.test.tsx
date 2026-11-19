@@ -6,8 +6,8 @@ import { BreadcrumbItem, Breadcrumbs } from '../Breadcrumbs';
 function Example() {
   return (
     <Breadcrumbs>
-      <BreadcrumbItem href="/">Projects</BreadcrumbItem>
-      <BreadcrumbItem href="/workspace">Workspace</BreadcrumbItem>
+      <BreadcrumbItem href='/'>Projects</BreadcrumbItem>
+      <BreadcrumbItem href='/workspace'>Workspace</BreadcrumbItem>
       <BreadcrumbItem>Settings</BreadcrumbItem>
     </Breadcrumbs>
   );

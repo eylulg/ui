@@ -70,16 +70,16 @@ export function Select<T extends object>({
           focusRing,
         )}
       >
-        <SelectValue className="flex-1 truncate data-placeholder:text-placeholder [&_[data-item-description]]:hidden" />
-        <ChevronDown aria-hidden="true" className="size-4 shrink-0 text-fg-tertiary" />
+        <SelectValue className='flex-1 truncate data-placeholder:text-placeholder [&_[data-item-description]]:hidden' />
+        <ChevronDown aria-hidden='true' className='size-4 shrink-0 text-fg-tertiary' />
       </AriaButton>
       {hint && !errorMessage && <FieldHint>{hint}</FieldHint>}
       <FieldErrorMessage>{errorMessage}</FieldErrorMessage>
       <Popover
         offset={4}
-        className="w-(--trigger-width) overflow-auto rounded-md border border-subtle bg-elevated p-1 shadow-lg outline-none"
+        className='w-(--trigger-width) overflow-auto rounded-md border border-subtle bg-elevated p-1 shadow-lg outline-none'
       >
-        <ListBox items={items} className="max-h-72 outline-none">
+        <ListBox items={items} className='max-h-72 outline-none'>
           {children}
         </ListBox>
       </Popover>
@@ -111,15 +111,15 @@ export function SelectItem({ className, children, description, ...props }: Selec
     >
       {composeRenderProps(children, (content, { isSelected }) => (
         <>
-          <span className="flex min-w-0 flex-1 flex-col">
-            <span className="truncate">{content}</span>
+          <span className='flex min-w-0 flex-1 flex-col'>
+            <span className='truncate'>{content}</span>
             {description && (
-              <span data-item-description="" className="truncate text-xs text-tertiary">
+              <span data-item-description='' className='truncate text-xs text-tertiary'>
                 {description}
               </span>
             )}
           </span>
-          {isSelected && <Check aria-hidden="true" className="size-4 shrink-0 text-fg-brand" />}
+          {isSelected && <Check aria-hidden='true' className='size-4 shrink-0 text-fg-brand' />}
         </>
       ))}
     </ListBoxItem>

@@ -67,30 +67,30 @@ export function DropdownMenuItem<T extends object = object>({
       {({ isSelected, selectionMode, hasSubmenu }) => (
         <>
           {selectionMode !== 'none' && (
-            <span className="flex size-4 shrink-0 items-center justify-center" aria-hidden="true">
-              {isSelected && <Check className="size-4 text-fg-brand" />}
+            <span className='flex size-4 shrink-0 items-center justify-center' aria-hidden='true'>
+              {isSelected && <Check className='size-4 text-fg-brand' />}
             </span>
           )}
           {Icon && (
             <Icon
-              aria-hidden="true"
+              aria-hidden='true'
               className={cx('size-4 shrink-0', isDanger ? 'text-fg-error' : 'text-fg-tertiary')}
             />
           )}
           {description ? (
-            <span className="flex min-w-0 flex-1 flex-col">
-              <span className="truncate">{children}</span>
-              <span className="truncate text-xs text-tertiary">{description}</span>
+            <span className='flex min-w-0 flex-1 flex-col'>
+              <span className='truncate'>{children}</span>
+              <span className='truncate text-xs text-tertiary'>{description}</span>
             </span>
           ) : (
-            <Text slot="label" className="min-w-0 flex-1 truncate">
+            <Text slot='label' className='min-w-0 flex-1 truncate'>
               {children}
             </Text>
           )}
           {shortcut && (
-            <Keyboard className="ml-4 font-mono text-xs text-tertiary">{shortcut}</Keyboard>
+            <Keyboard className='ml-4 font-mono text-xs text-tertiary'>{shortcut}</Keyboard>
           )}
-          {hasSubmenu && <ChevronRight aria-hidden="true" className="size-4 text-fg-tertiary" />}
+          {hasSubmenu && <ChevronRight aria-hidden='true' className='size-4 text-fg-tertiary' />}
         </>
       )}
     </MenuItem>

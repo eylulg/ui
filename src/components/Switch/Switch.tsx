@@ -43,7 +43,7 @@ export function Switch({
       )}
     >
       <span
-        aria-hidden="true"
+        aria-hidden='true'
         className={cx(
           'flex shrink-0 items-center rounded-full bg-tertiary p-0.5 transition-colors',
           'group-data-selected:bg-brand-solid',
@@ -61,9 +61,9 @@ export function Switch({
         />
       </span>
       {(children || hint) && (
-        <span className="flex flex-col">
-          {children && <span className="font-medium">{children}</span>}
-          {hint && <span className="text-tertiary">{hint}</span>}
+        <span className='flex flex-col'>
+          {children && <span className='font-medium'>{children}</span>}
+          {hint && <span className='text-tertiary'>{hint}</span>}
         </span>
       )}
     </AriaSwitch>

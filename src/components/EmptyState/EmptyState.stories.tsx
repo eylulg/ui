@@ -31,14 +31,14 @@ export const PageLevel: Story = {
     title: 'Page not found',
     description: 'The page may have moved. Go back to the start.',
     icon: SearchX,
-    primaryAction: <Button href="/">Go to the start</Button>,
+    primaryAction: <Button href='/'>Go to the start</Button>,
   },
 };
 
 export const WithActions: Story = {
   args: {
     primaryAction: <Button>Create issue</Button>,
-    secondaryAction: <Button variant="secondary">Import issues</Button>,
+    secondaryAction: <Button variant='secondary'>Import issues</Button>,
   },
 };
 

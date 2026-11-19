@@ -5,7 +5,7 @@ const meta = {
   title: 'Components/Skeleton',
   component: Skeleton,
   argTypes: { shape: { control: 'inline-radio', options: ['text', 'circle', 'rect'] } },
-  decorators: [(Story) => <div className="w-80">{Story()}</div>],
+  decorators: [(Story) => <div className='w-80'>{Story()}</div>],
 } satisfies Meta<typeof Skeleton>;
 
 export default meta;
@@ -18,9 +18,9 @@ export const Rect: Story = { args: { shape: 'rect' } };
 
 export const Card: Story = {
   render: () => (
-    <div aria-busy="true" aria-label="Loading profile" role="region" className="flex gap-3">
-      <Skeleton shape="circle" />
-      <div className="flex-1">
+    <div aria-busy='true' aria-label='Loading profile' role='region' className='flex gap-3'>
+      <Skeleton shape='circle' />
+      <div className='flex-1'>
         <Skeleton lines={3} />
       </div>
     </div>

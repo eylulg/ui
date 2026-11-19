@@ -48,7 +48,7 @@ describe('LineChart', () => {
     const user = userEvent.setup();
     const onKeyDown = vi.fn();
     render(
-      <div role="presentation" onKeyDown={onKeyDown}>
+      <div role='presentation' onKeyDown={onKeyDown}>
         <LineChart {...props} />
       </div>,
     );
@@ -136,7 +136,7 @@ describe('LineChart', () => {
     render(
       <LineChart
         {...props}
-        locale="de-DE"
+        locale='de-DE'
         series={[{ id: 'a', label: 'Cost', values: [1234.5, 2000, 3100] }]}
       />,
     );

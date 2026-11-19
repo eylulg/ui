@@ -15,7 +15,7 @@ describe('SiteFooter', () => {
   });
 
   it('marks the project it is shown in', () => {
-    render(<SiteFooter currentId="portfolio" />);
+    render(<SiteFooter currentId='portfolio' />);
 
     expect(screen.getByRole('link', { name: 'Portfolio' })).toHaveAttribute('aria-current', 'page');
   });
@@ -47,6 +47,6 @@ describe('SiteFooter', () => {
   });
 
   it('has no axe violations in light and dark', async () => {
-    await expectNoA11yViolations(() => <SiteFooter currentId="portfolio" />);
+    await expectNoA11yViolations(() => <SiteFooter currentId='portfolio' />);
   });
 });

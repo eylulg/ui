@@ -35,7 +35,7 @@ describe('Button', () => {
     const ref = createRef<HTMLAnchorElement>();
 
     render(
-      <Button href="/projects/new" ref={ref} variant="secondary">
+      <Button href='/projects/new' ref={ref} variant='secondary'>
         New project
       </Button>,
     );
@@ -62,7 +62,7 @@ describe('Button', () => {
             </Button>
           ),
         )}
-        <Button href="/docs" variant="secondary">
+        <Button href='/docs' variant='secondary'>
           Documentation
         </Button>
         <Button isDisabled>Disabled</Button>

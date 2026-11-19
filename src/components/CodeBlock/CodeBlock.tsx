@@ -60,7 +60,7 @@ export function CodeBlock({
   return (
     <div className={cx(frame, className)}>
       <pre
-        role="group"
+        role='group'
         aria-label={label}
         // A scrollable region must be reachable by keyboard, hence the tab stop on the group.
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
@@ -74,12 +74,12 @@ export function CodeBlock({
           <IconButton
             icon={copied ? Check : Copy}
             aria-label={copyLabel}
-            variant="tertiary"
-            size="sm"
-            className="absolute top-2 right-2"
+            variant='tertiary'
+            size='sm'
+            className='absolute top-2 right-2'
             onPress={handleCopy}
           />
-          <span role="status" className="sr-only">
+          <span role='status' className='sr-only'>
             {copied ? copiedLabel : ''}
           </span>
         </>

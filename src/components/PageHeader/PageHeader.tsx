@@ -34,20 +34,20 @@ export function PageHeader({
   return (
     <header className={cx('flex flex-col gap-stack', className)}>
       {breadcrumbs}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="flex min-w-0 flex-col gap-1">
-          {eyebrow && <p className="text-sm font-semibold text-brand">{eyebrow}</p>}
-          <Heading className="font-display text-2xl font-semibold break-words text-primary sm:text-3xl">
+      <div className='flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between'>
+        <div className='flex min-w-0 flex-col gap-1'>
+          {eyebrow && <p className='text-sm font-semibold text-brand'>{eyebrow}</p>}
+          <Heading className='font-display text-2xl font-semibold break-words text-primary sm:text-3xl'>
             {title}
           </Heading>
-          {description && <p className="text-md text-tertiary">{description}</p>}
+          {description && <p className='text-md text-tertiary'>{description}</p>}
           {meta && (
-            <div className="mt-1 flex flex-wrap items-center gap-2 text-sm text-tertiary">
+            <div className='mt-1 flex flex-wrap items-center gap-2 text-sm text-tertiary'>
               {meta}
             </div>
           )}
         </div>
-        {actions && <div className="flex shrink-0 flex-wrap items-center gap-3">{actions}</div>}
+        {actions && <div className='flex shrink-0 flex-wrap items-center gap-3'>{actions}</div>}
       </div>
     </header>
   );

@@ -7,16 +7,16 @@ const meta = {
   argTypes: { orientation: { control: 'inline-radio', options: ['horizontal', 'vertical'] } },
   render: (args) => (
     <Tabs {...args}>
-      <TabList aria-label="Account settings">
-        <Tab id="profile">Profile</Tab>
-        <Tab id="billing">Billing</Tab>
-        <Tab id="team">Team</Tab>
-        <Tab id="security">Security</Tab>
+      <TabList aria-label='Account settings'>
+        <Tab id='profile'>Profile</Tab>
+        <Tab id='billing'>Billing</Tab>
+        <Tab id='team'>Team</Tab>
+        <Tab id='security'>Security</Tab>
       </TabList>
-      <TabPanel id="profile">Name, photo and pronouns.</TabPanel>
-      <TabPanel id="billing">Invoices and payment methods.</TabPanel>
-      <TabPanel id="team">Members and roles.</TabPanel>
-      <TabPanel id="security">Passkeys and sessions.</TabPanel>
+      <TabPanel id='profile'>Name, photo and pronouns.</TabPanel>
+      <TabPanel id='billing'>Invoices and payment methods.</TabPanel>
+      <TabPanel id='team'>Members and roles.</TabPanel>
+      <TabPanel id='security'>Passkeys and sessions.</TabPanel>
     </Tabs>
   ),
 } satisfies Meta<typeof Tabs>;

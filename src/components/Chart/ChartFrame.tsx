@@ -80,20 +80,20 @@ export function ChartFrame({
       >
         {title}
       </figcaption>
-      <p id={`${id}-summary`} className="sr-only">
+      <p id={`${id}-summary`} className='sr-only'>
         {isEmpty ? text.empty : summary}
       </p>
       {isEmpty ? (
-        <p className="py-8 text-center text-sm text-tertiary">{text.empty}</p>
+        <p className='py-8 text-center text-sm text-tertiary'>{text.empty}</p>
       ) : (
         <>
           {legend}
-          <div ref={ref} className="relative min-w-0">
+          <div ref={ref} className='relative min-w-0'>
             {children(width)}
           </div>
-          <div className="-ml-3">
+          <div className='-ml-3'>
             <button
-              type="button"
+              type='button'
               aria-expanded={isOpen}
               aria-controls={`${id}-table`}
               data-focus-visible={isFocusVisible || undefined}

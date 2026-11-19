@@ -58,16 +58,16 @@ export function ProjectSwitcher({
 
   return (
     <button
-      type="button"
-      data-variant="tertiary"
-      data-size="sm"
+      type='button'
+      data-variant='tertiary'
+      data-size='sm'
       className={trigger}
       {...triggerProps}
     >
-      <span className="inline-flex items-center gap-[inherit]">
-        <LayoutGrid aria-hidden="true" className="size-4 shrink-0" />
+      <span className='inline-flex items-center gap-[inherit]'>
+        <LayoutGrid aria-hidden='true' className='size-4 shrink-0' />
         {text.label}
-        <ChevronDown aria-hidden="true" className="size-4 shrink-0" />
+        <ChevronDown aria-hidden='true' className='size-4 shrink-0' />
       </span>
     </button>
   );

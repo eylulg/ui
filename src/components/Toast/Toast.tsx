@@ -125,9 +125,9 @@ export function ToastProvider({
         className={cx('pointer-events-none fixed z-50', placements[placement])}
       >
         <ol
-          aria-live="polite"
-          aria-relevant="additions text"
-          className="flex w-[22rem] max-w-[calc(100vw-2rem)] flex-col gap-2"
+          aria-live='polite'
+          aria-relevant='additions text'
+          className='flex w-[22rem] max-w-[calc(100vw-2rem)] flex-col gap-2'
         >
           {loaded &&
             toasts.map((item) => (

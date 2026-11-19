@@ -12,7 +12,7 @@ function Trigger({ variant, sticky }: { variant: ToastVariant; sticky?: boolean 
   };
   return (
     <Button
-      variant="secondary"
+      variant='secondary'
       onPress={() => toast({ ...copy[variant], variant, duration: sticky ? null : undefined })}
     >
       Show {variant} toast
@@ -33,7 +33,7 @@ function UndoTrigger() {
   }
 
   return (
-    <Button variant="secondary" onPress={handleDelete}>
+    <Button variant='secondary' onPress={handleDelete}>
       Delete issue
     </Button>
   );

@@ -30,17 +30,17 @@ interface SeriesKeyProps {
 export function SeriesKey({ index, variant }: SeriesKeyProps) {
   const style = seriesStyle(index);
   if (variant === 'bar') {
-    return <span aria-hidden="true" className={cx('size-3 shrink-0 rounded-xs', style.swatch)} />;
+    return <span aria-hidden='true' className={cx('size-3 shrink-0 rounded-xs', style.swatch)} />;
   }
   return (
-    <svg aria-hidden="true" width="20" height="12" viewBox="0 0 20 12" className="shrink-0">
+    <svg aria-hidden='true' width='20' height='12' viewBox='0 0 20 12' className='shrink-0'>
       <line
-        x1="1"
-        x2="19"
-        y1="6"
-        y2="6"
-        strokeWidth="2"
-        strokeLinecap="round"
+        x1='1'
+        x2='19'
+        y1='6'
+        y2='6'
+        strokeWidth='2'
+        strokeLinecap='round'
         strokeDasharray={style.dash}
         className={style.stroke}
       />
@@ -57,7 +57,7 @@ export function ChartLegend({ items, variant = 'line', className }: ChartLegendP
   return (
     <ul className={cx('flex flex-wrap gap-x-4 gap-y-1 text-sm text-secondary', className)}>
       {items.map((item, position) => (
-        <li key={item.id} className="inline-flex items-center gap-1.5">
+        <li key={item.id} className='inline-flex items-center gap-1.5'>
           {item.marker ?? <SeriesKey index={item.index ?? position} variant={variant} />}
           <span>{item.label}</span>
         </li>

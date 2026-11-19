@@ -16,9 +16,9 @@ describe('Spinner', () => {
   it('has no axe violations in light and dark', async () => {
     await expectNoA11yViolations(() => (
       <div>
-        <Spinner size="sm" />
-        <Spinner label="Loading issues" />
-        <Spinner size="lg" />
+        <Spinner size='sm' />
+        <Spinner label='Loading issues' />
+        <Spinner size='lg' />
       </div>
     ));
   });

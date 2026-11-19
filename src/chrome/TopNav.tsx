@@ -103,7 +103,7 @@ export function TopNav({
       <div className={bar}>
         <LinkComponent href={homeHref} className={brand}>
           {logo}
-          <span className="truncate">{productName}</span>
+          <span className='truncate'>{productName}</span>
         </LinkComponent>
         {links.length > 0 && (
           <nav aria-label={navLabel} className={desktopNav}>
@@ -132,14 +132,14 @@ export function TopNav({
         {actions && <div className={desktopActions}>{actions}</div>}
         {compactActions && <div className={compactBar}>{compactActions}</div>}
         <button
-          type="button"
+          type='button'
           aria-label={text.openMenu}
-          aria-haspopup="dialog"
+          aria-haspopup='dialog'
           aria-expanded={isOpen}
           className={menuButton}
           onClick={handleOpenMenu}
         >
-          <Menu aria-hidden="true" className="size-5" />
+          <Menu aria-hidden='true' className='size-5' />
         </button>
         {hasOpened && (
           <Suspense fallback={null}>

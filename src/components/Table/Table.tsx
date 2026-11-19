@@ -89,9 +89,9 @@ export function TableHeader<T extends object>({
       {hasSelectionColumn && (
         <AriaColumn className={cx(headerCell, selectionCell)}>
           {selectionMode === 'multiple' ? (
-            <Checkbox slot="selection" />
+            <Checkbox slot='selection' />
           ) : (
-            <span className="sr-only">{selectionLabel}</span>
+            <span className='sr-only'>{selectionLabel}</span>
           )}
         </AriaColumn>
       )}
@@ -130,9 +130,9 @@ export function Column({ children, align: alignment = 'start', className, ...pro
 }
 
 function SortIcon({ direction }: { direction: 'ascending' | 'descending' | undefined }) {
-  if (direction === 'ascending') return <ArrowUp aria-hidden="true" className="size-3.5" />;
-  if (direction === 'descending') return <ArrowDown aria-hidden="true" className="size-3.5" />;
-  return <ChevronsUpDown aria-hidden="true" className="size-3.5 text-fg-disabled" />;
+  if (direction === 'ascending') return <ArrowUp aria-hidden='true' className='size-3.5' />;
+  if (direction === 'descending') return <ArrowDown aria-hidden='true' className='size-3.5' />;
+  return <ChevronsUpDown aria-hidden='true' className='size-3.5 text-fg-disabled' />;
 }
 
 export interface TableBodyProps<T extends object> extends AriaTableBodyProps<T> {
@@ -173,7 +173,7 @@ export function Row<T extends object>({
     >
       {hasSelectionCell && (
         <AriaCell className={cx(bodyCell, selectionCell)}>
-          <Checkbox slot="selection" />
+          <Checkbox slot='selection' />
         </AriaCell>
       )}
       <Collection items={columns}>{children}</Collection>

@@ -63,7 +63,7 @@ export function Radio({ children, hint, className, ...props }: RadioProps) {
       )}
     >
       <span
-        aria-hidden="true"
+        aria-hidden='true'
         className={cx(
           'mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full border border-control bg-primary transition-colors',
           'group-data-selected:border-brand group-data-selected:bg-brand-solid',
@@ -72,12 +72,12 @@ export function Radio({ children, hint, className, ...props }: RadioProps) {
           'group-data-focus-visible:outline-2 group-data-focus-visible:outline-offset-2 group-data-focus-visible:outline-focus',
         )}
       >
-        <span className="size-1.5 rounded-full bg-white opacity-0 group-data-selected:opacity-100" />
+        <span className='size-1.5 rounded-full bg-white opacity-0 group-data-selected:opacity-100' />
       </span>
       {(children || hint) && (
-        <span className="flex flex-col">
-          {children && <span className="font-medium">{children}</span>}
-          {hint && <span className="text-tertiary">{hint}</span>}
+        <span className='flex flex-col'>
+          {children && <span className='font-medium'>{children}</span>}
+          {hint && <span className='text-tertiary'>{hint}</span>}
         </span>
       )}
     </AriaRadio>

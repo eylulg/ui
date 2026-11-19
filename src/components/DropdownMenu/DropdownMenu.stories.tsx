@@ -26,15 +26,15 @@ const onAction = fn();
 export const Basic: Story = {
   render: () => (
     <DropdownMenu>
-      <Button variant="secondary">Actions</Button>
-      <DropdownMenuContent aria-label="Actions" onAction={onAction}>
-        <DropdownMenuItem id="edit" icon={Pencil}>
+      <Button variant='secondary'>Actions</Button>
+      <DropdownMenuContent aria-label='Actions' onAction={onAction}>
+        <DropdownMenuItem id='edit' icon={Pencil}>
           Edit
         </DropdownMenuItem>
-        <DropdownMenuItem id="duplicate" icon={Copy}>
+        <DropdownMenuItem id='duplicate' icon={Copy}>
           Duplicate
         </DropdownMenuItem>
-        <DropdownMenuItem id="archive" icon={Archive}>
+        <DropdownMenuItem id='archive' icon={Archive}>
           Archive
         </DropdownMenuItem>
       </DropdownMenuContent>
@@ -45,18 +45,18 @@ export const Basic: Story = {
 export const SectionsAndShortcuts: Story = {
   render: () => (
     <DropdownMenu>
-      <Button variant="secondary">Account</Button>
-      <DropdownMenuContent aria-label="Account" onAction={onAction}>
-        <DropdownMenuSection title="Signed in as eylul@example.com">
-          <DropdownMenuItem id="profile" icon={User} shortcut="⇧P">
+      <Button variant='secondary'>Account</Button>
+      <DropdownMenuContent aria-label='Account' onAction={onAction}>
+        <DropdownMenuSection title='Signed in as eylul@example.com'>
+          <DropdownMenuItem id='profile' icon={User} shortcut='⇧P'>
             Profile
           </DropdownMenuItem>
-          <DropdownMenuItem id="settings" icon={Settings} shortcut="⌘,">
+          <DropdownMenuItem id='settings' icon={Settings} shortcut='⌘,'>
             Settings
           </DropdownMenuItem>
         </DropdownMenuSection>
         <DropdownMenuSeparator />
-        <DropdownMenuItem id="sign-out" icon={LogOut}>
+        <DropdownMenuItem id='sign-out' icon={LogOut}>
           Sign out
         </DropdownMenuItem>
       </DropdownMenuContent>
@@ -67,25 +67,25 @@ export const SectionsAndShortcuts: Story = {
 export const CheckboxItems: Story = {
   render: () => (
     <DropdownMenu>
-      <Button variant="secondary">View</Button>
-      <DropdownMenuContent aria-label="View options">
+      <Button variant='secondary'>View</Button>
+      <DropdownMenuContent aria-label='View options'>
         <DropdownMenuSection
-          title="Show"
-          selectionMode="multiple"
+          title='Show'
+          selectionMode='multiple'
           defaultSelectedKeys={['open', 'review']}
         >
-          <DropdownMenuItem id="open">Open</DropdownMenuItem>
-          <DropdownMenuItem id="review">In review</DropdownMenuItem>
-          <DropdownMenuItem id="done">Done</DropdownMenuItem>
+          <DropdownMenuItem id='open'>Open</DropdownMenuItem>
+          <DropdownMenuItem id='review'>In review</DropdownMenuItem>
+          <DropdownMenuItem id='done'>Done</DropdownMenuItem>
         </DropdownMenuSection>
         <DropdownMenuSeparator />
         <DropdownMenuSection
-          title="Group by"
-          selectionMode="single"
+          title='Group by'
+          selectionMode='single'
           defaultSelectedKeys={['status']}
         >
-          <DropdownMenuItem id="status">Status</DropdownMenuItem>
-          <DropdownMenuItem id="assignee">Assignee</DropdownMenuItem>
+          <DropdownMenuItem id='status'>Status</DropdownMenuItem>
+          <DropdownMenuItem id='assignee'>Assignee</DropdownMenuItem>
         </DropdownMenuSection>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -95,12 +95,12 @@ export const CheckboxItems: Story = {
 export const WithDescriptionsAndDanger: Story = {
   render: () => (
     <DropdownMenu>
-      <Button variant="secondary">More</Button>
-      <DropdownMenuContent aria-label="More" onAction={onAction}>
-        <DropdownMenuItem id="copy" icon={Copy} description="Includes labels and estimate">
+      <Button variant='secondary'>More</Button>
+      <DropdownMenuContent aria-label='More' onAction={onAction}>
+        <DropdownMenuItem id='copy' icon={Copy} description='Includes labels and estimate'>
           Duplicate issue
         </DropdownMenuItem>
-        <DropdownMenuItem id="delete" icon={Trash2} isDanger>
+        <DropdownMenuItem id='delete' icon={Trash2} isDanger>
           Delete issue
         </DropdownMenuItem>
       </DropdownMenuContent>
@@ -111,14 +111,14 @@ export const WithDescriptionsAndDanger: Story = {
 export const Submenu: Story = {
   render: () => (
     <DropdownMenu>
-      <Button variant="secondary">Move</Button>
-      <DropdownMenuContent aria-label="Move" onAction={onAction}>
-        <DropdownMenuItem id="top">Move to top</DropdownMenuItem>
+      <Button variant='secondary'>Move</Button>
+      <DropdownMenuContent aria-label='Move' onAction={onAction}>
+        <DropdownMenuItem id='top'>Move to top</DropdownMenuItem>
         <DropdownSubmenu>
-          <DropdownMenuItem id="project">Move to project</DropdownMenuItem>
-          <DropdownMenuContent aria-label="Projects" placement="end top" onAction={onAction}>
-            <DropdownMenuItem id="workspace">Workspace</DropdownMenuItem>
-            <DropdownMenuItem id="review">Review Companion</DropdownMenuItem>
+          <DropdownMenuItem id='project'>Move to project</DropdownMenuItem>
+          <DropdownMenuContent aria-label='Projects' placement='end top' onAction={onAction}>
+            <DropdownMenuItem id='workspace'>Workspace</DropdownMenuItem>
+            <DropdownMenuItem id='review'>Review Companion</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownSubmenu>
       </DropdownMenuContent>

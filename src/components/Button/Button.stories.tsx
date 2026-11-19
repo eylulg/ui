@@ -59,9 +59,9 @@ export const Disabled: Story = { args: { isDisabled: true } };
 
 export const AllVariants: Story = {
   render: (args) => (
-    <div className="flex flex-col gap-4">
+    <div className='flex flex-col gap-4'>
       {(['sm', 'md', 'lg'] as const).map((size) => (
-        <div key={size} className="flex flex-wrap items-center gap-3">
+        <div key={size} className='flex flex-wrap items-center gap-3'>
           {(
             ['primary', 'secondary', 'tertiary', 'destructive', 'destructive-outline'] as const
           ).map((variant) => (

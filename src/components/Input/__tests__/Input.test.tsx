@@ -22,7 +22,7 @@ const states = [
 
 describe('Input', () => {
   it.each(states)('describes the field with its $state', ({ props, description, invalid }) => {
-    render(<Input label="Name" {...props} />);
+    render(<Input label='Name' {...props} />);
 
     const input = screen.getByRole('textbox', { name: 'Name' });
     expect(input).toHaveAccessibleDescription(description);
@@ -32,7 +32,7 @@ describe('Input', () => {
   it('forwards its ref to the input element, not the wrapper', () => {
     const ref = createRef<HTMLInputElement>();
 
-    render(<Input ref={ref} label="Email" />);
+    render(<Input ref={ref} label='Email' />);
 
     expect(ref.current).toBe(screen.getByRole('textbox', { name: 'Email' }));
   });
@@ -40,10 +40,10 @@ describe('Input', () => {
   it('has no axe violations in light and dark', async () => {
     await expectNoA11yViolations(() => (
       <div>
-        <Input label="Email" hint="Work address" iconLeading={Mail} placeholder="you@example.com" />
-        <Input label="Password" type="password" errorMessage="Too short." />
-        <Input aria-label="Search" iconLeading={Search} />
-        <Input label="Disabled" isDisabled />
+        <Input label='Email' hint='Work address' iconLeading={Mail} placeholder='you@example.com' />
+        <Input label='Password' type='password' errorMessage='Too short.' />
+        <Input aria-label='Search' iconLeading={Search} />
+        <Input label='Disabled' isDisabled />
       </div>
     ));
   });

@@ -46,7 +46,7 @@ export function TagGroup<T extends object>({
       <TagList
         items={items}
         renderEmptyState={renderEmptyState}
-        className="flex flex-wrap gap-1.5 outline-none"
+        className='flex flex-wrap gap-1.5 outline-none'
       >
         {children}
       </TagList>
@@ -81,14 +81,14 @@ export function Tag({ children, className, ...props }: TagProps) {
           {children}
           {allowsRemoving && (
             <AriaButton
-              slot="remove"
+              slot='remove'
               className={cx(
                 '-mr-1 flex size-5 cursor-pointer items-center justify-center rounded-xs text-fg-tertiary',
                 'data-hovered:bg-hover data-hovered:text-fg-secondary',
                 focusRing,
               )}
             >
-              <X aria-hidden="true" className="size-3.5" />
+              <X aria-hidden='true' className='size-3.5' />
             </AriaButton>
           )}
         </>

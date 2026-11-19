@@ -90,7 +90,7 @@ function stepOf(value: number, min: number, max: number): number {
 
 function ToneIcon({ tone, className }: { tone: HeatGridTone; className?: string }) {
   const Icon = tones[tone].icon;
-  return <Icon aria-hidden="true" className={className ?? 'size-4'} strokeWidth={2.5} />;
+  return <Icon aria-hidden='true' className={className ?? 'size-4'} strokeWidth={2.5} />;
 }
 
 /**
@@ -158,23 +158,23 @@ export function HeatGrid({
               label: state.label,
               marker: (
                 <span
-                  aria-hidden="true"
+                  aria-hidden='true'
                   className={cx(
                     'flex size-5 shrink-0 items-center justify-center rounded-xs',
                     stateCell,
                     tones[state.tone].cell,
                   )}
                 >
-                  <ToneIcon tone={state.tone} className="size-3.5" />
+                  <ToneIcon tone={state.tone} className='size-3.5' />
                 </span>
               ),
             }))}
           />
         ) : (
           numbers.length > 0 && (
-            <div className="flex items-center gap-2 text-sm text-secondary">
+            <div className='flex items-center gap-2 text-sm text-secondary'>
               <span>{vf.full(min)}</span>
-              <span aria-hidden="true" className="flex gap-0.5">
+              <span aria-hidden='true' className='flex gap-0.5'>
                 {steps.map((step) => (
                   <span
                     key={step}
@@ -269,31 +269,31 @@ function HeatPlot({
   const activeState = states?.[activeCell?.state ?? ''];
 
   return (
-    <div ref={wrapper} className="relative">
-      <div className="relative max-w-full overflow-x-auto py-1 pr-1">
-        <div role="grid" aria-label={title} className="flex w-max min-w-full flex-col gap-0.5">
-          <div role="row" className="grid gap-0.5" style={{ gridTemplateColumns: template }}>
+    <div ref={wrapper} className='relative'>
+      <div className='relative max-w-full overflow-x-auto py-1 pr-1'>
+        <div role='grid' aria-label={title} className='flex w-max min-w-full flex-col gap-0.5'>
+          <div role='row' className='grid gap-0.5' style={{ gridTemplateColumns: template }}>
             <div
-              role="columnheader"
-              className="sticky left-0 z-10 bg-(--chart-surface) pr-2 text-xs text-tertiary"
+              role='columnheader'
+              className='sticky left-0 z-10 bg-(--chart-surface) pr-2 text-xs text-tertiary'
             >
               {rowLabel}
             </div>
             {columns.map((column) => (
               <div
                 key={column.id}
-                role="columnheader"
+                role='columnheader'
                 className={cx(
                   'flex min-w-0 justify-center pb-1 text-xs font-medium text-secondary',
                   isVertical ? 'items-end' : 'text-center',
                 )}
               >
                 {isVertical ? (
-                  <span className="max-h-28 rotate-180 overflow-hidden text-ellipsis whitespace-nowrap [writing-mode:vertical-rl]">
+                  <span className='max-h-28 rotate-180 overflow-hidden text-ellipsis whitespace-nowrap [writing-mode:vertical-rl]'>
                     {column.label}
                   </span>
                 ) : (
-                  <span className="min-w-0 truncate">{column.label}</span>
+                  <span className='min-w-0 truncate'>{column.label}</span>
                 )}
               </div>
             ))}
@@ -301,15 +301,15 @@ function HeatPlot({
           {rows.map((row, rowIndex) => (
             <div
               key={row.id}
-              role="row"
-              className="grid gap-0.5"
+              role='row'
+              className='grid gap-0.5'
               style={{ gridTemplateColumns: template }}
             >
               <div
-                role="rowheader"
-                className="sticky left-0 z-10 flex items-center bg-(--chart-surface) pr-2 text-sm text-primary"
+                role='rowheader'
+                className='sticky left-0 z-10 flex items-center bg-(--chart-surface) pr-2 text-sm text-primary'
               >
-                <span className="min-w-0 truncate">{row.label}</span>
+                <span className='min-w-0 truncate'>{row.label}</span>
               </div>
               {columns.map((column, columnIndex) => {
                 const data = lookup(row.id, column.id);
@@ -332,16 +332,16 @@ function HeatPlot({
                     {state ? (
                       <>
                         <ToneIcon tone={state.tone} />
-                        <span className="sr-only">{state.label}</span>
+                        <span className='sr-only'>{state.label}</span>
                       </>
                     ) : data?.value !== undefined ? (
                       <span className={hasValueLabels ? undefined : 'sr-only'}>
                         {format(data.value)}
                       </span>
                     ) : (
-                      <span className="sr-only">{noData}</span>
+                      <span className='sr-only'>{noData}</span>
                     )}
-                    {data?.detail && <span className="sr-only">{`: ${data.detail}`}</span>}
+                    {data?.detail && <span className='sr-only'>{`: ${data.detail}`}</span>}
                   </HeatCell>
                 );
               })}
@@ -355,7 +355,7 @@ function HeatPlot({
           y={anchor.y}
           containerWidth={width}
           title={`${activeRow.label}, ${activeColumn.label}`}
-          variant="bar"
+          variant='bar'
           placement={anchor.below ? 'below' : 'above'}
           rows={[
             {
@@ -368,7 +368,7 @@ function HeatPlot({
               label: activeCell?.detail ?? '',
               marker: activeState ? (
                 <span className={cx('shrink-0', tones[activeState.tone].ink)}>
-                  <ToneIcon tone={activeState.tone} className="size-3.5" />
+                  <ToneIcon tone={activeState.tone} className='size-3.5' />
                 </span>
               ) : undefined,
             },
@@ -391,7 +391,7 @@ function HeatCell({ index, interaction, className, children }: HeatCellProps) {
   const props = mergeProps(interaction.markProps(index), focusProps);
   return (
     <div
-      role="gridcell"
+      role='gridcell'
       data-focus-visible={isFocusVisible || undefined}
       className={cx(className, focusRing)}
       {...props}

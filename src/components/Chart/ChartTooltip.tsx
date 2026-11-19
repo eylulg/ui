@@ -52,7 +52,7 @@ export function ChartTooltip({
     placement === 'beside' ? (isRight ? '-ml-3 -translate-x-full' : 'ml-3') : undefined;
   return (
     <div
-      role="tooltip"
+      role='tooltip'
       style={{
         left: x,
         top: y,
@@ -65,14 +65,14 @@ export function ChartTooltip({
         vertical,
       )}
     >
-      <p className="mb-1 font-medium text-tertiary">{title}</p>
-      <ul className="flex flex-col gap-1">
+      <p className='mb-1 font-medium text-tertiary'>{title}</p>
+      <ul className='flex flex-col gap-1'>
         {rows.map((row) => (
-          <li key={row.id} className="flex items-center gap-2">
+          <li key={row.id} className='flex items-center gap-2'>
             {row.marker ? (
               row.marker
             ) : row.index === undefined ? (
-              <span aria-hidden="true" className="w-3 shrink-0" />
+              <span aria-hidden='true' className='w-3 shrink-0' />
             ) : (
               <SeriesKey index={row.index} variant={variant} />
             )}
@@ -84,7 +84,7 @@ export function ChartTooltip({
             >
               {row.value}
             </span>
-            <span className="text-secondary">{row.label}</span>
+            <span className='text-secondary'>{row.label}</span>
           </li>
         ))}
       </ul>

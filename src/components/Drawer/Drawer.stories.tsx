@@ -24,16 +24,16 @@ const meta = {
         {...args}
         footer={({ close }) => (
           <>
-            <Button variant="secondary" onPress={close}>
+            <Button variant='secondary' onPress={close}>
               Cancel
             </Button>
             <Button onPress={close}>Save</Button>
           </>
         )}
       >
-        <div className="flex flex-col gap-4">
-          <Input label="Title" defaultValue="Ship theme variants" />
-          <Input label="Assignee" defaultValue="Eylül" />
+        <div className='flex flex-col gap-4'>
+          <Input label='Title' defaultValue='Ship theme variants' />
+          <Input label='Assignee' defaultValue='Eylül' />
         </div>
       </Drawer>
     </DrawerTrigger>

@@ -7,15 +7,15 @@ const shown = ['portfolio', 'workspace', 'control-room', 'assistant'] as const;
 /** Renders the same chart under four theme variants, each in light and dark mode. */
 export function VariantGrid({ children }: { children: ReactNode }) {
   return (
-    <div className="grid gap-4 lg:grid-cols-2">
+    <div className='grid gap-4 lg:grid-cols-2'>
       {shown.flatMap((variant) =>
         (['light', 'dark'] as const).map((mode) => (
           <div key={`${variant}-${mode}`} className={cx(mode === 'dark' && 'dark-mode')}>
             <div
               data-ui-variant={variant}
-              className="rounded-xl border border-subtle bg-primary p-4 text-primary"
+              className='rounded-xl border border-subtle bg-primary p-4 text-primary'
             >
-              <p className="mb-2 font-mono text-xs text-tertiary">
+              <p className='mb-2 font-mono text-xs text-tertiary'>
                 {variant}, {mode}
               </p>
               {children}

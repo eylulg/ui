@@ -19,7 +19,7 @@ const meta = {
       return <SelectItem id={city.id}>{city.name}</SelectItem>;
     },
   },
-  decorators: [(Story) => <div className="max-w-xs">{Story()}</div>],
+  decorators: [(Story) => <div className='max-w-xs'>{Story()}</div>],
 } satisfies Meta<typeof Select>;
 
 export default meta;

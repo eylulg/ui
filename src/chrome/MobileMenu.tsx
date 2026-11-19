@@ -44,12 +44,12 @@ export function MobileMenu({
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       title={productName}
-      side="left"
-      size="sm"
+      side='left'
+      size='sm'
       closeLabel={closeLabel}
     >
       {({ close }) => (
-        <div className="flex flex-col gap-4">
+        <div className='flex flex-col gap-4'>
           {center}
           {links.length > 0 && (
             <nav aria-label={navLabel}>

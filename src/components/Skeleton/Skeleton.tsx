@@ -27,7 +27,7 @@ export function Skeleton({ shape = 'text', lines = 1, className, ...props }: Ske
     return (
       <div
         {...props}
-        aria-hidden="true"
+        aria-hidden='true'
         data-shape={shape}
         className={cx('flex flex-col gap-2', className)}
       >
@@ -40,7 +40,7 @@ export function Skeleton({ shape = 'text', lines = 1, className, ...props }: Ske
   return (
     <div
       {...props}
-      aria-hidden="true"
+      aria-hidden='true'
       data-shape={shape}
       className={cx(block, shapes[shape], className)}
     />

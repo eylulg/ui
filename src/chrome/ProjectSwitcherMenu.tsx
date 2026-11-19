@@ -39,14 +39,14 @@ export function ProjectSwitcherMenu({ projects, currentId, text }: ProjectSwitch
     <DropdownMenu isOpen={isOpen} onOpenChange={setIsOpen}>
       <Button
         ref={triggerRef}
-        variant="tertiary"
-        size="sm"
+        variant='tertiary'
+        size='sm'
         iconLeading={LayoutGrid}
         iconTrailing={ChevronDown}
       >
         {text.label}
       </Button>
-      <DropdownMenuContent placement="bottom end" popoverClassName="w-80">
+      <DropdownMenuContent placement='bottom end' popoverClassName='w-80'>
         <DropdownMenuSection title={text.heading}>
           {projects.map((project) => (
             <DropdownMenuItem

@@ -10,8 +10,8 @@ describe('Tooltip', () => {
   it('has no axe violations in light and dark while open', async () => {
     await expectNoA11yViolations(
       () => (
-        <Tooltip content="Open settings" delay={0}>
-          <IconButton icon={Settings} aria-label="Settings" />
+        <Tooltip content='Open settings' delay={0}>
+          <IconButton icon={Settings} aria-label='Settings' />
         </Tooltip>
       ),
       async () => {

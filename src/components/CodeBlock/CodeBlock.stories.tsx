@@ -11,7 +11,7 @@ const meta = {
   title: 'Components/CodeBlock',
   component: CodeBlock,
   args: { children: theme, label: 'Generated Tailwind theme' },
-  decorators: [(Story) => <div className="max-w-lg">{Story()}</div>],
+  decorators: [(Story) => <div className='max-w-lg'>{Story()}</div>],
 } satisfies Meta<typeof CodeBlock>;
 
 export default meta;

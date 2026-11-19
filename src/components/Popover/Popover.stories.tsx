@@ -13,13 +13,13 @@ const meta = {
   },
   render: (args) => (
     <PopoverTrigger>
-      <Button variant="secondary">Filters</Button>
+      <Button variant='secondary'>Filters</Button>
       <Popover {...args}>
         {({ close }) => (
-          <div className="flex flex-col gap-3">
+          <div className='flex flex-col gap-3'>
             <Switch>Only open issues</Switch>
             <Switch>Assigned to me</Switch>
-            <Button size="sm" onPress={close}>
+            <Button size='sm' onPress={close}>
               Apply
             </Button>
           </div>

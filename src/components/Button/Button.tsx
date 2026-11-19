@@ -86,15 +86,15 @@ function ButtonControl({
       {composeRenderProps(children, (content, { isPending }): ReactNode => (
         <>
           {isPending && (
-            <span className="absolute inset-0 flex items-center justify-center">
+            <span className='absolute inset-0 flex items-center justify-center'>
               <Spinner />
-              {loadingLabel && <span className="sr-only">{loadingLabel}</span>}
+              {loadingLabel && <span className='sr-only'>{loadingLabel}</span>}
             </span>
           )}
           <span className={cx('inline-flex items-center gap-[inherit]', isPending && 'opacity-0')}>
-            {IconLeading && <IconLeading aria-hidden="true" className="size-4 shrink-0" />}
+            {IconLeading && <IconLeading aria-hidden='true' className='size-4 shrink-0' />}
             {content}
-            {IconTrailing && <IconTrailing aria-hidden="true" className="size-4 shrink-0" />}
+            {IconTrailing && <IconTrailing aria-hidden='true' className='size-4 shrink-0' />}
           </span>
         </>
       ))}
@@ -122,9 +122,9 @@ function ButtonLink({
         buttonStyles({ variant, size, className: consumer }),
       )}
     >
-      {IconLeading && <IconLeading aria-hidden="true" className="size-4 shrink-0" />}
+      {IconLeading && <IconLeading aria-hidden='true' className='size-4 shrink-0' />}
       {children}
-      {IconTrailing && <IconTrailing aria-hidden="true" className="size-4 shrink-0" />}
+      {IconTrailing && <IconTrailing aria-hidden='true' className='size-4 shrink-0' />}
     </AriaLink>
   );
 }

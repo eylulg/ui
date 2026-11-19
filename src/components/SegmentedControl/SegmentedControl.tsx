@@ -78,7 +78,7 @@ export function SegmentedControl({
     <ToggleButtonGroup
       {...props}
       data-size={size}
-      selectionMode="single"
+      selectionMode='single'
       disallowEmptySelection
       selectedKeys={current === undefined ? [] : [current]}
       onSelectionChange={handleSelectionChange}
@@ -100,7 +100,7 @@ export function SegmentedControlItem({
       {...props}
       className={composeRenderProps(className, (consumer) => cx(segment, consumer))}
     >
-      {Icon && <Icon aria-hidden="true" className="size-4 shrink-0" />}
+      {Icon && <Icon aria-hidden='true' className='size-4 shrink-0' />}
       {children}
     </ToggleButton>
   );

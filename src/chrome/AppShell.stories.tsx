@@ -30,7 +30,7 @@ const sections: SidebarNavSection[] = [
 
 const actions = (
   <>
-    <ProjectSwitcher currentId="workspace" />
+    <ProjectSwitcher currentId='workspace' />
     <ThemeToggle />
   </>
 );
@@ -53,7 +53,7 @@ export const Website: Story = {
   args: {
     header: (
       <TopNav
-        productName="Portfolio"
+        productName='Portfolio'
         links={[
           { href: '#projects', label: 'Projects', isCurrent: true },
           { href: '#experience', label: 'Experience' },
@@ -62,11 +62,11 @@ export const Website: Story = {
         actions={actions}
       />
     ),
-    footer: <SiteFooter currentId="portfolio" />,
+    footer: <SiteFooter currentId='portfolio' />,
     children: (
       <PageHeader
-        title="Projects"
-        description="Things I designed and built, with the decisions behind them."
+        title='Projects'
+        description='Things I designed and built, with the decisions behind them.'
       />
     ),
     maxWidth: '6xl',
@@ -78,17 +78,17 @@ export const AppWithSidebar: Story = {
   args: {
     header: (
       <TopNav
-        productName="Workspace"
+        productName='Workspace'
         actions={actions}
-        mobileMenu={<SidebarNav sections={sections} aria-label="Workspace" />}
+        mobileMenu={<SidebarNav sections={sections} aria-label='Workspace' />}
       />
     ),
     sidebar: <SidebarNav sections={sections} />,
-    footer: <SiteFooter currentId="workspace" />,
+    footer: <SiteFooter currentId='workspace' />,
     children: (
       <PageHeader
-        title="Inbox"
-        description="4 issues need you."
+        title='Inbox'
+        description='4 issues need you.'
         actions={<Button>New issue</Button>}
       />
     ),

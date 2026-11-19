@@ -31,7 +31,7 @@ beforeAll(() => import('../ProjectSwitcherMenu'));
 
 async function open() {
   const user = userEvent.setup();
-  render(<ProjectSwitcher projects={list} currentId="live" />);
+  render(<ProjectSwitcher projects={list} currentId='live' />);
   await user.click(screen.getByRole('button', { name: 'Projects' }));
   await screen.findByRole('menu');
 }
@@ -51,7 +51,7 @@ describe('ProjectSwitcher', () => {
 
   it('returns focus to the trigger when the menu closes', async () => {
     const user = userEvent.setup();
-    render(<ProjectSwitcher projects={list} currentId="live" />);
+    render(<ProjectSwitcher projects={list} currentId='live' />);
     await user.click(screen.getByRole('button', { name: 'Projects' }));
     await screen.findByRole('menu');
 
@@ -72,7 +72,7 @@ describe('ProjectSwitcher', () => {
     render(
       <ProjectSwitcher
         projects={list}
-        currentId="live"
+        currentId='live'
         labels={{
           label: 'Projekte',
           heading: 'Projekte von Eylül',
@@ -91,7 +91,7 @@ describe('ProjectSwitcher', () => {
 
   it('has no axe violations in light and dark while open', async () => {
     await expectNoA11yViolations(
-      () => <ProjectSwitcher currentId="portfolio" />,
+      () => <ProjectSwitcher currentId='portfolio' />,
       async () => {
         await userEvent.setup().click(screen.getByRole('button', { name: 'Projects' }));
         await screen.findByRole('menu');

@@ -39,15 +39,15 @@ export function Checkbox({ children, hint, className, ...props }: CheckboxProps)
             )}
           >
             {isIndeterminate ? (
-              <Minus aria-hidden="true" className="size-3" strokeWidth={3} />
+              <Minus aria-hidden='true' className='size-3' strokeWidth={3} />
             ) : isSelected ? (
-              <Check aria-hidden="true" className="size-3" strokeWidth={3} />
+              <Check aria-hidden='true' className='size-3' strokeWidth={3} />
             ) : null}
           </span>
           {(children || hint) && (
-            <span className="flex flex-col">
-              {children && <span className="font-medium">{children}</span>}
-              {hint && <span className="text-tertiary">{hint}</span>}
+            <span className='flex flex-col'>
+              {children && <span className='font-medium'>{children}</span>}
+              {hint && <span className='text-tertiary'>{hint}</span>}
             </span>
           )}
         </>

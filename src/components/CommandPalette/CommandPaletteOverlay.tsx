@@ -68,10 +68,10 @@ export function CommandPalette({
   return (
     <ModalOverlay isOpen={isOpen} onOpenChange={onOpenChange} isDismissable className={overlay}>
       <Modal className={modal}>
-        <Dialog aria-label={label} className="outline-none">
+        <Dialog aria-label={label} className='outline-none'>
           {({ close }) => (
             <>
-              <span role="status" className="sr-only">
+              <span role='status' className='sr-only'>
                 {page?.title}
               </span>
               <CommandSearch
@@ -167,20 +167,20 @@ function CommandSearch({
             <IconButton
               icon={ArrowLeft}
               aria-label={backLabel}
-              variant="tertiary"
-              size="sm"
-              className="-ml-2 shrink-0"
+              variant='tertiary'
+              size='sm'
+              className='-ml-2 shrink-0'
               onPress={handleBack}
             />
             <span className={pageTitle}>{page.title}</span>
           </>
         ) : (
-          <Search aria-hidden="true" className="size-5 shrink-0 text-fg-tertiary" />
+          <Search aria-hidden='true' className='size-5 shrink-0 text-fg-tertiary' />
         )}
         <Input
           ref={inputRef}
           // A combobox popup is exempt from axe scrollable-region-focusable, and keeps focus in the field.
-          role="combobox"
+          role='combobox'
           aria-expanded
           placeholder={placeholder}
           onKeyDown={handleKeyDown}
@@ -213,11 +213,11 @@ function isIconComponent(icon: IconComponent | ReactNode): icon is IconComponent
 function renderIcon(icon: IconComponent | ReactNode) {
   if (isIconComponent(icon)) {
     const Icon = icon;
-    return <Icon aria-hidden="true" className="size-4 shrink-0 text-fg-tertiary" />;
+    return <Icon aria-hidden='true' className='size-4 shrink-0 text-fg-tertiary' />;
   }
   if (!icon) return null;
   return (
-    <span aria-hidden="true" className={itemIcon}>
+    <span aria-hidden='true' className={itemIcon}>
       {icon}
     </span>
   );
@@ -240,16 +240,16 @@ export function CommandItem({
     >
       {renderIcon(icon)}
       {description ? (
-        <span className="flex min-w-0 flex-1 flex-col">
-          <span className="truncate">{children}</span>
-          <span className="truncate text-xs text-tertiary">{description}</span>
+        <span className='flex min-w-0 flex-1 flex-col'>
+          <span className='truncate'>{children}</span>
+          <span className='truncate text-xs text-tertiary'>{description}</span>
         </span>
       ) : (
-        <Text slot="label" className="min-w-0 flex-1 truncate">
+        <Text slot='label' className='min-w-0 flex-1 truncate'>
           {children}
         </Text>
       )}
-      {shortcut && <Kbd keys={shortcut} decorative className="ml-4" />}
+      {shortcut && <Kbd keys={shortcut} decorative className='ml-4' />}
     </MenuItem>
   );
 }

@@ -73,7 +73,7 @@ function Segment(props: DateSegmentProps) {
 function CalendarTrigger({ label }: { label: string }) {
   return (
     <AriaButton aria-label={label} className={calendarButton}>
-      <CalendarDays aria-hidden="true" className="size-4" />
+      <CalendarDays aria-hidden='true' className='size-4' />
     </AriaButton>
   );
 }
@@ -81,12 +81,12 @@ function CalendarTrigger({ label }: { label: string }) {
 function CalendarHeader() {
   return (
     <header className={calendarHeader}>
-      <AriaButton slot="previous" className={navButton}>
-        <ChevronLeft aria-hidden="true" className="size-4" />
+      <AriaButton slot='previous' className={navButton}>
+        <ChevronLeft aria-hidden='true' className='size-4' />
       </AriaButton>
-      <Heading className="text-sm font-semibold text-primary" />
-      <AriaButton slot="next" className={navButton}>
-        <ChevronRight aria-hidden="true" className="size-4" />
+      <Heading className='text-sm font-semibold text-primary' />
+      <AriaButton slot='next' className={navButton}>
+        <ChevronRight aria-hidden='true' className='size-4' />
       </AriaButton>
     </header>
   );
@@ -121,8 +121,8 @@ export function DatePicker<T extends DateValue>({
       </Group>
       {hint && !errorMessage && <FieldHint>{hint}</FieldHint>}
       <FieldErrorMessage>{errorMessage}</FieldErrorMessage>
-      <Popover placement="bottom start" className={popover}>
-        <Dialog className="outline-none">
+      <Popover placement='bottom start' className={popover}>
+        <Dialog className='outline-none'>
           <Calendar>
             <CalendarHeader />
             <CalendarGrid>{(date) => <CalendarCell date={date} className={cell} />}</CalendarGrid>
@@ -151,21 +151,21 @@ export function DateRangePicker<T extends DateValue>({
     >
       {label && <FieldLabel>{label}</FieldLabel>}
       <Group className={control}>
-        <DateInput slot="start" className={input}>
+        <DateInput slot='start' className={input}>
           {(dateSegment) => <Segment segment={dateSegment} />}
         </DateInput>
-        <span aria-hidden="true" className="text-tertiary">
+        <span aria-hidden='true' className='text-tertiary'>
           to
         </span>
-        <DateInput slot="end" className={input}>
+        <DateInput slot='end' className={input}>
           {(dateSegment) => <Segment segment={dateSegment} />}
         </DateInput>
         <CalendarTrigger label={calendarLabel} />
       </Group>
       {hint && !errorMessage && <FieldHint>{hint}</FieldHint>}
       <FieldErrorMessage>{errorMessage}</FieldErrorMessage>
-      <Popover placement="bottom start" className={popover}>
-        <Dialog className="outline-none">
+      <Popover placement='bottom start' className={popover}>
+        <Dialog className='outline-none'>
           <RangeCalendar>
             <CalendarHeader />
             <CalendarGrid>

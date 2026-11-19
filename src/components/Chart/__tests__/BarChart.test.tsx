@@ -31,7 +31,7 @@ describe('BarChart', () => {
 
   it('adds a total to the tooltip and the table of a stack', async () => {
     const user = userEvent.setup();
-    render(<BarChart {...props} grouping="stacked" orientation="horizontal" />);
+    render(<BarChart {...props} grouping='stacked' orientation='horizontal' />);
 
     await user.hover(screen.getByRole('img', { name: 'Search, Failed: 9' }));
     expect(screen.getByRole('tooltip')).toHaveTextContent('21Total');
@@ -64,7 +64,7 @@ describe('BarChart', () => {
     const user = userEvent.setup();
     render(
       <BarChart
-        title="Profit"
+        title='Profit'
         categories={['Chat', 'Search', 'Review']}
         series={[{ id: 'profit', label: 'Profit', values }]}
       />,
@@ -101,7 +101,7 @@ describe('BarChart', () => {
   ])('draws no impossible tick for $name data', ({ values, absent }) => {
     render(
       <BarChart
-        title="Errors"
+        title='Errors'
         categories={['Chat', 'Search']}
         series={[{ id: 'e', label: 'Errors', values }]}
       />,
@@ -118,6 +118,6 @@ describe('BarChart', () => {
   });
 
   it('has no accessibility violations in light and dark', async () => {
-    await expectNoA11yViolations(() => <BarChart {...props} grouping="stacked" />);
+    await expectNoA11yViolations(() => <BarChart {...props} grouping='stacked' />);
   });
 });

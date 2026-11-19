@@ -101,15 +101,15 @@ export function ToastItem({
       onFocus={handleFocus}
       onBlur={handleBlur}
       onKeyDown={handleKeyDown}
-      className="pointer-events-auto flex w-full animate-toast-in items-start gap-3 rounded-lg border border-subtle bg-elevated p-4 shadow-lg motion-reduce:animate-none"
+      className='pointer-events-auto flex w-full animate-toast-in items-start gap-3 rounded-lg border border-subtle bg-elevated p-4 shadow-lg motion-reduce:animate-none'
     >
-      <Icon aria-hidden="true" className={cx('mt-0.5 size-5 shrink-0', className)} />
-      <div className="flex min-w-0 flex-1 flex-col gap-1">
-        <p className="text-sm font-semibold text-primary">{toast.title}</p>
-        {toast.description && <p className="text-sm text-tertiary">{toast.description}</p>}
+      <Icon aria-hidden='true' className={cx('mt-0.5 size-5 shrink-0', className)} />
+      <div className='flex min-w-0 flex-1 flex-col gap-1'>
+        <p className='text-sm font-semibold text-primary'>{toast.title}</p>
+        {toast.description && <p className='text-sm text-tertiary'>{toast.description}</p>}
         {toast.action && (
-          <div className="mt-1">
-            <Button variant="secondary" size="sm" onPress={handleAction}>
+          <div className='mt-1'>
+            <Button variant='secondary' size='sm' onPress={handleAction}>
               {toast.action.label}
             </Button>
           </div>
@@ -117,10 +117,10 @@ export function ToastItem({
       </div>
       <IconButton
         icon={X}
-        aria-label="Dismiss notification"
-        variant="tertiary"
-        size="sm"
-        className="-mt-1 -mr-1"
+        aria-label='Dismiss notification'
+        variant='tertiary'
+        size='sm'
+        className='-mt-1 -mr-1'
         onPress={handleClose}
       />
     </li>

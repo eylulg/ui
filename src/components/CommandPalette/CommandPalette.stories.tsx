@@ -30,32 +30,32 @@ function Palette({ onAction }: { onAction?: (key: React.Key) => void }) {
   }
 
   return (
-    <div className="flex items-start gap-3">
-      <Button variant="secondary" onPress={handleOpen}>
+    <div className='flex items-start gap-3'>
+      <Button variant='secondary' onPress={handleOpen}>
         Open commands
       </Button>
-      <span className="text-sm text-tertiary">
+      <span className='text-sm text-tertiary'>
         or press <Kbd keys={['⌘', 'K']} />
       </span>
       <CommandPalette isOpen={isOpen} onOpenChange={setOpen} onAction={onAction}>
-        <CommandGroup heading="Issues">
-          <CommandItem id="new-issue" icon={FilePlus} shortcut={['C']}>
+        <CommandGroup heading='Issues'>
+          <CommandItem id='new-issue' icon={FilePlus} shortcut={['C']}>
             Create issue
           </CommandItem>
-          <CommandItem id="assign" icon={UserPlus} shortcut={['I']}>
+          <CommandItem id='assign' icon={UserPlus} shortcut={['I']}>
             Assign to me
           </CommandItem>
         </CommandGroup>
-        <CommandGroup heading="Navigation">
-          <CommandItem id="projects" icon={FolderGit2} description="Every project you follow">
+        <CommandGroup heading='Navigation'>
+          <CommandItem id='projects' icon={FolderGit2} description='Every project you follow'>
             Go to projects
           </CommandItem>
-          <CommandItem id="settings" icon={Settings} shortcut={['G', 'S']}>
+          <CommandItem id='settings' icon={Settings} shortcut={['G', 'S']}>
             Open settings
           </CommandItem>
         </CommandGroup>
-        <CommandGroup heading="Preferences">
-          <CommandItem id="theme" icon={Moon} description="Light, dark or system">
+        <CommandGroup heading='Preferences'>
+          <CommandItem id='theme' icon={Moon} description='Light, dark or system'>
             Change theme
           </CommandItem>
         </CommandGroup>
@@ -89,11 +89,11 @@ function LongPalette() {
 
   return (
     <div>
-      <Button variant="secondary" onPress={handleOpen}>
+      <Button variant='secondary' onPress={handleOpen}>
         Open commands
       </Button>
       <CommandPalette isOpen={isOpen} onOpenChange={setOpen}>
-        <CommandGroup heading="Commands">
+        <CommandGroup heading='Commands'>
           {manyCommands.map((name) => (
             <CommandItem key={name} id={name} icon={<FilePlus />} shortcut={['G']}>
               {name}
@@ -168,14 +168,14 @@ function NestedPalette() {
   }
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex items-center gap-3">
-        <Button variant="secondary" onPress={handleOpen}>
+    <div className='flex flex-col gap-3'>
+      <div className='flex items-center gap-3'>
+        <Button variant='secondary' onPress={handleOpen}>
           Open commands
         </Button>
-        <span className="text-sm text-tertiary">Status: {status}</span>
+        <span className='text-sm text-tertiary'>Status: {status}</span>
       </div>
-      <p className="text-xs text-tertiary">Search text: {search || 'empty'}</p>
+      <p className='text-xs text-tertiary'>Search text: {search || 'empty'}</p>
       <CommandPalette
         isOpen={isOpen}
         onOpenChange={setOpen}
@@ -186,7 +186,7 @@ function NestedPalette() {
         onBack={handleBack}
       >
         {page === 'status' ? (
-          <CommandGroup heading="Status">
+          <CommandGroup heading='Status'>
             {statuses.map((name) => (
               <CommandItem key={name} id={name}>
                 {name}
@@ -194,11 +194,11 @@ function NestedPalette() {
             ))}
           </CommandGroup>
         ) : (
-          <CommandGroup heading="Issue">
-            <CommandItem id="status" description="Opens a list of statuses">
+          <CommandGroup heading='Issue'>
+            <CommandItem id='status' description='Opens a list of statuses'>
               Change status
             </CommandItem>
-            <CommandItem id="assign" icon={UserPlus}>
+            <CommandItem id='assign' icon={UserPlus}>
               Assign to me
             </CommandItem>
           </CommandGroup>

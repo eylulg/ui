@@ -14,7 +14,7 @@ describe('Kbd', () => {
 
   it('keeps a decorative shortcut out of the text of its control', () => {
     render(
-      <button type="button">
+      <button type='button'>
         Save <Kbd keys={['⌘', 'S']} decorative />
       </button>,
     );

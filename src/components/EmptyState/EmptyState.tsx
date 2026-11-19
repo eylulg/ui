@@ -51,15 +51,15 @@ export function EmptyState({
     >
       {Icon && (
         <div className={cx(iconFrame, sizes[size].icon)}>
-          <Icon aria-hidden="true" />
+          <Icon aria-hidden='true' />
         </div>
       )}
       <Heading className={cx('font-display font-semibold text-primary', sizes[size].title)}>
         {title}
       </Heading>
-      {description && <p className="text-sm text-tertiary">{description}</p>}
+      {description && <p className='text-sm text-tertiary'>{description}</p>}
       {(primaryAction ?? secondaryAction) && (
-        <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
+        <div className='mt-2 flex flex-wrap items-center justify-center gap-3'>
           {secondaryAction}
           {primaryAction}
         </div>

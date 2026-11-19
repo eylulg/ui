@@ -109,7 +109,7 @@ export const LineWithGaps: Story = {
 export const LineNarrowPhone: Story = {
   name: 'Line narrow phone',
   render: (args) => (
-    <div className="w-80">
+    <div className='w-80'>
       <LineChart {...args} />
     </div>
   ),
@@ -214,7 +214,7 @@ export const BarGermanLocale: Story = {
 export const BarNarrowPhone: Story = {
   name: 'Bar narrow phone',
   render: () => (
-    <div className="w-80">
+    <div className='w-80'>
       <BarChart {...barBase} />
     </div>
   ),
@@ -224,7 +224,7 @@ export const BarVariants: Story = {
   parameters: variantsParameters,
   render: () => (
     <VariantGrid>
-      <BarChart {...barBase} grouping="stacked" />
+      <BarChart {...barBase} grouping='stacked' />
     </VariantGrid>
   ),
 };
@@ -274,7 +274,7 @@ export const HeatGridMissingCells: Story = {
 export const HeatGridNarrowPhone: Story = {
   name: 'Heat grid narrow phone',
   render: () => (
-    <div className="w-80">
+    <div className='w-80'>
       <HeatGrid {...heatBase} />
     </div>
   ),
@@ -334,13 +334,13 @@ export const Palette: Story = {
   parameters: variantsParameters,
   render: () => (
     <VariantGrid>
-      <div className="flex flex-col gap-3">
-        <div className="flex gap-2">
+      <div className='flex flex-col gap-3'>
+        <div className='flex gap-2'>
           {seriesSwatches.map((swatch) => (
             <span key={swatch} className={cx('size-10 rounded-md', swatch)} />
           ))}
         </div>
-        <div className="flex gap-0.5">
+        <div className='flex gap-0.5'>
           {steps.map((swatch) => (
             <span
               key={swatch}
