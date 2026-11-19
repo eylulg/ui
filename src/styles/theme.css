@@ -373,15 +373,15 @@
     /*
      * Chart series, in fixed order. The same hues in every variant: a series
      * keeps its colour when the brand changes. Each is at least 3:1 on every
-     * surface of every variant, and neighbours stay apart under colour vision
+     * surface of every variant, and every pair stays apart under colour vision
      * deficiency (npm run contrast).
      */
-    --ui-chart-1: #007bd2;
-    --ui-chart-2: #c34c00;
-    --ui-chart-3: #008b8e;
-    --ui-chart-4: #714fbf;
-    --ui-chart-5: #937200;
-    --ui-chart-6: #b53968;
+    --ui-chart-1: #6f82ff;
+    --ui-chart-2: #f1515f;
+    --ui-chart-3: #009e94;
+    --ui-chart-4: #5532bb;
+    --ui-chart-5: #7c5801;
+    --ui-chart-6: #9a005e;
     --ui-chart-muted: #6b7280;
     --ui-chart-seq-1: #e4f0ff;
     --ui-chart-seq-2: #b3d4ff;
@@ -467,12 +467,12 @@
     --ui-border-indigo: #3730a3;
     --ui-fg-indigo: #818cf8;
 
-    --ui-chart-1: #5bacfd;
-    --ui-chart-2: #ff995e;
-    --ui-chart-3: #00cacf;
-    --ui-chart-4: #9f85e5;
-    --ui-chart-5: #b49600;
-    --ui-chart-6: #f16690;
+    --ui-chart-1: #b3c1ff;
+    --ui-chart-2: #ffb862;
+    --ui-chart-3: #00f1bf;
+    --ui-chart-4: #ac6bf4;
+    --ui-chart-5: #8a9f00;
+    --ui-chart-6: #ff6791;
     --ui-chart-muted: #9ca3af;
     --ui-chart-seq-1: #182e4b;
     --ui-chart-seq-2: #284e7d;

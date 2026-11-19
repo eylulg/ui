@@ -246,17 +246,19 @@ function distance(a: Vec3, b: Vec3): number {
 }
 
 /**
- * Neighbouring chart series must stay apart: 15 or more in OKLab (times 100)
- * for full colour vision and 8 or more under protanopia and deuteranopia.
+ * Every pair of chart series must stay apart, not only neighbours, because bar keys have no shape
+ * and any two series can share a plot: 15 or more in OKLab (times 100) for full colour vision and
+ * 8 or more under protanopia and deuteranopia.
  * The palette is the same in every variant, so this runs once per mode.
  */
 export function checkSeparation(): SeparationResult[] {
   const results: SeparationResult[] = [];
   for (const mode of ['light', 'dark'] as const) {
     const tokens = { ...semanticBlock('light'), ...(mode === 'dark' ? semanticBlock('dark') : {}) };
-    for (let index = 0; index < chartSeries.length - 1; index += 1) {
-      const a = chartSeries[index] ?? '';
-      const b = chartSeries[index + 1] ?? '';
+    const pairsOfSeries = chartSeries.flatMap((a, index) =>
+      chartSeries.slice(index + 1).map((b) => [a, b] as const),
+    );
+    for (const [a, b] of pairsOfSeries) {
       const [hexA, hexB] = [tokens[a] ?? '', tokens[b] ?? ''];
       const [rgbA, rgbB] = [linearRgb(hexA), linearRgb(hexB)];
       const normal = Number(distance(rgbA, rgbB).toFixed(1));
@@ -295,12 +297,12 @@ if (process.argv[1]?.endsWith('contrast.ts')) {
   for (const mode of ['light', 'dark']) {
     const own = separation.filter((result) => result.mode === mode);
     console.log(
-      `chart series ${mode}: ${own.filter((r) => r.pass).length}/${own.length} neighbour pairs apart, closest ${Math.min(...own.map((r) => r.normal))} normal, ${Math.min(...own.map((r) => r.cvd))} colour-blind`,
+      `chart series ${mode}: ${own.filter((r) => r.pass).length}/${own.length} pairs apart, closest ${Math.min(...own.map((r) => r.normal))} normal, ${Math.min(...own.map((r) => r.cvd))} colour-blind`,
     );
   }
   for (const result of weak) {
     console.error(
-      `FAIL ${result.mode}: ${result.a} next to ${result.b} is ${result.normal} apart (${result.cvd} colour-blind), needs ${normalFloor} and ${cvdFloor}`,
+      `FAIL ${result.mode}: ${result.a} and ${result.b} is ${result.normal} apart (${result.cvd} colour-blind), needs ${normalFloor} and ${cvdFloor}`,
     );
   }
   process.exit(failures.length || weak.length ? 1 : 0);

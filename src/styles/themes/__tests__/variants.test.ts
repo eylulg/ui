@@ -24,9 +24,9 @@ describe('theme variants', () => {
     );
   });
 
-  it('keeps neighbouring chart series apart in light and dark', () => {
+  it('keeps every pair of chart series apart in light and dark', () => {
     const weak = checkSeparation().filter((result) => !result.pass);
-    expect(weak.map((r) => `${r.mode} ${r.a} next to ${r.b}: ${r.normal} / ${r.cvd}`)).toEqual([]);
+    expect(weak.map((r) => `${r.mode} ${r.a} and ${r.b}: ${r.normal} / ${r.cvd}`)).toEqual([]);
   });
 
   it('uses the same lightness per step in every variant, so contrast matches', () => {

@@ -231,8 +231,8 @@ import { HeatGrid, LineChart } from '@eylulg/ui/chart';
 
 - **Colour.** `--ui-chart-1` to `--ui-chart-6` are the series colours, the same hues in every
   variant and tuned separately for light and dark. `npm run contrast` checks each at 3:1 or more
-  against every surface of every variant and keeps neighbouring series apart under colour vision
-  deficiency. A series keeps its colour by `colorIndex`, not by its rank. Past six series the rest
+  against every surface of every variant and keeps every pair of series apart under colour
+  vision deficiency. A series keeps its colour by `colorIndex`, not by its rank. Past six series the rest
   share a muted colour and differ by marker shape and dash.
 - **Keyboard and screen readers.** Each chart is a named figure with a generated summary. Tab
   enters the plot once; arrow keys, Home and End move between points, bars or cells; Escape closes
