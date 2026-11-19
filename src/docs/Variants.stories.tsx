@@ -100,7 +100,7 @@ const meta = {
   title: 'Theme variants',
   component: VariantPage,
   tags: ['!autodocs'],
-  parameters: { forceTheme: 'light', forceVariant: 'base' },
+  parameters: { layout: 'padded', forceTheme: 'light', forceVariant: 'base' },
 } satisfies Meta<typeof VariantPage>;
 
 export default meta;

@@ -89,6 +89,7 @@ function DeployTable({
 const meta = {
   title: 'Components/Table',
   component: Table,
+  parameters: { layout: 'padded' },
   args: { 'aria-label': 'Deployments' },
 } satisfies Meta<typeof Table>;
 

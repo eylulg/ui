@@ -5,7 +5,7 @@ const meta = {
   title: 'Components/Skeleton',
   component: Skeleton,
   argTypes: { shape: { control: 'inline-radio', options: ['text', 'circle', 'rect'] } },
-  decorators: [(Story) => <div className="max-w-sm">{Story()}</div>],
+  decorators: [(Story) => <div className="w-80">{Story()}</div>],
 } satisfies Meta<typeof Skeleton>;
 
 export default meta;

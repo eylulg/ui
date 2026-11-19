@@ -30,7 +30,7 @@ function Palette({ onAction }: { onAction?: (key: React.Key) => void }) {
   }
 
   return (
-    <div className="flex min-h-screen items-start gap-3">
+    <div className="flex items-start gap-3">
       <Button variant="secondary" onPress={handleOpen}>
         Open commands
       </Button>
@@ -88,7 +88,7 @@ function LongPalette() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div>
       <Button variant="secondary" onPress={handleOpen}>
         Open commands
       </Button>

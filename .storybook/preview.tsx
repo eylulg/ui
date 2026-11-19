@@ -1,8 +1,9 @@
 import { DocsContainer, type DocsContainerProps } from '@storybook/addon-docs/blocks';
 import type { Decorator, Preview } from '@storybook/react-vite';
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { addons } from 'storybook/preview-api';
 import { variantCss, variantNames, variants } from '../src/styles/themes/variants';
+import { darkTheme, lightTheme } from './theme';
 import './preview.css';
 
 type Theme = 'light' | 'dark';
@@ -17,18 +18,13 @@ style.textContent = variantNames
   .join('\n');
 document.head.append(style);
 
-const padded = 'min-h-full bg-primary p-6 text-primary';
-const flush = 'min-h-full bg-primary text-primary';
-
 function ThemeRoot({
   theme,
   variant,
-  noPadding,
   children,
 }: {
   theme: Theme;
   variant: Variant;
-  noPadding: boolean;
   children: ReactNode;
 }) {
   useEffect(() => {
@@ -37,10 +33,19 @@ function ThemeRoot({
     if (variant === 'base') delete root.dataset.uiVariant;
     else root.dataset.uiVariant = variant;
   }, [theme, variant]);
-  return <div className={noPadding ? flush : padded}>{children}</div>;
+  return <div className="min-h-full bg-primary text-primary">{children}</div>;
 }
 
 type Globals = { theme?: Theme; variant?: Variant };
+
+function readGlobals(): Globals {
+  const preview = (
+    window as unknown as {
+      __STORYBOOK_PREVIEW__?: { storyStoreValue?: { userGlobals?: { get(): Globals } } };
+    }
+  ).__STORYBOOK_PREVIEW__;
+  return preview?.storyStoreValue?.userGlobals?.get() ?? {};
+}
 
 function applyGlobals({ theme = 'light', variant = 'base' }: Globals) {
   const root = document.documentElement;
@@ -49,33 +54,31 @@ function applyGlobals({ theme = 'light', variant = 'base' }: Globals) {
   else root.dataset.uiVariant = variant;
 }
 
-// MDX pages such as the Introduction have no story, so withTheme never runs
-// there. Follow the toolbar from the docs container instead. Pages with stories
-// keep using the decorator, which also honours forceTheme.
+// Follows the toolbar from the docs container: it picks the Storybook docs
+// theme, and for MDX pages without stories (the decorator never runs there) it
+// also applies the theme and variant to the document.
 function ThemedDocsContainer(props: DocsContainerProps) {
   const { context } = props;
+  const [theme, setTheme] = useState<Theme>(() => readGlobals().theme ?? 'light');
   useEffect(() => {
-    if (context.componentStories().length > 0) return;
-    const preview = (
-      window as unknown as {
-        __STORYBOOK_PREVIEW__?: { storyStoreValue?: { userGlobals?: { get(): Globals } } };
-      }
-    ).__STORYBOOK_PREVIEW__;
-    const current = preview?.storyStoreValue?.userGlobals?.get();
-    if (current) applyGlobals(current);
+    const hasStories = context.componentStories().length > 0;
+    const update = (globals: Globals) => {
+      setTheme(globals.theme ?? 'light');
+      if (!hasStories) applyGlobals(globals);
+    };
+    update(readGlobals());
     const channel = addons.getChannel();
-    const onChange = ({ globals }: { globals: Globals }) => applyGlobals(globals);
+    const onChange = ({ globals }: { globals: Globals }) => update(globals);
     channel.on('globalsUpdated', onChange);
     return () => channel.off('globalsUpdated', onChange);
   }, [context]);
-  return <DocsContainer {...props} />;
+  return <DocsContainer {...props} theme={theme === 'dark' ? darkTheme : lightTheme} />;
 }
 
 const withTheme: Decorator = (Story, context) => (
   <ThemeRoot
     theme={(context.parameters.forceTheme ?? context.globals.theme ?? 'light') as Theme}
     variant={(context.parameters.forceVariant ?? context.globals.variant ?? 'base') as Variant}
-    noPadding={Boolean(context.parameters.noPadding)}
   >
     <Story />
   </ThemeRoot>
@@ -118,7 +121,7 @@ const preview: Preview = {
     variant: 'base',
   },
   parameters: {
-    layout: 'fullscreen',
+    layout: 'centered',
     docs: { container: ThemedDocsContainer },
     controls: {
       matchers: { color: /(background|color)$/i },

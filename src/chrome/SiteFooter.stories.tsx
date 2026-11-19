@@ -8,7 +8,7 @@ const meta = {
   title: 'Chrome/SiteFooter',
   component: SiteFooter,
   argTypes: { children: noControl },
-  parameters: { layout: 'fullscreen', noPadding: true },
+  parameters: { layout: 'fullscreen' },
   args: { currentId: 'portfolio' },
 } satisfies Meta<typeof SiteFooter>;
 
