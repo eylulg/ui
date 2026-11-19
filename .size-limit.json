@@ -166,6 +166,13 @@
     "limit": "9 kB"
   },
   {
+    "name": "Chart: HeatGrid (own code and React Aria focus hooks)",
+    "path": "dist/components/Chart/index.js",
+    "import": "{ HeatGrid }",
+    "ignore": ["react", "react-dom", "lucide-react"],
+    "limit": "8.2 kB"
+  },
+  {
     "name": "Theme variant matrix",
     "path": "dist/styles/themes/variants.js",
     "import": "{ variants }",
