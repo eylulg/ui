@@ -45,12 +45,14 @@ updates:
             'size-limit',
             '@size-limit/*',
           ]
+      # react-aria-components pins react-aria to one exact version, so they move together.
       runtime:
         patterns:
           [
             'react',
             'react-dom',
             '@types/react*',
+            'react-aria',
             'react-aria-components',
             '@internationalized/*',
             'tailwind-merge',
