@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { expectNoA11yViolations } from '../../../test-utils/a11y';
 import { LineChart, type LineChartProps } from '../LineChart';
 
@@ -42,6 +42,45 @@ describe('LineChart', () => {
     await user.keyboard('{Escape}');
 
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+  });
+
+  it('lets Escape close the tooltip first and reach a surrounding dialog second', async () => {
+    const user = userEvent.setup();
+    const onKeyDown = vi.fn();
+    render(
+      <div role="presentation" onKeyDown={onKeyDown}>
+        <LineChart {...props} />
+      </div>,
+    );
+
+    await user.tab();
+    await user.keyboard('{Escape}');
+
+    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+    expect(onKeyDown).not.toHaveBeenCalled();
+
+    await user.keyboard('{Escape}');
+
+    expect(onKeyDown).toHaveBeenCalledOnce();
+  });
+
+  it('says there is no data for a point where every series is empty', () => {
+    render(
+      <LineChart {...props} series={[{ id: 'passed', label: 'Passed', values: [null, 20, 31] }]} />,
+    );
+
+    expect(screen.getByRole('img', { name: 'Mar 1, 2026: No data' })).toBeInTheDocument();
+  });
+
+  it.each([
+    { name: 'below zero', values: [-50, -30, -10], present: '0', absent: undefined },
+    { name: 'all zero', values: [0, 0, 0], present: '1', absent: '-1' },
+    { name: 'whole numbers', values: [0, 1, 1], present: '1', absent: '0.5' },
+  ])('draws a sensible axis for data $name', ({ values, present, absent }) => {
+    render(<LineChart {...props} series={[{ id: 'a', label: 'Errors', values }]} />);
+
+    expect(screen.getAllByText(present).length).toBeGreaterThan(0);
+    if (absent) expect(screen.queryByText(absent)).not.toBeInTheDocument();
   });
 
   it('keeps the whole plot to a single tab stop', async () => {

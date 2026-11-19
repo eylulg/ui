@@ -53,7 +53,8 @@ export interface Interaction {
 /**
  * Pointer and keyboard state shared by the charts: one tab stop that moves with the arrow keys
  * (roving tabindex), hover and focus both open the tooltip, and Escape closes it until the next
- * move. `onActivate` receives the element of the mark that was just hovered or focused.
+ * move. Escape is only consumed while a tooltip is open, so a second press reaches a dialog around
+ * the chart. `onActivate` receives the element of the mark that was just hovered or focused.
  */
 export function useChartInteraction(
   count: number,
@@ -66,6 +67,7 @@ export function useChartInteraction(
   const [dismissed, setDismissed] = useState(false);
   const marks = useRef(new Map<number, HTMLElement>());
   const current = Math.min(roving, Math.max(0, count - 1));
+  const isOpen = !dismissed && (hovered ?? focused) !== null;
 
   function activate(index: number) {
     setDismissed(false);
@@ -87,6 +89,8 @@ export function useChartInteraction(
       onBlur: () => setFocused(null),
       onKeyDown: (event) => {
         if (event.key === 'Escape') {
+          if (!isOpen) return;
+          event.stopPropagation();
           setDismissed(true);
           return;
         }
@@ -103,7 +107,7 @@ export function useChartInteraction(
     };
   }
 
-  return { active: dismissed ? null : (hovered ?? focused), markProps };
+  return { active: isOpen ? (hovered ?? focused) : null, markProps };
 }
 
 interface ChartMarkProps {

@@ -13,23 +13,24 @@ import {
 } from './format';
 import { markerPath } from './geometry';
 import { ChartMark, useChartInteraction } from './interaction';
+import { chartLabels } from './labels';
 import { linearScale, niceTicks, sampleIndexes } from './scale';
 import { seriesStyle } from './series';
 import { describeAll, plural } from './summary';
-import type { ChartBaseProps, ChartSeries, XValue } from './types';
+import type { ChartBaseProps, ChartLabels, ChartSeries, XValue } from './types';
 
 export interface LineChartProps extends ChartBaseProps {
   /** The x position of every point: dates, numbers or names. Shared by all series. */
   x: XValue[];
   /** Up to six series get a colour each; more are drawn in a muted colour and told apart by shape. */
   series: ChartSeries[];
-  /** Header of the first table column. Defaults to Date, Value or Category by the kind of x. */
+  /** Header of the first table column. Defaults to the date, value or category label by the kind of x. */
   xLabel?: string;
   /** Intl options for values in the axis, tooltip and table, for example `{ style: 'percent' }`. */
   valueFormat?: Intl.NumberFormatOptions;
   /** Intl options for date ticks. Include `timeZone` to read dates in a fixed zone. */
   xFormat?: Intl.DateTimeFormatOptions;
-  /** The y range. Defaults to zero up to the largest value, rounded to a tick. */
+  /** The y range. Defaults to the data widened to include zero, rounded to a tick. */
   yDomain?: [number, number];
   /** Names each line at its right end when there are four or fewer and the chart is wide enough. */
   hasDirectLabels?: boolean;
@@ -39,11 +40,24 @@ const margin = { top: 12, bottom: 28 };
 const edge = 6;
 const labelGap = 14;
 
+interface XTick {
+  index: number;
+  position: number;
+  anchor: 'start' | 'middle' | 'end';
+  from: number;
+  to: number;
+}
+
+function tickAnchor(position: number, tickWidth: number, plotWidth: number): XTick['anchor'] {
+  if (position < tickWidth / 2) return 'start';
+  return position > plotWidth - tickWidth / 2 ? 'end' : 'middle';
+}
+
 function isNumber(value: number | null | undefined): value is number {
   return typeof value === 'number';
 }
 
-const defaultXLabel = { time: 'Date', number: 'Value', category: 'Category' } as const;
+const xLabelKey = { time: 'date', number: 'value', category: 'category' } as const;
 
 /**
  * One or more series over a time or ordered x axis. Hover or focus shows every series at that x;
@@ -67,9 +81,10 @@ export function LineChart({
   isCard,
   className,
 }: LineChartProps) {
+  const text = chartLabels(labels);
   const values = series.flatMap((s) => s.values.filter(isNumber));
   const fx = createXFormat(x, locale, xFormat);
-  const vf = createValueFormat(Math.max(0, ...values), locale, valueFormat);
+  const vf = createValueFormat(Math.max(0, ...values.map(Math.abs)), locale, valueFormat);
   const positions = x.map((_, index) => fx.full(index));
   const headline = `Line chart with ${plural(series.length, 'series', 'series')} and ${plural(x.length, 'point', 'points')}, from ${positions[0]} to ${positions[positions.length - 1]}.`;
   const colors = series.map((s, index) => s.colorIndex ?? index);
@@ -92,7 +107,7 @@ export function LineChart({
         )
       }
       table={{
-        head: [xLabel ?? defaultXLabel[xKind(x)], ...series.map((s) => s.label)],
+        head: [xLabel ?? text[xLabelKey[xKind(x)]], ...series.map((s) => s.label)],
         rows: x.map((_, index) => [
           positions[index] ?? '',
           ...series.map((s) => {
@@ -112,6 +127,7 @@ export function LineChart({
           fx={fx}
           vf={vf}
           yDomain={yDomain}
+          noData={text.noData}
           hasDirectLabels={hasDirectLabels}
         />
       )}
@@ -128,6 +144,7 @@ interface LinePlotProps extends Pick<
   colors: number[];
   fx: XFormat;
   vf: ValueFormat;
+  noData: ChartLabels['noData'];
 }
 
 function LinePlot({
@@ -139,14 +156,20 @@ function LinePlot({
   fx,
   vf,
   yDomain,
+  noData,
   hasDirectLabels,
 }: LinePlotProps) {
   const interaction = useChartInteraction(x.length);
 
   const known = series.flatMap((s) => s.values.filter(isNumber));
-  const [low, high] = yDomain ?? [Math.min(0, ...known), Math.max(...known)];
+  const [low, high] = yDomain ?? [Math.min(0, ...known), Math.max(0, ...known)];
   const plotHeight = height - margin.top - margin.bottom;
-  const ticks = niceTicks(low, high, Math.max(2, Math.floor(plotHeight / 48) + 1));
+  const ticks = niceTicks(
+    low,
+    high,
+    Math.max(2, Math.floor(plotHeight / 48) + 1),
+    known.every(Number.isInteger),
+  );
   const domain: [number, number] = yDomain ?? [ticks.min, ticks.max];
   const yTicks = yDomain ? ticks.ticks.filter((t) => t >= low && t <= high) : ticks.ticks;
   const y = linearScale(domain, [plotHeight, 0]);
@@ -174,7 +197,18 @@ function LinePlot({
   const at = (index: number) => xScale(numbers[index] ?? 0);
 
   const tickWidth = Math.max(...x.map((_, index) => textWidth(fx.tick(index)))) + 16;
-  const xTicks = sampleIndexes(x.length, Math.floor(plotWidth / tickWidth));
+  const xTicks = sampleIndexes(x.length, Math.floor(plotWidth / tickWidth))
+    .map((index): XTick => {
+      const position = at(index);
+      const anchor = tickAnchor(position, tickWidth, plotWidth);
+      const size = textWidth(fx.tick(index));
+      const from = position - { start: 0, middle: size / 2, end: size }[anchor];
+      return { index, position, anchor, from, to: from + size };
+    })
+    .reduceRight<XTick[]>((kept, tick) => {
+      const next = kept[0];
+      return next && tick.to + 8 > next.from ? kept : [tick, ...kept];
+    }, []);
   const showAllMarkers = x.length <= 12 && plotWidth / x.length >= 24;
   const active = interaction.active;
 
@@ -212,26 +246,17 @@ function LinePlot({
               </text>
             </g>
           ))}
-          {xTicks.map((index) => {
-            const position = at(index);
-            const anchor =
-              position < tickWidth / 2
-                ? 'start'
-                : position > plotWidth - tickWidth / 2
-                  ? 'end'
-                  : 'middle';
-            return (
-              <text
-                key={index}
-                x={position}
-                y={plotHeight + 18}
-                textAnchor={anchor}
-                className="fill-(--ui-text-tertiary) text-xs"
-              >
-                {fx.tick(index)}
-              </text>
-            );
-          })}
+          {xTicks.map(({ index, position, anchor }) => (
+            <text
+              key={index}
+              x={position}
+              y={plotHeight + 18}
+              textAnchor={anchor}
+              className="fill-(--ui-text-tertiary) text-xs"
+            >
+              {fx.tick(index)}
+            </text>
+          ))}
           {active !== null && (
             <line
               x1={at(active)}
@@ -309,9 +334,11 @@ function LinePlot({
             key={index}
             index={index}
             interaction={interaction}
-            label={`${fx.full(index)}: ${rows(index)
-              .map((row) => `${row.label} ${row.value}`)
-              .join(', ')}`}
+            label={`${fx.full(index)}: ${
+              rows(index)
+                .map((row) => `${row.label} ${row.value}`)
+                .join(', ') || noData
+            }`}
             style={{
               left: left + from,
               top: margin.top,
