@@ -158,7 +158,7 @@ export const variantSpecs: Record<VariantName, VariantSpec> = {
   },
   'control-room': {
     name: 'control-room',
-    project: 'Agent control room',
+    project: 'Agent workflows',
     description: 'An operations dashboard. Compact, small radius, darker dark surface.',
     brand: { name: 'amber', hue: 70, chroma: 0.17 },
     warning: { name: 'yellow', hue: 95, chroma: 0.15 },

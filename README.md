@@ -109,7 +109,7 @@ variant overrides only the brand and gray scales, `--radius-*`, `--density-*`, `
 | `portfolio`      | `@eylulg/ui/themes/portfolio.css`      | Portfolio             | indigo  | cool (slate) | large  | comfortable | Inter     |
 | `workspace`      | `@eylulg/ui/themes/workspace.css`      | Workspace             | blue    | neutral      | small  | compact     | Inter     |
 | `review`         | `@eylulg/ui/themes/review.css`         | Review Companion      | teal    | cool (slate) | medium | comfortable | monospace |
-| `control-room`   | `@eylulg/ui/themes/control-room.css`   | Agent control room    | amber   | zinc         | small  | compact     | Inter     |
+| `control-room`   | `@eylulg/ui/themes/control-room.css`   | Agent workflows       | amber   | zinc         | small  | compact     | Inter     |
 | `watchlist`      | `@eylulg/ui/themes/watchlist.css`      | Watchlist             | rose    | warm (stone) | large  | comfortable | Inter     |
 | `tokens`         | `@eylulg/ui/themes/tokens.css`         | Tokens to Tailwind    | violet  | neutral      | medium | comfortable | Inter     |
 | `plain-language` | `@eylulg/ui/themes/plain-language.css` | Plain Language add-in | cyan    | cool (slate) | medium | compact     | Inter     |
