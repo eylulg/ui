@@ -21,6 +21,7 @@ export function describeSeries(
   const numbers = known.map((point) => point.value);
   const low = Math.min(...numbers);
   const high = Math.max(...numbers);
+  if (low === high) return `${series.label}: ${format(low)} throughout.`;
   const at = (value: number) => positions[indexOfValue(series.values, value)] ?? '';
   return `${series.label}: from ${format(first.value)} to ${format(last.value)}, lowest ${format(low)} at ${at(low)}, highest ${format(high)} at ${at(high)}.`;
 }
@@ -58,6 +59,7 @@ export function describeBars(
     if (!top || !bottom) return `${s.label}: no values.`;
     const name = (point: { index: number }) => categories[point.index] ?? '';
     if (known.length === 1) return `${s.label}: ${format(top.value)} for ${name(top)}.`;
+    if (top.value === bottom.value) return `${s.label}: ${format(top.value)} for every category.`;
     return `${s.label}: highest ${name(top)} at ${format(top.value)}, lowest ${name(bottom)} at ${format(bottom.value)}.`;
   });
   const rest = series.length - described.length;

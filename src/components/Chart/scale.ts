@@ -14,16 +14,21 @@ function decimals(step: number): number {
 
 /**
  * Round tick values that cover `min` to `max`, about `count` of them. The domain is widened to the
- * first and last tick, so a bar chart can start at a clean zero and end at a clean top.
+ * first and last tick, so a bar chart can start at a clean zero and end at a clean top. With
+ * `isInteger` the step is a whole number, so counts never get ticks such as 0.5.
  */
-export function niceTicks(min: number, max: number, count: number): NiceScale {
+export function niceTicks(min: number, max: number, count: number, isInteger = false): NiceScale {
   if (min === max) {
-    const pad = min === 0 ? 1 : Math.abs(min) * 0.1;
-    return niceTicks(min - pad, max + pad, count);
+    if (min === 0) return niceTicks(0, 1, count, isInteger);
+    const pad = Math.abs(min) * 0.1;
+    return niceTicks(min - pad, max + pad, count, isInteger);
   }
   const raw = (max - min) / Math.max(1, count - 1);
   const magnitude = 10 ** Math.floor(Math.log10(raw));
-  const step = (steps.find((s) => s * magnitude >= raw) ?? 10) * magnitude;
+  const candidates = steps
+    .map((s) => Number((s * magnitude).toPrecision(12)))
+    .filter((step) => !isInteger || Number.isInteger(step));
+  const step = isInteger && raw <= 1 ? 1 : (candidates.find((s) => s >= raw) ?? 10 * magnitude);
   const first = Math.floor(min / step) * step;
   const last = Math.ceil(max / step) * step;
   const places = decimals(step);

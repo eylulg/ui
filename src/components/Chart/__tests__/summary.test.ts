@@ -13,6 +13,7 @@ describe('describeSeries', () => {
     },
     { name: 'a single value', values: [null, 7, null, null], text: 'Passed: 7 at Tue.' },
     { name: 'no values', values: [null, null], text: 'Passed: no values.' },
+    { name: 'a flat series', values: [0, 0, 0], text: 'Passed: 0 throughout.' },
   ])('describes $name', ({ values, text }) => {
     expect(describeSeries({ id: 'p', label: 'Passed', values }, places, format)).toBe(text);
   });
@@ -41,5 +42,16 @@ describe('describeBars', () => {
     );
 
     expect(text).toBe('Bars. Passed: highest Chat at 30, lowest Review at 4.');
+  });
+
+  it('says so when every category has the same value', () => {
+    const text = describeBars(
+      'Bars.',
+      ['Chat', 'Search'],
+      [{ id: 'e', label: 'Errors', values: [0, 0] }],
+      format,
+    );
+
+    expect(text).toBe('Bars. Errors: 0 for every category.');
   });
 });

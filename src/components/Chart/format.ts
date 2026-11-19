@@ -25,6 +25,47 @@ export interface XFormat {
   full: (index: number) => string;
 }
 
+const componentKeys = [
+  'weekday',
+  'era',
+  'year',
+  'month',
+  'day',
+  'dayPeriod',
+  'hour',
+  'minute',
+  'second',
+  'fractionalSecondDigits',
+  'timeZoneName',
+  'dateStyle',
+  'timeStyle',
+] as const;
+
+/** Whether `time` is exactly midnight in `timeZone`, or in the runtime zone when it is unset. */
+function isMidnight(time: number, timeZone?: string): boolean {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone,
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hourCycle: 'h23',
+  }).formatToParts(time);
+  return parts.every(
+    (part) =>
+      !['hour', 'minute', 'second'].includes(part.type) ||
+      part.value === '0' ||
+      part.value === '00',
+  );
+}
+
+/** Whether the points carry a time of day: not all at midnight and closer together than a day. */
+function hasTimeOfDay(times: number[], timeZone?: string): boolean {
+  if (times.every((time) => isMidnight(time, timeZone))) return false;
+  const sorted = [...new Set(times)].toSorted((a, b) => a - b);
+  const steps = sorted.slice(1).map((time, index) => time - (sorted[index] ?? time));
+  return steps.length > 0 && Math.min(...steps) < day;
+}
+
 export function createXFormat(
   xs: XValue[],
   locale?: string,
@@ -35,17 +76,21 @@ export function createXFormat(
     const times = xNumbers(xs);
     const span = Math.max(...times) - Math.min(...times);
     const timeZone = options?.timeZone;
-    const tickOptions: Intl.DateTimeFormatOptions =
-      options ??
-      (span < 2 * day
+    const isTimed = hasTimeOfDay(times, timeZone);
+    const automatic: Intl.DateTimeFormatOptions =
+      isTimed && span < 2 * day
         ? { hour: 'numeric', minute: '2-digit' }
         : span > 400 * day
           ? { month: 'short', year: 'numeric' }
-          : { month: 'short', day: 'numeric' });
-    const tick = new Intl.DateTimeFormat(locale, tickOptions);
+          : { month: 'short', day: 'numeric' };
+    const isComplete = options && componentKeys.some((key) => options[key] !== undefined);
+    const tick = new Intl.DateTimeFormat(
+      locale,
+      isComplete ? options : { ...automatic, ...options },
+    );
     const full = new Intl.DateTimeFormat(
       locale,
-      span < 2 * day
+      isTimed
         ? { dateStyle: 'medium', timeStyle: 'short', timeZone }
         : { dateStyle: 'medium', timeZone },
     );
@@ -89,6 +134,11 @@ export function createValueFormat(
 /** Rough width of `text` at 12px in the UI font, for margins and tick density. */
 export function textWidth(text: string): number {
   return text.length * 6.6;
+}
+
+/** `text` as it is when it fits in `width` pixels, otherwise shortened with an ellipsis. */
+export function fitText(text: string, width: number): string {
+  return textWidth(text) <= width + 0.5 ? text : truncate(text, Math.floor(width / 6.6));
 }
 
 /** Shortens text to `limit` characters with an ellipsis. */
