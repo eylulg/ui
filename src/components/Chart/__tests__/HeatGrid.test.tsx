@@ -38,7 +38,7 @@ describe('HeatGrid', () => {
 
     await user.keyboard('{ArrowRight}');
 
-    const failed = screen.getByRole('gridcell', { name: 'Fail' });
+    const failed = screen.getByRole('gridcell', { name: 'Fail: Clause not found.' });
     expect(failed).toHaveFocus();
     expect(screen.getByRole('tooltip')).toHaveTextContent(
       'Refund, Right clauseFailClause not found.',
@@ -49,15 +49,40 @@ describe('HeatGrid', () => {
     expect(screen.getAllByRole('gridcell')[3]).toHaveFocus();
   });
 
-  it('names every cell by its state, so pass and fail never rely on colour', () => {
+  it('names every cell by its state and detail, so pass and fail never rely on colour', async () => {
+    const user = userEvent.setup();
     render(<HeatGrid {...props} />);
 
     expect(screen.getAllByRole('gridcell').map((cell) => cell.textContent)).toEqual([
       'Pass',
-      'Fail',
+      'Fail: Clause not found.',
       'Pass',
       'Pass',
     ]);
+
+    await user.click(screen.getByRole('button', { name: 'Show table' }));
+
+    expect(screen.getAllByRole('row').map((row) => row.textContent)).toContain(
+      'RefundPassFail: Clause not found.',
+    );
+  });
+
+  it('keeps the full text of long headers for screen readers', () => {
+    render(
+      <HeatGrid
+        {...props}
+        rows={[{ id: 'r1', label: 'Confidentiality term for the whole agreement' }]}
+        columns={[{ id: 'c1', label: 'Cites a source for every claim' }]}
+        cells={[]}
+      />,
+    );
+
+    expect(
+      screen.getByRole('rowheader', { name: 'Confidentiality term for the whole agreement' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('columnheader', { name: 'Cites a source for every claim' }),
+    ).toBeInTheDocument();
   });
 
   it('shades cells by value and lists every value in the table', async () => {

@@ -8,9 +8,11 @@ import { cx } from '../../utils/cxLite';
 import { ChartFrame } from './ChartFrame';
 import { ChartLegend } from './ChartLegend';
 import { ChartTooltip } from './ChartTooltip';
-import { createValueFormat, truncate } from './format';
+import { createValueFormat } from './format';
 import { useChartInteraction, type Interaction } from './interaction';
-import type { ChartBaseProps } from './types';
+import { chartLabels } from './labels';
+import { plural } from './summary';
+import type { ChartBaseProps, ChartLabels } from './types';
 
 export type HeatGridTone = 'success' | 'error' | 'warning' | 'neutral';
 
@@ -35,7 +37,10 @@ export interface HeatGridCell {
   value?: number;
   /** In state mode, a key of `states`. */
   state?: string;
-  /** Extra text for the tooltip, such as why a check failed. */
+  /**
+   * Extra text, such as why a check failed. It shows in the tooltip, is read after the state by
+   * screen readers and is listed in the table.
+   */
   detail?: string;
 }
 
@@ -49,7 +54,7 @@ export interface HeatGridProps extends Omit<ChartBaseProps, 'height'> {
    * it the grid is in value mode and shades each cell by its number in five steps.
    */
   states?: Record<string, HeatGridState>;
-  /** Header of the first table column, and the label of the row headers. */
+  /** Header of the first table column. Defaults to `labels.row`. */
   rowLabel?: string;
   /** Intl options for values in value mode. */
   valueFormat?: Intl.NumberFormatOptions;
@@ -98,7 +103,7 @@ export function HeatGrid({
   columns,
   cells,
   states,
-  rowLabel = 'Row',
+  rowLabel,
   valueFormat,
   hasValueLabels = true,
   title,
@@ -109,6 +114,8 @@ export function HeatGrid({
   isCard,
   className,
 }: HeatGridProps) {
+  const text = chartLabels(labels);
+  const rowHeader = rowLabel ?? text.row;
   const byPosition = new Map(cells.map((c) => [`${c.row}\u0000${c.column}`, c]));
   const at = (row: string, column: string) => byPosition.get(`${row}\u0000${column}`);
   const numbers = cells.flatMap((c) => (c.value === undefined ? [] : [c.value]));
@@ -117,8 +124,12 @@ export function HeatGrid({
 
   const describe = (c: HeatGridCell | undefined): string => {
     if (!c) return '';
-    if (states) return states[c.state ?? '']?.label ?? '';
-    return c.value === undefined ? '' : vf.full(c.value);
+    const base = states
+      ? (states[c.state ?? '']?.label ?? '')
+      : c.value === undefined
+        ? ''
+        : vf.full(c.value);
+    return c.detail ? `${base}: ${c.detail}` : base;
   };
 
   const counts = states
@@ -128,7 +139,7 @@ export function HeatGrid({
     : numbers.length > 0
       ? `values from ${vf.full(min)} to ${vf.full(max)}`
       : '';
-  const headline = `Grid of ${rows.length} rows by ${columns.length} columns: ${counts}.`;
+  const headline = `Grid of ${plural(rows.length, 'row', 'rows')} by ${plural(columns.length, 'column', 'columns')}: ${counts}.`;
 
   return (
     <ChartFrame
@@ -177,7 +188,7 @@ export function HeatGrid({
         )
       }
       table={{
-        head: [rowLabel, ...columns.map((c) => c.label)],
+        head: [rowHeader, ...columns.map((c) => c.label)],
         rows: rows.map((row) => [
           row.label,
           ...columns.map((column) => describe(at(row.id, column.id))),
@@ -189,7 +200,8 @@ export function HeatGrid({
           width={width}
           rows={rows}
           columns={columns}
-          rowLabel={rowLabel}
+          rowLabel={rowHeader}
+          noData={text.noData}
           states={states}
           hasValueLabels={hasValueLabels}
           title={title}
@@ -208,6 +220,7 @@ interface HeatPlotProps extends Pick<
 > {
   width: number;
   rowLabel: string;
+  noData: ChartLabels['noData'];
   lookup: (row: string, column: string) => HeatGridCell | undefined;
   format: (value: number) => string;
   range: [number, number];
@@ -218,6 +231,7 @@ function HeatPlot({
   rows,
   columns,
   rowLabel,
+  noData,
   states,
   hasValueLabels,
   title,
@@ -247,7 +261,6 @@ function HeatPlot({
   const headerWidth = width < 420 ? 88 : 144;
   const template = `${headerWidth}px repeat(${columns.length}, minmax(2.25rem, 1fr))`;
   const isVertical = columns.length > 6 || width < 420;
-  const columnChars = Math.max(6, Math.floor((width - headerWidth) / columns.length / 6.6));
   const activeRow =
     interaction.active === null ? null : rows[Math.floor(interaction.active / columns.length)];
   const activeColumn =
@@ -257,12 +270,12 @@ function HeatPlot({
 
   return (
     <div ref={wrapper} className="relative">
-      <div className="max-w-full overflow-x-auto p-1">
+      <div className="relative max-w-full overflow-x-auto py-1 pr-1">
         <div role="grid" aria-label={title} className="flex w-max min-w-full flex-col gap-0.5">
           <div role="row" className="grid gap-0.5" style={{ gridTemplateColumns: template }}>
             <div
               role="columnheader"
-              className="sticky left-0 bg-(--chart-surface) text-xs text-tertiary"
+              className="sticky left-0 z-10 bg-(--chart-surface) pr-2 text-xs text-tertiary"
             >
               {rowLabel}
             </div>
@@ -280,7 +293,7 @@ function HeatPlot({
                     {column.label}
                   </span>
                 ) : (
-                  truncate(column.label, columnChars)
+                  <span className="min-w-0 truncate">{column.label}</span>
                 )}
               </div>
             ))}
@@ -294,11 +307,9 @@ function HeatPlot({
             >
               <div
                 role="rowheader"
-                className="sticky left-0 flex items-center bg-(--chart-surface) pr-2 text-sm text-primary"
+                className="sticky left-0 z-10 flex items-center bg-(--chart-surface) pr-2 text-sm text-primary"
               >
-                <span className="truncate">
-                  {truncate(row.label, Math.floor(headerWidth / 6.6))}
-                </span>
+                <span className="min-w-0 truncate">{row.label}</span>
               </div>
               {columns.map((column, columnIndex) => {
                 const data = lookup(row.id, column.id);
@@ -328,8 +339,9 @@ function HeatPlot({
                         {format(data.value)}
                       </span>
                     ) : (
-                      <span className="sr-only">No data</span>
+                      <span className="sr-only">{noData}</span>
                     )}
+                    {data?.detail && <span className="sr-only">{`: ${data.detail}`}</span>}
                   </HeatCell>
                 );
               })}
@@ -351,7 +363,7 @@ function HeatPlot({
               value: activeState
                 ? activeState.label
                 : activeCell?.value === undefined
-                  ? 'No data'
+                  ? noData
                   : format(activeCell.value),
               label: activeCell?.detail ?? '',
               marker: activeState ? (
