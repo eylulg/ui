@@ -1,6 +1,8 @@
 export { AppShell } from './AppShell';
 export type { AppShellMaxWidth, AppShellProps } from './AppShell';
 export { BrandMark } from './BrandMark';
+export { isAbsoluteHref, LinkRouter } from './LinkRouter';
+export type { LinkRouterProps } from './LinkRouter';
 export type { BrandMarkProps } from './BrandMark';
 export { ProjectSwitcher } from './ProjectSwitcher';
 export type { ProjectSwitcherLabels, ProjectSwitcherProps } from './ProjectSwitcher';
