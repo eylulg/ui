@@ -149,6 +149,7 @@ buttons place white text on it.
 | `Breadcrumbs`                 | `@eylulg/ui/breadcrumbs`       | `Breadcrumbs`, `Breadcrumb`, `Link`                          | Nav landmark, current page, router links                                                                                                   |
 | `Button`                      | `@eylulg/ui/button`            | `Button`, `Link`                                             | primary, secondary, tertiary, destructive, destructive-outline; sm, md, lg; loading; icons; `href` renders a link; `buttonStyles()`; `ref` |
 | `Card`                        | `@eylulg/ui/card`              | `Link`, `Button`                                             | Header, body, footer slots; interactive card as one link or button; `padding="none"` for media; aria props reach the link                  |
+| `Charts`                      | `@eylulg/ui/chart`             | none (SVG, focus hooks only)                                 | `LineChart`, `BarChart`, `HeatGrid`, `ChartLegend`; series colour tokens, tooltip on hover and focus, Show table toggle, arrow keys        |
 | `Checkbox`                    | `@eylulg/ui/checkbox`          | `Checkbox`                                                   | Indeterminate, hint, invalid                                                                                                               |
 | `CodeBlock`                   | `@eylulg/ui/code-block`        | none (static)                                                | `pre` in the data font, labelled and keyboard scrollable, optional copy button with a status                                               |
 | `Combobox`                    | `@eylulg/ui/combobox`          | `ComboBox`, `Popover`, `ListBox`                             | Async loading, sections, empty state, descriptions                                                                                         |
@@ -193,6 +194,53 @@ user tabbed in from.
 **A note on Card.** An interactive card (`href` or `onPress`) stretches its title link over the
 whole card. Actions in `CardHeader` and `CardFooter` stay separate tab stops above it; a control
 inside `CardBody` needs `relative z-10` to be clickable.
+
+## Charts
+
+`@eylulg/ui/chart` draws charts with plain SVG and no chart library. `LineChart` takes one or more
+series over dates, numbers or names. `BarChart` is vertical or horizontal, grouped or stacked.
+`HeatGrid` is a matrix of rows by columns, either states such as pass and fail (a fill and a
+distinct icon per state) or numbers (five shades of one hue). `ChartLegend` is the legend the
+charts use, exported for your own layouts.
+
+```tsx
+import { HeatGrid, LineChart } from '@eylulg/ui/chart';
+
+<LineChart
+  title="Requests per day"
+  x={days}
+  series={[
+    { id: 'chat', label: 'Chat', values: chat },
+    { id: 'search', label: 'Search', values: search },
+  ]}
+  locale="en-GB"
+/>;
+
+<HeatGrid
+  title="Checks by case"
+  rowLabel="Case"
+  rows={[{ id: 'refund', label: 'Refund request' }]}
+  columns={[{ id: 'cites', label: 'Cites source' }]}
+  states={{
+    pass: { label: 'Pass', tone: 'success' },
+    fail: { label: 'Fail', tone: 'error' },
+  }}
+  cells={[{ row: 'refund', column: 'cites', state: 'fail', detail: 'No source cited.' }]}
+/>;
+```
+
+- **Colour.** `--ui-chart-1` to `--ui-chart-6` are the series colours, the same hues in every
+  variant and tuned separately for light and dark. `npm run contrast` checks each at 3:1 or more
+  against every surface of every variant and keeps every pair of series apart under colour
+  vision deficiency. A series keeps its colour by `colorIndex`, not by its rank. Past six series the rest
+  share a muted colour and differ by marker shape and dash.
+- **Keyboard and screen readers.** Each chart is a named figure with a generated summary. Tab
+  enters the plot once; arrow keys, Home and End move between points, bars or cells; Escape closes
+  the tooltip. Every point reads out its values, and the data is also a real table behind a
+  "Show table" button.
+- **Layout.** Charts fill their container, follow it with a ResizeObserver and stay readable at
+  320 px. Axis ticks thin out as space runs short. Numbers and dates go through `Intl` with the
+  `locale` prop.
 
 ## App chrome
 

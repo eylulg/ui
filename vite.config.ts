@@ -35,6 +35,7 @@ const serverSafe = [
 const external = [
   /^react($|\/)/,
   /^react-dom($|\/)/,
+  /^react-aria($|\/)/,
   /^react-aria-components($|\/)/,
   /^tailwind-merge($|\/)/,
   /^lucide-react($|\/)/,

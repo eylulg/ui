@@ -7,11 +7,12 @@
       "react",
       "react-dom",
       "lucide-react",
+      "react-aria",
       "react-aria-components",
       "tailwind-merge",
       "@internationalized/date"
     ],
-    "limit": "15.5 kB"
+    "limit": "24 kB"
   },
   {
     "name": "Button only (own code, tree shaken)",
@@ -151,6 +152,27 @@
     "limit": "100 B"
   },
   {
+    "name": "Chart: LineChart (own code and React Aria focus hooks)",
+    "path": "dist/components/Chart/index.js",
+    "import": "{ LineChart }",
+    "ignore": ["react", "react-dom", "lucide-react"],
+    "limit": "9.4 kB"
+  },
+  {
+    "name": "Chart: BarChart (own code and React Aria focus hooks)",
+    "path": "dist/components/Chart/index.js",
+    "import": "{ BarChart }",
+    "ignore": ["react", "react-dom", "lucide-react"],
+    "limit": "9.6 kB"
+  },
+  {
+    "name": "Chart: HeatGrid (own code and React Aria focus hooks)",
+    "path": "dist/components/Chart/index.js",
+    "import": "{ HeatGrid }",
+    "ignore": ["react", "react-dom", "lucide-react"],
+    "limit": "8.2 kB"
+  },
+  {
     "name": "Theme variant matrix",
     "path": "dist/styles/themes/variants.js",
     "import": "{ variants }",
@@ -159,7 +181,7 @@
   {
     "name": "Stylesheet",
     "path": "dist/styles.css",
-    "limit": "8.9 kB"
+    "limit": "9.1 kB"
   },
   {
     "name": "One theme variant file",
@@ -169,7 +191,7 @@
   {
     "name": "Plain tokens (no Tailwind)",
     "path": "dist/tokens.css",
-    "limit": "1.7 kB"
+    "limit": "1.8 kB"
   },
   {
     "name": "Optional Inter loader",

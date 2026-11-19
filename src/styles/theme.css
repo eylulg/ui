@@ -232,6 +232,22 @@
   --color-fg-orange: var(--ui-fg-orange);
   --color-fg-indigo: var(--ui-fg-indigo);
 
+  /* Data visualisation: categorical series, a muted overflow colour and a five step sequential ramp. */
+  --color-chart-1: var(--ui-chart-1);
+  --color-chart-2: var(--ui-chart-2);
+  --color-chart-3: var(--ui-chart-3);
+  --color-chart-4: var(--ui-chart-4);
+  --color-chart-5: var(--ui-chart-5);
+  --color-chart-6: var(--ui-chart-6);
+  --color-chart-muted: var(--ui-chart-muted);
+  --color-chart-seq-1: var(--ui-chart-seq-1);
+  --color-chart-seq-2: var(--ui-chart-seq-2);
+  --color-chart-seq-3: var(--ui-chart-seq-3);
+  --color-chart-seq-4: var(--ui-chart-seq-4);
+  --color-chart-seq-5: var(--ui-chart-seq-5);
+  --color-chart-seq-ink-light: var(--ui-chart-seq-ink-light);
+  --color-chart-seq-ink-dark: var(--ui-chart-seq-ink-dark);
+
   /* Font used for data: table cells, stats, code like values. */
   --font-data: var(--ui-font-data);
 
@@ -353,6 +369,27 @@
     --ui-text-indigo: #4338ca;
     --ui-border-indigo: #c7d2fe;
     --ui-fg-indigo: #4f46e5;
+
+    /*
+     * Chart series, in fixed order. The same hues in every variant: a series
+     * keeps its colour when the brand changes. Each is at least 3:1 on every
+     * surface of every variant, and every pair stays apart under colour vision
+     * deficiency (npm run contrast).
+     */
+    --ui-chart-1: #6f82ff;
+    --ui-chart-2: #f1515f;
+    --ui-chart-3: #009e94;
+    --ui-chart-4: #5532bb;
+    --ui-chart-5: #7c5801;
+    --ui-chart-6: #9a005e;
+    --ui-chart-muted: #6b7280;
+    --ui-chart-seq-1: #e4f0ff;
+    --ui-chart-seq-2: #b3d4ff;
+    --ui-chart-seq-3: #77abec;
+    --ui-chart-seq-4: #2e69b2;
+    --ui-chart-seq-5: #164781;
+    --ui-chart-seq-ink-light: #ffffff;
+    --ui-chart-seq-ink-dark: #0b1220;
   }
 
   .dark,
@@ -429,5 +466,18 @@
     --ui-text-indigo: #a5b4fc;
     --ui-border-indigo: #3730a3;
     --ui-fg-indigo: #818cf8;
+
+    --ui-chart-1: #b3c1ff;
+    --ui-chart-2: #ffb862;
+    --ui-chart-3: #00f1bf;
+    --ui-chart-4: #ac6bf4;
+    --ui-chart-5: #8a9f00;
+    --ui-chart-6: #ff6791;
+    --ui-chart-muted: #9ca3af;
+    --ui-chart-seq-1: #182e4b;
+    --ui-chart-seq-2: #284e7d;
+    --ui-chart-seq-3: #3d73b6;
+    --ui-chart-seq-4: #7aaeef;
+    --ui-chart-seq-5: #b3d4ff;
   }
 }

@@ -1,9 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { expectNoA11yViolations } from '../../test-utils/a11y';
 import { themeStorageKey } from '../themeScript';
 import { ThemeToggle } from '../ThemeToggle';
+
+// The overlay is a lazy chunk. Importing it once here keeps its first transform, which is slow on a
+// busy machine, out of the tests' one second wait for the overlay to appear.
+beforeAll(() => import('../ThemeToggleMenu'));
 
 function mockSystemDark(matches: boolean) {
   vi.spyOn(window, 'matchMedia').mockImplementation(

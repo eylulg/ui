@@ -504,6 +504,38 @@ attributions a data provider requires or for extra links.
 
 `@eylulg/ui/cx-lite` joins class names without tailwind-merge (93 B instead of 8.5 kB gzip). Use it for conditional classes in your own markup, and `@eylulg/ui/cx` where a later class must override an earlier one.
 
+## Charts
+
+`@eylulg/ui/chart` needs no extra package. Import the charts and the same stylesheet or theme as
+the rest of the library; the series colours are the `--ui-chart-*` tokens, so they follow the
+variant and the dark mode class with nothing else to set.
+
+```tsx
+import { BarChart, HeatGrid, LineChart } from '@eylulg/ui/chart';
+```
+
+- **Give every chart a title.** `title` is its accessible name. Pass `hideTitle` when a card
+  heading already says the same. The chart writes a short English summary from the data; pass
+  `summary` to replace it. `labels` translates "Show table", "Hide table", the empty message, "No
+  data", "Total" and the default first table headers (`category`, `date`, `value`, `row`).
+- **Size comes from the parent.** A chart is as wide as its container and `height` sets the height
+  of the whole chart in pixels, axes included. Put it in a grid cell or a `Card`; set `isCard` for
+  a bordered surface.
+- **Missing and negative values.** `null` leaves a gap and reads as "No data". Bars below zero
+  grow down or to the left, and a stack adds negatives and positives separately.
+- **Series identity.** Colours follow the order of `series`. When a filter removes a series, set
+  `colorIndex` (0 to 5) on each series so the ones that remain keep their colour.
+- **Formatting.** `locale` is a BCP 47 tag. `valueFormat` takes `Intl.NumberFormat` options, for
+  example `{ style: 'percent' }`, and `xFormat` takes `Intl.DateTimeFormat` options. `{ timeZone }`
+  alone reads dates in a fixed zone and keeps the automatic tick format; add parts such as `month`
+  to choose the format yourself. Dates show without a time of day when every point is at midnight
+  in that zone or the points are a day or more apart, so pass `timeZone` for date-only data.
+- **Server rendering.** Charts render at 480 px on the server and measure themselves after mount.
+  Nothing reads `window` during render.
+- **Tests.** Under jsdom the width stays at 480 px because there is no layout. Marks are
+  `role="img"` elements named with their values (`getByRole('img', { name: /Mar 3/ })`), cells of
+  `HeatGrid` are `gridcell`s named by their state.
+
 ## Project list
 
 `ProjectSwitcher` and `SiteFooter` read `@eylulg/ui/projects`. Projects that are not deployed yet
