@@ -159,6 +159,13 @@
     "limit": "9 kB"
   },
   {
+    "name": "Chart: BarChart (own code and React Aria focus hooks)",
+    "path": "dist/components/Chart/index.js",
+    "import": "{ BarChart }",
+    "ignore": ["react", "react-dom", "lucide-react"],
+    "limit": "9 kB"
+  },
+  {
     "name": "Theme variant matrix",
     "path": "dist/styles/themes/variants.js",
     "import": "{ variants }",
