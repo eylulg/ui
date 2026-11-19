@@ -18,6 +18,18 @@ export interface ChartLabels {
   showTable: string;
   hideTable: string;
   empty: string;
+  /** Stands for a missing value in a tooltip, an accessible name and a heat grid cell. */
+  noData: string;
+  /** The total row of a stacked bar tooltip and the last column of its table. */
+  total: string;
+  /** Default first table header of a bar chart and of a line chart with named x values. */
+  category: string;
+  /** Default first table header of a line chart with dates. */
+  date: string;
+  /** Default first table header of a line chart with numeric x values. */
+  value: string;
+  /** Default first table header and row header label of a heat grid. */
+  row: string;
 }
 
 export interface ChartBaseProps {
@@ -31,9 +43,9 @@ export interface ChartBaseProps {
   summary?: string;
   /** BCP 47 tag for number and date formatting. Defaults to the runtime locale. */
   locale?: string;
-  /** Text for the table toggle and the empty state. */
+  /** Text for the table toggle, the empty state and the words the chart adds to your data. */
   labels?: Partial<ChartLabels>;
-  /** Plot height in pixels. */
+  /** Height of the whole chart in pixels, including the axes. The plot is shorter by the margins. */
   height?: number;
   /** Draws the chart on a bordered card surface. */
   isCard?: boolean;

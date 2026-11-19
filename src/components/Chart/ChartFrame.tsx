@@ -3,14 +3,9 @@ import { useFocusRing } from 'react-aria/useFocusRing';
 import { focusRing } from '../../internal/focusRing';
 import { cx } from '../../utils/cxLite';
 import { ChartTable } from './ChartTable';
-import type { ChartBaseProps, ChartLabels } from './types';
+import { chartLabels } from './labels';
+import type { ChartBaseProps } from './types';
 import { useElementWidth } from './useElementWidth';
-
-const defaultLabels: ChartLabels = {
-  showTable: 'Show table',
-  hideTable: 'Hide table',
-  empty: 'No data to show.',
-};
 
 const card = 'rounded-xl border border-subtle bg-elevated p-card shadow-xs';
 const toggle =
@@ -57,7 +52,7 @@ export function ChartFrame({
   fallbackWidth = 480,
   children,
 }: ChartFrameProps) {
-  const text = { ...defaultLabels, ...labels };
+  const text = chartLabels(labels);
   const id = useId();
   const [isOpen, setOpen] = useState(false);
   const [ref, width] = useElementWidth<HTMLDivElement>(fallbackWidth);
