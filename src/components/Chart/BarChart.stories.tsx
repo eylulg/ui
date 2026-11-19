@@ -48,6 +48,17 @@ export const ManyCategories: Story = {
     })),
   },
 };
+/** Eight stacked series: six colours, then two in the muted colour. */
+export const ManySeries: Story = {
+  args: {
+    grouping: 'stacked',
+    series: Array.from({ length: 8 }, (_, i) => ({
+      id: `s${i}`,
+      label: `Series ${i + 1}`,
+      values: features.map((_, c) => 10 + ((i * 7 + c * 5) % 17)),
+    })),
+  },
+};
 export const GermanLocale: Story = {
   args: {
     locale: 'de-DE',

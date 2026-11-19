@@ -67,11 +67,11 @@ const tones: Record<HeatGridTone, { cell: string; ink: string; icon: IconCompone
 const lightInk = 'text-chart-seq-ink-dark dark:text-chart-seq-ink-light';
 const darkInk = 'text-chart-seq-ink-light dark:text-chart-seq-ink-dark';
 const steps = [
-  `bg-chart-seq-1 ${lightInk}`,
-  `bg-chart-seq-2 ${lightInk}`,
-  `bg-chart-seq-3 ${lightInk}`,
-  `bg-chart-seq-4 ${darkInk}`,
-  `bg-chart-seq-5 ${darkInk}`,
+  cx('bg-chart-seq-1', lightInk),
+  cx('bg-chart-seq-2', lightInk),
+  cx('bg-chart-seq-3', lightInk),
+  cx('bg-chart-seq-4', darkInk),
+  cx('bg-chart-seq-5', darkInk),
 ];
 
 const cell =
