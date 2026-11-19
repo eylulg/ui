@@ -55,7 +55,7 @@ export function Switch({
       >
         <span
           className={cx(
-            'rounded-full bg-white shadow-sm transition-transform motion-reduce:transition-none',
+            'rounded-full bg-white shadow-sm transition-transform group-data-selected:bg-fg-on-solid motion-reduce:transition-none',
             sizes[size].thumb,
           )}
         />

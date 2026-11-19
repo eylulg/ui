@@ -181,7 +181,7 @@
   {
     "name": "Stylesheet",
     "path": "dist/styles.css",
-    "limit": "9.1 kB"
+    "limit": "9.5 kB"
   },
   {
     "name": "One theme variant file",
@@ -191,11 +191,11 @@
   {
     "name": "Plain tokens (no Tailwind)",
     "path": "dist/tokens.css",
-    "limit": "1.8 kB"
+    "limit": "2.1 kB"
   },
   {
-    "name": "Optional Inter loader",
+    "name": "Optional font loader, five families",
     "path": "dist/fonts.css",
-    "limit": "100 B"
+    "limit": "160 B"
   }
 ]

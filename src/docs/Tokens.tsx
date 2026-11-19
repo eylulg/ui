@@ -1,9 +1,26 @@
 const steps = ['25', '50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
 const scales = ['brand', 'gray', 'success', 'warning', 'error'] as const;
+const seeds = ['brand-seed', 'brand-seed-dark'] as const;
 
 export function ColorScales() {
   return (
     <div className='not-prose my-6 flex flex-col gap-4'>
+      <div className='flex flex-col gap-1'>
+        <span className='font-mono text-xs text-secondary'>--color-brand-seed, -seed-dark</span>
+        <div className='grid grid-cols-6 gap-1 sm:grid-cols-12'>
+          {seeds.map((seed) => (
+            <div key={seed} className='flex flex-col gap-1'>
+              <div
+                className='h-10 rounded-sm ring-1 ring-default ring-inset'
+                style={{ background: `var(--color-${seed})` }}
+              />
+              <span className='text-center font-mono text-xs text-tertiary'>
+                {seed === 'brand-seed' ? 'light' : 'dark'}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
       {scales.map((scale) => (
         <div key={scale} className='flex flex-col gap-1'>
           <span className='font-mono text-xs text-secondary'>--color-{scale}-*</span>
@@ -36,8 +53,8 @@ export const semanticTokens: SemanticToken[] = [
   {
     utility: 'text-primary',
     variable: '--ui-text-primary',
-    light: 'gray-900',
-    dark: 'gray-50',
+    light: '#2c2521, ink',
+    dark: '#f3ede5, cream',
     property: 'color',
   },
   {
@@ -64,8 +81,8 @@ export const semanticTokens: SemanticToken[] = [
   {
     utility: 'text-brand',
     variable: '--ui-text-brand',
-    light: 'brand-700',
-    dark: 'brand-300',
+    light: 'seed, 20% toward black',
+    dark: 'dark seed',
     property: 'color',
   },
   {
@@ -79,63 +96,63 @@ export const semanticTokens: SemanticToken[] = [
     utility: 'text-on-solid',
     variable: '--ui-text-on-solid',
     light: 'white',
-    dark: 'white',
+    dark: 'gray-950',
     property: 'color',
   },
   {
     utility: 'bg-primary',
     variable: '--ui-bg-primary',
-    light: 'white',
-    dark: 'gray-950',
+    light: 'gray-25, card',
+    dark: 'gray-900, card',
     property: 'background',
   },
   {
     utility: 'bg-secondary',
     variable: '--ui-bg-secondary',
-    light: 'gray-50',
-    dark: 'gray-900',
+    light: 'gray-100, sand page',
+    dark: 'gray-950, brown page',
     property: 'background',
   },
   {
     utility: 'bg-tertiary',
     variable: '--ui-bg-tertiary',
-    light: 'gray-100',
+    light: 'gray-200',
     dark: 'gray-800',
     property: 'background',
   },
   {
     utility: 'bg-elevated',
     variable: '--ui-bg-elevated',
-    light: 'white',
-    dark: 'gray-900',
+    light: 'gray-25',
+    dark: '#312b26',
     property: 'background',
   },
   {
     utility: 'bg-brand-solid',
     variable: '--ui-bg-brand-solid',
-    light: 'brand-600',
-    dark: 'brand-600',
+    light: 'seed',
+    dark: 'dark seed',
     property: 'background',
   },
   {
     utility: 'bg-brand-subtle',
     variable: '--ui-bg-brand-subtle',
-    light: 'brand-50',
-    dark: 'brand-600 at 18%',
+    light: 'seed 24% on #fbf7f1',
+    dark: 'seed 32% on #211d1a',
     property: 'background',
   },
   {
     utility: 'bg-error-solid',
     variable: '--ui-bg-error-solid',
     light: 'error-600',
-    dark: 'error-600',
+    dark: 'error-300',
     property: 'background',
   },
   {
     utility: 'border-default',
     variable: '--ui-border-default',
     light: 'gray-300',
-    dark: 'gray-700',
+    dark: 'gray-800',
     property: 'border',
   },
   {
@@ -149,14 +166,14 @@ export const semanticTokens: SemanticToken[] = [
     utility: 'border-subtle',
     variable: '--ui-border-subtle',
     light: 'gray-200',
-    dark: 'gray-800',
+    dark: '#36302b',
     property: 'border',
   },
   {
     utility: 'border-brand',
     variable: '--ui-border-brand',
-    light: 'brand-600',
-    dark: 'brand-400',
+    light: 'seed',
+    dark: 'dark seed',
     property: 'border',
   },
   {
@@ -169,8 +186,8 @@ export const semanticTokens: SemanticToken[] = [
   {
     utility: 'ring-focus / outline-focus',
     variable: '--ui-border-focus',
-    light: 'brand-500',
-    dark: 'brand-400',
+    light: 'seed',
+    dark: 'dark seed',
     property: 'border',
   },
   {
@@ -183,8 +200,8 @@ export const semanticTokens: SemanticToken[] = [
   {
     utility: 'text-fg-brand',
     variable: '--ui-fg-brand',
-    light: 'brand-600',
-    dark: 'brand-400',
+    light: 'seed',
+    dark: 'dark seed',
     property: 'color',
   },
   {

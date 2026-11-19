@@ -237,11 +237,15 @@ Library components need their classes, so an app on path C that also renders the
 
 ## Fonts
 
-Every variant names Inter and falls back to the system font, so nothing downloads by default. To
-load Inter, install the optional peer and import `fonts.css` before the theme:
+Every variant names its fonts and falls back to the system font, so nothing downloads by default.
+Inter is the reading font everywhere; the heading font comes from the variant's pairing (Manrope,
+Inter Tight or Newsreader), and code uses JetBrains Mono. To load them, install the optional peers
+and import `fonts.css` before the theme:
 
 ```bash
-npm install @fontsource-variable/inter
+npm install @fontsource-variable/inter @fontsource-variable/manrope \
+  @fontsource-variable/inter-tight @fontsource-variable/newsreader \
+  @fontsource-variable/jetbrains-mono
 ```
 
 ```css
@@ -250,36 +254,44 @@ npm install @fontsource-variable/inter
 @import '@eylulg/ui/themes/workspace.css';
 ```
 
-`fonts.css` imports the variable font from `@fontsource-variable/inter` and sets `--font-inter` to
-it. The theme's font stacks start with `var(--font-inter, 'Inter')`, so they pick the bundled font
-up without any other change, and keep working with a locally installed Inter when you skip it.
+`fonts.css` imports the variable fonts and sets `--font-inter`, `--font-manrope`,
+`--font-inter-tight`, `--font-newsreader` and `--font-jetbrains-mono`. The theme's stacks start
+with those, so they pick the bundled fonts up without any other change. A browser downloads only
+the faces a page uses. An app that self-hosts a subset can skip `fonts.css` and set the same
+variables to its own `@font-face` families.
 
 ## Theme variants
 
-| Variant          | Project               | Brand   | Gray    | Radius | Density     |
-| ---------------- | --------------------- | ------- | ------- | ------ | ----------- |
-| `portfolio`      | Portfolio             | indigo  | slate   | large  | comfortable |
-| `workspace`      | Workspace             | blue    | neutral | small  | compact     |
-| `review`         | Review Companion      | teal    | slate   | medium | comfortable |
-| `control-room`   | Agent workflows       | amber   | zinc    | small  | compact     |
-| `watchlist`      | Watchlist             | rose    | stone   | large  | comfortable |
-| `tokens`         | Tokens to Tailwind    | violet  | neutral | medium | comfortable |
-| `plain-language` | Plain Language add-in | cyan    | slate   | medium | compact     |
-| `sudoku`         | Sudoku                | green   | neutral | medium | comfortable |
-| `assistant`      | Assistant             | magenta | stone   | large  | comfortable |
-
-`control-room` also moves the status warning scale from the base orange amber to yellow (hue 95), so
-brand and warning badges do not look alike. Every contrast pair stays AA. Other variants keep the
-base warning scale.
+| Variant          | Project               | Colour     | Font pairing | Text size | Density     |
+| ---------------- | --------------------- | ---------- | ------------ | --------- | ----------- |
+| `portfolio`      | Portfolio             | Clay       | Friendly     | default   | comfortable |
+| `workspace`      | Workspace             | Slate blue | Product      | compact   | compact     |
+| `review`         | Review Companion      | Eucalyptus | Technical    | compact   | comfortable |
+| `control-room`   | Agent Workflows       | Ink        | Product      | compact   | compact     |
+| `watchlist`      | Watchlist             | Rose       | Editorial    | default   | comfortable |
+| `tokens`         | Tokens to Tailwind    | Iris       | Product      | default   | comfortable |
+| `plain-language` | Plain Language Add-in | Sea glass  | Friendly     | default   | compact     |
+| `sudoku`         | Sudoku                | Sage       | Friendly     | default   | comfortable |
+| `assistant`      | Assistant Studio      | Plum       | Friendly     | default   | comfortable |
 
 Import exactly one variant file after `theme.css`. To use a variant for part of a page only, put
 `data-ui-variant="review"` on a container: every variant file also applies under that attribute.
-The same matrix is available to scripts and tools as typed data:
+To switch between variants at runtime, import `@eylulg/ui/themes/all.css` instead, which holds
+all nine under the attribute only, and set `data-ui-variant` on `<html>`. The same matrix is
+available to scripts and tools as typed data:
 
 ```ts
 import { variants } from '@eylulg/ui/themes';
-variants.workspace.density; // 'compact'
+variants.workspace.seed.light; // '#3f6fb6'
 ```
+
+## Text size
+
+Text size is separate from density. Compact has a 14px body, default a 16px body, and each
+variant picks one. `TextSizeToggle` from `@eylulg/ui/chrome` sits next to `ThemeToggle` and lets
+visitors switch; it writes `data-ui-text` on `<html>` and remembers the choice under
+`eylulg-ui-text-size` (`textSizeStorageKey`). `themeInitScript` applies a stored choice before
+first paint. `useTextSize` gives the same state to a settings page.
 
 ## Dark mode and the theme toggle
 

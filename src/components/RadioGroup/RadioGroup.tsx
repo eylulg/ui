@@ -72,7 +72,7 @@ export function Radio({ children, hint, className, ...props }: RadioProps) {
           'group-data-focus-visible:outline-2 group-data-focus-visible:outline-offset-2 group-data-focus-visible:outline-focus',
         )}
       >
-        <span className='size-1.5 rounded-full bg-white opacity-0 group-data-selected:opacity-100' />
+        <span className='size-1.5 rounded-full bg-fg-on-solid opacity-0 group-data-selected:opacity-100' />
       </span>
       {(children || hint) && (
         <span className='flex flex-col'>

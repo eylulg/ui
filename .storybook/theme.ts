@@ -1,34 +1,51 @@
 import { create } from 'storybook/theming';
 
-// The library's own colours, from src/styles/theme.css: the gray scale, the
-// Aegean brand blue and Inter.
-const neutral = {
-  25: '#fcfcfd',
-  50: '#f8f9fb',
-  100: '#f1f3f6',
-  200: '#e3e7ed',
-  300: '#cdd3dc',
-  400: '#98a1b0',
-  500: '#697386',
-  600: '#4d5668',
-  700: '#384152',
-  800: '#232a37',
-  900: '#151a24',
-  950: '#0b0e14',
+// The library's own colours, from src/styles/theme.css: the warm frame, the
+// Clay brand and the logo's colours, which stay the same in every project.
+const frame = {
+  light: {
+    page: '#f7f1e8',
+    surface: '#fffcf8',
+    border: '#e8dfd0',
+    text: '#2c2521',
+    muted: '#6c625a',
+  },
+  dark: {
+    page: '#211d1a',
+    surface: '#2a2521',
+    border: '#3f3832',
+    text: '#f3ede5',
+    muted: '#bdb2a5',
+  },
 };
-const brand = { 400: '#6690f8', 500: '#3f6cf0', 600: '#2a4fd6', 700: '#223fb0' };
+const clay = { light: '#b8583e', dark: '#e8a58c' };
+const control = { light: '#efe7da', dark: '#3f3832' };
 
 const fontBase = '"Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif';
-const fontCode = 'ui-monospace, "SF Mono", Menlo, Consolas, monospace';
+const fontCode = '"JetBrains Mono Variable", "JetBrains Mono", ui-monospace, Menlo, monospace';
 
-// The "eg" mark from BrandMark, then the package name, as one image.
-function brandImage(text: string) {
+// The brush logo from BrandLogo, then the package name, as one image.
+function brandImage(mode: 'light' | 'dark') {
+  const { text } = frame[mode];
   const svg =
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 32" width="150" height="32">' +
-    `<rect width="32" height="32" rx="8" fill="${brand[600]}"/>` +
-    '<path fill="#fff" d="M14.6 19.4h-6.5c.2 1.6 1.4 2.5 3 2.5 1.1 0 2-.4 2.6-1.2l.6.6c-.8 1-2 1.6-3.3 1.6-2.4 0-4.2-1.7-4.2-4.3s1.7-4.3 4-4.3c2.3 0 3.8 1.7 3.8 4.2v.9Zm-6.5-1h5.2c-.1-1.4-1.1-2.3-2.5-2.3s-2.5.9-2.7 2.3Z"/>' +
-    '<path fill="#fff" d="M24.9 14.5v7.8c0 2.6-1.6 4-4 4-1.4 0-2.6-.4-3.5-1.2l.6-.8c.8.7 1.8 1 2.9 1 1.8 0 2.8-.9 2.8-2.9v-1.1c-.6.9-1.7 1.4-2.9 1.4-2.2 0-3.9-1.6-3.9-3.9s1.7-3.9 3.9-3.9c1.2 0 2.3.5 2.9 1.5v-1.4h1.2Zm-1.2 3.8c0-1.7-1.2-2.9-2.8-2.9s-2.8 1.2-2.8 2.9 1.2 2.9 2.8 2.9 2.8-1.2 2.8-2.9Z"/>' +
-    `<text x="42" y="22" font-family="Inter, system-ui, sans-serif" font-size="17" font-weight="600" fill="${text}">@eylulg/ui</text>` +
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 36" width="170" height="36">' +
+    '<g transform="scale(0.18)"><g transform="translate(14 8) scale(0.9)">' +
+    `<g fill="${clay[mode]}">` +
+    '<g transform="translate(128 46) skewX(-32) translate(-128 -46)">' +
+    '<path d="M128 46 C110 40 88 46 86 62 C84 76 96 84 106 88 C94 82 88 74 90 63 C93 50 110 46 128 50 Z"/>' +
+    '<path d="M106 88 C80 96 70 124 80 150 C90 172 116 184 146 178 C116 182 92 170 86 150 C78 126 88 102 106 88 Z"/>' +
+    '</g>' +
+    '<path d="M146 80 C134 66 108 72 108 96 C108 118 128 128 146 120 C130 126 114 116 113 96 C112 76 132 70 146 80 Z"/>' +
+    '<path d="M146 120 C149 112 148 106 146 104 L132 104 C138 105 142 106 144 108 C145 112 146 116 146 120 Z"/>' +
+    '</g>' +
+    `<g fill="${text}">` +
+    '<path d="M128 48 C124 34 126 22 134 12 C131 24 131 36 132 47 Z"/>' +
+    '<path d="M134 12 C138 24 142 34 147 42 C141 36 137 26 134 12 Z"/>' +
+    '<path d="M145 40 C160 58 176 84 188 112 C174 86 158 62 145 46 Z"/>' +
+    '<path d="M188 112 C195 126 184 134 170 132 C182 129 190 123 188 112 Z"/>' +
+    '<path d="M170 132 C163 134 156 133 152 129 C158 131 164 132 170 132 Z"/>' +
+    '</g></g></g>' +
+    `<text x="44" y="24" font-family="Manrope, Inter, system-ui, sans-serif" font-size="17" font-weight="700" fill="${text}">@eylulg/ui</text>` +
     '</svg>';
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
@@ -39,58 +56,38 @@ const shared = {
   brandTarget: '_blank',
   fontBase,
   fontCode,
-  appBorderRadius: 8,
-  inputBorderRadius: 8,
+  appBorderRadius: 14,
+  inputBorderRadius: 10,
 };
 
-export const lightTheme = create({
-  ...shared,
-  base: 'light',
-  brandImage: brandImage(neutral[900]),
-  colorPrimary: brand[600],
-  colorSecondary: brand[600],
-  appBg: neutral[50],
-  appContentBg: '#ffffff',
-  appPreviewBg: '#ffffff',
-  appBorderColor: neutral[200],
-  textColor: neutral[900],
-  textInverseColor: '#ffffff',
-  textMutedColor: neutral[600],
-  barBg: '#ffffff',
-  barTextColor: neutral[600],
-  barHoverColor: brand[600],
-  barSelectedColor: brand[600],
-  buttonBg: neutral[100],
-  buttonBorder: neutral[300],
-  booleanBg: neutral[100],
-  booleanSelectedBg: '#ffffff',
-  inputBg: '#ffffff',
-  inputBorder: neutral[300],
-  inputTextColor: neutral[900],
-});
+function theme(mode: 'light' | 'dark') {
+  const { page, surface, border, text, muted } = frame[mode];
+  return create({
+    ...shared,
+    base: mode,
+    brandImage: brandImage(mode),
+    colorPrimary: clay[mode],
+    colorSecondary: clay[mode],
+    appBg: page,
+    appContentBg: surface,
+    appPreviewBg: page,
+    appBorderColor: border,
+    textColor: text,
+    textInverseColor: page,
+    textMutedColor: muted,
+    barBg: surface,
+    barTextColor: muted,
+    barHoverColor: clay[mode],
+    barSelectedColor: clay[mode],
+    buttonBg: control[mode],
+    buttonBorder: border,
+    booleanBg: control[mode],
+    booleanSelectedBg: surface,
+    inputBg: surface,
+    inputBorder: border,
+    inputTextColor: text,
+  });
+}
 
-export const darkTheme = create({
-  ...shared,
-  base: 'dark',
-  brandImage: brandImage(neutral[50]),
-  colorPrimary: brand[500],
-  colorSecondary: brand[400],
-  appBg: neutral[900],
-  appContentBg: neutral[950],
-  appPreviewBg: neutral[950],
-  appBorderColor: neutral[800],
-  textColor: neutral[50],
-  textInverseColor: neutral[900],
-  textMutedColor: neutral[300],
-  barBg: neutral[900],
-  barTextColor: neutral[300],
-  barHoverColor: brand[400],
-  barSelectedColor: brand[400],
-  buttonBg: neutral[800],
-  buttonBorder: neutral[700],
-  booleanBg: neutral[800],
-  booleanSelectedBg: neutral[900],
-  inputBg: neutral[900],
-  inputBorder: neutral[700],
-  inputTextColor: neutral[50],
-});
+export const lightTheme = theme('light');
+export const darkTheme = theme('dark');

@@ -32,7 +32,7 @@ export const LongTrailWraps: Story = {
   render: () => (
     <div className='max-w-xs'>
       <Breadcrumbs>
-        <BreadcrumbItem href='#'>Agent workflows</BreadcrumbItem>
+        <BreadcrumbItem href='#'>Agent Workflows</BreadcrumbItem>
         <BreadcrumbItem href='#'>Production cluster</BreadcrumbItem>
         <BreadcrumbItem href='#'>Scheduled runs</BreadcrumbItem>
         <BreadcrumbItem>Nightly report</BreadcrumbItem>

@@ -1,5 +1,7 @@
 @import '../src/styles/fonts.css';
 @import '../src/styles/index.css';
+/* Every variant scoped to [data-ui-variant], so the toolbar and the variant pages can switch them. */
+@import '../src/styles/themes/all.css';
 
 /* Stories and docs use these utilities; the published stylesheet does not. */
 @source '../src/**/*.stories.tsx';
@@ -7,5 +9,5 @@
 @source '../src/docs';
 
 body {
-  @apply bg-primary font-sans text-primary antialiased;
+  @apply bg-secondary font-sans text-primary antialiased;
 }

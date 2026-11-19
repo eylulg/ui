@@ -42,6 +42,8 @@ export interface CardHeaderProps {
   /** Secondary actions, such as an IconButton or a DropdownMenu. Stay reachable in an interactive card. */
   actions?: ReactNode;
   headingLevel?: CardHeadingLevel;
+  /** `lg` for a few large cards, such as featured projects on a home page. */
+  size?: 'md' | 'lg';
   className?: string;
 }
 
@@ -53,6 +55,11 @@ export interface CardSlotProps {
 const CardActionContext = createContext<CardAction>({});
 
 const headings = { 2: 'h2', 3: 'h3', 4: 'h4' } as const;
+
+const titleSizes = {
+  md: 'font-display text-md font-semibold text-primary',
+  lg: 'font-display text-xl font-bold text-primary',
+} as const;
 
 const surface =
   'relative flex flex-col rounded-xl border border-subtle bg-elevated text-primary shadow-xs';
@@ -168,16 +175,21 @@ export function CardHeader({
   description,
   actions,
   headingLevel = 3,
+  size = 'md',
   className,
 }: CardHeaderProps) {
   const Heading = headings[headingLevel];
   return (
     <div className={cx('flex items-start gap-3', className)}>
       <div className='flex min-w-0 flex-1 flex-col gap-1'>
-        <Heading className='font-display text-md font-semibold text-primary'>
+        <Heading className={titleSizes[size]}>
           <CardTitle>{title}</CardTitle>
         </Heading>
-        {description && <p className='text-sm text-tertiary'>{description}</p>}
+        {description && (
+          <p className={size === 'lg' ? 'text-md text-tertiary' : 'text-sm text-tertiary'}>
+            {description}
+          </p>
+        )}
       </div>
       {actions && <div className={headerActions}>{actions}</div>}
     </div>

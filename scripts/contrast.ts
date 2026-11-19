@@ -29,41 +29,25 @@ const chartSeries = ['chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5', 'cha
 /** Badge hues beyond brand, success, warning and error. */
 const extraHues = ['blue', 'purple', 'pink', 'orange', 'indigo'];
 
+/** Every surface text and marks can sit on: the card, the sand page and popovers. */
+const surfaces = ['bg-primary', 'bg-secondary', 'bg-elevated'];
+
 /** Foreground token, the surfaces it must work on, and the minimum ratio. */
 export const pairs: Array<{ fg: string; bg: string[]; min: number; modes?: Mode[] }> = [
-  {
-    fg: 'text-primary',
-    bg: ['bg-primary', 'bg-secondary', 'bg-tertiary', 'bg-elevated'],
-    min: 4.5,
-  },
-  {
-    fg: 'text-secondary',
-    bg: ['bg-primary', 'bg-secondary', 'bg-tertiary', 'bg-elevated'],
-    min: 4.5,
-  },
-  {
-    fg: 'text-tertiary',
-    bg: ['bg-primary', 'bg-secondary', 'bg-tertiary', 'bg-elevated'],
-    min: 4.5,
-  },
+  { fg: 'text-primary', bg: [...surfaces, 'bg-tertiary'], min: 4.5 },
+  { fg: 'text-secondary', bg: [...surfaces, 'bg-tertiary'], min: 4.5 },
+  { fg: 'text-tertiary', bg: [...surfaces, 'bg-tertiary'], min: 4.5 },
   { fg: 'text-placeholder', bg: ['bg-primary'], min: 4.5 },
-  {
-    fg: 'text-brand',
-    bg: ['bg-primary', 'bg-secondary', 'bg-elevated', 'bg-brand-subtle'],
-    min: 4.5,
-  },
-  { fg: 'text-error', bg: ['bg-primary', 'bg-elevated', 'bg-error-subtle'], min: 4.5 },
-  { fg: 'text-success', bg: ['bg-primary', 'bg-elevated', 'bg-success-subtle'], min: 4.5 },
-  { fg: 'text-warning', bg: ['bg-primary', 'bg-elevated', 'bg-warning-subtle'], min: 4.5 },
+  { fg: 'text-brand', bg: [...surfaces, 'bg-brand-subtle'], min: 4.5 },
+  { fg: 'text-primary', bg: ['bg-brand-subtle'], min: 4.5 },
+  { fg: 'text-error', bg: [...surfaces, 'bg-error-subtle'], min: 4.5 },
+  { fg: 'text-success', bg: [...surfaces, 'bg-success-subtle'], min: 4.5 },
+  { fg: 'text-warning', bg: [...surfaces, 'bg-warning-subtle'], min: 4.5 },
   ...extraHues.flatMap((hue) => [
-    {
-      fg: `text-${hue}`,
-      bg: ['bg-primary', 'bg-elevated', `bg-${hue}-subtle`],
-      min: 4.5,
-    },
-    { fg: `fg-${hue}`, bg: ['bg-primary', 'bg-elevated'], min: 3 },
+    { fg: `text-${hue}`, bg: [...surfaces, `bg-${hue}-subtle`], min: 4.5 },
+    { fg: `fg-${hue}`, bg: surfaces, min: 3 },
   ]),
-  // Solid buttons: the resting, hover and pressed fills all carry white text.
+  // Solid fills: the resting and hover fills carry white text in light mode and the page colour in dark.
   {
     fg: 'text-on-solid',
     bg: ['bg-brand-solid', 'bg-brand-solid-hover', 'bg-error-solid', 'bg-error-solid-hover'],
@@ -75,16 +59,15 @@ export const pairs: Array<{ fg: string; bg: string[]; min: number; modes?: Mode[
     min: 4.5,
   },
   { fg: 'text-inverse', bg: ['bg-inverse'], min: 4.5 },
-  // Non text: icons, control outlines and focus rings need 3:1 (WCAG 1.4.11).
-  { fg: 'fg-brand', bg: ['bg-primary', 'bg-elevated'], min: 3 },
-  { fg: 'border-control', bg: ['bg-primary', 'bg-elevated'], min: 3 },
-  { fg: 'border-focus', bg: ['bg-primary', 'bg-elevated'], min: 3 },
+  // Non text: icons, solid fills, control outlines and focus rings need 3:1 (WCAG 1.4.11).
+  { fg: 'fg-brand', bg: surfaces, min: 3 },
+  { fg: 'bg-brand-solid', bg: surfaces, min: 3 },
+  { fg: 'border-control', bg: surfaces, min: 3 },
+  { fg: 'border-focus', bg: [...surfaces, 'bg-brand-subtle'], min: 3 },
+  { fg: 'logo-letters', bg: surfaces, min: 3 },
+  { fg: 'logo-lines', bg: surfaces, min: 3 },
   // Chart marks are non text: every series colour needs 3:1 on every surface a chart can sit on.
-  ...[...chartSeries, 'chart-muted'].map((fg) => ({
-    fg,
-    bg: ['bg-primary', 'bg-secondary', 'bg-elevated'],
-    min: 3,
-  })),
+  ...[...chartSeries, 'chart-muted'].map((fg) => ({ fg, bg: surfaces, min: 3 })),
   // Heat grid cells print their value in one of two inks, chosen by the step.
   {
     fg: 'chart-seq-ink-dark',
@@ -104,11 +87,12 @@ export const pairs: Array<{ fg: string; bg: string[]; min: number; modes?: Mode[
 
 const themeCss = readFileSync(resolve(import.meta.dirname, '../src/styles/theme.css'), 'utf8');
 
+/** The primitive colours of theme.css: the scales and the brand seeds. */
 function baseScales(): Record<string, string> {
-  const out: Record<string, string> = { white: '#ffffff', black: '#000000' };
-  for (const match of themeCss.matchAll(/--color-([a-z]+-\d+):\s*(#[0-9a-f]{3,8});/gi)) {
+  const out: Record<string, string> = {};
+  for (const match of themeCss.matchAll(/--color-([a-z]+-(?:\d+|seed|seed-dark)):\s*([^;]+);/g)) {
     const [, name = '', value = ''] = match;
-    out[name] = value;
+    out[name] = value.trim();
   }
   return out;
 }
@@ -128,26 +112,32 @@ function semanticBlock(mode: Mode): Record<string, string> {
 function palette(variant: VariantName | 'base'): Record<string, string> {
   const colors = baseScales();
   if (variant === 'base') return colors;
-  const { brand, gray, warning } = variants[variant].colors;
-  for (const [step, value] of Object.entries(brand)) colors[`brand-${step}`] = value;
-  for (const [step, value] of Object.entries(gray)) colors[`gray-${step}`] = value;
-  for (const [step, value] of Object.entries(warning ?? {})) colors[`warning-${step}`] = value;
+  const { colors: scales, seed } = variants[variant];
+  for (const [step, value] of Object.entries(scales.brand)) colors[`brand-${step}`] = value;
+  colors['brand-seed'] = seed.light;
+  colors['brand-seed-dark'] = seed.dark;
   return colors;
 }
 
+const mixPattern = /^color-mix\(in (oklab|oklch), (.+?) (\d+)%, (.+)\)$/;
+
+/**
+ * Resolves a token value to a colour: a hex or named colour, a reference to a
+ * primitive, or a color-mix of two of those. A mix with transparent is laid
+ * over the backdrop, as the browser paints it on the page surface.
+ */
 function resolveValue(value: string, colors: Record<string, string>, backdrop?: Color): Color {
-  const ref = /^var\(--color-([a-z]+(?:-\d+)?)\)$/.exec(value);
+  const ref = /^var\(--color-([a-z]+-[\w-]+)\)$/.exec(value);
   if (ref) return resolveValue(colors[ref[1] ?? ''] ?? '', colors);
-  const mix =
-    /^color-mix\(in oklab, (?:var\(--color-([a-z]+-\d+)\)|(#[0-9a-f]{6})) (\d+)%, transparent\)$/i.exec(
-      value,
-    );
+  const mix = mixPattern.exec(value);
   if (mix) {
-    if (!backdrop) throw new Error(`A translucent token needs a backdrop: ${value}`);
-    const top = mix[2]
-      ? resolveValue(mix[2], colors)
-      : resolveValue(colors[mix[1] ?? ''] ?? '', colors);
-    return interpolate([backdrop, top], 'oklab')(Number(mix[3]) / 100);
+    const [, space, first = '', percent = '0', second = ''] = mix;
+    const top = resolveValue(first, colors);
+    if (second === 'transparent' && !backdrop) {
+      throw new Error(`A translucent token needs a backdrop: ${value}`);
+    }
+    const base = second === 'transparent' && backdrop ? backdrop : resolveValue(second, colors);
+    return interpolate([base, top], space === 'oklch' ? 'oklch' : 'oklab')(Number(percent) / 100);
   }
   const color = parse(value);
   if (!color) throw new Error(`Cannot parse colour "${value}"`);
@@ -163,10 +153,6 @@ export function checkVariant(variant: VariantName | 'base'): ContrastResult[] {
   const results: ContrastResult[] = [];
   for (const mode of ['light', 'dark'] as const) {
     const tokens = { ...semanticBlock('light'), ...(mode === 'dark' ? semanticBlock('dark') : {}) };
-    if (mode === 'dark' && variant !== 'base') {
-      for (const [token, value] of Object.entries(variants[variant].dark ?? {}))
-        tokens[token] = value;
-    }
     const surface = resolveValue(tokens['bg-primary'] ?? '', colors);
     const get = (token: string) => {
       const value = tokens[token];

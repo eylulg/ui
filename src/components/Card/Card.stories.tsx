@@ -44,6 +44,22 @@ export const MediaCard: Story = {
   ),
 };
 
+/** `size="lg"` on the header for a few large cards, such as featured projects. */
+export const LargeTitle: Story = {
+  render: () => (
+    <Card padding='none' href='#workspace' className='w-96'>
+      <div aria-hidden='true' className='h-36 bg-brand-subtle' />
+      <div className='p-card'>
+        <CardHeader
+          size='lg'
+          title='Workspace'
+          description='A keyboard-first issue tracker with optimistic updates and a command palette.'
+        />
+      </div>
+    </Card>
+  ),
+};
+
 export const WithActionsAndFooter: Story = {
   render: () => (
     <Card>
