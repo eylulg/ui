@@ -28,7 +28,7 @@ const meta = {
     ],
     actions: (
       <>
-        <ProjectSwitcher currentId="review-companion" />
+        <ProjectSwitcher currentId='review-companion' />
         <ThemeToggle />
       </>
     ),
@@ -44,11 +44,11 @@ export const WithoutLinks: Story = { args: { links: [] } };
 export const CentreSlotAndCompactTheme: Story = {
   args: {
     center: (
-      <Button variant="secondary" iconLeading={Search} size="sm">
+      <Button variant='secondary' iconLeading={Search} size='sm'>
         Search
       </Button>
     ),
-    actions: <ProjectSwitcher currentId="review-companion" />,
+    actions: <ProjectSwitcher currentId='review-companion' />,
     compactActions: <ThemeToggle compact />,
   },
 };

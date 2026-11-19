@@ -21,13 +21,13 @@ describe('Stat', () => {
     { trend: 'down' as const, words: 'Down' },
     { trend: 'neutral' as const, words: 'No change' },
   ])('states the $trend trend in words', ({ trend, words }) => {
-    render(<Stat label="Open issues" value="42" delta={{ value: '12%', trend }} />);
+    render(<Stat label='Open issues' value='42' delta={{ value: '12%', trend }} />);
 
     expect(screen.getByText(words)).toBeInTheDocument();
   });
 
   it('pairs the label with its value and detail as a term and its descriptions', () => {
-    render(<Stat label="Reviewed" value="128" detail="of 200 pull requests" size="sm" />);
+    render(<Stat label='Reviewed' value='128' detail='of 200 pull requests' size='sm' />);
 
     expect(screen.getByRole('term')).toHaveTextContent('Reviewed');
     expect(screen.getAllByRole('definition').map((item) => item.textContent)).toEqual([
@@ -50,17 +50,17 @@ describe('Stat', () => {
       <div>
         <Stat
           isCard
-          label="Deploys"
-          value="128"
+          label='Deploys'
+          value='128'
           delta={{ value: '12%', trend: 'up', label: 'vs last week' }}
-          sparkline={<Sparkline values={[4, 6, 5, 8, 9, 12]} aria-label="Deploys per day" />}
+          sparkline={<Sparkline values={[4, 6, 5, 8, 9, 12]} aria-label='Deploys per day' />}
         />
         <Stat
-          label="Error rate"
-          value="0.4%"
+          label='Error rate'
+          value='0.4%'
           delta={{ value: '0.1 pt', trend: 'down', isPositive: true }}
         />
-        <Stat label="Latency" value="42 ms" delta={{ value: '0 ms', trend: 'neutral' }} />
+        <Stat label='Latency' value='42 ms' delta={{ value: '0 ms', trend: 'neutral' }} />
       </div>
     ));
   });

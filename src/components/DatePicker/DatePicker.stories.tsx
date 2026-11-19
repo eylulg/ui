@@ -27,15 +27,15 @@ export const MinimumToday: Story = {
 export const Range: Story = {
   render: () => (
     <DateRangePicker
-      label="Sprint"
-      hint="Two weeks is typical."
+      label='Sprint'
+      hint='Two weeks is typical.'
       defaultValue={{ start: new CalendarDate(2026, 11, 9), end: new CalendarDate(2026, 11, 20) }}
     />
   ),
 };
 
 export const RangeWithError: Story = {
-  render: () => <DateRangePicker label="Sprint" errorMessage="End after the start." />,
+  render: () => <DateRangePicker label='Sprint' errorMessage='End after the start.' />,
 };
 
 export const KeyboardCalendar: Story = {

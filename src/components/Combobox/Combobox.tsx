@@ -77,15 +77,15 @@ export function Combobox<T extends object>({
       {label && <FieldLabel>{label}</FieldLabel>}
       <Group className={field}>
         <Input placeholder={placeholder} className={input} />
-        {isLoading && <Spinner size="sm" label={loadingLabel} />}
+        {isLoading && <Spinner size='sm' label={loadingLabel} />}
         <AriaButton className={toggle}>
-          <ChevronDown aria-hidden="true" className="size-4" />
+          <ChevronDown aria-hidden='true' className='size-4' />
         </AriaButton>
       </Group>
       {hint && !errorMessage && <FieldHint>{hint}</FieldHint>}
       <FieldErrorMessage>{errorMessage}</FieldErrorMessage>
       <Popover offset={4} className={cx(popoverSurface, 'w-(--trigger-width)')}>
-        <ListBox renderEmptyState={renderEmptyState} className="max-h-72 outline-none">
+        <ListBox renderEmptyState={renderEmptyState} className='max-h-72 outline-none'>
           {children}
         </ListBox>
       </Popover>
@@ -110,12 +110,12 @@ export function ComboboxItem({ children, description, className, ...props }: Com
       )}
     >
       {description ? (
-        <span className="flex min-w-0 flex-1 flex-col">
-          <span className="truncate">{children}</span>
-          <span className="truncate text-xs text-tertiary">{description}</span>
+        <span className='flex min-w-0 flex-1 flex-col'>
+          <span className='truncate'>{children}</span>
+          <span className='truncate text-xs text-tertiary'>{description}</span>
         </span>
       ) : (
-        <Text slot="label" className="min-w-0 flex-1 truncate">
+        <Text slot='label' className='min-w-0 flex-1 truncate'>
           {children}
         </Text>
       )}

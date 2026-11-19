@@ -11,7 +11,7 @@ const meta = {
     iconTrailing: { control: false },
     size: { control: 'inline-radio', options: ['sm', 'md'] },
   },
-  decorators: [(Story) => <div className="max-w-sm">{Story()}</div>],
+  decorators: [(Story) => <div className='max-w-sm'>{Story()}</div>],
 } satisfies Meta<typeof Input>;
 
 export default meta;

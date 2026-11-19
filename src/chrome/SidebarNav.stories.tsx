@@ -30,7 +30,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div className="w-64 rounded-lg border border-subtle">
+      <div className='w-64 rounded-lg border border-subtle'>
         <Story />
       </div>
     ),
@@ -57,9 +57,9 @@ export const WithItemAction: Story = {
             action: (
               <IconButton
                 icon={Plus}
-                aria-label="Add project to Web"
-                variant="tertiary"
-                size="sm"
+                aria-label='Add project to Web'
+                variant='tertiary'
+                size='sm'
               />
             ),
           },

@@ -10,7 +10,7 @@ describe('CodeBlock', () => {
   it('copies the text and announces it', async () => {
     const user = userEvent.setup();
     render(
-      <CodeBlock label="Install command" copyable>
+      <CodeBlock label='Install command' copyable>
         {code}
       </CodeBlock>,
     );
@@ -23,7 +23,7 @@ describe('CodeBlock', () => {
 
   it('is a named, focusable block so a keyboard user can scroll it', async () => {
     const user = userEvent.setup();
-    render(<CodeBlock label="Install command">{code}</CodeBlock>);
+    render(<CodeBlock label='Install command'>{code}</CodeBlock>);
 
     await user.tab();
 
@@ -33,8 +33,8 @@ describe('CodeBlock', () => {
   it('has no axe violations in light and dark', async () => {
     await expectNoA11yViolations(() => (
       <div>
-        <CodeBlock label="Plain">{code}</CodeBlock>
-        <CodeBlock label="Copyable" copyable wrap>
+        <CodeBlock label='Plain'>{code}</CodeBlock>
+        <CodeBlock label='Copyable' copyable wrap>
           {code}
         </CodeBlock>
       </div>

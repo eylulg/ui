@@ -9,13 +9,13 @@ const meta = {
     defaultValue: 'pro',
     children: (
       <>
-        <Radio value="free" hint="For personal projects">
+        <Radio value='free' hint='For personal projects'>
           Free
         </Radio>
-        <Radio value="pro" hint="For small teams">
+        <Radio value='pro' hint='For small teams'>
           Pro
         </Radio>
-        <Radio value="enterprise" hint="SSO and audit logs">
+        <Radio value='enterprise' hint='SSO and audit logs'>
           Enterprise
         </Radio>
       </>

@@ -48,7 +48,7 @@ describe('FileDropZone', () => {
     const onReject = vi.fn();
     const { container } = render(
       <FileDropZone
-        label="Drop a file here"
+        label='Drop a file here'
         acceptedFileTypes={['.json']}
         allowsMultiple
         onSelect={onSelect}
@@ -65,8 +65,8 @@ describe('FileDropZone', () => {
   it('has no axe violations in light and dark', async () => {
     await expectNoA11yViolations(() => (
       <div>
-        <FileDropZone label="Drop a JSON file here" hint="JSON, up to 2 MB" onSelect={() => {}} />
-        <FileDropZone label="Drop images here" isDisabled onSelect={() => {}} />
+        <FileDropZone label='Drop a JSON file here' hint='JSON, up to 2 MB' onSelect={() => {}} />
+        <FileDropZone label='Drop images here' isDisabled onSelect={() => {}} />
       </div>
     ));
   });

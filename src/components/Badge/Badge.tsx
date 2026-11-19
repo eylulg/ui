@@ -81,9 +81,9 @@ export function Badge({
       )}
     >
       {dot && (
-        <span aria-hidden="true" className={cx('size-1.5 rounded-full', colors[color].dot)} />
+        <span aria-hidden='true' className={cx('size-1.5 rounded-full', colors[color].dot)} />
       )}
-      {Icon && <Icon aria-hidden="true" className="size-3 shrink-0" />}
+      {Icon && <Icon aria-hidden='true' className='size-3 shrink-0' />}
       {children}
     </span>
   );

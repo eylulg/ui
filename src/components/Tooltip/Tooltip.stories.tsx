@@ -9,13 +9,13 @@ const meta = {
   component: Tooltip,
   args: {
     content: 'Open settings',
-    children: <IconButton icon={Settings} aria-label="Settings" />,
+    children: <IconButton icon={Settings} aria-label='Settings' />,
   },
   argTypes: {
     placement: { control: 'inline-radio', options: ['top', 'bottom', 'start', 'end'] },
     children: { control: false },
   },
-  decorators: [(Story) => <div className="flex justify-center py-16">{Story()}</div>],
+  decorators: [(Story) => <div className='flex justify-center py-16'>{Story()}</div>],
 } satisfies Meta<typeof Tooltip>;
 
 export default meta;
@@ -30,7 +30,7 @@ export const OnButton: Story = {
   args: {
     content: 'Saved drafts are kept for 30 days.',
     children: (
-      <Button variant="secondary" iconLeading={Info}>
+      <Button variant='secondary' iconLeading={Info}>
         Retention
       </Button>
     ),

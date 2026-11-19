@@ -90,25 +90,25 @@ export function Stat({
   return (
     <dl {...props} className={cx('flex flex-col', sizes[size].root, isCard && card, className)}>
       <dt className={cx('font-medium text-tertiary', sizes[size].label)}>{label}</dt>
-      <dd className="flex items-end justify-between gap-4">
+      <dd className='flex items-end justify-between gap-4'>
         <span
           className={cx('font-data font-semibold text-primary tabular-nums', sizes[size].value)}
         >
           {value}
         </span>
-        {sparkline && <span className="shrink-0 text-fg-brand">{sparkline}</span>}
+        {sparkline && <span className='shrink-0 text-fg-brand'>{sparkline}</span>}
       </dd>
-      {detail && <dd className="text-sm text-tertiary">{detail}</dd>}
+      {detail && <dd className='text-sm text-tertiary'>{detail}</dd>}
       {delta && TrendIcon && (
-        <dd className="flex flex-wrap items-center gap-1 text-sm">
+        <dd className='flex flex-wrap items-center gap-1 text-sm'>
           <span
             className={cx('inline-flex items-center gap-0.5 font-medium', tone[toneFor(delta)])}
           >
-            <TrendIcon aria-hidden="true" className="size-4" />
-            <span className="sr-only">{trendLabels[delta.trend]}</span>
+            <TrendIcon aria-hidden='true' className='size-4' />
+            <span className='sr-only'>{trendLabels[delta.trend]}</span>
             {delta.value}
           </span>
-          {delta.label && <span className="text-tertiary">{delta.label}</span>}
+          {delta.label && <span className='text-tertiary'>{delta.label}</span>}
         </dd>
       )}
     </dl>
@@ -160,11 +160,11 @@ export function Sparkline({
     >
       <polyline
         points={sparklinePoints(values, width, height)}
-        fill="none"
-        stroke="currentColor"
+        fill='none'
+        stroke='currentColor'
         strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        strokeLinecap='round'
+        strokeLinejoin='round'
       />
     </svg>
   );

@@ -12,7 +12,7 @@ const meta = {
   args: { children: null },
   decorators: [
     (Story) => (
-      <div className="max-w-sm">
+      <div className='max-w-sm'>
         <Story />
       </div>
     ),
@@ -25,7 +25,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <Card>
-      <CardHeader title="Review Companion" description="A code review tool" />
+      <CardHeader title='Review Companion' description='A code review tool' />
       <CardBody>Summarises pull requests and keeps review threads moving.</CardBody>
     </Card>
   ),
@@ -34,10 +34,10 @@ export const Default: Story = {
 /** `padding="none"` lets media run to the edge; the text parts add their own padding. */
 export const MediaCard: Story = {
   render: () => (
-    <Card padding="none" href="#film">
-      <div aria-hidden="true" className="aspect-video bg-brand-subtle" />
-      <div className="flex flex-col gap-stack p-card">
-        <CardHeader title="Arrival" description="2016, science fiction" />
+    <Card padding='none' href='#film'>
+      <div aria-hidden='true' className='aspect-video bg-brand-subtle' />
+      <div className='flex flex-col gap-stack p-card'>
+        <CardHeader title='Arrival' description='2016, science fiction' />
         <CardBody>Twelve alien ships appear around the world.</CardBody>
       </div>
     </Card>
@@ -48,27 +48,27 @@ export const WithActionsAndFooter: Story = {
   render: () => (
     <Card>
       <CardHeader
-        title="Nightly report"
-        description="Runs at 02:00"
+        title='Nightly report'
+        description='Runs at 02:00'
         actions={
           <IconButton
             icon={MoreHorizontal}
-            aria-label="Report options"
-            variant="tertiary"
-            size="sm"
+            aria-label='Report options'
+            variant='tertiary'
+            size='sm'
           />
         }
       />
       <CardBody>
-        <Badge color="success" dot>
+        <Badge color='success' dot>
           Passing
         </Badge>
       </CardBody>
       <CardFooter>
-        <Button size="sm" variant="secondary">
+        <Button size='sm' variant='secondary'>
           Pause schedule
         </Button>
-        <Button size="sm">Run now</Button>
+        <Button size='sm'>Run now</Button>
       </CardFooter>
     </Card>
   ),
@@ -76,16 +76,16 @@ export const WithActionsAndFooter: Story = {
 
 export const InteractiveLink: Story = {
   render: () => (
-    <Card href="#">
+    <Card href='#'>
       <CardHeader
-        title="Watchlist"
-        description="Films to see this year"
+        title='Watchlist'
+        description='Films to see this year'
         actions={
           <IconButton
             icon={MoreHorizontal}
-            aria-label="Watchlist options"
-            variant="tertiary"
-            size="sm"
+            aria-label='Watchlist options'
+            variant='tertiary'
+            size='sm'
           />
         }
       />
@@ -97,7 +97,7 @@ export const InteractiveLink: Story = {
 export const InteractiveButton: Story = {
   render: () => (
     <Card onPress={fn()}>
-      <CardHeader title="Start a new puzzle" description="Medium difficulty" headingLevel={2} />
+      <CardHeader title='Start a new puzzle' description='Medium difficulty' headingLevel={2} />
     </Card>
   ),
 };

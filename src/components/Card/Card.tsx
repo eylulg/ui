@@ -173,11 +173,11 @@ export function CardHeader({
   const Heading = headings[headingLevel];
   return (
     <div className={cx('flex items-start gap-3', className)}>
-      <div className="flex min-w-0 flex-1 flex-col gap-1">
-        <Heading className="font-display text-md font-semibold text-primary">
+      <div className='flex min-w-0 flex-1 flex-col gap-1'>
+        <Heading className='font-display text-md font-semibold text-primary'>
           <CardTitle>{title}</CardTitle>
         </Heading>
-        {description && <p className="text-sm text-tertiary">{description}</p>}
+        {description && <p className='text-sm text-tertiary'>{description}</p>}
       </div>
       {actions && <div className={headerActions}>{actions}</div>}
     </div>

@@ -137,7 +137,7 @@ export function ChartMark({
 
   return (
     <div
-      role="img"
+      role='img'
       aria-label={label}
       data-focus-visible={isFocusVisible || undefined}
       className={cx('absolute rounded-xs', focusRing, className)}

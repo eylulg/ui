@@ -15,23 +15,23 @@ import {
 function Example() {
   return (
     <DropdownMenu>
-      <Button variant="secondary">Actions</Button>
+      <Button variant='secondary'>Actions</Button>
       <DropdownMenuContent>
-        <DropdownMenuSection title="Edit">
-          <DropdownMenuItem id="rename" icon={Pencil} shortcut="R">
+        <DropdownMenuSection title='Edit'>
+          <DropdownMenuItem id='rename' icon={Pencil} shortcut='R'>
             Rename
           </DropdownMenuItem>
-          <DropdownMenuItem id="duplicate" icon={Copy} description="Copies labels too">
+          <DropdownMenuItem id='duplicate' icon={Copy} description='Copies labels too'>
             Duplicate
           </DropdownMenuItem>
         </DropdownMenuSection>
         <DropdownMenuSeparator />
-        <DropdownMenuSection title="View" selectionMode="multiple" defaultSelectedKeys={['done']}>
-          <DropdownMenuItem id="done">Show done</DropdownMenuItem>
-          <DropdownMenuItem id="archived">Show archived</DropdownMenuItem>
+        <DropdownMenuSection title='View' selectionMode='multiple' defaultSelectedKeys={['done']}>
+          <DropdownMenuItem id='done'>Show done</DropdownMenuItem>
+          <DropdownMenuItem id='archived'>Show archived</DropdownMenuItem>
         </DropdownMenuSection>
         <DropdownMenuSeparator />
-        <DropdownMenuItem id="delete" icon={Trash2} isDanger>
+        <DropdownMenuItem id='delete' icon={Trash2} isDanger>
           Delete
         </DropdownMenuItem>
       </DropdownMenuContent>

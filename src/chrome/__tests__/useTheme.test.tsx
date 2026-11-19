@@ -24,10 +24,10 @@ function PaletteCommand() {
       <p>
         Choice {theme}, applied {resolved}
       </p>
-      <button type="button" onClick={() => setTheme('dark')}>
+      <button type='button' onClick={() => setTheme('dark')}>
         Use dark
       </button>
-      <button type="button" onClick={() => setTheme('system')}>
+      <button type='button' onClick={() => setTheme('system')}>
         Use system
       </button>
     </div>

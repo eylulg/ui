@@ -61,9 +61,9 @@ export function ProgressBar({
         <>
           {(label || (!hideValue && !isIndeterminate)) && (
             <div className={header}>
-              {label && <Label className="font-medium text-secondary">{label}</Label>}
+              {label && <Label className='font-medium text-secondary'>{label}</Label>}
               {!hideValue && !isIndeterminate && (
-                <span className="ml-auto font-data text-tertiary tabular-nums">{valueText}</span>
+                <span className='ml-auto font-data text-tertiary tabular-nums'>{valueText}</span>
               )}
             </div>
           )}

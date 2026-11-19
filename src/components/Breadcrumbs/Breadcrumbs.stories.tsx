@@ -12,8 +12,8 @@ type Story = StoryObj<typeof meta>;
 export const ThreeLevels: Story = {
   render: () => (
     <Breadcrumbs>
-      <BreadcrumbItem href="#">Projects</BreadcrumbItem>
-      <BreadcrumbItem href="#">Workspace</BreadcrumbItem>
+      <BreadcrumbItem href='#'>Projects</BreadcrumbItem>
+      <BreadcrumbItem href='#'>Workspace</BreadcrumbItem>
       <BreadcrumbItem>Settings</BreadcrumbItem>
     </Breadcrumbs>
   ),
@@ -22,7 +22,7 @@ export const ThreeLevels: Story = {
 export const TwoLevels: Story = {
   render: () => (
     <Breadcrumbs>
-      <BreadcrumbItem href="#">Watchlist</BreadcrumbItem>
+      <BreadcrumbItem href='#'>Watchlist</BreadcrumbItem>
       <BreadcrumbItem>Seen this year</BreadcrumbItem>
     </Breadcrumbs>
   ),
@@ -30,11 +30,11 @@ export const TwoLevels: Story = {
 
 export const LongTrailWraps: Story = {
   render: () => (
-    <div className="max-w-xs">
+    <div className='max-w-xs'>
       <Breadcrumbs>
-        <BreadcrumbItem href="#">Agent workflows</BreadcrumbItem>
-        <BreadcrumbItem href="#">Production cluster</BreadcrumbItem>
-        <BreadcrumbItem href="#">Scheduled runs</BreadcrumbItem>
+        <BreadcrumbItem href='#'>Agent workflows</BreadcrumbItem>
+        <BreadcrumbItem href='#'>Production cluster</BreadcrumbItem>
+        <BreadcrumbItem href='#'>Scheduled runs</BreadcrumbItem>
         <BreadcrumbItem>Nightly report</BreadcrumbItem>
       </Breadcrumbs>
     </div>

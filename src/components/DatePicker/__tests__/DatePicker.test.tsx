@@ -22,7 +22,7 @@ const states = [
 
 describe('DatePicker', () => {
   it.each(states)('describes the field with its $state', ({ props, description, invalid }) => {
-    render(<DatePicker label="Due date" {...props} />);
+    render(<DatePicker label='Due date' {...props} />);
 
     const group = screen.getByRole('group', { name: 'Due date' });
     expect(group).toHaveAccessibleDescription(description);
@@ -32,7 +32,7 @@ describe('DatePicker', () => {
 
   it('moves focus into the calendar on open and back to the button on Escape', async () => {
     const user = userEvent.setup();
-    render(<DatePicker label="Due date" defaultValue={new CalendarDate(2026, 11, 9)} />);
+    render(<DatePicker label='Due date' defaultValue={new CalendarDate(2026, 11, 9)} />);
     const button = screen.getByRole('button', { name: /open calendar/i });
     await user.click(button);
     const grid = await screen.findByRole('grid');
@@ -44,7 +44,7 @@ describe('DatePicker', () => {
   });
 
   it('marks a range picker invalid with its error message', () => {
-    render(<DateRangePicker label="Sprint" errorMessage="End after the start." />);
+    render(<DateRangePicker label='Sprint' errorMessage='End after the start.' />);
 
     const group = screen.getByRole('group', { name: 'Sprint' });
     expect(group).toHaveAccessibleDescription('End after the start.');
@@ -55,11 +55,11 @@ describe('DatePicker', () => {
       () => (
         <div>
           <DatePicker
-            label="Due date"
-            hint="Shown on the issue."
+            label='Due date'
+            hint='Shown on the issue.'
             defaultValue={new CalendarDate(2026, 11, 9)}
           />
-          <DateRangePicker label="Sprint" calendarLabel="Open sprint calendar" />
+          <DateRangePicker label='Sprint' calendarLabel='Open sprint calendar' />
         </div>
       ),
       async () => {

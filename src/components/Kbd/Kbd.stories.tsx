@@ -14,7 +14,7 @@ export const SingleKey: Story = {};
 export const Combination: Story = { args: { keys: ['⌘', 'K'], children: undefined } };
 export const InText: Story = {
   render: () => (
-    <p className="text-sm text-secondary">
+    <p className='text-sm text-secondary'>
       Press <Kbd keys={['Ctrl', 'K']} /> to open the command palette.
     </p>
   ),

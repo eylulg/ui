@@ -8,7 +8,7 @@ describe('AppShell', () => {
   it('starts with a skip link that targets the main landmark', async () => {
     const user = userEvent.setup();
     render(
-      <AppShell header={<button type="button">Menu</button>}>
+      <AppShell header={<button type='button'>Menu</button>}>
         <h1>Issues</h1>
       </AppShell>,
     );
@@ -24,7 +24,7 @@ describe('AppShell', () => {
     await expectNoA11yViolations(() => (
       <AppShell
         header={<header>Header</header>}
-        sidebar={<nav aria-label="Sidebar">Sidebar</nav>}
+        sidebar={<nav aria-label='Sidebar'>Sidebar</nav>}
         footer={<footer>Footer</footer>}
       >
         <h1>Issues</h1>

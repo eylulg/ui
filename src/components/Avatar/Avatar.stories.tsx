@@ -24,9 +24,9 @@ export const WithStatus: Story = { args: { src: portrait, status: 'online' } };
 
 export const Sizes: Story = {
   render: (args) => (
-    <div className="flex items-end gap-3">
+    <div className='flex items-end gap-3'>
       {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map((size) => (
-        <Avatar key={size} {...args} size={size} status="online" />
+        <Avatar key={size} {...args} size={size} status='online' />
       ))}
     </div>
   ),
@@ -34,12 +34,12 @@ export const Sizes: Story = {
 
 export const Group: Story = {
   render: () => (
-    <AvatarGroup aria-label="Reviewers" max={3}>
-      <Avatar name="Eylül Güneş" src={portrait} />
-      <Avatar name="Ada Lovelace" />
-      <Avatar name="Grace Hopper" />
-      <Avatar name="Alan Turing" />
-      <Avatar name="Katherine Johnson" />
+    <AvatarGroup aria-label='Reviewers' max={3}>
+      <Avatar name='Eylül Güneş' src={portrait} />
+      <Avatar name='Ada Lovelace' />
+      <Avatar name='Grace Hopper' />
+      <Avatar name='Alan Turing' />
+      <Avatar name='Katherine Johnson' />
     </AvatarGroup>
   ),
 };

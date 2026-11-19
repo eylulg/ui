@@ -51,14 +51,14 @@ export function DrawerOverlay({
       >
         <AriaDialog
           aria-describedby={description ? descriptionId : undefined}
-          className="flex min-h-0 flex-1 flex-col outline-none"
+          className='flex min-h-0 flex-1 flex-col outline-none'
         >
           {({ close }) => (
             <>
-              <div className="flex items-start gap-3 border-b border-subtle p-card pb-4">
-                <div className="flex min-w-0 flex-1 flex-col gap-1">
+              <div className='flex items-start gap-3 border-b border-subtle p-card pb-4'>
+                <div className='flex min-w-0 flex-1 flex-col gap-1'>
                   <Heading
-                    slot="title"
+                    slot='title'
                     className={cx(
                       'font-display text-lg font-semibold text-primary',
                       hideTitle && 'sr-only',
@@ -67,7 +67,7 @@ export function DrawerOverlay({
                     {title}
                   </Heading>
                   {description && (
-                    <p id={descriptionId} className="text-sm text-tertiary">
+                    <p id={descriptionId} className='text-sm text-tertiary'>
                       {description}
                     </p>
                   )}
@@ -75,17 +75,17 @@ export function DrawerOverlay({
                 <IconButton
                   icon={X}
                   aria-label={closeLabel}
-                  variant="tertiary"
-                  size="sm"
+                  variant='tertiary'
+                  size='sm'
                   onPress={close}
-                  className="-mt-1 -mr-1 shrink-0"
+                  className='-mt-1 -mr-1 shrink-0'
                 />
               </div>
-              <div className="min-h-0 flex-1 overflow-auto p-card text-sm text-secondary">
+              <div className='min-h-0 flex-1 overflow-auto p-card text-sm text-secondary'>
                 {typeof children === 'function' ? children({ close }) : children}
               </div>
               {footer && (
-                <div className="flex flex-col-reverse gap-3 border-t border-subtle p-card pt-4 sm:flex-row sm:justify-end">
+                <div className='flex flex-col-reverse gap-3 border-t border-subtle p-card pt-4 sm:flex-row sm:justify-end'>
                   {typeof footer === 'function' ? footer({ close }) : footer}
                 </div>
               )}

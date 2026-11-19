@@ -23,7 +23,7 @@ const cities = [
 
 export const Basic: Story = {
   render: (args) => (
-    <Combobox {...args} className="max-w-xs">
+    <Combobox {...args} className='max-w-xs'>
       {cities.map((city) => (
         <ComboboxItem key={city.id} id={city.id}>
           {city.name}
@@ -35,18 +35,18 @@ export const Basic: Story = {
 
 export const WithSectionsAndDescriptions: Story = {
   render: (args) => (
-    <Combobox {...args} className="max-w-xs">
-      <ComboboxSection title="Netherlands">
-        <ComboboxItem id="ams" description="Capital">
+    <Combobox {...args} className='max-w-xs'>
+      <ComboboxSection title='Netherlands'>
+        <ComboboxItem id='ams' description='Capital'>
           Amsterdam
         </ComboboxItem>
-        <ComboboxItem id="rtm">Rotterdam</ComboboxItem>
+        <ComboboxItem id='rtm'>Rotterdam</ComboboxItem>
       </ComboboxSection>
-      <ComboboxSection title="Norway">
-        <ComboboxItem id="osl" description="Capital">
+      <ComboboxSection title='Norway'>
+        <ComboboxItem id='osl' description='Capital'>
           Oslo
         </ComboboxItem>
-        <ComboboxItem id="brg">Bergen</ComboboxItem>
+        <ComboboxItem id='brg'>Bergen</ComboboxItem>
       </ComboboxSection>
     </Combobox>
   ),
@@ -88,8 +88,8 @@ function AsyncCities() {
 
   return (
     <Combobox
-      label="City"
-      className="max-w-xs"
+      label='City'
+      className='max-w-xs'
       items={list.items}
       inputValue={list.filterText}
       onInputChange={list.setFilterText}

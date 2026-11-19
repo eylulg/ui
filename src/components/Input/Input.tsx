@@ -66,7 +66,7 @@ export function Input({
         )}
       >
         {IconLeading && (
-          <IconLeading aria-hidden="true" className="size-4 shrink-0 text-fg-tertiary" />
+          <IconLeading aria-hidden='true' className='size-4 shrink-0 text-fg-tertiary' />
         )}
         <AriaInput
           ref={ref}
@@ -78,7 +78,7 @@ export function Input({
           )}
         />
         {IconTrailing && (
-          <IconTrailing aria-hidden="true" className="size-4 shrink-0 text-fg-tertiary" />
+          <IconTrailing aria-hidden='true' className='size-4 shrink-0 text-fg-tertiary' />
         )}
       </Group>
       {hint && !errorMessage && <FieldHint>{hint}</FieldHint>}

@@ -11,12 +11,12 @@ function Example({ hideTitle = false }: { hideTitle?: boolean }) {
     <DrawerTrigger>
       <Button>Open filters</Button>
       <Drawer
-        title="Filters"
+        title='Filters'
         hideTitle={hideTitle}
-        description="Narrow the list of issues."
+        description='Narrow the list of issues.'
         footer={({ close }) => <Button onPress={close}>Apply filters</Button>}
       >
-        <Input label="Assignee" />
+        <Input label='Assignee' />
       </Drawer>
     </DrawerTrigger>
   );

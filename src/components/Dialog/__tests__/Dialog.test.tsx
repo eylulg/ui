@@ -13,14 +13,14 @@ function Example({ onConfirm = () => {} }: { onConfirm?: () => void }) {
     <DialogTrigger>
       <Button>Edit profile</Button>
       <Dialog
-        title="Edit profile"
-        description="Changes are saved to your account."
+        title='Edit profile'
+        description='Changes are saved to your account.'
         headerActions={
-          <IconButton icon={ExternalLink} aria-label="Open as page" variant="tertiary" size="sm" />
+          <IconButton icon={ExternalLink} aria-label='Open as page' variant='tertiary' size='sm' />
         }
         footer={({ close }) => (
           <>
-            <Button variant="secondary" onPress={close}>
+            <Button variant='secondary' onPress={close}>
               Cancel
             </Button>
             <Button
@@ -34,7 +34,7 @@ function Example({ onConfirm = () => {} }: { onConfirm?: () => void }) {
           </>
         )}
       >
-        <Input label="Display name" />
+        <Input label='Display name' />
       </Dialog>
     </DialogTrigger>
   );

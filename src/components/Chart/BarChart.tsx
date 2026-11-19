@@ -114,7 +114,7 @@ export function BarChart({
       legend={
         series.length > 1 && (
           <ChartLegend
-            variant="bar"
+            variant='bar'
             items={series.map((s, index) => ({ id: s.id, label: s.label, index: colors[index] }))}
           />
         )
@@ -324,7 +324,7 @@ function BarPlot({
 
   return (
     <>
-      <svg width={width} height={total} aria-hidden="true" className="block">
+      <svg width={width} height={total} aria-hidden='true' className='block'>
         <g transform={`translate(${left} ${top})`}>
           {ticks.ticks.map((tick) => {
             const at = scale(tick);
@@ -342,9 +342,9 @@ function BarPlot({
                 <text
                   x={-8}
                   y={plotHeight - at}
-                  dy="0.32em"
-                  textAnchor="end"
-                  className="fill-(--ui-text-tertiary) text-xs"
+                  dy='0.32em'
+                  textAnchor='end'
+                  className='fill-(--ui-text-tertiary) text-xs'
                 >
                   {vf.axis(tick)}
                 </text>
@@ -363,8 +363,8 @@ function BarPlot({
                 <text
                   x={at}
                   y={plotHeight + 18}
-                  textAnchor="middle"
-                  className="fill-(--ui-text-tertiary) text-xs"
+                  textAnchor='middle'
+                  className='fill-(--ui-text-tertiary) text-xs'
                 >
                   {vf.axis(tick)}
                 </text>
@@ -377,8 +377,8 @@ function BarPlot({
                 key={index}
                 x={index * slot + slot / 2}
                 y={plotHeight + 18}
-                textAnchor="middle"
-                className="fill-(--ui-text-tertiary) text-xs"
+                textAnchor='middle'
+                className='fill-(--ui-text-tertiary) text-xs'
               >
                 {text}
               </text>
@@ -387,9 +387,9 @@ function BarPlot({
                 key={index}
                 x={-8}
                 y={index * slot + slot / 2}
-                dy="0.32em"
-                textAnchor="end"
-                className="fill-(--ui-text-secondary) text-xs"
+                dy='0.32em'
+                textAnchor='end'
+                className='fill-(--ui-text-secondary) text-xs'
               >
                 {text}
               </text>
@@ -426,8 +426,8 @@ function BarPlot({
                     key={bar.key}
                     x={bar.x + bar.w / 2}
                     y={y}
-                    textAnchor="middle"
-                    className="fill-(--ui-text-secondary) text-xs"
+                    textAnchor='middle'
+                    className='fill-(--ui-text-secondary) text-xs'
                   >
                     {label}
                   </text>
@@ -439,9 +439,9 @@ function BarPlot({
                   key={bar.key}
                   x={isDown ? bar.x - 6 : bar.x + bar.w + 6}
                   y={bar.y + bar.h / 2}
-                  dy="0.32em"
+                  dy='0.32em'
                   textAnchor={isDown ? 'end' : 'start'}
-                  className="fill-(--ui-text-secondary) text-xs"
+                  className='fill-(--ui-text-secondary) text-xs'
                 >
                   {label}
                 </text>
@@ -504,7 +504,7 @@ function BarPlot({
           containerWidth={width}
           title={categories[activeCategory] ?? ''}
           rows={rowsFor(activeCategory, active.series)}
-          variant="bar"
+          variant='bar'
           placement={tooltipPlacement}
         />
       )}

@@ -31,7 +31,7 @@ export function DialogOverlay({
     <ModalOverlay
       {...overlayProps}
       isDismissable={isDismissable}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-overlay p-4"
+      className='fixed inset-0 z-50 flex items-center justify-center bg-overlay p-4'
     >
       <Modal className={cx('w-full', sizes[size])}>
         <AriaDialog
@@ -44,38 +44,38 @@ export function DialogOverlay({
         >
           {({ close }) => (
             <>
-              <div className="flex items-start gap-2">
-                <div className="flex min-w-0 flex-1 flex-col gap-1">
-                  <Heading slot="title" className="font-display text-lg font-semibold text-primary">
+              <div className='flex items-start gap-2'>
+                <div className='flex min-w-0 flex-1 flex-col gap-1'>
+                  <Heading slot='title' className='font-display text-lg font-semibold text-primary'>
                     {title}
                   </Heading>
                   {description && (
-                    <p id={descriptionId} className="text-sm text-tertiary">
+                    <p id={descriptionId} className='text-sm text-tertiary'>
                       {description}
                     </p>
                   )}
                 </div>
                 {headerActions && (
-                  <div className="flex shrink-0 items-center gap-1">{headerActions}</div>
+                  <div className='flex shrink-0 items-center gap-1'>{headerActions}</div>
                 )}
                 {!hideCloseButton && (
                   <IconButton
                     icon={X}
                     aria-label={closeLabel}
-                    variant="tertiary"
-                    size="sm"
+                    variant='tertiary'
+                    size='sm'
                     onPress={close}
-                    className="-mt-1 -mr-1 shrink-0"
+                    className='-mt-1 -mr-1 shrink-0'
                   />
                 )}
               </div>
               {children && (
-                <div className="text-sm text-secondary">
+                <div className='text-sm text-secondary'>
                   {typeof children === 'function' ? children({ close }) : children}
                 </div>
               )}
               {footer && (
-                <div className="mt-2 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+                <div className='mt-2 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end'>
                   {typeof footer === 'function' ? footer({ close }) : footer}
                 </div>
               )}

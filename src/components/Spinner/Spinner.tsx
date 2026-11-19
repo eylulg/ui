@@ -25,13 +25,13 @@ const spin = 'shrink-0 animate-spin text-fg-brand motion-reduce:[animation-durat
 
 export function Spinner({ label, size = 'md', className }: SpinnerProps) {
   const icon = (
-    <LoaderCircle aria-hidden="true" className={cx(spin, sizes[size], !label && className)} />
+    <LoaderCircle aria-hidden='true' className={cx(spin, sizes[size], !label && className)} />
   );
   if (!label) return icon;
   return (
-    <span role="status" className={cx('inline-flex', className)}>
+    <span role='status' className={cx('inline-flex', className)}>
       {icon}
-      <span className="sr-only">{label}</span>
+      <span className='sr-only'>{label}</span>
     </span>
   );
 }

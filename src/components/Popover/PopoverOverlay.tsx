@@ -29,27 +29,27 @@ export function PopoverOverlay({
       )}
     >
       {showArrow && (
-        <OverlayArrow className="group">
+        <OverlayArrow className='group'>
           <svg
             width={12}
             height={12}
-            viewBox="0 0 12 12"
-            aria-hidden="true"
-            className="block fill-(--ui-bg-elevated) stroke-(--ui-border-subtle) group-data-[placement=bottom]:rotate-180 group-data-[placement=left]:-rotate-90 group-data-[placement=right]:rotate-90"
+            viewBox='0 0 12 12'
+            aria-hidden='true'
+            className='block fill-(--ui-bg-elevated) stroke-(--ui-border-subtle) group-data-[placement=bottom]:rotate-180 group-data-[placement=left]:-rotate-90 group-data-[placement=right]:rotate-90'
           >
-            <path d="M0 0 L6 6 L12 0" />
+            <path d='M0 0 L6 6 L12 0' />
           </svg>
         </OverlayArrow>
       )}
-      <AriaDialog aria-label={ariaLabel} className="flex flex-col gap-2 p-4 outline-none">
+      <AriaDialog aria-label={ariaLabel} className='flex flex-col gap-2 p-4 outline-none'>
         {({ close }) => (
           <>
             {title && (
-              <Heading slot="title" className="text-sm font-semibold text-primary">
+              <Heading slot='title' className='text-sm font-semibold text-primary'>
                 {title}
               </Heading>
             )}
-            <div className="text-sm text-secondary">
+            <div className='text-sm text-secondary'>
               {typeof children === 'function' ? children({ close }) : children}
             </div>
           </>

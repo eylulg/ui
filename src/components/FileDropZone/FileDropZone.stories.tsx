@@ -12,7 +12,7 @@ const meta = {
     onSelect: () => {},
   },
   argTypes: { onSelect: { control: false }, onReject: { control: false } },
-  decorators: [(Story) => <div className="max-w-md">{Story()}</div>],
+  decorators: [(Story) => <div className='max-w-md'>{Story()}</div>],
 } satisfies Meta<typeof FileDropZone>;
 
 export default meta;
@@ -43,15 +43,15 @@ function WithResult() {
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className='flex flex-col gap-3'>
       <FileDropZone
-        label="Drop a JSON file here"
-        hint="JSON, up to 2 MB"
+        label='Drop a JSON file here'
+        hint='JSON, up to 2 MB'
         acceptedFileTypes={['.json']}
         onSelect={handleSelect}
         onReject={handleReject}
       />
-      <p role="status" className="text-sm text-secondary">
+      <p role='status' className='text-sm text-secondary'>
         {names.length > 0 && `Loaded ${names.join(', ')}.`}
         {refused.length > 0 && `Only JSON files work. Skipped ${refused.join(', ')}.`}
       </p>

@@ -20,7 +20,7 @@ function RemovableTags() {
   }
 
   return (
-    <TagGroup label="Skills" items={items} onRemove={handleRemove}>
+    <TagGroup label='Skills' items={items} onRemove={handleRemove}>
       {(item) => <Tag id={item.id}>{item.name}</Tag>}
     </TagGroup>
   );
@@ -38,7 +38,7 @@ describe('Tag', () => {
 
   it('shows no remove button without onRemove', () => {
     render(
-      <TagGroup label="Stack">
+      <TagGroup label='Stack'>
         <Tag>React</Tag>
       </TagGroup>,
     );
@@ -50,9 +50,9 @@ describe('Tag', () => {
     await expectNoA11yViolations(() => (
       <div>
         <RemovableTags />
-        <TagGroup label="Filters" selectionMode="multiple" defaultSelectedKeys={['a']}>
-          <Tag id="a">Open</Tag>
-          <Tag id="b">Closed</Tag>
+        <TagGroup label='Filters' selectionMode='multiple' defaultSelectedKeys={['a']}>
+          <Tag id='a'>Open</Tag>
+          <Tag id='b'>Closed</Tag>
         </TagGroup>
       </div>
     ));

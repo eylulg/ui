@@ -101,7 +101,7 @@ export function LineChart({
       legend={
         series.length > 1 && (
           <ChartLegend
-            variant="line"
+            variant='line'
             items={series.map((s, index) => ({ id: s.id, label: s.label, index: colors[index] }))}
           />
         )
@@ -222,7 +222,7 @@ function LinePlot({
 
   return (
     <>
-      <svg width={width} height={height} aria-hidden="true" className="block">
+      <svg width={width} height={height} aria-hidden='true' className='block'>
         <g transform={`translate(${left} ${margin.top})`}>
           {yTicks.map((tick) => (
             <g key={tick}>
@@ -238,9 +238,9 @@ function LinePlot({
               <text
                 x={-8}
                 y={y(tick)}
-                dy="0.32em"
-                textAnchor="end"
-                className="fill-(--ui-text-tertiary) text-xs"
+                dy='0.32em'
+                textAnchor='end'
+                className='fill-(--ui-text-tertiary) text-xs'
               >
                 {vf.axis(tick)}
               </text>
@@ -252,7 +252,7 @@ function LinePlot({
               x={position}
               y={plotHeight + 18}
               textAnchor={anchor}
-              className="fill-(--ui-text-tertiary) text-xs"
+              className='fill-(--ui-text-tertiary) text-xs'
             >
               {fx.tick(index)}
             </text>
@@ -263,7 +263,7 @@ function LinePlot({
               x2={at(active)}
               y1={0}
               y2={plotHeight}
-              className="stroke-(--ui-border-strong)"
+              className='stroke-(--ui-border-strong)'
             />
           )}
           {series.map((s, position) => {
@@ -283,10 +283,10 @@ function LinePlot({
               <g key={s.id}>
                 <path
                   d={path}
-                  fill="none"
+                  fill='none'
                   strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
                   strokeDasharray={style.dash}
                   className={style.stroke}
                 />
@@ -300,7 +300,7 @@ function LinePlot({
                     <g key={index}>
                       <path
                         d={markerPath(style.shape, point.x, point.y, r + 2)}
-                        className="fill-(--chart-surface)"
+                        className='fill-(--chart-surface)'
                       />
                       <path
                         d={markerPath(style.shape, point.x, point.y, r)}
@@ -318,8 +318,8 @@ function LinePlot({
                 key={end.index}
                 x={at(end.at) + 12}
                 y={end.y}
-                dy="0.32em"
-                className="fill-(--ui-text-secondary) text-xs"
+                dy='0.32em'
+                className='fill-(--ui-text-secondary) text-xs'
               >
                 {end.label}
               </text>
@@ -355,7 +355,7 @@ function LinePlot({
           containerWidth={width}
           title={fx.full(active)}
           rows={rows(active)}
-          variant="line"
+          variant='line'
         />
       )}
     </>

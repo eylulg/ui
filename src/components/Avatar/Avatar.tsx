@@ -69,7 +69,7 @@ function AvatarImage({ name, src, sizeClass }: { name: string; src?: string; siz
   if (!src || failed) {
     return (
       <span
-        role="img"
+        role='img'
         aria-label={name}
         data-initials={getInitials(name)}
         className={cx(surface, initialsText, sizeClass)}
@@ -96,8 +96,8 @@ export function Avatar({ name, src, size = 'md', status, statusLabel, className 
       <AvatarImage key={src} name={name} src={src} sizeClass={sizes[size].avatar} />
       {status && (
         <>
-          <span aria-hidden="true" className={cx(dotBase, statuses[status].dot, sizes[size].dot)} />
-          <span className="sr-only">{statusLabel ?? statuses[status].label}</span>
+          <span aria-hidden='true' className={cx(dotBase, statuses[status].dot, sizes[size].dot)} />
+          <span className='sr-only'>{statusLabel ?? statuses[status].label}</span>
         </>
       )}
     </span>
@@ -128,11 +128,11 @@ export function AvatarGroup({
   const visible = items.slice(0, max);
   const hidden = items.length - visible.length;
   return (
-    <div role="group" aria-label={ariaLabel} className={cx('flex -space-x-2', className)}>
+    <div role='group' aria-label={ariaLabel} className={cx('flex -space-x-2', className)}>
       {visible}
       {hidden > 0 && (
         <span
-          role="img"
+          role='img'
           aria-label={`${hidden} more`}
           data-initials={`+${hidden}`}
           className={cx(surface, initialsText, 'bg-tertiary text-secondary', sizes[size].avatar)}

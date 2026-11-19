@@ -19,26 +19,26 @@ export function ChartTable({ id, caption, head, rows }: ChartTableProps) {
   return (
     <div
       id={id}
-      role="region"
+      role='region'
       aria-label={caption}
-      className="max-w-full overflow-x-auto rounded-md outline-none focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-solid"
+      className='max-w-full overflow-x-auto rounded-md outline-none focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-solid'
       {...scrollable}
     >
-      <table className="w-full border-collapse text-left text-sm">
-        <caption className="sr-only">{caption}</caption>
+      <table className='w-full border-collapse text-left text-sm'>
+        <caption className='sr-only'>{caption}</caption>
         <thead>
           <tr>
             <th
-              scope="col"
-              className="border-b border-default py-1.5 pr-4 font-medium text-tertiary"
+              scope='col'
+              className='border-b border-default py-1.5 pr-4 font-medium text-tertiary'
             >
               {corner}
             </th>
             {columns.map((name) => (
               <th
                 key={name}
-                scope="col"
-                className="border-b border-default px-2 py-1.5 text-right font-medium whitespace-nowrap text-tertiary"
+                scope='col'
+                className='border-b border-default px-2 py-1.5 text-right font-medium whitespace-nowrap text-tertiary'
               >
                 {name}
               </th>
@@ -49,15 +49,15 @@ export function ChartTable({ id, caption, head, rows }: ChartTableProps) {
           {rows.map(([name = '', ...cells]) => (
             <tr key={name}>
               <th
-                scope="row"
-                className="border-b border-subtle py-1.5 pr-4 font-medium text-primary"
+                scope='row'
+                className='border-b border-subtle py-1.5 pr-4 font-medium text-primary'
               >
                 {name}
               </th>
               {cells.map((cell, index) => (
                 <td
                   key={columns[index] ?? index}
-                  className="border-b border-subtle px-2 py-1.5 text-right font-data text-primary tabular-nums"
+                  className='border-b border-subtle px-2 py-1.5 text-right font-data text-primary tabular-nums'
                 >
                   {cell}
                 </td>

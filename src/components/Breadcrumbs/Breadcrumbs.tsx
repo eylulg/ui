@@ -52,14 +52,14 @@ export interface BreadcrumbItemProps extends Pick<
 /** One level of the trail. Pass `href` for every item except the current page. */
 export function BreadcrumbItem({ id, children, ...linkProps }: BreadcrumbItemProps) {
   return (
-    <AriaBreadcrumb id={id} className="flex items-center gap-1">
+    <AriaBreadcrumb id={id} className='flex items-center gap-1'>
       {({ isCurrent }) => (
         <>
           <Link {...linkProps} className={link}>
             {children}
           </Link>
           {!isCurrent && (
-            <ChevronRight aria-hidden="true" className="size-4 shrink-0 text-fg-tertiary" />
+            <ChevronRight aria-hidden='true' className='size-4 shrink-0 text-fg-tertiary' />
           )}
         </>
       )}

@@ -8,14 +8,14 @@ export function FieldLabel({ children, className }: { children: ReactNode; class
 
 export function FieldHint({ children }: { children: ReactNode }) {
   return (
-    <Text slot="description" className="text-sm text-tertiary">
+    <Text slot='description' className='text-sm text-tertiary'>
       {children}
     </Text>
   );
 }
 
 export function FieldErrorMessage({ children }: { children: ReactNode }) {
-  return <FieldError className="text-sm text-error">{children}</FieldError>;
+  return <FieldError className='text-sm text-error'>{children}</FieldError>;
 }
 
 /** Shared control surface for text inputs, textareas and select triggers. */

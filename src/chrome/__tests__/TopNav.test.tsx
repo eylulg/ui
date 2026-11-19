@@ -12,7 +12,7 @@ const links = [
 
 function RouterLink({ href, children, ...props }: LinkProps) {
   return (
-    <a href={`/app${href}`} data-router="yes" {...props}>
+    <a href={`/app${href}`} data-router='yes' {...props}>
       {children}
     </a>
   );
@@ -31,13 +31,13 @@ async function openMenu() {
 
 describe('TopNav', () => {
   it('renders links through the given LinkComponent', () => {
-    render(<TopNav productName="Workspace" links={links} LinkComponent={RouterLink} />);
+    render(<TopNav productName='Workspace' links={links} LinkComponent={RouterLink} />);
 
     expect(screen.getByRole('link', { name: 'Roadmap' })).toHaveAttribute('href', '/app/projects');
   });
 
   it('marks the current page', () => {
-    render(<TopNav productName="Workspace" links={links} />);
+    render(<TopNav productName='Workspace' links={links} />);
 
     expect(screen.getByRole('link', { name: 'Issues' })).toHaveAttribute('aria-current', 'page');
   });
@@ -45,9 +45,9 @@ describe('TopNav', () => {
   it('opens the mobile menu with the links and actions', async () => {
     render(
       <TopNav
-        productName="Workspace"
+        productName='Workspace'
         links={links}
-        actions={<button type="button">Theme</button>}
+        actions={<button type='button'>Theme</button>}
       />,
     );
 
@@ -58,7 +58,7 @@ describe('TopNav', () => {
   });
 
   it('closes the mobile menu when a link is chosen', async () => {
-    render(<TopNav productName="Workspace" links={links} />);
+    render(<TopNav productName='Workspace' links={links} />);
     const { user, drawer } = await openMenu();
 
     await user.click(within(drawer).getByRole('link', { name: 'Roadmap' }));
@@ -67,7 +67,7 @@ describe('TopNav', () => {
   });
 
   it('returns focus to the menu button when the menu closes', async () => {
-    render(<TopNav productName="Workspace" links={links} />);
+    render(<TopNav productName='Workspace' links={links} />);
     const { user } = await openMenu();
 
     await user.keyboard('{Escape}');
@@ -78,9 +78,9 @@ describe('TopNav', () => {
   it('shows the centre slot in the bar and at the top of the menu, and compact actions in the bar', async () => {
     render(
       <TopNav
-        productName="Workspace"
-        center={<button type="button">Search</button>}
-        compactActions={<button type="button">Theme</button>}
+        productName='Workspace'
+        center={<button type='button'>Search</button>}
+        compactActions={<button type='button'>Theme</button>}
       />,
     );
 
@@ -94,7 +94,7 @@ describe('TopNav', () => {
     const user = userEvent.setup();
     render(
       <TopNav
-        productName="Workspace"
+        productName='Workspace'
         labels={{ openMenu: 'Menü öffnen', closeMenu: 'Menü schließen' }}
       />,
     );
@@ -105,6 +105,6 @@ describe('TopNav', () => {
   });
 
   it('has no axe violations in light and dark', async () => {
-    await expectNoA11yViolations(() => <TopNav productName="Workspace" links={links} />);
+    await expectNoA11yViolations(() => <TopNav productName='Workspace' links={links} />);
   });
 });

@@ -21,7 +21,7 @@ function Trigger(options: Partial<ToastOptions>) {
   return (
     <>
       <Button onPress={handleNotify}>Notify</Button>
-      <Button variant="secondary" onPress={handleClear}>
+      <Button variant='secondary' onPress={handleClear}>
         Clear all
       </Button>
     </>

@@ -34,11 +34,11 @@ export const WithHeaderActions: Story = {
   render: (args) => (
     <Example
       {...args}
-      triggerLabel="Open issue"
-      title="Fix the sidebar focus order"
-      description="WS-142"
+      triggerLabel='Open issue'
+      title='Fix the sidebar focus order'
+      description='WS-142'
       headerActions={
-        <IconButton icon={ExternalLink} aria-label="Open as page" variant="tertiary" size="sm" />
+        <IconButton icon={ExternalLink} aria-label='Open as page' variant='tertiary' size='sm' />
       }
     >
       Arrow keys skip the section toggles.
@@ -50,19 +50,19 @@ export const Default: Story = {
   render: (args) => (
     <Example
       {...args}
-      triggerLabel="Edit profile"
+      triggerLabel='Edit profile'
       footer={({ close }) => (
         <>
-          <Button variant="secondary" onPress={close}>
+          <Button variant='secondary' onPress={close}>
             Cancel
           </Button>
           <Button onPress={close}>Save</Button>
         </>
       )}
     >
-      <div className="flex flex-col gap-4">
-        <Input label="Display name" defaultValue="Eylül Güneş" />
-        <Input label="Pronouns" defaultValue="they/them" />
+      <div className='flex flex-col gap-4'>
+        <Input label='Display name' defaultValue='Eylül Güneş' />
+        <Input label='Pronouns' defaultValue='they/them' />
       </div>
     </Example>
   ),
@@ -81,10 +81,10 @@ export const Small: Story = {
   render: (args) => (
     <Example
       {...args}
-      triggerLabel="Rename"
+      triggerLabel='Rename'
       footer={({ close }) => <Button onPress={close}>Rename</Button>}
     >
-      <Input label="File name" defaultValue="tokens.css" />
+      <Input label='File name' defaultValue='tokens.css' />
     </Example>
   ),
 };
@@ -92,7 +92,7 @@ export const Small: Story = {
 export const Large: Story = {
   args: { size: 'lg', title: 'Release notes' },
   render: (args) => (
-    <Example {...args} triggerLabel="Read release notes">
+    <Example {...args} triggerLabel='Read release notes'>
       <p>
         This release adds Tabs and Toast, tightens focus styles and moves every colour to semantic
         tokens so that dark mode works without component changes.
@@ -112,13 +112,13 @@ export const DestructiveConfirmation: Story = {
   render: (args) => (
     <Example
       {...args}
-      triggerLabel="Delete project"
+      triggerLabel='Delete project'
       footer={({ close }) => (
         <>
-          <Button variant="secondary" onPress={close}>
+          <Button variant='secondary' onPress={close}>
             Cancel
           </Button>
-          <Button variant="destructive" onPress={close}>
+          <Button variant='destructive' onPress={close}>
             Delete
           </Button>
         </>

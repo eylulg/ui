@@ -39,12 +39,12 @@ export function ThemeToggleMenu({
         ref={triggerRef}
         icon={icons[theme]}
         aria-label={ariaLabel}
-        variant="tertiary"
+        variant='tertiary'
         className={className}
       />
       <DropdownMenuContent
-        placement="bottom end"
-        selectionMode="single"
+        placement='bottom end'
+        selectionMode='single'
         disallowEmptySelection
         selectedKeys={[theme]}
         onSelectionChange={onSelectionChange}

@@ -48,7 +48,7 @@ function DeployTable({
 
   return (
     <Table
-      aria-label="Deployments"
+      aria-label='Deployments'
       sortDescriptor={sort}
       onSortChange={setSort}
       selectionMode={selectionMode}
@@ -57,28 +57,28 @@ function DeployTable({
       maxHeight={maxHeight}
     >
       <TableHeader>
-        <Column id="service" isRowHeader allowsSorting>
+        <Column id='service' isRowHeader allowsSorting>
           Service
         </Column>
-        <Column id="status" allowsSorting>
+        <Column id='status' allowsSorting>
           Status
         </Column>
-        <Column id="region">Region</Column>
-        <Column id="latency" allowsSorting align="end">
+        <Column id='region'>Region</Column>
+        <Column id='latency' allowsSorting align='end'>
           Latency (ms)
         </Column>
       </TableHeader>
-      <TableBody items={sorted} emptyState="No deployments yet.">
+      <TableBody items={sorted} emptyState='No deployments yet.'>
         {(deploy) => (
           <Row id={deploy.id}>
             <Cell>{deploy.service}</Cell>
             <Cell>
-              <Badge color={statusColor[deploy.status]} size="sm" dot>
+              <Badge color={statusColor[deploy.status]} size='sm' dot>
                 {deploy.status}
               </Badge>
             </Cell>
             <Cell>{deploy.region}</Cell>
-            <Cell align="end">{deploy.latency}</Cell>
+            <Cell align='end'>{deploy.latency}</Cell>
           </Row>
         )}
       </TableBody>
@@ -97,9 +97,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Sortable: Story = { render: () => <DeployTable /> };
-export const MultipleSelection: Story = { render: () => <DeployTable selectionMode="multiple" /> };
-export const SingleSelection: Story = { render: () => <DeployTable selectionMode="single" /> };
-export const StickyHeader: Story = { render: () => <DeployTable maxHeight="14rem" /> };
+export const MultipleSelection: Story = { render: () => <DeployTable selectionMode='multiple' /> };
+export const SingleSelection: Story = { render: () => <DeployTable selectionMode='single' /> };
+export const StickyHeader: Story = { render: () => <DeployTable maxHeight='14rem' /> };
 export const Empty: Story = { render: () => <DeployTable rows={[]} /> };
 
 export const SortByLatency: Story = {

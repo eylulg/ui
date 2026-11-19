@@ -3,18 +3,18 @@ const scales = ['brand', 'gray', 'success', 'warning', 'error'] as const;
 
 export function ColorScales() {
   return (
-    <div className="not-prose my-6 flex flex-col gap-4">
+    <div className='not-prose my-6 flex flex-col gap-4'>
       {scales.map((scale) => (
-        <div key={scale} className="flex flex-col gap-1">
-          <span className="font-mono text-xs text-secondary">--color-{scale}-*</span>
-          <div className="grid grid-cols-6 gap-1 sm:grid-cols-12">
+        <div key={scale} className='flex flex-col gap-1'>
+          <span className='font-mono text-xs text-secondary'>--color-{scale}-*</span>
+          <div className='grid grid-cols-6 gap-1 sm:grid-cols-12'>
             {steps.map((step) => (
-              <div key={step} className="flex flex-col gap-1">
+              <div key={step} className='flex flex-col gap-1'>
                 <div
-                  className="h-10 rounded-sm ring-1 ring-default ring-inset"
+                  className='h-10 rounded-sm ring-1 ring-default ring-inset'
                   style={{ background: `var(--color-${scale}-${step})` }}
                 />
-                <span className="text-center font-mono text-xs text-tertiary">{step}</span>
+                <span className='text-center font-mono text-xs text-tertiary'>{step}</span>
               </div>
             ))}
           </div>
@@ -227,8 +227,8 @@ export function SemanticTokenTable() {
           <tr key={token.variable}>
             <td>
               <span
-                aria-hidden="true"
-                className="inline-block size-6 rounded-sm ring-1 ring-default ring-inset"
+                aria-hidden='true'
+                className='inline-block size-6 rounded-sm ring-1 ring-default ring-inset'
                 style={{ background: `var(${token.variable})` }}
               />
             </td>
@@ -255,23 +255,23 @@ const scaleRows = {
 
 export function RadiusAndShadowTable() {
   return (
-    <div className="not-prose my-6 flex flex-wrap gap-6">
+    <div className='not-prose my-6 flex flex-wrap gap-6'>
       {scaleRows.radius.map((name) => (
-        <div key={name} className="flex flex-col items-center gap-2">
+        <div key={name} className='flex flex-col items-center gap-2'>
           <div
-            className="size-14 border border-strong bg-secondary"
+            className='size-14 border border-strong bg-secondary'
             style={{ borderRadius: `var(--radius-${name})` }}
           />
-          <code className="text-xs">rounded-{name}</code>
+          <code className='text-xs'>rounded-{name}</code>
         </div>
       ))}
       {scaleRows.shadow.map((name) => (
-        <div key={name} className="flex flex-col items-center gap-2">
+        <div key={name} className='flex flex-col items-center gap-2'>
           <div
-            className="size-14 rounded-md bg-elevated"
+            className='size-14 rounded-md bg-elevated'
             style={{ boxShadow: `var(--shadow-${name})` }}
           />
-          <code className="text-xs">shadow-{name}</code>
+          <code className='text-xs'>shadow-{name}</code>
         </div>
       ))}
     </div>
@@ -280,12 +280,12 @@ export function RadiusAndShadowTable() {
 
 export function TypeScale() {
   return (
-    <div className="not-prose my-6 flex flex-col gap-3">
+    <div className='not-prose my-6 flex flex-col gap-3'>
       {scaleRows.text.map((name) => (
-        <div key={name} className="flex items-baseline gap-4">
-          <code className="w-20 shrink-0 text-xs text-tertiary">text-{name}</code>
+        <div key={name} className='flex items-baseline gap-4'>
+          <code className='w-20 shrink-0 text-xs text-tertiary'>text-{name}</code>
           <span
-            className="text-primary"
+            className='text-primary'
             style={{
               fontSize: `var(--text-${name})`,
               lineHeight: `var(--text-${name}--line-height)`,

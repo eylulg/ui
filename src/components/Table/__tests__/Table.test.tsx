@@ -42,7 +42,7 @@ function IssueTable({
 
   return (
     <Table
-      aria-label="Issues"
+      aria-label='Issues'
       sortDescriptor={sort}
       onSortChange={setSort}
       selectionMode={selectionMode}
@@ -50,18 +50,18 @@ function IssueTable({
       onSelectionChange={setSelected}
     >
       <TableHeader>
-        <Column id="title" isRowHeader allowsSorting>
+        <Column id='title' isRowHeader allowsSorting>
           Title
         </Column>
-        <Column id="points" allowsSorting align="end">
+        <Column id='points' allowsSorting align='end'>
           Points
         </Column>
       </TableHeader>
-      <TableBody items={sorted} emptyState="No issues match these filters.">
+      <TableBody items={sorted} emptyState='No issues match these filters.'>
         {(issue) => (
           <Row id={issue.id}>
             <Cell>{issue.title}</Cell>
-            <Cell align="end">{issue.points}</Cell>
+            <Cell align='end'>{issue.points}</Cell>
           </Row>
         )}
       </TableBody>
@@ -101,7 +101,7 @@ describe('Table', () => {
 
   it('selects a row with its checkbox', async () => {
     const user = userEvent.setup();
-    render(<IssueTable selectionMode="multiple" />);
+    render(<IssueTable selectionMode='multiple' />);
     const row = screen.getByRole('row', { name: /Command palette/ });
 
     await user.click(within(row).getByRole('checkbox'));
@@ -110,18 +110,18 @@ describe('Table', () => {
   });
 
   it('has no axe violations in light and dark', async () => {
-    await expectNoA11yViolations(() => <IssueTable selectionMode="multiple" />);
+    await expectNoA11yViolations(() => <IssueTable selectionMode='multiple' />);
   });
 
   it('adopts the server markup on hydration instead of recreating the header and body', async () => {
     const container = document.createElement('div');
     document.body.append(container);
-    container.innerHTML = renderToString(<IssueTable selectionMode="multiple" />);
+    container.innerHTML = renderToString(<IssueTable selectionMode='multiple' />);
     const header = container.querySelector('thead');
     const body = container.querySelector('tbody');
 
     await act(async () => {
-      hydrateRoot(container, <IssueTable selectionMode="multiple" />);
+      hydrateRoot(container, <IssueTable selectionMode='multiple' />);
     });
 
     expect(container.querySelector('thead')).toBe(header);

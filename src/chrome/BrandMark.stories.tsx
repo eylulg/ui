@@ -15,11 +15,11 @@ export const Default: Story = {};
 
 export const InEveryVariant: Story = {
   render: (args) => (
-    <ul className="flex flex-wrap gap-4">
+    <ul className='flex flex-wrap gap-4'>
       {variantNames.map((name) => (
-        <li key={name} data-ui-variant={name} className="flex flex-col items-center gap-2">
+        <li key={name} data-ui-variant={name} className='flex flex-col items-center gap-2'>
           <BrandMark {...args} title={`Eylül Güneş, ${name} variant`} />
-          <span className="text-xs text-tertiary">{name}</span>
+          <span className='text-xs text-tertiary'>{name}</span>
         </li>
       ))}
     </ul>

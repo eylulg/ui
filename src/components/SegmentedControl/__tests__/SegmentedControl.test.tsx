@@ -8,12 +8,12 @@ import { SegmentedControl, SegmentedControlItem } from '../SegmentedControl';
 function View({ onSelectionChange }: { onSelectionChange?: (key: unknown) => void }) {
   return (
     <SegmentedControl
-      aria-label="View"
-      defaultSelectedKey="list"
+      aria-label='View'
+      defaultSelectedKey='list'
       onSelectionChange={onSelectionChange}
     >
-      <SegmentedControlItem id="list">List</SegmentedControlItem>
-      <SegmentedControlItem id="board">Board</SegmentedControlItem>
+      <SegmentedControlItem id='list'>List</SegmentedControlItem>
+      <SegmentedControlItem id='board'>Board</SegmentedControlItem>
     </SegmentedControl>
   );
 }
@@ -48,9 +48,9 @@ describe('SegmentedControl', () => {
     await expectNoA11yViolations(() => (
       <div>
         <View />
-        <SegmentedControl aria-label="Layout" size="sm" defaultSelectedKey="a">
-          <SegmentedControlItem id="a" icon={List} aria-label="List layout" />
-          <SegmentedControlItem id="b" isDisabled>
+        <SegmentedControl aria-label='Layout' size='sm' defaultSelectedKey='a'>
+          <SegmentedControlItem id='a' icon={List} aria-label='List layout' />
+          <SegmentedControlItem id='b' isDisabled>
             Disabled
           </SegmentedControlItem>
         </SegmentedControl>

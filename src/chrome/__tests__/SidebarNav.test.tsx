@@ -14,7 +14,7 @@ const sections: SidebarNavSection[] = [
       {
         href: '/issues',
         label: 'My issues',
-        action: <IconButton icon={Plus} aria-label="Add issue" variant="tertiary" size="sm" />,
+        action: <IconButton icon={Plus} aria-label='Add issue' variant='tertiary' size='sm' />,
       },
     ],
   },

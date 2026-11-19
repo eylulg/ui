@@ -86,7 +86,7 @@ export function ThemeToggle({
   return (
     <ToggleButtonGroup
       aria-label={ariaLabel}
-      selectionMode="single"
+      selectionMode='single'
       disallowEmptySelection
       selectedKeys={[theme]}
       onSelectionChange={handleSelectionChange}
@@ -96,7 +96,7 @@ export function ThemeToggle({
         const Icon = icons[id];
         return (
           <ToggleButton key={id} id={id} aria-label={text[id]} className={button}>
-            <Icon aria-hidden="true" className="size-4" />
+            <Icon aria-hidden='true' className='size-4' />
           </ToggleButton>
         );
       })}
@@ -143,13 +143,13 @@ function CompactToggle({
   const Icon = icons[theme];
   return (
     <button
-      type="button"
+      type='button'
       aria-label={ariaLabel}
-      data-variant="tertiary"
+      data-variant='tertiary'
       className={cx(compactTrigger, className)}
       {...triggerProps}
     >
-      <Icon aria-hidden="true" className="size-5" />
+      <Icon aria-hidden='true' className='size-5' />
     </button>
   );
 }

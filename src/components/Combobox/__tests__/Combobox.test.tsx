@@ -6,15 +6,15 @@ import { Combobox, ComboboxItem, ComboboxSection, type ComboboxProps } from '../
 
 function CityCombobox(props: Partial<ComboboxProps<object>>) {
   return (
-    <Combobox label="City" {...props}>
-      <ComboboxSection title="Netherlands">
-        <ComboboxItem id="ams" description="Capital">
+    <Combobox label='City' {...props}>
+      <ComboboxSection title='Netherlands'>
+        <ComboboxItem id='ams' description='Capital'>
           Amsterdam
         </ComboboxItem>
-        <ComboboxItem id="rtm">Rotterdam</ComboboxItem>
+        <ComboboxItem id='rtm'>Rotterdam</ComboboxItem>
       </ComboboxSection>
-      <ComboboxSection title="Norway">
-        <ComboboxItem id="osl">Oslo</ComboboxItem>
+      <ComboboxSection title='Norway'>
+        <ComboboxItem id='osl'>Oslo</ComboboxItem>
       </ComboboxSection>
     </Combobox>
   );
@@ -55,13 +55,13 @@ describe('Combobox', () => {
   });
 
   it('announces loading while results are pending', () => {
-    render(<CityCombobox isLoading loadingLabel="Loading cities" />);
+    render(<CityCombobox isLoading loadingLabel='Loading cities' />);
 
     expect(screen.getByRole('status')).toHaveTextContent('Loading cities');
   });
 
   it('marks the field invalid and shows the error instead of the hint', () => {
-    render(<CityCombobox hint="Where you work." errorMessage="Choose a city." />);
+    render(<CityCombobox hint='Where you work.' errorMessage='Choose a city.' />);
 
     const input = screen.getByRole('combobox', { name: 'City' });
     expect(input).toHaveAttribute('aria-invalid', 'true');
@@ -70,7 +70,7 @@ describe('Combobox', () => {
 
   it('has no axe violations in light and dark while open', async () => {
     await expectNoA11yViolations(
-      () => <CityCombobox hint="Where you work." />,
+      () => <CityCombobox hint='Where you work.' />,
       async () => {
         await type('a');
         await screen.findByRole('listbox');

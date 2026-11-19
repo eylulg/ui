@@ -31,10 +31,10 @@ function RemovableExample(props: { label?: string }) {
   return (
     <TagGroup
       {...props}
-      hint="Press Backspace or Delete on a focused tag to remove it."
+      hint='Press Backspace or Delete on a focused tag to remove it.'
       items={items}
       onRemove={(keys) => setItems((current) => current.filter((item) => !keys.has(item.id)))}
-      renderEmptyState={() => <span className="text-sm text-tertiary">No skills left.</span>}
+      renderEmptyState={() => <span className='text-sm text-tertiary'>No skills left.</span>}
     >
       {(item) => <Tag id={item.id}>{item.name}</Tag>}
     </TagGroup>
@@ -51,9 +51,9 @@ export const Selectable: Story = {
   args: { label: 'Filter by status', selectionMode: 'multiple', defaultSelectedKeys: ['open'] },
   render: (args) => (
     <TagGroup {...args}>
-      <Tag id="open">Open</Tag>
-      <Tag id="review">In review</Tag>
-      <Tag id="closed">Closed</Tag>
+      <Tag id='open'>Open</Tag>
+      <Tag id='review'>In review</Tag>
+      <Tag id='closed'>Closed</Tag>
     </TagGroup>
   ),
 };
@@ -62,8 +62,8 @@ export const Disabled: Story = {
   args: { disabledKeys: ['b'] },
   render: (args) => (
     <TagGroup {...args}>
-      <Tag id="a">Enabled</Tag>
-      <Tag id="b">Disabled</Tag>
+      <Tag id='a'>Enabled</Tag>
+      <Tag id='b'>Disabled</Tag>
     </TagGroup>
   ),
 };

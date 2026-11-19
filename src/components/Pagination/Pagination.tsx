@@ -87,7 +87,7 @@ export function Pagination({
 
   return (
     <nav aria-label={ariaLabel} className={className}>
-      <ul className="flex flex-wrap items-center gap-1">
+      <ul className='flex flex-wrap items-center gap-1'>
         <li>
           <PageControl
             target={currentPage - 1}
@@ -95,14 +95,14 @@ export function Pagination({
             getPageHref={getPageHref}
             onSelect={goTo}
           >
-            <ChevronLeft aria-hidden="true" className="size-4" />
+            <ChevronLeft aria-hidden='true' className='size-4' />
             {previousLabel}
           </PageControl>
         </li>
         {range.map((entry, index) =>
           entry === 'ellipsis' ? (
-            <li key={`ellipsis-${index}`} aria-hidden="true" className="px-1 text-fg-tertiary">
-              <Ellipsis className="size-4" />
+            <li key={`ellipsis-${index}`} aria-hidden='true' className='px-1 text-fg-tertiary'>
+              <Ellipsis className='size-4' />
             </li>
           ) : (
             <li key={entry}>
@@ -126,7 +126,7 @@ export function Pagination({
             onSelect={goTo}
           >
             {nextLabel}
-            <ChevronRight aria-hidden="true" className="size-4" />
+            <ChevronRight aria-hidden='true' className='size-4' />
           </PageControl>
         </li>
       </ul>

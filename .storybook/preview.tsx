@@ -33,7 +33,7 @@ function ThemeRoot({
     if (variant === 'base') delete root.dataset.uiVariant;
     else root.dataset.uiVariant = variant;
   }, [theme, variant]);
-  return <div className="min-h-full bg-primary text-primary">{children}</div>;
+  return <div className='min-h-full bg-primary text-primary'>{children}</div>;
 }
 
 type Globals = { theme?: Theme; variant?: Variant };

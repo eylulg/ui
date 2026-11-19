@@ -7,7 +7,7 @@ import { EmptyState } from '../EmptyState';
 
 describe('EmptyState', () => {
   it('can be the page heading', () => {
-    render(<EmptyState headingLevel={1} title="Page not found" />);
+    render(<EmptyState headingLevel={1} title='Page not found' />);
 
     expect(screen.getByRole('heading', { level: 1, name: 'Page not found' })).toBeInTheDocument();
   });
@@ -15,15 +15,15 @@ describe('EmptyState', () => {
   it('has no axe violations in light and dark', async () => {
     await expectNoA11yViolations(() => (
       <div>
-        <EmptyState headingLevel={1} title="Page not found" />
+        <EmptyState headingLevel={1} title='Page not found' />
         <EmptyState
           icon={Inbox}
-          title="No issues yet"
-          description="Create an issue to start tracking work."
+          title='No issues yet'
+          description='Create an issue to start tracking work.'
           primaryAction={<Button>Create issue</Button>}
-          secondaryAction={<Button variant="secondary">Import issues</Button>}
+          secondaryAction={<Button variant='secondary'>Import issues</Button>}
         />
-        <EmptyState size="sm" headingLevel={3} title="No results" />
+        <EmptyState size='sm' headingLevel={3} title='No results' />
       </div>
     ));
   });

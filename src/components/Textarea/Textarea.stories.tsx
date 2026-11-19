@@ -5,7 +5,7 @@ const meta = {
   title: 'Components/Textarea',
   component: Textarea,
   args: { label: 'Message', placeholder: 'Write a few words' },
-  decorators: [(Story) => <div className="max-w-md">{Story()}</div>],
+  decorators: [(Story) => <div className='max-w-md'>{Story()}</div>],
 } satisfies Meta<typeof Textarea>;
 
 export default meta;

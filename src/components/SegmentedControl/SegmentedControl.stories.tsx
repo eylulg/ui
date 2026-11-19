@@ -14,9 +14,9 @@ const meta = {
   },
   render: (args) => (
     <SegmentedControl {...args}>
-      <SegmentedControlItem id="list">List</SegmentedControlItem>
-      <SegmentedControlItem id="board">Board</SegmentedControlItem>
-      <SegmentedControlItem id="timeline">Timeline</SegmentedControlItem>
+      <SegmentedControlItem id='list'>List</SegmentedControlItem>
+      <SegmentedControlItem id='board'>Board</SegmentedControlItem>
+      <SegmentedControlItem id='timeline'>Timeline</SegmentedControlItem>
     </SegmentedControl>
   ),
 } satisfies Meta<typeof SegmentedControl>;
@@ -30,10 +30,10 @@ export const Small: Story = { args: { size: 'sm' } };
 export const WithIcons: Story = {
   render: (args) => (
     <SegmentedControl {...args}>
-      <SegmentedControlItem id="list" icon={List}>
+      <SegmentedControlItem id='list' icon={List}>
         List
       </SegmentedControlItem>
-      <SegmentedControlItem id="board" icon={LayoutGrid}>
+      <SegmentedControlItem id='board' icon={LayoutGrid}>
         Board
       </SegmentedControlItem>
     </SegmentedControl>
@@ -43,8 +43,8 @@ export const WithIcons: Story = {
 export const IconsOnly: Story = {
   render: (args) => (
     <SegmentedControl {...args}>
-      <SegmentedControlItem id="list" icon={List} aria-label="List view" />
-      <SegmentedControlItem id="board" icon={LayoutGrid} aria-label="Board view" />
+      <SegmentedControlItem id='list' icon={List} aria-label='List view' />
+      <SegmentedControlItem id='board' icon={LayoutGrid} aria-label='Board view' />
     </SegmentedControl>
   ),
 };
@@ -52,9 +52,9 @@ export const IconsOnly: Story = {
 export const DisabledSegment: Story = {
   render: (args) => (
     <SegmentedControl {...args}>
-      <SegmentedControlItem id="list">List</SegmentedControlItem>
-      <SegmentedControlItem id="board">Board</SegmentedControlItem>
-      <SegmentedControlItem id="timeline" isDisabled>
+      <SegmentedControlItem id='list'>List</SegmentedControlItem>
+      <SegmentedControlItem id='board'>Board</SegmentedControlItem>
+      <SegmentedControlItem id='timeline' isDisabled>
         Timeline
       </SegmentedControlItem>
     </SegmentedControl>
@@ -64,16 +64,16 @@ export const DisabledSegment: Story = {
 function Controlled() {
   const [mode, setMode] = useState<string>('write');
   return (
-    <div className="flex flex-col gap-3">
+    <div className='flex flex-col gap-3'>
       <SegmentedControl
-        aria-label="Editor mode"
+        aria-label='Editor mode'
         selectedKey={mode}
         onSelectionChange={(key) => setMode(String(key))}
       >
-        <SegmentedControlItem id="write">Write</SegmentedControlItem>
-        <SegmentedControlItem id="preview">Preview</SegmentedControlItem>
+        <SegmentedControlItem id='write'>Write</SegmentedControlItem>
+        <SegmentedControlItem id='preview'>Preview</SegmentedControlItem>
       </SegmentedControl>
-      <p className="text-sm text-secondary">Showing the {mode} view.</p>
+      <p className='text-sm text-secondary'>Showing the {mode} view.</p>
     </div>
   );
 }
