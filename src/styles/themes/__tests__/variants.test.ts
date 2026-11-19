@@ -3,7 +3,7 @@ import { resolve } from 'node:path';
 import { parse, type Oklch } from 'culori';
 import { describe, expect, it } from 'vitest';
 import pkg from '../../../../package.json';
-import { checkVariant } from '../../../../scripts/contrast';
+import { checkSeparation, checkVariant } from '../../../../scripts/contrast';
 import { brandLightness, grayLightness, scalesModule } from '../../../../scripts/palette';
 import {
   scaleSteps,
@@ -22,6 +22,11 @@ describe('theme variants', () => {
     expect(failures.map((f) => `${f.mode} ${f.fg} on ${f.bg}: ${f.ratio}:1 < ${f.min}:1`)).toEqual(
       [],
     );
+  });
+
+  it('keeps neighbouring chart series apart in light and dark', () => {
+    const weak = checkSeparation().filter((result) => !result.pass);
+    expect(weak.map((r) => `${r.mode} ${r.a} next to ${r.b}: ${r.normal} / ${r.cvd}`)).toEqual([]);
   });
 
   it('uses the same lightness per step in every variant, so contrast matches', () => {
