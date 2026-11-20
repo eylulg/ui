@@ -68,7 +68,7 @@ export function Tag({ children, className, ...props }: TagProps) {
       textValue={textValue}
       className={composeRenderProps(className, (consumer) =>
         cx(
-          'inline-flex h-7 cursor-default items-center gap-1 rounded-sm border border-default bg-primary px-2 text-sm font-medium text-secondary',
+          'inline-flex h-7 touch-target cursor-default items-center gap-1 rounded-sm border border-default bg-primary px-2 text-sm font-medium text-secondary',
           'data-selected:border-brand data-selected:bg-brand-subtle data-selected:text-brand',
           'data-disabled:text-disabled',
           focusRing,
