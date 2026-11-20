@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { BrandMark } from './BrandMark';
+import { BrandLogo } from './BrandLogo';
 import { profileLinks, projectHref, projects as defaultProjects, type Project } from './projects';
 
 export interface SiteFooterLabels {
@@ -64,7 +64,7 @@ export function SiteFooter({
     <footer className={footer}>
       <div className={inner}>
         <p className={intro}>
-          <BrandMark size={20} />
+          <BrandLogo size={24} />
           {text.intro}
         </p>
         <nav aria-label={text.projectsNav}>

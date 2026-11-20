@@ -124,7 +124,7 @@ colour only. Import exactly one, after `theme.css`.
   (`--color-brand-25` to `950`) is generated from the seed in oklch with fixed lightness per
   step. `npm run themes` regenerates the scales and CSS from `src/styles/themes/variants.ts`.
 - **Contrast.** `npm run contrast` (also part of `npm test`) checks every text token at 4.5:1 and
-  every icon, solid fill, control border, focus ring, logo stroke and chart series at 3:1, on the
+  every icon, solid fill, control border, focus ring, logo and chart series at 3:1, on the
   card, the page and popovers, in light and dark, for the base theme and every variant.
 - **Text size.** Default has a 16px body in every theme, compact a 14px body. `TextSizeToggle`
   (or `useTextSize`) lets the visitor switch; the choice is written as `data-ui-text` on `<html>`, remembered, and
@@ -260,7 +260,8 @@ import { HeatGrid, LineChart } from '@eylulg/ui/chart';
 | `themeInitScript` | Inline `<head>` script that applies the stored theme before first paint (also `@eylulg/ui/theme-script`)                                                          | yes         |
 | `ProjectSwitcher` | DropdownMenu of the projects, current one marked                                                                                                                  | client      |
 | `SiteFooter`      | "Part of Eylül Güneş's projects", project links, GitHub, LinkedIn, Built with @eylulg/ui; `labels`, `children` for attributions                                   | yes         |
-| `BrandMark`       | The shared monogram, filled with the active brand colour                                                                                                          | yes         |
+| `BrandLogo`       | The EG horse logo in the brand green in every theme, a thinner outline at 48px and below. The default brand of TopNav and SiteFooter                              | yes         |
+| `BrandMark`       | The "eg" monogram, filled with the active brand colour. Kept for compatibility                                                                                    | yes         |
 
 The project list lives in `@eylulg/ui/projects` (`id`, `name`, `description`, `url`,
 `plannedUrl`, `variant`, `repoUrl`). Projects without a deployment have `url: null` and a

@@ -368,9 +368,8 @@
     --ui-fg-success: var(--color-success-600);
     --ui-fg-warning: var(--color-warning-600);
 
-    /* The logo keeps its own colours in every project: green letters, ink lines. */
-    --ui-logo-letters: #446c2b;
-    --ui-logo-lines: #2c2521;
+    /* The logo is brand green in every project and does not follow the variant. */
+    --ui-logo: #446c2b;
 
     /* Extra badge hues. Fixed across variants; the contrast check covers each one. */
     --ui-bg-blue-subtle: #eff6ff;
@@ -472,8 +471,7 @@
     --ui-fg-success: var(--color-success-400);
     --ui-fg-warning: var(--color-warning-400);
 
-    --ui-logo-letters: #97bf82;
-    --ui-logo-lines: #f3ede5;
+    --ui-logo: #97bf82;
 
     --ui-bg-blue-subtle: color-mix(in oklab, #2563eb 18%, transparent);
     --ui-text-blue: #93c5fd;

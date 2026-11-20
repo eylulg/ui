@@ -1,7 +1,7 @@
 import { Menu } from 'lucide-react';
 import { lazy, Suspense, useState, type ReactNode } from 'react';
 import { Anchor } from './Anchor';
-import { BrandMark } from './BrandMark';
+import { BrandLogo } from './BrandLogo';
 import type { LinkComponent, NavLink } from './types';
 
 // Loaded on the first press of the menu button, so the Drawer stays out of the first chunk.
@@ -16,7 +16,7 @@ export interface TopNavLabels {
 
 export interface TopNavProps {
   productName: string;
-  /** Logo before the product name. Defaults to the shared BrandMark. */
+  /** Logo before the product name. Defaults to the shared BrandLogo. */
   logo?: ReactNode;
   /** Where the logo and product name link to. */
   homeHref?: string;
@@ -78,7 +78,7 @@ const compactBar = 'flex items-center gap-1 md:hidden';
  */
 export function TopNav({
   productName,
-  logo = <BrandMark />,
+  logo = <BrandLogo size={32} />,
   homeHref = '/',
   links = [],
   LinkComponent = Anchor,
