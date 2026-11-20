@@ -66,7 +66,7 @@ const desktopCenter = 'hidden min-w-0 items-center md:flex';
 const desktopActions = 'hidden items-center gap-2 md:flex';
 // A native button keeps react-aria-components out of the first load of a page that never opens the menu.
 const menuButton = [
-  'touch-target inline-flex size-control-md cursor-pointer items-center justify-center rounded-md text-secondary hover:bg-hover hover:text-primary md:hidden',
+  'touch-target relative inline-flex size-control-md cursor-pointer items-center justify-center rounded-md text-secondary hover:bg-hover hover:text-primary md:hidden',
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
 ].join(' ');
 const compactBar = 'flex items-center gap-1 md:hidden';

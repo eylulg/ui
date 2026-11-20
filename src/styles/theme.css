@@ -287,11 +287,22 @@
   --spacing-stack: var(--density-stack);
 }
 
-/* Touch targets reach 44px on coarse pointers; desktop sizes are untouched. */
+/*
+ * Touch targets reach 44px on coarse pointers through an invisible hit area, so the
+ * visible size never changes. The element must be positioned (class relative) and
+ * must not use ::after itself.
+ */
 @utility touch-target {
   @media (pointer: coarse) {
-    min-height: 2.75rem;
-    min-width: 2.75rem;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: max(100%, 2.75rem);
+      height: max(100%, 2.75rem);
+      transform: translate(-50%, -50%);
+    }
   }
 }
 
