@@ -27,8 +27,8 @@ after a change (or keep `npx vite build --watch` running) and restart the app's 
 install (`--install-links`) works differently, see [One copy of React](#one-copy-of-react-with-a-linked-checkout). When
 the package is on npm, replace the `file:../ui` range with a version and nothing else changes.
 
-`react`, `react-dom` and `lucide-react` are peer dependencies (and `@fontsource-variable/inter`
-an optional one, see [Fonts](#fonts)). The library re-exports no icons: import them from
+`react`, `react-dom` and `lucide-react` are peer dependencies; the fonts come with the library
+(see [Fonts](#fonts)). The library re-exports no icons: import them from
 `lucide-react` yourself and pass the component (`icon={Plus}`) or, in the chrome, an element
 (`icon: <Inbox />`).
 
@@ -239,12 +239,7 @@ Library components need their classes, so an app on path C that also renders the
 
 The theme names its fonts and falls back to the system font, so nothing downloads by default.
 Every theme uses the same three: Manrope for headings, Inter for text, and JetBrains Mono for code
-only. To load them, install the optional peers and import `fonts.css` before the theme:
-
-```bash
-npm install @fontsource-variable/inter @fontsource-variable/manrope \
-  @fontsource-variable/jetbrains-mono
-```
+only. The font packages come with the library; to load them, import `fonts.css` before the theme:
 
 ```css
 @import '@eylulg/ui/fonts.css';

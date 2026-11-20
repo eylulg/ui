@@ -196,6 +196,11 @@
   {
     "name": "Optional font loader, three families",
     "path": "dist/fonts.css",
-    "limit": "130 B"
+    "limit": "130 B",
+    "ignore": [
+      "@fontsource-variable/inter",
+      "@fontsource-variable/manrope",
+      "@fontsource-variable/jetbrains-mono"
+    ]
   }
 ]
