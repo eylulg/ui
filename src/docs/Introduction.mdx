@@ -5,27 +5,23 @@ import { ColorScales, RadiusAndShadowTable, SemanticTokenTable, TypeScale } from
 
 # @eylulg/ui
 
-The design system for all of Eylül Güneş's projects: an accessible React 19 component library,
-nine project theme variants and the shared app chrome. Behaviour, focus management and ARIA come
-from [React Aria Components](https://react-spectrum.adobe.com/react-aria/); every visual decision
-comes from Tailwind CSS 4 design tokens.
+The component library behind all of Eylül's projects: React 19 components on React Aria
+Components, Tailwind CSS 4 design tokens, nine theme variants and the shared page chrome.
+React Aria provides behaviour, focus management and ARIA. The tokens provide every visual decision.
 
-Use the **Theme** toolbar above to switch between light and dark, the **Variant** toolbar to see
-any story in a project's colour.
-The **Theme variants** pages show each project's theme with every component in light and dark
-side by side; **Chrome** has the shared top nav, sidebar, project switcher, theme
-toggle, footer and logo.
+Use the **Theme** toolbar to switch between light and dark, and the **Variant** toolbar to see any
+story in a project's colour. The **Theme variants** pages show every component in each project's
+theme, in light and dark. **Chrome** has the top nav, sidebar, project switcher, theme toggle,
+footer and logo.
 
 ## The design language
 
-- **A calm frame.** Warm sand paper in light mode, warm brown in dark. The frame never competes
-  with the work, and it is the same in every project.
-- **Colour is identity.** Each project has one colour, its seed. A colour always means a project,
-  never decoration. Green is the brand, shared by the portfolio and the logo letters.
-- **Readable everywhere.** Every text pairing passes WCAG AA in both modes and every non-text
-  mark reaches 3:1. `npm run contrast` checks it for every variant.
-- **Plain voice.** Project names are Title Case; everything else is sentence case. Short
-  sentences, no long dashes, no buzzwords.
+- **Frame.** Warm sand paper in light mode, warm brown in dark. It is the same in every project.
+- **Colour is the project.** Each project has one seed colour. Green is the portfolio's and the
+  logo's.
+- **Contrast.** Text passes WCAG AA in both modes and non-text marks reach 3:1.
+  `npm run contrast` checks every variant.
+- **Voice.** Project names are Title Case, everything else is sentence case.
 
 ## Install
 
@@ -33,15 +29,14 @@ toggle, footer and logo.
 npm install @eylulg/ui react react-dom react-aria-components lucide-react
 ```
 
-Until the package is on npm, install it from a local checkout: `npm install ../ui`. The
-[consuming guide](https://github.com/eylulg/ui/blob/main/docs/consuming.md) has Vite and Next.js
-setups.
+The [consuming guide](https://github.com/eylulg/ui/blob/main/docs/consuming.md) has Vite and
+Next.js setups.
 
 ## Usage
 
-Import the stylesheet and one theme variant once at the root of your app, then import components
-from the index or from a per component entry point. (An app that runs Tailwind 4 imports
-`@eylulg/ui/theme.css` into its own Tailwind entry instead of `styles.css`.)
+Import the stylesheet and one theme variant once at the root of the app, then import components
+from the index or from a per component entry point. An app that runs Tailwind 4 imports
+`@eylulg/ui/theme.css` into its own Tailwind entry instead of `styles.css`.
 
 ```tsx
 import '@eylulg/ui/styles.css';
@@ -59,14 +54,13 @@ export function SignIn() {
 }
 ```
 
-Dark mode is class based: `ThemeToggle` writes `dark-mode` on `<html>` (`dark` works too, on
-`<html>` or any ancestor) and every component follows.
+Dark mode is class based: `ThemeToggle` writes `dark-mode` on `<html>`. `dark` works too, on
+`<html>` or any ancestor.
 
 ## Theme variants
 
-A theme changes colour only. The fonts (Manrope for headings, Inter for text, JetBrains Mono for
-code only), the text size, the density, the frame and the shape (14px buttons, 20px cards, 24px
-page panels) are the same in every theme.
+A variant changes colour only. Fonts (Manrope for headings, Inter for text, JetBrains Mono for code
+only), text size, density and shape are the same in every theme.
 
 | Variant          | Project               | Colour     |
 | ---------------- | --------------------- | ---------- |
@@ -80,13 +74,12 @@ page panels) are the same in every theme.
 | `sudoku`         | Sudoku                | Ink        |
 | `assistant`      | Assistant Studio      | Plum       |
 
-**Colour.** In light mode the seed is the solid fill and carries white text; the tinted fill is
-the seed mixed 24% into warm paper. In dark mode a lighter solid carries the page colour as text,
-and the tint is the seed mixed 32% into the dark page. The brand scale is generated from the seed
-in oklch with the same lightness per step, so contrast matches across variants.
+In light mode the seed is the solid fill and carries white text. In dark mode a lighter seed is
+the solid and carries the page colour as text. The brand scale is generated from the seed in oklch
+with the same lightness at each step, so contrast matches across variants.
 
-To switch themes live, as the portfolio's theme picker does, import `@eylulg/ui/themes/all.css`
-and set `data-ui-variant` on `<html>` or on any container.
+To switch variants at runtime, import `@eylulg/ui/themes/all.css` and set `data-ui-variant` on
+`<html>` or on any container.
 
 ## How the tokens are layered
 
@@ -118,13 +111,12 @@ These switch automatically with the theme. The fg tokens are for icons and glyph
 
 ## Spacing
 
-Spacing uses a single base, `--spacing: 0.25rem`. Every spacing utility is a multiple of it, so
-`p-2` is 8px and `gap-6` is 24px.
+Spacing has one base, `--spacing: 0.25rem`, so `p-2` is 8px and `gap-6` is 24px.
 
 ## Overriding the brand
 
-Set your own seeds after the library stylesheet. Solid fills, tints, brand text and the focus
-ring all follow them.
+Set your own seeds after the library stylesheet. Solid fills, tints, brand text and the focus ring
+follow them.
 
 ```css
 @import '@eylulg/ui/styles.css';
@@ -135,14 +127,13 @@ ring all follow them.
 }
 ```
 
-The light seed needs 4.5:1 against white, because solid buttons put white text on it, and the
-dark seed 4.5:1 against the dark page. Run `npm run contrast` after adding a variant to
-`variants.ts`.
+The light seed needs 4.5:1 against white, because solid buttons put white text on it. The dark seed
+needs 4.5:1 against the dark page. Run `npm run contrast` after adding a variant to `variants.ts`.
 
 ## Accessibility
 
-- Keyboard support and ARIA patterns come from React Aria. Unit tests cover the behaviour this
-  library adds on top, including where focus lands when overlays open and close.
-- Every component is audited with axe in both themes in CI, and the **Accessibility** panel in
-  this Storybook runs the same checks, including colour contrast, on every story.
-- Focus rings only appear for keyboard users, using `data-focus-visible`.
+- Keyboard support and ARIA patterns come from React Aria. Unit tests cover what this library adds,
+  including where focus lands when overlays open and close.
+- Every component has an axe test in both themes, and the **Accessibility** panel in this
+  Storybook runs the same checks, colour contrast included, on every story.
+- Focus rings show for keyboard users only, through `data-focus-visible`.
