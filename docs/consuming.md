@@ -360,13 +360,13 @@ hydrates. Server pages can render components such as `Button` or `PageHeader` di
 
 **Translations.** `TopNav`, `ThemeToggle`, `ProjectSwitcher` and `SiteFooter` take a `labels`
 object, and missing keys keep the English text. The skip link text is `AppShell`'s
-`skipLinkLabel`. `SiteFooter`'s `codeNote` marks where the GitHub link goes with `{github}`.
+`skipLinkLabel`.
 
 ```tsx
 <TopNav productName='Watchlist' labels={{ openMenu: 'Menü öffnen', closeMenu: 'Menü schließen' }} />
 <ThemeToggle labels={{ ariaLabel: 'Farbschema', light: 'Hell', dark: 'Dunkel', system: 'System' }} />
 <ProjectSwitcher labels={{ label: 'Projekte', heading: 'Eylüls Projekte', youAreHere: 'Sie sind hier', sourceCode: '(Quellcode)' }} />
-<SiteFooter labels={{ projectsNav: 'Projekte', profilesNav: 'Profile', codeNote: 'Der Code jedes Projekts liegt auf {github}.', builtWith: 'Gebaut mit @eylulg/ui' }} />
+<SiteFooter labels={{ projectsNav: 'Projekte', profilesNav: 'Profile', codeNote: 'Der Code jedes Projekts liegt auf GitHub.', builtWith: 'Gebaut mit @eylulg/ui' }} />
 ```
 
 **TopNav slots.** `center` sits between the links and the actions (a search field or a command
@@ -396,7 +396,7 @@ next to the menu button below md, so the theme toggle is reachable without openi
 `SiteFooter`, so they line up. `contentClassName` adds layout classes to that column.
 
 **SiteFooter.** The footer is one band: a link for every project (to its live site, or to its
-repository when `url` is null), GitHub and LinkedIn icon buttons, and a line about the code and
+repository when `url` is null), GitHub and LinkedIn links, and a line about the code and
 the library. The link for `currentId` has `aria-current="page"`. `children` render below that
 line, for attributions a data provider requires.
 

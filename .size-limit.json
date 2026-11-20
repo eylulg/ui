@@ -106,7 +106,7 @@
       "./dist/chrome/ProjectSwitcherMenu.js",
       "./dist/chrome/ThemeToggleMenu.js"
     ],
-    "limit": "29 kB"
+    "limit": "28.5 kB"
   },
   {
     "name": "Chrome: TopNav first load (mobile menu loads on first press, own code)",

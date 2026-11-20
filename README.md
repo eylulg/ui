@@ -194,19 +194,19 @@ import { LineChart } from '@eylulg/ui/chart';
 
 `@eylulg/ui/chrome` holds the parts every project shares.
 
-| Export            | What it does                                                                                                                  | Server safe |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| `AppShell`        | Skip link, header, optional sidebar, main landmark, footer; `maxWidth` and `contentClassName`                                 | yes         |
-| `TopNav`          | Logo and product name, links via any `LinkComponent`, `center`, `actions` and `compactActions` slots, mobile menu             | no          |
-| `SidebarNav`      | Sections, collapsible groups, an optional action per item, arrow keys, `aria-current`                                         | no          |
-| `ThemeToggle`     | Light, dark and system, or one icon button with `compact`; stores the choice in localStorage                                  | no          |
-| `useTheme`        | `{ theme, resolved, setTheme }` for a command palette or settings page                                                        | no          |
-| `themeInitScript` | Inline script for `<head>` that applies the stored theme before first paint (also `@eylulg/ui/theme-script`)                  | yes         |
-| `ProjectSwitcher` | Menu of the projects, current one marked                                                                                      | no          |
-| `SiteFooter`      | One band: project links, GitHub and LinkedIn icon buttons, a line about the code and the library; `children` for attributions | yes         |
-| `BrandLogo`       | The EG horse logo, in the brand green in every theme. Default logo of `TopNav`                                                | no          |
-| `BrandMark`       | The "eg" monogram in the active brand colour                                                                                  | yes         |
-| `BrandLoader`     | An animated loading mark                                                                                                      | no          |
+| Export            | What it does                                                                                                      | Server safe |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------- | ----------- |
+| `AppShell`        | Skip link, header, optional sidebar, main landmark, footer; `maxWidth` and `contentClassName`                     | yes         |
+| `TopNav`          | Logo and product name, links via any `LinkComponent`, `center`, `actions` and `compactActions` slots, mobile menu | no          |
+| `SidebarNav`      | Sections, collapsible groups, an optional action per item, arrow keys, `aria-current`                             | no          |
+| `ThemeToggle`     | Light, dark and system, or one icon button with `compact`; stores the choice in localStorage                      | no          |
+| `useTheme`        | `{ theme, resolved, setTheme }` for a command palette or settings page                                            | no          |
+| `themeInitScript` | Inline script for `<head>` that applies the stored theme before first paint (also `@eylulg/ui/theme-script`)      | yes         |
+| `ProjectSwitcher` | Menu of the projects, current one marked                                                                          | no          |
+| `SiteFooter`      | One band: project links, GitHub and LinkedIn, a line about the code and the library; `children` for attributions  | yes         |
+| `BrandLogo`       | The EG horse logo, in the brand green in every theme. Default logo of `TopNav`                                    | no          |
+| `BrandMark`       | The "eg" monogram in the active brand colour                                                                      | yes         |
+| `BrandLoader`     | An animated loading mark                                                                                          | no          |
 
 The project list is `projects` in `@eylulg/ui/projects` (`id`, `name`, `description`, `url`,
 `plannedUrl`, `variant`, `repoUrl`). `ProjectSwitcher` and `SiteFooter` read it, and both accept a

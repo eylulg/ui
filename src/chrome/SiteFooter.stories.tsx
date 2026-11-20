@@ -35,7 +35,7 @@ export const Translated: Story = {
     labels: {
       projectsNav: 'Projekte',
       profilesNav: 'Profile',
-      codeNote: 'Der Code jedes Projekts liegt auf {github}.',
+      codeNote: 'Der Code jedes Projekts liegt auf GitHub.',
       builtWith: 'Gebaut mit @eylulg/ui',
     },
   },

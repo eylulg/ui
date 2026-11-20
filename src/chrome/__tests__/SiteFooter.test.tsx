@@ -37,10 +37,10 @@ describe('SiteFooter', () => {
   it('links the profiles and the library by name', () => {
     render(<SiteFooter />);
 
-    expect(screen.getAllByRole('link', { name: 'GitHub' })).toHaveLength(2);
+    expect(screen.getByRole('link', { name: 'GitHub' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'LinkedIn' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Built with @eylulg/ui' })).toBeInTheDocument();
-    expect(screen.getByText(/Every project's code is on/)).toBeInTheDocument();
+    expect(screen.getByText("Every project's code is on GitHub.")).toBeInTheDocument();
   });
 
   it('translates every visible string and shows extra content', () => {
@@ -51,7 +51,7 @@ describe('SiteFooter', () => {
           profilesNav: 'Profile',
           github: 'GitHub (Code)',
           linkedin: 'LinkedIn (Netzwerk)',
-          codeNote: 'Der Code jedes Projekts liegt auf {github}.',
+          codeNote: 'Der Code jedes Projekts liegt auf GitHub.',
           builtWith: 'Gebaut mit @eylulg/ui',
         }}
       >
@@ -61,9 +61,9 @@ describe('SiteFooter', () => {
 
     expect(screen.getByRole('navigation', { name: 'Projekte' })).toBeInTheDocument();
     expect(screen.getByRole('list', { name: 'Profile' })).toBeInTheDocument();
-    expect(screen.getAllByRole('link', { name: 'GitHub (Code)' })).toHaveLength(2);
+    expect(screen.getByRole('link', { name: 'GitHub (Code)' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'LinkedIn (Netzwerk)' })).toBeInTheDocument();
-    expect(screen.getByText(/Der Code jedes Projekts liegt auf/)).toBeInTheDocument();
+    expect(screen.getByText('Der Code jedes Projekts liegt auf GitHub.')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Gebaut mit @eylulg/ui' })).toBeInTheDocument();
     expect(screen.getByText('Film data by TMDB')).toBeInTheDocument();
   });
