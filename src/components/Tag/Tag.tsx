@@ -66,11 +66,12 @@ export function Tag({ children, className, ...props }: TagProps) {
     <AriaTag
       {...props}
       textValue={textValue}
-      className={composeRenderProps(className, (consumer) =>
+      className={composeRenderProps(className, (consumer, { allowsRemoving, selectionMode }) =>
         cx(
-          'inline-flex h-7 cursor-default items-center gap-1 rounded-sm border border-default bg-primary px-2 text-sm font-medium text-secondary',
+          'relative inline-flex h-7 cursor-default items-center gap-1 rounded-sm border border-default bg-primary px-2 text-sm font-medium text-secondary',
           'data-selected:border-brand data-selected:bg-brand-subtle data-selected:text-brand',
           'data-disabled:text-disabled',
+          (allowsRemoving || selectionMode !== 'none' || props.href) && 'touch-target',
           focusRing,
           consumer,
         ),

@@ -13,7 +13,7 @@ const meta = {
         <Tab id='team'>Team</Tab>
         <Tab id='security'>Security</Tab>
       </TabList>
-      <TabPanel id='profile'>Name, photo and pronouns.</TabPanel>
+      <TabPanel id='profile'>Name, photo and role.</TabPanel>
       <TabPanel id='billing'>Invoices and payment methods.</TabPanel>
       <TabPanel id='team'>Members and roles.</TabPanel>
       <TabPanel id='security'>Passkeys and sessions.</TabPanel>
@@ -28,3 +28,14 @@ export const Horizontal: Story = {};
 export const Vertical: Story = { args: { orientation: 'vertical' } };
 export const DefaultSelected: Story = { args: { defaultSelectedKey: 'billing' } };
 export const DisabledTab: Story = { args: { disabledKeys: ['team'] } };
+/** In a narrow container the tab list scrolls sideways and keeps the selected tab in view. */
+export const Narrow: Story = {
+  args: { defaultSelectedKey: 'security' },
+  decorators: [
+    (Story) => (
+      <div className='w-60'>
+        <Story />
+      </div>
+    ),
+  ],
+};

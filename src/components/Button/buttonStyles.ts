@@ -25,7 +25,7 @@ export const buttonSizes: Record<ButtonSize, string> = {
 };
 
 export const buttonBase = cx(
-  'relative inline-flex cursor-pointer items-center justify-center rounded-md font-semibold whitespace-nowrap transition-colors select-none',
+  'touch-target relative inline-flex cursor-pointer items-center justify-center rounded-md font-semibold whitespace-nowrap transition-colors select-none',
   'data-disabled:cursor-not-allowed data-disabled:border-disabled data-disabled:bg-disabled data-disabled:text-disabled data-disabled:shadow-none',
   focusRing,
 );

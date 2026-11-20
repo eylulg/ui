@@ -287,6 +287,35 @@
   --spacing-stack: var(--density-stack);
 }
 
+/*
+ * Touch targets reach 44px on coarse pointers through an invisible hit area, so the
+ * visible size never changes. The element must be positioned (class relative) and
+ * must not use ::after itself.
+ */
+@utility touch-target {
+  @media (pointer: coarse) {
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: max(100%, 2.75rem);
+      height: max(100%, 2.75rem);
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+/* No colour or size transitions under reduced motion, so nothing is sampled mid transition. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+}
+
 @layer base {
   /*
    * Density, the same in every variant. Independent of light and dark.
