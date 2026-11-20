@@ -48,6 +48,11 @@ jobs:
           else
             echo "present=true" >> "$GITHUB_OUTPUT"
           fi
+      # semantic-release 26 needs Node 26. The library itself builds and tests on .nvmrc above.
+      - uses: actions/setup-node@v7
+        if: steps.token.outputs.present == 'true'
+        with:
+          node-version: 26
       - name: Release
         if: steps.token.outputs.present == 'true'
         env:
