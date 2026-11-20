@@ -1,17 +1,38 @@
 import { render, screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { expectNoA11yViolations } from '../../test-utils/a11y';
+import { projects } from '../projects';
 import { SiteFooter } from '../SiteFooter';
 
 describe('SiteFooter', () => {
-  it.each([
-    { name: 'Portfolio', href: 'https://eylulg.github.io/' },
-    { name: 'Sudoku (source)', href: 'https://github.com/eylulg/sudoku' },
-  ])('links $name to its site, or its repository when not live', ({ name, href }) => {
+  it('lists only live projects under Live, linking to their sites', () => {
+    const project = { description: '', variant: null, repoUrl: 'https://github.com/eylulg/x' };
+    render(
+      <SiteFooter
+        projects={[
+          { ...project, id: 'live', name: 'Live app', url: 'https://example.com/' },
+          { ...project, id: 'draft', name: 'Draft app', url: null },
+        ]}
+      />,
+    );
+
+    const list = screen.getByRole('list', { name: 'Live' });
+    expect(within(list).getByRole('link', { name: 'Live app' })).toHaveAttribute(
+      'href',
+      'https://example.com/',
+    );
+    expect(within(list).queryByRole('link', { name: 'Draft app' })).not.toBeInTheDocument();
+  });
+
+  it('lists every project under Code, linking to its repository', () => {
     render(<SiteFooter />);
 
-    const projects = screen.getByRole('navigation', { name: 'Projects' });
-    expect(within(projects).getByRole('link', { name })).toHaveAttribute('href', href);
+    const code = screen.getByRole('list', { name: 'Code' });
+    expect(within(code).getAllByRole('listitem')).toHaveLength(projects.length);
+    expect(within(code).getByRole('link', { name: 'Sudoku Code' })).toHaveAttribute(
+      'href',
+      'https://github.com/eylulg/sudoku',
+    );
   });
 
   it('marks the project it is shown in', () => {
@@ -26,7 +47,8 @@ describe('SiteFooter', () => {
         labels={{
           intro: 'Teil der Projekte von Eylül Güneş',
           projectsNav: 'Projekte',
-          source: '(Quellcode)',
+          live: 'Online',
+          code: 'Quellcode',
           profilesNav: 'Profile',
           github: 'GitHub (Code)',
           linkedin: 'LinkedIn (Netzwerk)',
@@ -37,8 +59,9 @@ describe('SiteFooter', () => {
       </SiteFooter>,
     );
 
-    const projects = screen.getByRole('navigation', { name: 'Projekte' });
-    expect(within(projects).getByRole('link', { name: 'Sudoku (Quellcode)' })).toBeInTheDocument();
+    expect(screen.getByRole('navigation', { name: 'Projekte' })).toBeInTheDocument();
+    expect(screen.getByRole('list', { name: 'Online' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Sudoku Quellcode' })).toBeInTheDocument();
     expect(screen.getByText('Teil der Projekte von Eylül Güneş')).toBeInTheDocument();
     expect(screen.getByRole('list', { name: 'Profile' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'LinkedIn (Netzwerk)' })).toBeInTheDocument();

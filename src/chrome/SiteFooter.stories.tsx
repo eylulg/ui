@@ -35,7 +35,8 @@ export const Translated: Story = {
     labels: {
       intro: 'Teil der Projekte von Eylül Güneş',
       projectsNav: 'Projekte',
-      source: '(Quellcode)',
+      live: 'Online',
+      code: 'Code',
       profilesNav: 'Profile',
       builtWith: 'Gebaut mit @eylulg/ui',
     },
