@@ -259,7 +259,7 @@ import { HeatGrid, LineChart } from '@eylulg/ui/chart';
 | `useTheme`        | `{ theme, resolved, setTheme }` for a command palette or settings page; guards `matchMedia`                                                                       | client      |
 | `themeInitScript` | Inline `<head>` script that applies the stored theme before first paint (also `@eylulg/ui/theme-script`)                                                          | yes         |
 | `ProjectSwitcher` | DropdownMenu of the projects, current one marked                                                                                                                  | client      |
-| `SiteFooter`      | "Part of Eylül Güneş's projects", project links, GitHub, LinkedIn, Built with @eylulg/ui; `labels`, `children` for attributions                                   | yes         |
+| `SiteFooter`      | "Part of Eylül Güneş's projects", a Live and a Code group of projects, GitHub, LinkedIn, Built with @eylulg/ui; `labels`, `children` for attributions             | yes         |
 | `BrandLogo`       | The EG horse logo in the brand green in every theme, a thinner outline at 48px and below. The default brand of TopNav and SiteFooter                              | yes         |
 | `BrandMark`       | The "eg" monogram, filled with the active brand colour. Kept for compatibility                                                                                    | yes         |
 

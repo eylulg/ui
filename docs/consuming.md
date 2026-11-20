@@ -466,7 +466,7 @@ directly; interactive props like `onPress` need a client component, as with any 
 <TopNav productName="Watchlist" labels={{ openMenu: 'Menü öffnen', closeMenu: 'Menü schließen' }} />
 <ThemeToggle labels={{ ariaLabel: 'Farbschema', light: 'Hell', dark: 'Dunkel', system: 'System' }} />
 <ProjectSwitcher labels={{ label: 'Projekte', heading: 'Projekte von Eylül', youAreHere: 'Sie sind hier', sourceCode: '(Quellcode)' }} />
-<SiteFooter labels={{ intro: 'Teil der Projekte von Eylül Güneş', projectsNav: 'Projekte', source: '(Quellcode)', profilesNav: 'Profile', github: 'GitHub', linkedin: 'LinkedIn', builtWith: 'Gebaut mit @eylulg/ui' }} />
+<SiteFooter labels={{ intro: 'Teil der Projekte von Eylül Güneş', projectsNav: 'Projekte', live: 'Online', code: 'Code', profilesNav: 'Profile', github: 'GitHub', linkedin: 'LinkedIn', builtWith: 'Gebaut mit @eylulg/ui' }} />
 ```
 
 **TopNav slots.** `center` sits between the links and the actions (a search field or a command
@@ -500,7 +500,9 @@ modal code.
 `SiteFooter`, so everything lines up. `contentClassName` adds layout classes (`space-y-8`) to that
 column.
 
-**SiteFooter extras.** `children` render between the project links and the profile row, for
+**SiteFooter groups.** The footer lists projects twice: "Live" holds every project with a `url`, "Code" holds every repository. A project appears under Live as soon as its `url` is set. The `source` label is deprecated and no longer shown.
+
+**SiteFooter extras.** `children` render between the project groups and the profile row, for
 attributions a data provider requires or for extra links.
 
 **SidebarNav item actions.** `action` on an item renders a control beside its link, such as an
