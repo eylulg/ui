@@ -1,9 +1,14 @@
 import '@fontsource-variable/inter';
+import { GLOBALS_UPDATED, SET_GLOBALS } from 'storybook/internal/core-events';
 import { addons } from 'storybook/manager-api';
 import { darkTheme, lightTheme } from './theme';
 
-// The manager cannot follow the toolbar's theme global live, so it follows the
-// visitor's system colour scheme once, at load.
-addons.setConfig({
-  theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? darkTheme : lightTheme,
+addons.setConfig({ theme: lightTheme });
+
+// The manager (sidebar, toolbar, addon panels) follows the toolbar's theme global.
+addons.register('theme-follow', (api) => {
+  const follow = ({ globals }: { globals: { theme?: string } }) =>
+    api.setOptions({ theme: globals.theme === 'dark' ? darkTheme : lightTheme });
+  api.on(SET_GLOBALS, follow);
+  api.on(GLOBALS_UPDATED, follow);
 });

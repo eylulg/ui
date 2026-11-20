@@ -1,6 +1,7 @@
 import { DocsContainer, type DocsContainerProps } from '@storybook/addon-docs/blocks';
 import type { Decorator, Preview } from '@storybook/react-vite';
 import { useEffect, useState, type ReactNode } from 'react';
+import { GLOBALS_UPDATED, SET_GLOBALS } from 'storybook/internal/core-events';
 import { addons } from 'storybook/preview-api';
 import { variantNames, variants } from '../src/styles/themes/variants';
 import { darkTheme, lightTheme } from './theme';
@@ -20,40 +21,42 @@ function applyGlobals({ theme = 'light', variant = 'base', textSize = 'default' 
   root.dataset.uiText = textSize;
 }
 
+// Applies the toolbar globals to the document; renders nothing of its own, so
+// components sit directly on the page surface.
 function ThemeRoot({ globals, children }: { globals: Globals; children: ReactNode }) {
   const { theme, variant, textSize } = globals;
   useEffect(() => {
     applyGlobals({ theme, variant, textSize });
   }, [theme, variant, textSize]);
-  return <div className='min-h-full bg-secondary text-primary'>{children}</div>;
+  return children;
 }
 
-function readGlobals(): Globals {
-  const preview = (
-    window as unknown as {
-      __STORYBOOK_PREVIEW__?: { storyStoreValue?: { userGlobals?: { get(): Globals } } };
-    }
-  ).__STORYBOOK_PREVIEW__;
-  return preview?.storyStoreValue?.userGlobals?.get() ?? {};
-}
+// The latest toolbar globals, kept from the preview channel so the docs
+// container does not need the private preview store.
+let latestGlobals: Globals = {};
+const channel = addons.getChannel();
+const remember = ({ globals }: { globals: Globals }) => {
+  latestGlobals = globals;
+};
+channel.on(SET_GLOBALS, remember);
+channel.on(GLOBALS_UPDATED, remember);
 
 // Follows the toolbar from the docs container: it picks the Storybook docs
 // theme, and for MDX pages without stories (the decorator never runs there) it
 // also applies the theme and variant to the document.
 function ThemedDocsContainer(props: DocsContainerProps) {
   const { context } = props;
-  const [theme, setTheme] = useState<Theme>(() => readGlobals().theme ?? 'light');
+  const [theme, setTheme] = useState<Theme>(latestGlobals.theme ?? 'light');
   useEffect(() => {
     const hasStories = context.componentStories().length > 0;
     const update = (globals: Globals) => {
       setTheme(globals.theme ?? 'light');
       if (!hasStories) applyGlobals(globals);
     };
-    update(readGlobals());
-    const channel = addons.getChannel();
+    update(latestGlobals);
     const onChange = ({ globals }: { globals: Globals }) => update(globals);
-    channel.on('globalsUpdated', onChange);
-    return () => channel.off('globalsUpdated', onChange);
+    channel.on(GLOBALS_UPDATED, onChange);
+    return () => channel.off(GLOBALS_UPDATED, onChange);
   }, [context]);
   return <DocsContainer {...props} theme={theme === 'dark' ? darkTheme : lightTheme} />;
 }
