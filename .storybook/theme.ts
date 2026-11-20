@@ -55,7 +55,7 @@ function theme(mode: 'light' | 'dark') {
     colorPrimary: green[mode],
     colorSecondary: green[mode],
     appBg: page,
-    appContentBg: surface,
+    appContentBg: page,
     appPreviewBg: page,
     appBorderColor: border,
     textColor: text,

@@ -64,7 +64,12 @@ const legend = (props: LegendProps = {}): Story => ({
   render: () => <ChartLegend items={legendItems} {...props} />,
 });
 
-const variantsParameters = { layout: 'padded', forceTheme: 'light' } as const;
+// These stories force the document to light so their light and dark panels sit side by side.
+// They stay out of the docs page, where that would turn every other chart on it light.
+const variantsStory = {
+  parameters: { layout: 'padded', forceTheme: 'light' },
+  tags: ['!autodocs'],
+};
 
 // Line chart
 
@@ -116,7 +121,7 @@ export const LineNarrowPhone: Story = {
 };
 export const LineVariants: Story = {
   name: 'Line variants',
-  parameters: variantsParameters,
+  ...variantsStory,
   render: (args) => (
     <VariantGrid>
       <LineChart {...args} />
@@ -221,7 +226,7 @@ export const BarNarrowPhone: Story = {
 };
 export const BarVariants: Story = {
   name: 'Bar variants',
-  parameters: variantsParameters,
+  ...variantsStory,
   render: () => (
     <VariantGrid>
       <BarChart {...barBase} grouping='stacked' />
@@ -281,7 +286,7 @@ export const HeatGridNarrowPhone: Story = {
 };
 export const HeatGridVariants: Story = {
   name: 'Heat grid variants',
-  parameters: variantsParameters,
+  ...variantsStory,
   render: () => (
     <VariantGrid>
       <HeatGrid {...heatBase} />
@@ -331,7 +336,7 @@ const steps = [
 
 /** The series colours and the sequential ramp in four variants, light and dark. */
 export const Palette: Story = {
-  parameters: variantsParameters,
+  ...variantsStory,
   render: () => (
     <VariantGrid>
       <div className='flex flex-col gap-3'>
