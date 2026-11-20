@@ -36,6 +36,22 @@ describe('TopNav', () => {
     expect(screen.getByRole('link', { name: 'Roadmap' })).toHaveAttribute('href', '/app/projects');
   });
 
+  it('links the logo to the portfolio and the name to the app home', () => {
+    render(<TopNav productName='Workspace' homeHref='/home' />);
+
+    expect(screen.getByRole('link', { name: "Eylül Güneş's portfolio" })).toHaveAttribute(
+      'href',
+      'https://eylulg.github.io/',
+    );
+    expect(screen.getByRole('link', { name: 'Workspace' })).toHaveAttribute('href', '/home');
+  });
+
+  it('is one brand link when the portfolio and the home are the same', () => {
+    render(<TopNav productName='Workspace' homeHref='/' portfolioHref='/' />);
+
+    expect(screen.getAllByRole('link')).toHaveLength(1);
+  });
+
   it('marks the current page', () => {
     render(<TopNav productName='Workspace' links={links} />);
 

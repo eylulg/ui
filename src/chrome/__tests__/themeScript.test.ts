@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { textSizeStorageKey, themeInitScript, themeStorageKey } from '../themeScript';
+import { themeInitScript, themeStorageKey } from '../themeScript';
 
 function run() {
   // The script is shipped as a string for an inline <script>; evaluate it the same way.
@@ -13,7 +13,6 @@ function mockSystemDark(matches: boolean) {
 afterEach(() => {
   window.localStorage.clear();
   document.documentElement.classList.remove('dark-mode');
-  document.documentElement.removeAttribute('data-ui-text');
 });
 
 describe('themeInitScript', () => {
@@ -29,15 +28,6 @@ describe('themeInitScript', () => {
     run();
 
     expect(document.documentElement.classList.contains('dark-mode')).toBe(dark);
-  });
-
-  it('applies a stored text size before first paint', () => {
-    mockSystemDark(false);
-    window.localStorage.setItem(textSizeStorageKey, 'compact');
-
-    run();
-
-    expect(document.documentElement).toHaveAttribute('data-ui-text', 'compact');
   });
 
   it('does not throw when storage is blocked', () => {

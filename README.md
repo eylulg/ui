@@ -126,9 +126,6 @@ colour only. Import exactly one, after `theme.css`.
 - **Contrast.** `npm run contrast` (also part of `npm test`) checks every text token at 4.5:1 and
   every icon, solid fill, control border, focus ring, logo and chart series at 3:1, on the
   card, the page and popovers, in light and dark, for the base theme and every variant.
-- **Text size.** Default has a 16px body in every theme, compact a 14px body. `TextSizeToggle`
-  (or `useTextSize`) lets the visitor switch; the choice is written as `data-ui-text` on `<html>`, remembered, and
-  applied before first paint by `themeInitScript`.
 - **Density.** Components size from `--density-*` through utilities such as `h-control-md`,
   `px-control-x`, `py-item-y`, `px-cell-x` and `p-card`. The values are the same in every theme.
 - **Live switching.** `@eylulg/ui/themes/all.css` holds every variant under

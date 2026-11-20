@@ -7,8 +7,7 @@
  *          on :root and redefined under .dark. Components only use this layer,
  *          so a theme switch or a brand override never touches component code.
  * Layer 3: density and text size tokens (--density-*, --text-*). The same in
- *          every variant. The visitor can make the text smaller with
- *          TextSizeToggle, without touching component code.
+ *          every variant.
  *
  * The base theme is the portfolio's: the green brand on a warm sand frame. To
  * theme a project, import one of the variant files (@eylulg/ui/themes/<name>.css)
@@ -40,7 +39,7 @@
     var(--font-jetbrains-mono, 'JetBrains Mono'), ui-monospace, SFMono-Regular, 'SF Mono', Menlo,
     Consolas, monospace;
 
-  /* The default text size. Compact variants and the visitor's choice override these. */
+  /* The type scale. */
   --text-xs: 0.8125rem;
   --text-xs--line-height: 1.125rem;
   --text-sm: 0.875rem;
@@ -55,7 +54,7 @@
   --text-2xl--line-height: 2.25rem;
   --text-3xl: 2.5rem;
   --text-3xl--line-height: 2.875rem;
-  /* A fluid size for one hero heading per page. Outside the text size setting. */
+  /* A fluid size for one hero heading per page. */
   --text-display: clamp(2.5rem, 1.6rem + 3.4vw, 4.25rem);
   --text-display--line-height: 1.05;
   --text-display--letter-spacing: -0.025em;
@@ -536,22 +535,4 @@
     --ui-chart-seq-4: #7aaeef;
     --ui-chart-seq-5: #b3d4ff;
   }
-}
-
-/* The visitor's text size, from useTextSize or themeInitScript. Default is the type scale above. */
-:root[data-ui-text='compact'] {
-  --text-xs: 0.75rem;
-  --text-xs--line-height: 1rem;
-  --text-sm: 0.8125rem;
-  --text-sm--line-height: 1.125rem;
-  --text-md: 0.875rem;
-  --text-md--line-height: 1.25rem;
-  --text-lg: 1rem;
-  --text-lg--line-height: 1.5rem;
-  --text-xl: 1.25rem;
-  --text-xl--line-height: 1.75rem;
-  --text-2xl: 1.5rem;
-  --text-2xl--line-height: 2rem;
-  --text-3xl: 2rem;
-  --text-3xl--line-height: 2.375rem;
 }

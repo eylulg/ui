@@ -10,6 +10,8 @@ const MobileMenu = lazy(() =>
 );
 
 export interface TopNavLabels {
+  /** Accessible name of the logo link. */
+  portfolio: string;
   openMenu: string;
   closeMenu: string;
 }
@@ -18,8 +20,13 @@ export interface TopNavProps {
   productName: string;
   /** Logo before the product name. Defaults to the shared BrandLogo. */
   logo?: ReactNode;
-  /** Where the logo and product name link to. */
+  /** Where the product name links to: the app's own home. */
   homeHref?: string;
+  /**
+   * Where the logo links to. When it equals `homeHref`, as on the portfolio
+   * itself, the logo and the name are one link.
+   */
+  portfolioHref?: string;
   links?: NavLink[];
   /** Your router's link, such as Next.js `Link` or React Router's `Link`. */
   LinkComponent?: LinkComponent;
@@ -29,7 +36,7 @@ export interface TopNavProps {
    * mobile menu.
    */
   center?: ReactNode;
-  /** Right hand slot, usually ProjectSwitcher and ThemeToggle. Shown from the md breakpoint and in the mobile menu. */
+  /** Right hand slot, usually ThemeToggle. Shown from the md breakpoint and in the mobile menu. */
   actions?: ReactNode;
   /**
    * Controls that stay in the bar below the md breakpoint, next to the menu
@@ -45,14 +52,21 @@ export interface TopNavProps {
   labels?: Partial<TopNavLabels>;
 }
 
-const defaultLabels: TopNavLabels = { openMenu: 'Open menu', closeMenu: 'Close menu' };
+const defaultLabels: TopNavLabels = {
+  portfolio: "Eylül Güneş's portfolio",
+  openMenu: 'Open menu',
+  closeMenu: 'Close menu',
+};
 
 const header = 'sticky top-0 z-40 border-b border-default bg-secondary/90 backdrop-blur';
 const bar = 'mx-auto flex h-14 w-full max-w-6xl items-center gap-3 px-4 sm:px-6 lg:px-8';
-const brand = [
-  'flex min-w-0 items-center gap-2 rounded-md font-display text-md font-semibold text-primary',
-  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
-].join(' ');
+const brandFocus =
+  'touch-target relative rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus';
+const brandText = 'font-display text-md font-semibold text-primary';
+const brand = `flex min-w-0 items-center gap-2 ${brandText} ${brandFocus}`;
+const brandPair = 'flex min-w-0 items-center gap-2';
+const logoLink = `shrink-0 ${brandFocus}`;
+const nameLink = `min-w-0 truncate ${brandText} ${brandFocus}`;
 const desktopNav = 'ml-4 hidden md:block';
 const desktopList = 'flex items-center gap-1';
 const navLink = [
@@ -80,6 +94,7 @@ export function TopNav({
   productName,
   logo = <BrandLogo size={32} />,
   homeHref = '/',
+  portfolioHref = 'https://eylulg.github.io/',
   links = [],
   LinkComponent = Anchor,
   center,
@@ -101,10 +116,22 @@ export function TopNav({
   return (
     <header className={header}>
       <div className={bar}>
-        <LinkComponent href={homeHref} className={brand}>
-          {logo}
-          <span className='truncate'>{productName}</span>
-        </LinkComponent>
+        {portfolioHref === homeHref ? (
+          <LinkComponent href={homeHref} className={brand}>
+            {logo}
+            <span className='truncate'>{productName}</span>
+          </LinkComponent>
+        ) : (
+          <div className={brandPair}>
+            <LinkComponent href={portfolioHref} className={logoLink}>
+              {logo}
+              <span className='sr-only'>{text.portfolio}</span>
+            </LinkComponent>
+            <LinkComponent href={homeHref} className={nameLink}>
+              {productName}
+            </LinkComponent>
+          </div>
+        )}
         {links.length > 0 && (
           <nav aria-label={navLabel} className={desktopNav}>
             <ul className={desktopList}>

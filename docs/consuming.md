@@ -281,14 +281,6 @@ import { variants } from '@eylulg/ui/themes';
 variants.workspace.seed.light; // '#3f6fb6'
 ```
 
-## Text size
-
-Text size is separate from density and the same in every theme: default has a 16px body, compact a
-14px body. `TextSizeToggle` from `@eylulg/ui/chrome` sits next to `ThemeToggle` and lets
-visitors switch; it writes `data-ui-text` on `<html>` and remembers the choice under
-`eylulg-ui-text-size` (`textSizeStorageKey`). `themeInitScript` applies a stored choice before
-first paint. `useTextSize` gives the same state to a settings page.
-
 ## Dark mode and the theme toggle
 
 Dark mode is class based. `ThemeToggle` writes `dark-mode` on `<html>` (the theme also accepts

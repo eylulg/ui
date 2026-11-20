@@ -11,10 +11,10 @@ from [React Aria Components](https://react-spectrum.adobe.com/react-aria/); ever
 comes from Tailwind CSS 4 design tokens.
 
 Use the **Theme** toolbar above to switch between light and dark, the **Variant** toolbar to see
-any story in a project's colour, and the **Text size** toolbar to try compact and default text.
+any story in a project's colour.
 The **Theme variants** pages show each project's theme with every component in light and dark
-side by side; **Chrome** has the shared top nav, sidebar, project switcher, theme and text size
-toggles, footer and logo.
+side by side; **Chrome** has the shared top nav, sidebar, project switcher, theme
+toggle, footer and logo.
 
 ## The design language
 
@@ -85,10 +85,6 @@ the seed mixed 24% into warm paper. In dark mode a lighter solid carries the pag
 and the tint is the seed mixed 32% into the dark page. The brand scale is generated from the seed
 in oklch with the same lightness per step, so contrast matches across variants.
 
-**Text size** is a visitor setting, separate from density. Default has a 16px body (13, 14, 16, 18,
-22, 28, 40); compact has a 14px body (12, 13, 14, 16, 20, 24, 32). Visitors switch it with
-`TextSizeToggle`, next to the light and dark toggle.
-
 To switch themes live, as the portfolio's theme picker does, import `@eylulg/ui/themes/all.css`
 and set `data-ui-variant` on `<html>` or on any container.
 
@@ -100,8 +96,7 @@ and set `data-ui-variant` on `<html>` or on any container.
    primitives and are redefined under `.dark` and `.dark-mode`. Components only use this layer,
    through utilities like `text-primary`, `bg-elevated` or `border-default`.
 3. **Density and text size** (`--density-*`, `--text-*`) size controls, rows, cells, cards and
-   type through utilities like `h-control-md`, `py-item-y`, `p-card` and `text-md`. The visitor's
-   text size, `data-ui-text` on `<html>`, switches to the compact scale.
+   type through utilities like `h-control-md`, `py-item-y`, `p-card` and `text-md`.
 
 ## Colour scales
 
