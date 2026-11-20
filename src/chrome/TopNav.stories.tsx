@@ -2,8 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Search } from 'lucide-react';
 import { expect, userEvent, within } from 'storybook/test';
 import { Button } from '../components/Button/Button';
-import { ProjectSwitcher } from './ProjectSwitcher';
-import { TextSizeToggle } from './TextSizeToggle';
 import { ThemeToggle } from './ThemeToggle';
 import { TopNav } from './TopNav';
 
@@ -27,13 +25,7 @@ const meta = {
       { href: '#queue', label: 'Queue', isCurrent: true },
       { href: '#history', label: 'History' },
     ],
-    actions: (
-      <>
-        <ProjectSwitcher currentId='review-companion' />
-        <TextSizeToggle />
-        <ThemeToggle />
-      </>
-    ),
+    actions: <ThemeToggle />,
   },
 } satisfies Meta<typeof TopNav>;
 
@@ -43,6 +35,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 export const WithoutLinks: Story = { args: { links: [] } };
 
+/** On the portfolio itself both links go to the same place, so the brand is one link. */
+export const OnThePortfolio: Story = { args: { homeHref: '/', portfolioHref: '/' } };
+
 export const CentreSlotAndCompactTheme: Story = {
   args: {
     center: (
@@ -50,7 +45,7 @@ export const CentreSlotAndCompactTheme: Story = {
         Search
       </Button>
     ),
-    actions: <ProjectSwitcher currentId='review-companion' />,
+    actions: null,
     compactActions: <ThemeToggle compact />,
   },
 };
@@ -58,16 +53,15 @@ export const CentreSlotAndCompactTheme: Story = {
 export const Translated: Story = {
   args: {
     productName: 'Überprüfungsbegleiter',
-    labels: { openMenu: 'Menü öffnen', closeMenu: 'Menü schließen' },
+    labels: {
+      portfolio: 'Eylüls Portfolio',
+      openMenu: 'Menü öffnen',
+      closeMenu: 'Menü schließen',
+    },
     actions: (
-      <>
-        <ProjectSwitcher
-          labels={{ label: 'Projekte', heading: 'Projekte von Eylül', youAreHere: 'Sie sind hier' }}
-        />
-        <ThemeToggle
-          labels={{ ariaLabel: 'Farbschema', light: 'Hell', dark: 'Dunkel', system: 'System' }}
-        />
-      </>
+      <ThemeToggle
+        labels={{ ariaLabel: 'Farbschema', light: 'Hell', dark: 'Dunkel', system: 'System' }}
+      />
     ),
   },
 };

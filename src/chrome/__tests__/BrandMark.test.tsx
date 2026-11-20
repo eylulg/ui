@@ -5,9 +5,9 @@ import { BrandMark } from '../BrandMark';
 
 describe('BrandMark', () => {
   it('is an image named by its title', () => {
-    render(<BrandMark title='Eylül Güneş' />);
+    render(<BrandMark title='Eylül' />);
 
-    expect(screen.getByRole('img', { name: 'Eylül Güneş' })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'Eylül' })).toBeInTheDocument();
   });
 
   it('is hidden from assistive technology without a title', () => {
@@ -17,6 +17,6 @@ describe('BrandMark', () => {
   });
 
   it('has no axe violations in light and dark', async () => {
-    await expectNoA11yViolations(() => <BrandMark title='Eylül Güneş' />);
+    await expectNoA11yViolations(() => <BrandMark title='Eylül' />);
   });
 });

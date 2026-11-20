@@ -3,10 +3,8 @@ import { CircleDot, Inbox, Layers, Settings } from 'lucide-react';
 import { Button } from '../components/Button/Button';
 import { PageHeader } from '../components/PageHeader/PageHeader';
 import { AppShell } from './AppShell';
-import { ProjectSwitcher } from './ProjectSwitcher';
 import { SidebarNav, type SidebarNavSection } from './SidebarNav';
 import { SiteFooter } from './SiteFooter';
-import { TextSizeToggle } from './TextSizeToggle';
 import { ThemeToggle } from './ThemeToggle';
 import { TopNav } from './TopNav';
 
@@ -29,13 +27,7 @@ const sections: SidebarNavSection[] = [
   },
 ];
 
-const actions = (
-  <>
-    <ProjectSwitcher currentId='workspace' />
-    <TextSizeToggle />
-    <ThemeToggle />
-  </>
-);
+const actions = <ThemeToggle />;
 
 // Element props would dump a React element tree into the controls.
 const noControl = { control: false } as const;

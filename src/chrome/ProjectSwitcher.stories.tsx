@@ -27,7 +27,7 @@ export const Translated: Story = {
   args: {
     labels: {
       label: 'Projekte',
-      heading: 'Projekte von Eylül Güneş',
+      heading: 'Eylüls Projekte',
       youAreHere: 'Sie sind hier',
       sourceCode: '(Quellcode)',
     },

@@ -1,75 +1,54 @@
-# Consuming @eylulg/ui
+# Using @eylulg/ui in an app
 
-This is how every project in the family uses the library: one theme variant, the shared chrome
-(top nav with the project switcher, footer, theme toggle) and components from per component entry
-points.
+How the projects in this family use the library: one theme variant, the shared chrome (top nav
+with the project switcher, footer, theme toggle) and components from per component entry points.
 
 ## Install
 
-Until the package is published to npm, link the local checkout. Clone this repo next to the app:
-
-```text
-Portfolio/
-  ui/              # this repo
-  workspace/       # an app
+```bash
+npm install @eylulg/ui react-aria-components lucide-react
 ```
 
-Build the library once, then install it from the folder:
+`react`, `react-dom` and `lucide-react` are peer dependencies. The fonts ship with the package
+(see [Fonts](#fonts)). The library re-exports no icons: import them from `lucide-react` and pass
+the component (`icon={Plus}`) or, in the chrome, an element (`icon: <Inbox />`).
+
+### Linking a local checkout
+
+To try a library change in an app, clone this repo next to the app, build it and install the
+folder:
 
 ```bash
 cd ../ui && npm install && npm run build
 cd ../workspace && npm install ../ui     # writes "@eylulg/ui": "file:../ui"
-npm install react-aria-components lucide-react
 ```
 
-`file:` installs a symlink, so the app always sees the latest `dist/`. Run `npm run build` in `ui`
-after a change (or keep `npx vite build --watch` running) and restart the app's dev server. A copied
-install (`--install-links`) works differently, see [One copy of React](#one-copy-of-react-with-a-linked-checkout). When
-the package is on npm, replace the `file:../ui` range with a version and nothing else changes.
+`file:` installs a symlink, so the app sees the latest `dist/` after each `npm run build` in `ui`.
+The symlink resolves to the real folder, so the library finds `ui/node_modules`, which has its own
+React, React Aria Components and lucide. Two copies of React break hooks and React Aria's router
+context. Either install a copy, or point the tools at the app's copy.
 
-`react`, `react-dom` and `lucide-react` are peer dependencies; the fonts come with the library
-(see [Fonts](#fonts)). The library re-exports no icons: import them from
-`lucide-react` yourself and pass the component (`icon={Plus}`) or, in the chrome, an element
-(`icon: <Inbox />`).
-
-### One copy of React with a linked checkout
-
-In `ui`, `react`, `react-dom` and `lucide-react` are `devDependencies` plus `peerDependencies`,
-never `dependencies`, so a published install shares your copies. A `file:` link is different: the
-symlink resolves to the real folder, so the library's modules find `ui/node_modules`, which holds
-its own React, React Aria Components and lucide. Two copies break hooks, React Aria's router
-context and `instanceof` checks. The cleanest fix is to install a copy instead of a link:
+A copy:
 
 ```bash
 npm install ../ui --install-links     # packs ui and installs it like a registry package
 ```
 
-A copied install has three rules:
+It is a snapshot, so run the command again after every library rebuild. A later `npm install` in
+the app turns it back into a symlink, so run it last. A script keeps this simple:
+`"relink": "npm install ../ui --install-links"`.
 
-- It is a snapshot. After every library rebuild (`npm run build` in `ui`), run the command again,
-  or the app keeps the old `dist/`. Restarting the dev server is not enough.
-- Any later `npm install <pkg>` or `npm install` in the app reverts `@eylulg/ui` to a symlink,
-  which brings the second copy of React back. Run `--install-links` last, after every other
-  install.
-- Add a script so nobody has to remember the flag:
-
-  ```json
-  { "scripts": { "relink": "npm install ../ui --install-links" } }
-  ```
-
-  Then the loop is `npm run build` in `ui`, `npm run relink` in the app.
-
-To keep the live symlink instead, point the tools at your copy:
+The app's copy, for Vite (and Vitest, which shares the config):
 
 ```ts
-// vite.config.ts (Vite, and Vitest when it shares the config)
 export default defineConfig({
   resolve: { dedupe: ['react', 'react-dom', 'react-aria-components', 'lucide-react'] },
 });
 ```
 
+and for Next.js with Turbopack, where the root must contain the linked folder:
+
 ```ts
-// next.config.ts (Next.js with Turbopack). The root must contain the linked folder.
 import path from 'node:path';
 
 const nextConfig: NextConfig = {
@@ -84,19 +63,17 @@ const nextConfig: NextConfig = {
 ```
 
 If TypeScript reports that a `LucideIcon` is not assignable to `IconComponent`, two copies of
-`@types/react` resolve. Point both at yours:
+`@types/react` resolve. Point both at the app's:
 
 ```json
 { "compilerOptions": { "paths": { "react": ["./node_modules/@types/react"] } } }
 ```
 
-None of this applies once the package is on npm.
-
 ### Icons in Next.js server components
 
 lucide-react icons use React context, so a server component cannot render them. Re-export the ones
-you use from a client file and import them from there. A client reference can still be passed to a
-library component as a prop:
+you use from a client file. A client reference can still be passed to a library component as a
+prop:
 
 ```tsx
 // app/icons.ts
@@ -114,13 +91,15 @@ export default function Page() {
 }
 ```
 
-## Styles: pick one of three paths
+## Styles
 
-### A. The app runs Tailwind 4 (recommended)
+Pick one of three paths.
 
-Import the tokens inside your own Tailwind entry so they become utilities in your markup
-(`bg-brand-solid`, `text-secondary`, `h-control-md`, `rounded-lg`), then one variant, and let
-Tailwind scan the library's compiled files for the classes its components use:
+### A. The app runs Tailwind 4
+
+Import the tokens inside your own Tailwind entry so they become utilities (`bg-brand-solid`,
+`text-secondary`, `h-control-md`), then one variant. `@source` lets Tailwind scan the library's
+compiled files for the classes its components use:
 
 ```css
 /* src/index.css (Vite) or app/globals.css (Next.js) */
@@ -130,36 +109,31 @@ Tailwind scan the library's compiled files for the classes its components use:
 @source '../node_modules/@eylulg/ui/dist';
 ```
 
-Adjust the `@source` path so it points from this CSS file to `node_modules/@eylulg/ui/dist`.
+Adjust the `@source` path so it points from this file to `node_modules/@eylulg/ui/dist`.
 
 ### B. The app does not run Tailwind
-
-Import the compiled stylesheet, then the variant:
 
 ```ts
 import '@eylulg/ui/styles.css';
 import '@eylulg/ui/themes/workspace.css';
 ```
 
-`styles.css` contains Tailwind's preflight, the tokens and only the classes the components use.
-Do not combine it with path A, or preflight ships twice.
+`styles.css` contains Tailwind's preflight, the tokens and the classes the components use. Do not
+combine it with path A, or preflight ships twice.
 
-### C. The app styles itself and only wants the tokens
-
-Import the plain tokens, then a variant:
+### C. The app styles itself and wants only the tokens
 
 ```css
 @import '@eylulg/ui/tokens.css';
 @import '@eylulg/ui/themes/sudoku.css';
 ```
 
-`tokens.css` holds custom properties only, on `:root` and `.dark-mode` (or `.dark`): the colour
-scales (`--color-brand-600`), the semantic set (`--ui-text-primary`, `--ui-bg-elevated`,
+`tokens.css` holds custom properties only, on `:root` and `.dark-mode` (or `.dark`): colour scales
+(`--color-brand-600`), semantic tokens (`--ui-text-primary`, `--ui-bg-elevated`,
 `--ui-border-focus`), fonts (`--font-sans`, `--font-body`, `--font-display`, `--font-mono`,
-`--ui-font-data`), the type scale (`--text-xs` to `--text-3xl`, each with a
-`--text-xs--line-height` companion), radii, shadows and density (`--density-control-md`). No
-preflight, no component styles, no Tailwind at-rules. It is generated from `theme.css`, so it cannot
-drift, and every variant file works on top of it. Use it for your own components:
+`--ui-font-data`), the type scale (`--text-xs` to `--text-3xl`, each with a `--text-xs--line-height`
+companion), radii, shadows and density (`--density-control-md`). It has no preflight and no
+component styles. It is generated from `theme.css`, and every variant works on top of it.
 
 ```css
 .card {
@@ -173,10 +147,11 @@ drift, and every variant file works on top of it. Use it for your own components
 }
 ```
 
-Without Tailwind there is no preflight either, so the app must provide the minimal reset the
-tokens assume: `box-sizing: border-box` everywhere, no body margin, form controls that inherit
-font and colour, and no default margins on headings, paragraphs and lists. Import the optional
-`reset.css` after the tokens, or copy it:
+The tokens assume a small reset: `box-sizing: border-box`, no body margin, form controls that
+inherit font and colour, and no default margins on headings, paragraphs and lists. Import
+`@eylulg/ui/reset.css` after the tokens for that, or write your own. Headings and lists lose their
+browser styling with it, so set sizes from the type scale and restore bullets where prose needs
+them. Apps on path A or B already have preflight and must not import `reset.css`.
 
 ```css
 @import '@eylulg/ui/tokens.css';
@@ -184,62 +159,13 @@ font and colour, and no default margins on headings, paragraphs and lists. Impor
 @import '@eylulg/ui/themes/sudoku.css';
 ```
 
-```css
-*,
-::before,
-::after {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  background: var(--ui-bg-primary);
-  color: var(--ui-text-primary);
-  font-family: var(--font-body);
-  line-height: 1.5;
-}
-button,
-input,
-select,
-textarea {
-  font: inherit;
-  letter-spacing: inherit;
-  color: inherit;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
-  font-size: inherit;
-  font-weight: inherit;
-}
-p,
-figure,
-blockquote {
-  margin: 0;
-}
-ul,
-ol {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-```
-
-Headings and lists lose their browser styling, so set sizes with the type scale and restore bullets
-where prose needs them. Apps on path A or B already have Tailwind's preflight and must not import
-`reset.css`.
-
-Library components need their classes, so an app on path C that also renders them imports
-`styles.css` (path B) instead.
+An app on path C that also renders library components imports `styles.css` (path B) instead.
 
 ## Fonts
 
-The theme names its fonts and falls back to the system font, so nothing downloads by default.
-Every theme uses the same three: Manrope for headings, Inter for text, and JetBrains Mono for code
-only. The font packages come with the library; to load them, import `fonts.css` before the theme:
+The themes name their fonts and fall back to the system font, so nothing downloads by default.
+Every theme uses Manrope for headings, Inter for text and JetBrains Mono for code only. To load
+them, import `fonts.css` before the theme:
 
 ```css
 @import '@eylulg/ui/fonts.css';
@@ -248,74 +174,49 @@ only. The font packages come with the library; to load them, import `fonts.css` 
 ```
 
 `fonts.css` imports the variable fonts and sets `--font-inter`, `--font-manrope` and
-`--font-jetbrains-mono`. The theme's stacks start
-with those, so they pick the bundled fonts up without any other change. A browser downloads only
-the faces a page uses. An app that self-hosts a subset can skip `fonts.css` and set the same
+`--font-jetbrains-mono`, which the theme's font stacks start with. A browser downloads only the
+faces a page uses. An app that self-hosts a subset can skip `fonts.css` and set the same
 variables to its own `@font-face` families.
 
 ## Theme variants
 
-A variant changes colour only. The fonts, the text size, the density and the shape are the same in
-every theme.
+A variant changes colour only. The variants and their seeds are listed in the
+[README](../README.md#theme-variants). Import one variant file after `theme.css`.
 
-| Variant          | Project               | Colour     |
-| ---------------- | --------------------- | ---------- |
-| `portfolio`      | Portfolio             | Green      |
-| `workspace`      | Workspace             | Slate blue |
-| `review`         | Review Companion      | Eucalyptus |
-| `control-room`   | Agent Workflows       | Clay       |
-| `watchlist`      | Watchlist             | Rose       |
-| `tokens`         | Tokens to Tailwind    | Iris       |
-| `plain-language` | Plain Language Add-in | Sea glass  |
-| `sudoku`         | Sudoku                | Ink        |
-| `assistant`      | Assistant Studio      | Plum       |
-
-Import exactly one variant file after `theme.css`. To use a variant for part of a page only, put
-`data-ui-variant="review"` on a container: every variant file also applies under that attribute.
-To switch between variants at runtime, import `@eylulg/ui/themes/all.css` instead, which holds
-all nine under the attribute only, and set `data-ui-variant` on `<html>`. The same matrix is
-available to scripts and tools as typed data:
+To use a variant for part of a page, put `data-ui-variant="review"` on a container: every variant
+file also applies under that attribute. To switch variants at runtime, import
+`@eylulg/ui/themes/all.css` instead, which holds all nine under the attribute only, and set
+`data-ui-variant` on `<html>`. The same data is available to scripts:
 
 ```ts
 import { variants } from '@eylulg/ui/themes';
 variants.workspace.seed.light; // '#3f6fb6'
 ```
 
-## Text size
+## Dark mode
 
-Text size is separate from density and the same in every theme: default has a 16px body, compact a
-14px body. `TextSizeToggle` from `@eylulg/ui/chrome` sits next to `ThemeToggle` and lets
-visitors switch; it writes `data-ui-text` on `<html>` and remembers the choice under
-`eylulg-ui-text-size` (`textSizeStorageKey`). `themeInitScript` applies a stored choice before
-first paint. `useTextSize` gives the same state to a settings page.
+Dark mode is class based. `ThemeToggle` writes `dark-mode` on `<html>` (`dark` works too) and
+remembers the choice in `localStorage`. Put `themeInitScript` in `<head>` so the first paint has
+the right theme, or the page flashes light before hydration.
 
-## Dark mode and the theme toggle
-
-Dark mode is class based. `ThemeToggle` writes `dark-mode` on `<html>` (the theme also accepts
-`dark`) and remembers the choice in `localStorage`. Put `themeInitScript` in `<head>` so the first
-paint already has the right theme; otherwise the page flashes light before hydration.
-
-### Setting the theme from code
-
-`ThemeToggle` is built on `useTheme`, which you can call too, for a command palette or a settings
-page. It returns the user's choice, what is applied now, and a setter; the page and every
-`ThemeToggle` stay in step, and the choice is remembered in `localStorage` under the key
-`eylulg-ui-theme` (`themeStorageKey`; the value is `light` or `dark`, and the key is absent for
-system).
+`ThemeToggle` is built on `useTheme`, which you can call for a command palette or a settings page.
+It returns the user's choice, the theme applied now and a setter. The page and every
+`ThemeToggle` stay in step. The choice is stored under `eylulg-ui-theme` (`themeStorageKey`): the
+value is `light` or `dark`, and the key is absent for system.
 
 ```tsx
 import { useTheme } from '@eylulg/ui/chrome';
 
 function ThemeCommands() {
-  const { theme, resolved, setTheme } = useTheme(); // 'system', 'dark', ('light' | 'dark')
+  const { theme, resolved, setTheme } = useTheme(); // 'system' | 'light' | 'dark', 'light' | 'dark'
   return <button onClick={() => setTheme(resolved === 'dark' ? 'light' : 'dark')}>Flip</button>;
 }
 ```
 
-It is safe where `matchMedia` or storage is missing (tests, embedded webviews), and on the server it
+It works where `matchMedia` or storage is missing (tests, embedded webviews). On the server it
 reports `system` and `light`.
 
-## Vite (React Router)
+## Vite and React Router
 
 Inject `themeInitScript` into `index.html` at build time. `@eylulg/ui/theme-script` is a plain
 string module with no React, so it loads in the Vite config:
@@ -389,14 +290,14 @@ createRoot(document.getElementById('root')!).render(
 );
 ```
 
-## Next.js (App Router)
+## Next.js App Router
 
-Every component module carries `"use client"`. The data and markup only modules do not, so a
-server component can import them directly: `AppShell`, `SiteFooter`, `BrandMark`,
+Interactive component modules start with `"use client"`. The markup and data modules do not, so a
+server component can import them: `AppShell`, `SiteFooter`, `BrandMark`,
 `themeInitScript`, `@eylulg/ui/projects` and `@eylulg/ui/themes`.
 
-Next.js does not let a server component pass a function such as `next/link` as a prop to a client
-component. Render `TopNav` (and `SidebarNav` if you pass `LinkComponent`) from a small client file:
+A server component cannot pass a function such as `next/link` to a client component. Render
+`TopNav` (and `SidebarNav`, if you pass `LinkComponent`) from a small client file:
 
 ```tsx
 // app/nav.tsx
@@ -451,28 +352,27 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 }
 ```
 
-`suppressHydrationWarning` on `<html>` is needed because the script changes its class before
-React hydrates. Server pages can render library components such as `Button` or `PageHeader`
-directly; interactive props like `onPress` need a client component, as with any React component.
+`suppressHydrationWarning` on `<html>` is needed because the script changes its class before React
+hydrates. Server pages can render components such as `Button` or `PageHeader` directly. Props like
+`onPress` need a client component, as with any React component.
 
 ## Chrome details
 
-**Translating the chrome.** `TopNav`, `ThemeToggle`, `ProjectSwitcher` and `SiteFooter` take a
-`labels` object. Missing keys keep the English default, and project descriptions come from the
-`projects` list you pass, so translate those there. The skip link's text is
-`AppShell`'s `skipLinkLabel`.
+**Translations.** `TopNav`, `ThemeToggle`, `ProjectSwitcher` and `SiteFooter` take a `labels`
+object, and missing keys keep the English text. The skip link text is `AppShell`'s
+`skipLinkLabel`.
 
 ```tsx
-<TopNav productName="Watchlist" labels={{ openMenu: 'Menü öffnen', closeMenu: 'Menü schließen' }} />
+<TopNav productName='Watchlist' labels={{ openMenu: 'Menü öffnen', closeMenu: 'Menü schließen' }} />
 <ThemeToggle labels={{ ariaLabel: 'Farbschema', light: 'Hell', dark: 'Dunkel', system: 'System' }} />
-<ProjectSwitcher labels={{ label: 'Projekte', heading: 'Projekte von Eylül', youAreHere: 'Sie sind hier', sourceCode: '(Quellcode)' }} />
-<SiteFooter labels={{ intro: 'Teil der Projekte von Eylül Güneş', projectsNav: 'Projekte', live: 'Online', code: 'Code', profilesNav: 'Profile', github: 'GitHub', linkedin: 'LinkedIn', builtWith: 'Gebaut mit @eylulg/ui' }} />
+<ProjectSwitcher labels={{ label: 'Projekte', heading: 'Eylüls Projekte', youAreHere: 'Sie sind hier', sourceCode: '(Quellcode)' }} />
+<SiteFooter labels={{ projectsNav: 'Projekte', profilesNav: 'Profile', codeNote: 'Der Code jedes Projekts liegt auf GitHub.', builtWith: 'Gebaut mit @eylulg/ui' }} />
 ```
 
 **TopNav slots.** `center` sits between the links and the actions (a search field or a command
-palette button), from the md breakpoint, and at the top of the mobile menu. `actions` is the right
-hand side from md and lives in the mobile menu below that. `compactActions` stays in the bar next to
-the menu button below md, so the theme toggle is reachable at 375px without opening the menu:
+palette button) from the md breakpoint, and at the top of the mobile menu. `actions` is the right
+hand side from md and moves into the mobile menu below that. `compactActions` stays in the bar
+next to the menu button below md, so the theme toggle is reachable without opening the menu.
 
 ```tsx
 <TopNav
@@ -492,68 +392,67 @@ the menu button below md, so the theme toggle is reachable at 375px without open
 />
 ```
 
-`ThemeToggle compact` is one icon button that opens a menu of the three choices. The menu behind
-the menu button loads on first press, so a page that never opens it does not download React Aria's
-modal code.
-
 **AppShell width.** `maxWidth="6xl"` centres the content in a column as wide as `TopNav` and
-`SiteFooter`, so everything lines up. `contentClassName` adds layout classes (`space-y-8`) to that
-column.
+`SiteFooter`, so they line up. `contentClassName` adds layout classes to that column.
 
-**SiteFooter groups.** The footer lists projects twice: "Live" holds every project with a `url`, "Code" holds every repository. A project appears under Live as soon as its `url` is set. The `source` label is deprecated and no longer shown.
-
-**SiteFooter extras.** `children` render between the project groups and the profile row, for
-attributions a data provider requires or for extra links.
+**SiteFooter.** The footer is one band: a link for every project (to its live site, or to its
+repository when `url` is null), GitHub and LinkedIn links, and a line about the code and
+the library. The link for `currentId` has `aria-current="page"`. `children` render below that
+line, for attributions a data provider requires.
 
 **SidebarNav item actions.** `action` on an item renders a control beside its link, such as an
 `IconButton` that adds a child item. It is its own tab stop and arrow keys reach it.
 
-## Overlays load on first open
+## Overlays
 
-`Dialog`, `Drawer`, `Popover`, `DropdownMenu`, `Tooltip`, `CommandPalette`, the toast markup, `ProjectSwitcher` and `ThemeToggle compact` keep their trigger in the first load and fetch the overlay code on hover or focus of the trigger, and at the latest when it opens. The trigger and its ARIA attributes render at once. The first open can take a moment on a slow connection, and in tests it is asynchronous: use `await screen.findByRole('menu')`, not `getByRole`. If the download fails, nothing opens and the next press tries again. `Select`, `Combobox` and the date pickers are not split. Sizes and the reasons are in [performance.md](./performance.md).
+`Dialog`, `Drawer`, `Popover`, `DropdownMenu`, `Tooltip`, `CommandPalette`, the toast markup,
+`ProjectSwitcher` and `ThemeToggle compact` keep their trigger in the first load and fetch the
+overlay code when the trigger is hovered or focused, and at the latest when it opens. The first
+open can take a moment on a slow connection. In tests it is asynchronous: use
+`await screen.findByRole('menu')`, not `getByRole`. If the download fails, nothing opens and the
+next press tries again. `Select`, `Combobox` and the date pickers are not split. See
+[performance.md](./performance.md).
 
-`@eylulg/ui/cx-lite` joins class names without tailwind-merge (93 B instead of 8.5 kB gzip). Use it for conditional classes in your own markup, and `@eylulg/ui/cx` where a later class must override an earlier one.
+`@eylulg/ui/cx-lite` joins class names without tailwind-merge. Use it for conditional classes in
+your own markup, and `@eylulg/ui/cx` where a later class must override an earlier one.
 
 ## Charts
 
-`@eylulg/ui/chart` needs no extra package. Import the charts and the same stylesheet or theme as
-the rest of the library; the series colours are the `--ui-chart-*` tokens, so they follow the
-variant and the dark mode class with nothing else to set.
+`@eylulg/ui/chart` needs no extra package. Series colours are the `--ui-chart-*` tokens, so they
+follow the variant and dark mode.
 
 ```tsx
 import { BarChart, HeatGrid, LineChart } from '@eylulg/ui/chart';
 ```
 
-- **Give every chart a title.** `title` is its accessible name. Pass `hideTitle` when a card
-  heading already says the same. The chart writes a short English summary from the data; pass
-  `summary` to replace it. `labels` translates "Show table", "Hide table", the empty message, "No
-  data", "Total" and the default first table headers (`category`, `date`, `value`, `row`).
-- **Size comes from the parent.** A chart is as wide as its container and `height` sets the height
-  of the whole chart in pixels, axes included. Put it in a grid cell or a `Card`; set `isCard` for
-  a bordered surface.
-- **Missing and negative values.** `null` leaves a gap and reads as "No data". Bars below zero
-  grow down or to the left, and a stack adds negatives and positives separately.
-- **Series identity.** Colours follow the order of `series`. When a filter removes a series, set
-  `colorIndex` (0 to 5) on each series so the ones that remain keep their colour.
-- **Formatting.** `locale` is a BCP 47 tag. `valueFormat` takes `Intl.NumberFormat` options, for
-  example `{ style: 'percent' }`, and `xFormat` takes `Intl.DateTimeFormat` options. `{ timeZone }`
-  alone reads dates in a fixed zone and keeps the automatic tick format; add parts such as `month`
-  to choose the format yourself. Dates show without a time of day when every point is at midnight
-  in that zone or the points are a day or more apart, so pass `timeZone` for date-only data.
+- **Title.** `title` is the chart's accessible name. Pass `hideTitle` when a card heading already
+  says it. The chart writes a short English summary from the data; pass `summary` to replace it.
+  `labels` translates "Show table", "Hide table", the empty message, "No data", "Total" and the
+  default table headers.
+- **Size.** A chart is as wide as its container. `height` is the height of the whole chart in
+  pixels, axes included. `isCard` adds a bordered surface.
+- **Missing and negative values.** `null` leaves a gap and reads as "No data". Bars below zero grow
+  down or to the left, and a stack adds negatives and positives separately.
+- **Series colour.** Colours follow the order of `series`. When a filter removes a series, set
+  `colorIndex` (0 to 5) on each series so the remaining ones keep their colour.
+- **Formatting.** `locale` is a BCP 47 tag. `valueFormat` takes `Intl.NumberFormat` options, such
+  as `{ style: 'percent' }`, and `xFormat` takes `Intl.DateTimeFormat` options. `{ timeZone }` alone
+  reads dates in a fixed zone and keeps the automatic tick format. Dates show without a time of
+  day when every point is at midnight in that zone or the points are a day or more apart, so pass
+  `timeZone` for date-only data.
 - **Server rendering.** Charts render at 480 px on the server and measure themselves after mount.
   Nothing reads `window` during render.
 - **Tests.** Under jsdom the width stays at 480 px because there is no layout. Marks are
-  `role="img"` elements named with their values (`getByRole('img', { name: /Mar 3/ })`), cells of
-  `HeatGrid` are `gridcell`s named by their state.
+  `role="img"` elements named with their values (`getByRole('img', { name: /Mar 3/ })`), and
+  `HeatGrid` cells are `gridcell`s named by their state.
 
 ## Project list
 
-`ProjectSwitcher` and `SiteFooter` read `@eylulg/ui/projects`. A project that is not deployed has
-`url: null`, and can have a `plannedUrl`; it then links to its repository until it goes live.
-Pass `projects={...}` to either component to override the list.
+`ProjectSwitcher` and `SiteFooter` read `projects` from `@eylulg/ui/projects`. Pass `projects` to
+either one to replace the list.
 
 For an app with translations, build the list from the library's and replace only the text. Ids,
-URLs and variants stay shared, so the "you are here" mark and the links keep working:
+URLs and variants stay shared, so the current-project mark and the links keep working:
 
 ```tsx
 import { projects } from '@eylulg/ui/projects';
@@ -567,13 +466,13 @@ const translated = projects.map((project) => ({
 <SiteFooter projects={translated} currentId="workspace" />
 ```
 
-`SiteFooter` shows only the names, so its list needs translated `name` values only when the names
-themselves change. `ProjectSwitcher` shows the descriptions.
+`SiteFooter` shows names only, so translate `name` only if the names themselves change.
+`ProjectSwitcher` shows the descriptions.
 
 ## CI for an app that links the library
 
-Check the app and the library out as siblings and build the library first, so `file:../ui` resolves
-exactly as on a laptop:
+Check the app and the library out as siblings and build the library first, so `file:../ui`
+resolves as it does locally:
 
 ```yaml
 steps:
@@ -589,4 +488,4 @@ steps:
     working-directory: app
 ```
 
-Switch the dependency to a version range once the package is published, and drop the library steps.
+An app that installs from npm needs none of this.

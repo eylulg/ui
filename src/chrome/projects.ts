@@ -15,7 +15,7 @@ export interface Project {
 }
 
 /**
- * Eylül Güneş's projects, as listed by ProjectSwitcher and SiteFooter.
+ * Eylül's projects, as listed by ProjectSwitcher and SiteFooter.
  * Every project is live. Pass your own list to either component to override it.
  */
 export const projects: Project[] = [

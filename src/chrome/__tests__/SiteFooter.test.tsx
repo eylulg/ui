@@ -1,12 +1,12 @@
 import { render, screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { expectNoA11yViolations } from '../../test-utils/a11y';
-import { projects } from '../projects';
 import { SiteFooter } from '../SiteFooter';
 
+const project = { description: '', variant: null, repoUrl: 'https://github.com/eylulg/x' };
+
 describe('SiteFooter', () => {
-  it('lists only live projects under Live, linking to their sites', () => {
-    const project = { description: '', variant: null, repoUrl: 'https://github.com/eylulg/x' };
+  it('links each project to its live site, or to its repository without one', () => {
     render(
       <SiteFooter
         projects={[
@@ -16,22 +16,14 @@ describe('SiteFooter', () => {
       />,
     );
 
-    const list = screen.getByRole('list', { name: 'Live' });
-    expect(within(list).getByRole('link', { name: 'Live app' })).toHaveAttribute(
+    const nav = within(screen.getByRole('navigation', { name: 'Projects' }));
+    expect(nav.getByRole('link', { name: 'Live app' })).toHaveAttribute(
       'href',
       'https://example.com/',
     );
-    expect(within(list).queryByRole('link', { name: 'Draft app' })).not.toBeInTheDocument();
-  });
-
-  it('lists every project under Code, linking to its repository', () => {
-    render(<SiteFooter />);
-
-    const code = screen.getByRole('list', { name: 'Code' });
-    expect(within(code).getAllByRole('listitem')).toHaveLength(projects.length);
-    expect(within(code).getByRole('link', { name: 'Sudoku Code' })).toHaveAttribute(
+    expect(nav.getByRole('link', { name: 'Draft app' })).toHaveAttribute(
       'href',
-      'https://github.com/eylulg/sudoku',
+      'https://github.com/eylulg/x',
     );
   });
 
@@ -39,19 +31,27 @@ describe('SiteFooter', () => {
     render(<SiteFooter currentId='portfolio' />);
 
     expect(screen.getByRole('link', { name: 'Portfolio' })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('link', { name: 'Sudoku' })).not.toHaveAttribute('aria-current');
+  });
+
+  it('links the profiles and the library by name', () => {
+    render(<SiteFooter />);
+
+    expect(screen.getByRole('link', { name: 'GitHub' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'LinkedIn' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Built with @eylulg/ui' })).toBeInTheDocument();
+    expect(screen.getByText("Every project's code is on GitHub.")).toBeInTheDocument();
   });
 
   it('translates every visible string and shows extra content', () => {
     render(
       <SiteFooter
         labels={{
-          intro: 'Teil der Projekte von Eylül Güneş',
           projectsNav: 'Projekte',
-          live: 'Online',
-          code: 'Quellcode',
           profilesNav: 'Profile',
           github: 'GitHub (Code)',
           linkedin: 'LinkedIn (Netzwerk)',
+          codeNote: 'Der Code jedes Projekts liegt auf GitHub.',
           builtWith: 'Gebaut mit @eylulg/ui',
         }}
       >
@@ -60,11 +60,10 @@ describe('SiteFooter', () => {
     );
 
     expect(screen.getByRole('navigation', { name: 'Projekte' })).toBeInTheDocument();
-    expect(screen.getByRole('list', { name: 'Online' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Sudoku Quellcode' })).toBeInTheDocument();
-    expect(screen.getByText('Teil der Projekte von Eylül Güneş')).toBeInTheDocument();
     expect(screen.getByRole('list', { name: 'Profile' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'GitHub (Code)' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'LinkedIn (Netzwerk)' })).toBeInTheDocument();
+    expect(screen.getByText('Der Code jedes Projekts liegt auf GitHub.')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Gebaut mit @eylulg/ui' })).toBeInTheDocument();
     expect(screen.getByText('Film data by TMDB')).toBeInTheDocument();
   });

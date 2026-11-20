@@ -1,5 +1,5 @@
 /**
- * The theme variant matrix for Eylül Güneş's projects.
+ * The theme variant matrix for Eylül's projects.
  *
  * Every variant shares the base theme (@eylulg/ui/theme.css): the warm page
  * frame, the shape, the fonts, the text size, the density and the semantic

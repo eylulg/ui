@@ -28,7 +28,7 @@ export interface ProjectSwitcherProps {
 
 const defaultLabels: ProjectSwitcherLabels = {
   label: 'Projects',
-  heading: "Eylül Güneş's projects",
+  heading: "Eylül's projects",
   youAreHere: 'You are here',
   sourceCode: '(source code)',
 };

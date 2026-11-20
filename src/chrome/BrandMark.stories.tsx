@@ -5,7 +5,7 @@ import { BrandMark } from './BrandMark';
 const meta = {
   title: 'Chrome/BrandMark',
   component: BrandMark,
-  args: { title: 'Eylül Güneş', size: 48 },
+  args: { title: 'Eylül', size: 48 },
 } satisfies Meta<typeof BrandMark>;
 
 export default meta;
@@ -18,7 +18,7 @@ export const InEveryVariant: Story = {
     <ul className='flex flex-wrap gap-4'>
       {variantNames.map((name) => (
         <li key={name} data-ui-variant={name} className='flex flex-col items-center gap-2'>
-          <BrandMark {...args} title={`Eylül Güneş, ${name} variant`} />
+          <BrandMark {...args} title={`Eylül, ${name} variant`} />
           <span className='text-xs text-tertiary'>{name}</span>
         </li>
       ))}

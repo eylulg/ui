@@ -9,25 +9,23 @@ import './preview.css';
 
 type Theme = 'light' | 'dark';
 type Variant = 'base' | (typeof variantNames)[number];
-type TextSize = 'compact' | 'default';
 
-type Globals = { theme?: Theme; variant?: Variant; textSize?: TextSize };
+type Globals = { theme?: Theme; variant?: Variant };
 
-function applyGlobals({ theme = 'light', variant = 'base', textSize = 'default' }: Globals) {
+function applyGlobals({ theme = 'light', variant = 'base' }: Globals) {
   const root = document.documentElement;
   root.classList.toggle('dark-mode', theme === 'dark');
   if (variant === 'base') delete root.dataset.uiVariant;
   else root.dataset.uiVariant = variant;
-  root.dataset.uiText = textSize;
 }
 
 // Applies the toolbar globals to the document; renders nothing of its own, so
 // components sit directly on the page surface.
 function ThemeRoot({ globals, children }: { globals: Globals; children: ReactNode }) {
-  const { theme, variant, textSize } = globals;
+  const { theme, variant } = globals;
   useEffect(() => {
-    applyGlobals({ theme, variant, textSize });
-  }, [theme, variant, textSize]);
+    applyGlobals({ theme, variant });
+  }, [theme, variant]);
   return children;
 }
 
@@ -66,7 +64,6 @@ const withTheme: Decorator = (Story, context) => (
     globals={{
       theme: (context.parameters.forceTheme ?? context.globals.theme ?? 'light') as Theme,
       variant: (context.parameters.forceVariant ?? context.globals.variant ?? 'base') as Variant,
-      textSize: (context.globals.textSize ?? 'default') as TextSize,
     }}
   >
     <Story />
@@ -104,23 +101,10 @@ const preview: Preview = {
         dynamicTitle: true,
       },
     },
-    textSize: {
-      description: 'Text size',
-      toolbar: {
-        title: 'Text size',
-        icon: 'paragraph',
-        items: [
-          { value: 'default', title: 'Default, body 16' },
-          { value: 'compact', title: 'Compact, body 14' },
-        ],
-        dynamicTitle: true,
-      },
-    },
   },
   initialGlobals: {
     theme: 'light',
     variant: 'base',
-    textSize: 'default',
   },
   parameters: {
     layout: 'centered',
