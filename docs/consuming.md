@@ -548,10 +548,9 @@ import { BarChart, HeatGrid, LineChart } from '@eylulg/ui/chart';
 
 ## Project list
 
-`ProjectSwitcher` and `SiteFooter` read `@eylulg/ui/projects`. Projects that are not deployed yet
-have `url: null` and a `plannedUrl` (Vercel style placeholders), and link to their repository
-until they go live. The URLs change again when the custom domain arrives. Pass `projects={...}`
-to either component to override the list.
+`ProjectSwitcher` and `SiteFooter` read `@eylulg/ui/projects`. A project that is not deployed has
+`url: null`, and can have a `plannedUrl`; it then links to its repository until it goes live.
+Pass `projects={...}` to either component to override the list.
 
 For an app with translations, build the list from the library's and replace only the text. Ids,
 URLs and variants stay shared, so the "you are here" mark and the links keep working:

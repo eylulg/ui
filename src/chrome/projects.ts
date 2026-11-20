@@ -16,9 +16,7 @@ export interface Project {
 
 /**
  * Eylül Güneş's projects, as listed by ProjectSwitcher and SiteFooter.
- * Vercel style URLs are placeholders until each app is deployed; they change
- * again when the custom domain arrives. Pass your own list to either
- * component to override it.
+ * Every project is live. Pass your own list to either component to override it.
  */
 export const projects: Project[] = [
   {
@@ -41,8 +39,7 @@ export const projects: Project[] = [
     id: 'workspace',
     name: 'Workspace',
     description: 'A keyboard first issue tracker',
-    url: null,
-    plannedUrl: 'https://workspace-eylulg.vercel.app',
+    url: 'https://eg-workspace.vercel.app/',
     variant: 'workspace',
     repoUrl: 'https://github.com/eylulg/workspace',
   },
@@ -58,8 +55,7 @@ export const projects: Project[] = [
     id: 'assistant-studio',
     name: 'Assistant Studio',
     description: 'Research assistant with cited answers, tool use and evals',
-    url: null,
-    plannedUrl: 'https://assistant-studio-eylulg.vercel.app',
+    url: 'https://eg-assistant-studio.vercel.app/',
     variant: 'assistant',
     repoUrl: 'https://github.com/eylulg/assistant-studio',
   },
@@ -67,8 +63,7 @@ export const projects: Project[] = [
     id: 'review-companion',
     name: 'Review Companion',
     description: 'Pull request review with findings you can triage',
-    url: null,
-    plannedUrl: 'https://review-companion-eylulg.vercel.app',
+    url: 'https://eg-review-companion.vercel.app/',
     variant: 'review',
     repoUrl: 'https://github.com/eylulg/review-companion',
   },
@@ -76,8 +71,7 @@ export const projects: Project[] = [
     id: 'watchlist',
     name: 'Watchlist',
     description: 'Films and series to watch, with notes',
-    url: null,
-    plannedUrl: 'https://watchlist-eylulg.vercel.app',
+    url: 'https://eg-watchlist.vercel.app/',
     variant: 'watchlist',
     repoUrl: 'https://github.com/eylulg/watchlist',
   },
@@ -93,7 +87,7 @@ export const projects: Project[] = [
     id: 'plain-language',
     name: 'Plain Language Add-in',
     description: 'A Word add-in that suggests plainer wording',
-    url: null,
+    url: 'https://eylulg.github.io/plain-language-word-addin/',
     variant: 'plain-language',
     repoUrl: 'https://github.com/eylulg/plain-language-word-addin',
   },
