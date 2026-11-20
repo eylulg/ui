@@ -106,7 +106,7 @@
       "./dist/chrome/ProjectSwitcherMenu.js",
       "./dist/chrome/ThemeToggleMenu.js"
     ],
-    "limit": "30.7 kB"
+    "limit": "28.5 kB"
   },
   {
     "name": "Chrome: TopNav first load (mobile menu loads on first press, own code)",
@@ -121,7 +121,7 @@
       "tailwind-merge",
       "@internationalized/date"
     ],
-    "limit": "6.2 kB"
+    "limit": "4 kB"
   },
   {
     "name": "Chrome: server safe parts",
@@ -135,7 +135,7 @@
       "tailwind-merge",
       "@internationalized/date"
     ],
-    "limit": "7.2 kB"
+    "limit": "5 kB"
   },
   {
     "name": "cx with tailwind-merge",
