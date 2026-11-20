@@ -29,7 +29,7 @@ const entries = Object.fromEntries([
 const serverSafe = [
   /^utils\//,
   /^styles\//,
-  /^chrome\/(index|projects|themeScript|AppShell|SiteFooter|BrandMark)\.js$/,
+  /^chrome\/(index|projects|themeScript|AppShell|SiteFooter|BrandMark|socialIcons)\.js$/,
 ];
 
 const external = [
