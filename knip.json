@@ -5,9 +5,7 @@
   "ignoreExportsUsedInFile": true,
   "ignoreDependencies": [
     "conventional-changelog-conventionalcommits",
-    "@fontsource-variable/inter-tight",
     "@fontsource-variable/jetbrains-mono",
-    "@fontsource-variable/manrope",
-    "@fontsource-variable/newsreader"
+    "@fontsource-variable/manrope"
   ]
 }

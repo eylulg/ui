@@ -1,27 +1,22 @@
 /*
- * Optional: loads the variable fonts of the four font pairings and points the
- * theme at them.
+ * Optional: loads the variable fonts the theme uses (Inter, Manrope and
+ * JetBrains Mono) and points the theme at them.
  *
  *   npm install @fontsource-variable/inter @fontsource-variable/manrope \
- *     @fontsource-variable/inter-tight @fontsource-variable/newsreader \
  *     @fontsource-variable/jetbrains-mono
  *   @import '@eylulg/ui/fonts.css';
  *
  * Import it before the theme and variant files. A browser downloads only the
- * fonts a page uses, so a project pays for its own pairing and nothing else.
+ * fonts a page uses, so a page pays for the faces it uses and nothing else.
  * Without this file the theme still names each font and falls back to the
  * system font when it is not installed.
  */
 @import '@fontsource-variable/inter';
 @import '@fontsource-variable/manrope';
-@import '@fontsource-variable/inter-tight';
-@import '@fontsource-variable/newsreader';
 @import '@fontsource-variable/jetbrains-mono';
 
 :root {
   --font-inter: 'Inter Variable';
   --font-manrope: 'Manrope Variable';
-  --font-inter-tight: 'Inter Tight Variable';
-  --font-newsreader: 'Newsreader Variable';
   --font-jetbrains-mono: 'JetBrains Mono Variable';
 }

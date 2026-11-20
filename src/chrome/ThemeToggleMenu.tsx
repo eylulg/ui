@@ -7,7 +7,8 @@ import {
 } from '../components/DropdownMenu/DropdownMenu';
 import { IconButton } from '../components/IconButton/IconButton';
 import { useOpenAfterFocus } from '../internal/useLazyMenuTrigger';
-import { choices, icons } from './themeChoices';
+import { cx } from '../utils/cx';
+import { choices, compactFrame, icons } from './themeChoices';
 import type { ThemeToggleLabels } from './ThemeToggle';
 import type { ThemePreference } from './useTheme';
 
@@ -40,7 +41,7 @@ export function ThemeToggleMenu({
         icon={icons[theme]}
         aria-label={ariaLabel}
         variant='tertiary'
-        className={className}
+        className={cx(compactFrame, className)}
       />
       <DropdownMenuContent
         placement='bottom end'

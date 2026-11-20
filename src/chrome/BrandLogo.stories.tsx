@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { cx } from '../utils/cx';
 import { BrandLogo } from './BrandLogo';
-import { BrandMark } from './BrandMark';
 
 const meta = {
   title: 'Chrome/BrandLogo',
@@ -14,10 +13,10 @@ export default meta;
 const tile = 'flex flex-col items-center gap-3 rounded-2xl bg-secondary p-8 text-primary';
 type Story = StoryObj<typeof meta>;
 
-/** A draft. Stroke weight and thick-to-thin contrast are still open. */
+/** The final logo, one path in the brand green. */
 export const Default: Story = {};
 
-/** The logo keeps its colours in every project: clay and ink, light clay and cream in dark mode. */
+/** Green in light mode and light green in dark mode, in every project. */
 export const LightAndDark: Story = {
   render: (args) => (
     <div className='flex flex-wrap gap-4'>
@@ -31,14 +30,13 @@ export const LightAndDark: Story = {
   ),
 };
 
-/** Sizes from page header to app icon. Below 32px, BrandMark stays until a simplified logo exists. */
+/** Sizes from page header to app icon. At 48px and below the logo gets a thin same-colour outline. */
 export const Sizes: Story = {
   render: () => (
     <div className='flex items-end gap-6'>
-      {[32, 48, 64, 96].map((size) => (
+      {[24, 32, 48, 64, 96].map((size) => (
         <BrandLogo key={size} size={size} title={`Eylül Güneş, ${size} pixels`} />
       ))}
-      <BrandMark size={24} title='Eylül Güneş, tab size mark' />
     </div>
   ),
 };

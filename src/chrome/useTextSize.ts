@@ -1,9 +1,10 @@
 import { useEffect, useSyncExternalStore } from 'react';
-import type { TextSize } from '../styles/themes/variants';
 import { textSizeStorageKey } from './themeScript';
 
+type TextSize = 'compact' | 'default';
+
 export interface UseTextSize {
-  /** The size in use: the visitor's choice, or the theme variant's default. */
+  /** The size in use: the visitor's choice, or default. */
   size: TextSize;
   /** Applies and remembers a choice. Every TextSizeToggle and useTextSize in the page updates. */
   setSize: (size: TextSize) => void;
@@ -27,14 +28,8 @@ function readStored(): TextSize | null {
   }
 }
 
-/** The variant's default, which its CSS file declares as --ui-text-size. */
-function variantDefault(): TextSize {
-  const value = getComputedStyle(document.documentElement).getPropertyValue('--ui-text-size');
-  return value.trim() === 'compact' ? 'compact' : 'default';
-}
-
 function readSize(): TextSize {
-  return readStored() ?? variantDefault();
+  return readStored() ?? 'default';
 }
 
 function serverSize(): TextSize {
@@ -63,8 +58,8 @@ function writeSize(size: TextSize) {
 
 /**
  * The page's text size: compact or default. Until the visitor chooses, it is
- * the default of the theme variant. A choice writes `data-ui-text` on <html>,
- * which theme.css turns into the matching type scale, and is remembered in
+ * default, in every theme. A choice writes `data-ui-text` on <html>, which
+ * theme.css turns into the compact type scale, and is remembered in
  * localStorage. Pair it with themeInitScript in <head> so the first paint
  * already has the stored size.
  */

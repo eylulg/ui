@@ -1,20 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import {
-  densities,
-  pairings,
-  scaleSteps,
-  textSizes,
-  variantNames,
-  variants,
-  type VariantName,
-} from '../styles/themes/variants';
+import { scaleSteps, variantNames, variants, type VariantName } from '../styles/themes/variants';
 import { KitchenSink } from './KitchenSink';
 
 const panel = 'rounded-2xl border border-default bg-secondary p-card text-primary';
 const darkPanel = 'dark-mode rounded-2xl border border-default bg-secondary p-card text-primary';
 const swatch = 'h-10 rounded-sm ring-1 ring-default ring-inset';
 const seedSwatch = 'h-10 w-20 rounded-sm ring-1 ring-default ring-inset';
-const facts = 'grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-sm';
 
 function Seeds({ name }: { name: VariantName }) {
   const { seed } = variants[name];
@@ -54,8 +45,6 @@ function BrandScale({ name }: { name: VariantName }) {
 
 function VariantPage({ name }: { name: VariantName }) {
   const variant = variants[name];
-  const pairing = pairings[variant.pairing];
-  const [body] = textSizes[variant.textSize].md;
   return (
     <div className='flex flex-col gap-8'>
       <div className='flex flex-col gap-2'>
@@ -67,22 +56,6 @@ function VariantPage({ name }: { name: VariantName }) {
           {`@import '@eylulg/ui/theme.css';\n@import '@eylulg/ui/themes/${name}.css';`}
         </pre>
       </div>
-      <dl className={facts}>
-        <dt className='text-tertiary'>Colour</dt>
-        <dd>{variant.seed.name}</dd>
-        <dt className='text-tertiary'>Font pairing</dt>
-        <dd>
-          {pairing.label}: {pairing.heading} for headings, Inter for text
-        </dd>
-        <dt className='text-tertiary'>Text size</dt>
-        <dd>
-          {variant.textSize}, body {body}px
-        </dd>
-        <dt className='text-tertiary'>Density</dt>
-        <dd>
-          {variant.density}, controls are {densities[variant.density]['control-md']} tall
-        </dd>
-      </dl>
       <div data-ui-variant={name} className='flex flex-col gap-4'>
         <Seeds name={name} />
         <BrandScale name={name} />
@@ -123,7 +96,7 @@ export const PlainLanguage: Story = { args: { name: 'plain-language' } };
 export const Sudoku: Story = { args: { name: 'sudoku' } };
 export const Assistant: Story = { args: { name: 'assistant' } };
 
-/** Every project's colour, font pairing and text size, in the mode the Theme toolbar picks. */
+/** Every project's colour, in the mode the Theme toolbar picks. */
 export const Overview: Story = {
   args: { name: 'portfolio' },
   // The variant pages force light so their light and dark panels sit side by side.
@@ -141,10 +114,7 @@ export const Overview: Story = {
             <span className='font-display text-xl font-semibold'>{variants[name].project}</span>
             <span aria-hidden='true' className='size-6 rounded-full bg-brand-solid' />
           </span>
-          <span className='text-sm text-tertiary'>
-            {variants[name].seed.name}, {pairings[variants[name].pairing].label.toLowerCase()}{' '}
-            pairing, {variants[name].textSize} text
-          </span>
+          <span className='text-sm text-tertiary'>{variants[name].seed.name}</span>
           <span className='flex items-center gap-2 rounded-md bg-brand-subtle p-3'>
             <span className='rounded-md bg-brand-solid px-3 py-1.5 text-sm font-semibold text-on-solid'>
               Save changes

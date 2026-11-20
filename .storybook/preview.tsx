@@ -8,18 +8,16 @@ import './preview.css';
 
 type Theme = 'light' | 'dark';
 type Variant = 'base' | (typeof variantNames)[number];
-/** `variant` keeps the variant's own default text size. */
-type TextSize = 'variant' | 'compact' | 'default';
+type TextSize = 'compact' | 'default';
 
 type Globals = { theme?: Theme; variant?: Variant; textSize?: TextSize };
 
-function applyGlobals({ theme = 'light', variant = 'base', textSize = 'variant' }: Globals) {
+function applyGlobals({ theme = 'light', variant = 'base', textSize = 'default' }: Globals) {
   const root = document.documentElement;
   root.classList.toggle('dark-mode', theme === 'dark');
   if (variant === 'base') delete root.dataset.uiVariant;
   else root.dataset.uiVariant = variant;
-  if (textSize === 'variant') delete root.dataset.uiText;
-  else root.dataset.uiText = textSize;
+  root.dataset.uiText = textSize;
 }
 
 function ThemeRoot({ globals, children }: { globals: Globals; children: ReactNode }) {
@@ -65,7 +63,7 @@ const withTheme: Decorator = (Story, context) => (
     globals={{
       theme: (context.parameters.forceTheme ?? context.globals.theme ?? 'light') as Theme,
       variant: (context.parameters.forceVariant ?? context.globals.variant ?? 'base') as Variant,
-      textSize: (context.globals.textSize ?? 'variant') as TextSize,
+      textSize: (context.globals.textSize ?? 'default') as TextSize,
     }}
   >
     <Story />
@@ -89,12 +87,12 @@ const preview: Preview = {
       },
     },
     variant: {
-      description: 'Project theme variant',
+      description: 'Project colour',
       toolbar: {
-        title: 'Variant',
+        title: 'Colour',
         icon: 'paintbrush',
         items: [
-          { value: 'base', title: 'Base theme (Clay)' },
+          { value: 'base', title: 'Base theme (Green)' },
           ...variantNames.map((name) => ({
             value: name,
             title: `${variants[name].project} (${variants[name].seed.name})`,
@@ -109,9 +107,8 @@ const preview: Preview = {
         title: 'Text size',
         icon: 'paragraph',
         items: [
-          { value: 'variant', title: "Variant's default" },
-          { value: 'compact', title: 'Compact, body 14' },
           { value: 'default', title: 'Default, body 16' },
+          { value: 'compact', title: 'Compact, body 14' },
         ],
         dynamicTitle: true,
       },
@@ -120,7 +117,7 @@ const preview: Preview = {
   initialGlobals: {
     theme: 'light',
     variant: 'base',
-    textSize: 'variant',
+    textSize: 'default',
   },
   parameters: {
     layout: 'centered',
