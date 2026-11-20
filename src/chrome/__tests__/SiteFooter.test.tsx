@@ -6,14 +6,22 @@ import { SiteFooter } from '../SiteFooter';
 
 describe('SiteFooter', () => {
   it('lists only live projects under Live, linking to their sites', () => {
-    render(<SiteFooter />);
-
-    const live = screen.getByRole('list', { name: 'Live' });
-    expect(within(live).getByRole('link', { name: 'Portfolio' })).toHaveAttribute(
-      'href',
-      'https://eylulg.github.io/',
+    const project = { description: '', variant: null, repoUrl: 'https://github.com/eylulg/x' };
+    render(
+      <SiteFooter
+        projects={[
+          { ...project, id: 'live', name: 'Live app', url: 'https://example.com/' },
+          { ...project, id: 'draft', name: 'Draft app', url: null },
+        ]}
+      />,
     );
-    expect(within(live).queryByRole('link', { name: /Sudoku/ })).not.toBeInTheDocument();
+
+    const list = screen.getByRole('list', { name: 'Live' });
+    expect(within(list).getByRole('link', { name: 'Live app' })).toHaveAttribute(
+      'href',
+      'https://example.com/',
+    );
+    expect(within(list).queryByRole('link', { name: 'Draft app' })).not.toBeInTheDocument();
   });
 
   it('lists every project under Code, linking to its repository', () => {
