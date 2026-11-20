@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.1.0](https://github.com/eylulg/ui/compare/v1.0.0...v1.1.0) (2026-11-20)
+
+### Features
+
+* **footer:** group projects into Live and Code ([#26](https://github.com/eylulg/ui/issues/26)) ([662dfc7](https://github.com/eylulg/ui/commit/662dfc7ab3f45575d00a37d0bb49e60b191bde92))
+
+### Bug Fixes
+
+* invisible touch targets, scrolling tabs and reduced motion ([#24](https://github.com/eylulg/ui/issues/24)) ([7aec6d6](https://github.com/eylulg/ui/commit/7aec6d6c0ae2a40cac5e7e41881adf4855a1af72))
+* **storybook:** follow the toolbar theme everywhere and drop the box behind stories ([#23](https://github.com/eylulg/ui/issues/23)) ([59e4192](https://github.com/eylulg/ui/commit/59e41929d29f030e5883d846d80e99890c638ed8))
+
 ## 1.0.0 (2026-11-20)
 
 ### ⚠ BREAKING CHANGES
