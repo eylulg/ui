@@ -54,7 +54,7 @@ export const Translated: Story = {
   args: {
     productName: 'Überprüfungsbegleiter',
     labels: {
-      portfolio: 'Portfolio von Eylül Güneş',
+      portfolio: 'Eylüls Portfolio',
       openMenu: 'Menü öffnen',
       closeMenu: 'Menü schließen',
     },

@@ -39,7 +39,7 @@ describe('TopNav', () => {
   it('links the logo to the portfolio and the name to the app home', () => {
     render(<TopNav productName='Workspace' homeHref='/home' />);
 
-    expect(screen.getByRole('link', { name: "Eylül Güneş's portfolio" })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: "Eylül's portfolio" })).toHaveAttribute(
       'href',
       'https://eylulg.github.io/',
     );

@@ -61,7 +61,7 @@ export const Default: Story = {
       )}
     >
       <div className='flex flex-col gap-4'>
-        <Input label='Display name' defaultValue='Eylül Güneş' />
+        <Input label='Display name' defaultValue='Eylül' />
         <Input label='Pronouns' defaultValue='they/them' />
       </div>
     </Example>

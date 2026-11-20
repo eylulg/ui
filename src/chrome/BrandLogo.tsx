@@ -9,7 +9,7 @@ export interface BrandLogoProps extends Omit<SVGProps<SVGSVGElement>, 'children'
 }
 
 /**
- * Eylül Güneş's logo: a calligraphic E and G whose strokes form a horse's
+ * Eylül's logo: a calligraphic E and G whose strokes form a horse's
  * head. It is one path in the brand green, light green in dark mode, in every
  * theme. At 48px and below a same-colour stroke of 2 thickens the thin strokes.
  */

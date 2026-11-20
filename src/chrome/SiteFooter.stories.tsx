@@ -33,11 +33,9 @@ export const WithAttributions: Story = {
 export const Translated: Story = {
   args: {
     labels: {
-      intro: 'Teil der Projekte von Eylül Güneş',
       projectsNav: 'Projekte',
-      live: 'Online',
-      code: 'Code',
       profilesNav: 'Profile',
+      codeNote: 'Der Code jedes Projekts liegt auf {github}.',
       builtWith: 'Gebaut mit @eylulg/ui',
     },
   },

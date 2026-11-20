@@ -53,7 +53,7 @@ export interface TopNavProps {
 }
 
 const defaultLabels: TopNavLabels = {
-  portfolio: "Eylül Güneş's portfolio",
+  portfolio: "Eylül's portfolio",
   openMenu: 'Open menu',
   closeMenu: 'Close menu',
 };

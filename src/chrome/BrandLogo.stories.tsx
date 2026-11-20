@@ -5,7 +5,7 @@ import { BrandLogo } from './BrandLogo';
 const meta = {
   title: 'Chrome/BrandLogo',
   component: BrandLogo,
-  args: { title: 'Eylül Güneş', size: 160 },
+  args: { title: 'Eylül', size: 160 },
 } satisfies Meta<typeof BrandLogo>;
 
 export default meta;
@@ -22,7 +22,7 @@ export const LightAndDark: Story = {
     <div className='flex flex-wrap gap-4'>
       {(['light', 'dark'] as const).map((mode) => (
         <div key={mode} className={cx(tile, mode === 'dark' && 'dark-mode')}>
-          <BrandLogo {...args} title={`Eylül Güneş, ${mode}`} />
+          <BrandLogo {...args} title={`Eylül, ${mode}`} />
           <span className='text-sm text-tertiary'>{mode === 'dark' ? 'Dark' : 'Light'}</span>
         </div>
       ))}
@@ -35,7 +35,7 @@ export const Sizes: Story = {
   render: () => (
     <div className='flex items-end gap-6'>
       {[24, 32, 48, 64, 96].map((size) => (
-        <BrandLogo key={size} size={size} title={`Eylül Güneş, ${size} pixels`} />
+        <BrandLogo key={size} size={size} title={`Eylül, ${size} pixels`} />
       ))}
     </div>
   ),
