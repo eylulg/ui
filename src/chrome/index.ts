@@ -2,6 +2,8 @@ export { AppShell } from './AppShell';
 export type { AppShellMaxWidth, AppShellProps } from './AppShell';
 export { BrandLogo } from './BrandLogo';
 export type { BrandLogoProps } from './BrandLogo';
+export { BrandLoader } from './BrandLoader';
+export type { BrandLoaderProps } from './BrandLoader';
 export { BrandMark } from './BrandMark';
 export { isAbsoluteHref, LinkRouter } from './LinkRouter';
 export type { LinkRouterProps } from './LinkRouter';

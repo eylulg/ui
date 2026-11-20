@@ -155,6 +155,28 @@
   --color-error-950: #55160c;
 
   --animate-toast-in: toast-in 200ms ease-out;
+  --animate-brand-draw: brand-draw 2.8s ease-in-out infinite;
+  --animate-brand-fade: brand-fade 2.8s ease-in-out infinite;
+
+  @keyframes brand-draw {
+    from {
+      stroke-dashoffset: 0.42;
+    }
+    60%,
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes brand-fade {
+    0%,
+    80% {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
 
   @keyframes toast-in {
     from {
