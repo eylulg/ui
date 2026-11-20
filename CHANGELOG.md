@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.0](https://github.com/eylulg/ui/compare/v1.1.0...v1.2.0) (2026-11-20)
+
+### Features
+
+* **projects:** linked every project to its live site ([#29](https://github.com/eylulg/ui/issues/29)) ([be46d1a](https://github.com/eylulg/ui/commit/be46d1a1cdd1765425ae4f1a6d2a484edae3f4c9))
+
 ## [1.1.0](https://github.com/eylulg/ui/compare/v1.0.0...v1.1.0) (2026-11-20)
 
 ### Features
