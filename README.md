@@ -39,8 +39,8 @@ projects feel like one product family.
 npm install @eylulg/ui react-aria-components lucide-react
 ```
 
-`react`, `react-dom` 19 and `lucide-react` are peer dependencies, and the `@fontsource-variable`
-packages of the five fonts (Inter, Manrope, JetBrains Mono) optional ones. Until the package is on npm, install it from a local checkout with
+`react`, `react-dom` 19 and `lucide-react` are peer dependencies. The fonts (Inter, Manrope,
+JetBrains Mono) come with the library. Until the package is on npm, install it from a local checkout with
 `npm install ../ui` (a `file:../ui` dependency). The full workflow, including how to keep a single
 copy of React with a linked checkout, with Vite and Next.js examples, is in
 [docs/consuming.md](./docs/consuming.md).
@@ -66,7 +66,7 @@ import '@eylulg/ui/themes/workspace.css';
 
 An app that styles itself and only wants the design tokens imports `@eylulg/ui/tokens.css` (custom
 properties on `:root` and `.dark-mode`, no preflight, no component styles) and a variant. To load
-the fonts, install the `@fontsource-variable` packages and import `@eylulg/ui/fonts.css` first. A
+the fonts, import `@eylulg/ui/fonts.css` first. A
 browser downloads only the fonts a page uses; without the file every theme names its fonts and
 falls back to the system font.
 

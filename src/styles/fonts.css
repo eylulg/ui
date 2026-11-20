@@ -1,9 +1,8 @@
 /*
  * Optional: loads the variable fonts the theme uses (Inter, Manrope and
- * JetBrains Mono) and points the theme at them.
+ * JetBrains Mono) and points the theme at them. The font packages come with
+ * the library, so this import is all an app needs:
  *
- *   npm install @fontsource-variable/inter @fontsource-variable/manrope \
- *     @fontsource-variable/jetbrains-mono
  *   @import '@eylulg/ui/fonts.css';
  *
  * Import it before the theme and variant files. A browser downloads only the
